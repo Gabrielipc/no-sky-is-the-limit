@@ -7,7 +7,7 @@ export type SurfaceSite = {
 };
 export type SurfaceManifest = {
   version: number; sites: SurfaceSite[];
-  mola: { radius_m: number; tile_size: number; max_level: number; source_resolution_km: number; url: string };
+  mola: { radius_m: number; tile_size: number; max_level: number; source_resolution_km: number; url: string; regional?: { max_level: number; tiles: string[]; sample_spacing_m: number } };
 };
 export type SurfaceMode = 'space' | 'regional' | 'mesh';
 export type RemoteLayer = { kind: 'terrain' | 'tiles'; url: string } | null;
@@ -50,4 +50,22 @@ export function layerURL(input: string, base: string): string {
   }
   if (new URL(base).protocol === 'https:' && url.protocol !== 'https:') throw new Error('Este visor requiere una fuente HTTPS.');
   return url.href;
+}
+
+/** Shared legend/texture palette: low teal, mid sand, high ivory. */
+export const elevationStops = [[28,91,112],[78,151,150],[201,190,128],[238,220,176],[255,249,229]];
+export function elevationColor(value: number, min: number, max: number): number[] {
+  const t = Math.max(0,Math.min(1,(value-min)/(max-min || 1)))*(elevationStops.length-1);
+  const i = Math.min(elevationStops.length-2,Math.floor(t)), f=t-i;
+  return elevationStops[i].map((v,c)=>Math.round(v*(1-f)+elevationStops[i+1][c]*f));
+}
+export function terrainProfile(heights: Float32Array, site: SurfaceSite) {
+  const row=Math.floor(site.height/2);
+  return Array.from({length:site.width},(_,i)=>({distance:i*site.cell_m,height:heights[row*site.width+i]}));
+}
+export function metricScale(metresPerPixel: number, maxPixels=120) {
+  if (!Number.isFinite(metresPerPixel) || metresPerPixel<=0) return null;
+  const limit=metresPerPixel*maxPixels, power=10**Math.floor(Math.log10(limit));
+  const distance=([5,2,1].find(n=>n*power<=limit) || 1)*power;
+  return {distance,pixels:distance/metresPerPixel};
 }

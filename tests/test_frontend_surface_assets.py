@@ -55,3 +55,21 @@ class SurfaceAssetsTests(unittest.TestCase):
             np.testing.assert_array_equal(read(ASSETS/site['texture'])[3]>0,valid)
             self.assertEqual((site['width']-1)*site['cell_m'],1800)
             self.assertLess(site['scale_m']/2,1)
+
+    def test_regional_tiles_are_continuous_and_keep_real_relief(self):
+        regional = self.manifest['mola']['regional']
+        keys = set(regional['tiles'])
+        self.assertEqual(regional['pixels_per_degree'], 128)
+        self.assertEqual(regional['source_bytes'], 8847360)
+        for key in keys:
+            level,x,y = map(int,key.split('/'))
+            a=read(ASSETS/f'mola/{key}.png')
+            for neighbor,edge,other in [(f'{level}/{x+1}/{y}',a[:,:,-1],(slice(None),slice(None),0)),(f'{level}/{x}/{y+1}',a[:,-1,:],(slice(None),0,slice(None)))]:
+                if neighbor in keys:
+                    b=read(ASSETS/f'mola/{neighbor}.png')
+                    np.testing.assert_array_equal(edge,b[other])
+        # Jezero's crater and surroundings must retain hundreds of metres of relief.
+        level=8; x=int((77.41+180)/360*2**(level+1)); y=int((90-18.49)/180*2**level)
+        a=read(ASSETS/f'mola/{level}/{x}/{y}.png').astype(float)
+        z=a[0]*256+a[1]-32768
+        self.assertGreater(float(z.max()-z.min()), 500)
