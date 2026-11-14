@@ -149,6 +149,22 @@ Tres puentes merecen prioridad por usar la misma física en varios cuerpos:
 - **Tutorial SAR de CSA** como guía para la primera escena RCM de Devon: calibración a σ⁰, corrección del terreno y máscaras de sombra antes de extraer features.
 - ✅ **ESA Open Science Catalog en el manifiesto.** `SOURCE_MANIFESTS_SCHEMA` (`pipelines/etl_contract.py`) incorpora `doi` y `product_version` anulables (retrocompatibles en `pipelines/etl_publish.py` y `sources.json`), y `pipelines/atlas_sources.py` + `pipelines/etl_surface_dimensions.py` registran los DOIs y versiones oficiales, incluido `ESA_CCI_PERMAFROST_v5.0` (`10.5285/6ef1a60b678f4048a20b5c8d94d665c9`, versión `5.0`).
 
+### Descarga de las dimensiones de superficie (15 de noviembre de 2026)
+
+Las siete dimensiones de `enrichment_surface` ya tienen descarga y comando (`scripts/etl_superficie.py`). Cada producto se abre una sola vez y se muestrea en todas las ventanas que cubre:
+
+| Dimensión | Producto | Lectura | Soporte publicado |
+|---|---|---|---|
+| Aridez | `GPM_3IMERGM.07` (mensual oficial de IMERG Final) | rangos HTTP | píxel nativo 0,1° más cercano |
+| Humedad del suelo | `SPL3SMP_E.006`, pasada AM | rangos HTTP (un trozo por fila) | celda EASE2 de 9 km más cercana |
+| Emisividad | `AG100.003` (teselas de 1°) | rangos HTTP | píxeles de 100 m en la huella |
+| Permafrost | `ESA_CCI_PERMAFROST_v5.0` (CEDA, público) | rangos HTTP sin token | píxeles de 1 km en la huella |
+| Nieve | `MOD10A1.061` | HDF4 completo, borrado tras leerlo | píxeles de 500 m en la huella |
+| ATI | `MOD11A1`/`MYD11A1` + `MCD43A3` | HDF4 completo, borrado tras leerlo | píxeles de 1 km en la huella |
+| Retrodispersión | `OPERA_L2_RTC-S1_V1` | COG por GDAL | rejilla local de 30 m, mediana temporal |
+
+Comprobado en vivo: enlaces CMR de todos los productos y estructura de AG100 y SPL3SMP_E. GES DISC responde `403 EULA Acceptance Failure` hasta que la cuenta de Earthdata autoriza su aplicación, así que la aridez necesita ese paso previo. La rejilla del NetCDF del CCI y los códigos de máscara de OPERA siguen la documentación y no se abrieron. Para MODIS se agregó el complemento `libgdal-hdf4`. Las ventanas de 3 km quedan dentro de un solo píxel de IMERG y de SMAP, y por eso esas dos dimensiones publican el soporte del píxel nativo. Iluminación, Diviner y Mini‑RF siguen esperando archivos verificados.
+
 ## 5. Prioridades
 
 | Prioridad | Acción | Esfuerzo | Desbloquea |
@@ -157,7 +173,7 @@ Tres puentes merecen prioridad por usar la misma física en varios cuerpos:
 | 2 | ✅ Reclasificar los complejos espectrales a contexto y regenerar el texto de la Tercera entrega desde la evidencia (bloques, correlaciones) | Bajo | Coherencia entre documentación, evidencia y código |
 | 3 | ✅ Añadir integral hipsométrica, concentración de orientación, fracción > 15°/25° y asimetría; repetir la redundancia con correlación parcial ([resultado](Descriptores%20de%20forma%20y%20redundancia%20del%20vector%20topografico.md)) | Medio | Un ranking que distinga formas, no solo escabrosidad |
 | 4 | ✅ Añadir `Moon`, CRS y marco planetario al contrato; extraer LOLA de Haworth con las mismas features ([resultado](La%20Luna%20en%20el%20contrato%20y%20referencia%20de%20Haworth.md)); añadido el sitio iluminado de la cresta de de Gerlache, que la compuerta de 15° excluye con la huella de 3 km; faltan iluminación, Diviner y Mini‑RF verificados | Medio | La mitad lunar del enunciado |
-| 5 | ATI climatológica MODIS (MOD11A1/MYD11A1 + MCD43A3) y Diviner en las referencias | Medio | Dimensión termofísica comparable en tres cuerpos |
+| 5 | ATI climatológica MODIS: ✅ código (`apparent_thermal_inertia` en `enrichment_surface`, 1/K, medianas estacionales con ≥ 20 observaciones despejadas por estación y error de LST ≤ 2 K; descarga en `pipelines/etl_surface_fetch.py`, ejecución con `scripts/etl_superficie.py`); falta la primera medición en GCP y Diviner en las referencias | Medio | Dimensión termofísica comparable en tres cuerpos |
 | 6 | ✅ Operador común CRISM (`pipelines/spectral_params.py`) + lectores por rangos (`spectral_readers.py`) + regla de emparejamiento (`spectral_bridge.py`, `puente-espectral-v1.json`) en Marte (`1,8 km` 87,2 % válido; `3,0 km` 72,3 % insuficiente), EMIT L2A (`BD2290`, `BD2265`, `BD920_2`) y M³ lunar (polos inviables por sombra/incidencia; añadido control Apollo 15 + ejecución en GCP; [resultado](Puente%20espectral%20con%20un%20solo%20operador%20en%20tres%20cuerpos.md)) | Alto | Puente espectral defendible y complejo máfico; faltan validar umbrales `inicial` y completar lecturas remotas en GCP |
 | 7 | ✅ Contrato (`enrichment_altimetry`, `enrichment_radar`, `features_unified`), extractores (`ICESat-2 ATL08`, `NRCan rcm-ard`), controles RCM (Manicouagan `CPR P50 = 0,622`, Devon/Mistastin `no_swath_coverage`), control láser Manicouagan (`DEM − láser = 1,89 m`), piloto pre-corte en Atacama (`0,26 m`, `−88,53 %` Harmony) y migración de `1263` gránulos a GCP Spot ([resultado](Puentes%20laser%20y%20radar%20polarimetrico.md)) | Alto | Validación independiente del DEM (`12` candidatas + `3` controles en GCP) y del CPR |
 

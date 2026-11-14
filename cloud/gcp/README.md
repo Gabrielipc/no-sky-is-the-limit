@@ -66,6 +66,20 @@ ETL_ARGS="resumen" \
   bash cloud/gcp/launch-spot.sh
 ```
 
+## Dimensiones de superficie e inercia térmica aparente (`scripts/etl_superficie.py`)
+
+Todas las fuentes salvo el permafrost (CEDA, público) están en NASA Earthdata (`us-west-2`), así que conviene `us-west1-a`. Antes, autoriza la aplicación de GES DISC en tu perfil de Earthdata (sin ese paso IMERG responde `403 EULA Acceptance Failure`). MODIS se descarga por gránulos HDF4 completos que se borran después de leerlos, así que la ATI es la dimensión más pesada (≈ 6 GB por tesela y año):
+
+```bash
+ZONE="us-west1-a" \
+ETL_SCRIPT="scripts/etl_superficie.py" \
+ETL_ARGS="--skip-measured --batch-size 10 --workers 16" \
+  bash cloud/gcp/launch-spot.sh
+
+# Solo algunas dimensiones (las demás conservan su valor guardado):
+ETL_ARGS="--dimension apparent_thermal_inertia --ati-year 2023 --skip-measured --workers 16"
+```
+
 ## Elección de región para minimizar latencia y costo
 
 - **`europe-west3-a` (Fráncfort, por defecto):** ideal para `atlas30` / `etl_pipeline.py` (Copernicus GLO-30, ESA WorldCover y JRC Surface Water están en Europa / `eu-central-1`).
