@@ -218,8 +218,8 @@ jobs:
           chmod 600 "$HOME/.ssh/azure_vm_key"
           scp -i "$HOME/.ssh/azure_vm_key" -o IdentitiesOnly=yes \
             -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$HOME/.ssh/known_hosts" \
-            -P "$AZURE_VM_SSH_PORT" deploy/compose.prod.yaml \
-            "$target:$AZURE_VM_APP_DIR/compose.prod.yaml"
+            -P "$AZURE_VM_SSH_PORT" deploy/docker-compose.yml \
+            "$target:$AZURE_VM_APP_DIR/docker-compose.yml"
 
           umask 077
           {
@@ -252,4 +252,4 @@ jobs:
           target="$AZURE_VM_USER@$AZURE_VM_HOST"
           ssh_options=(-i "$HOME/.ssh/azure_vm_key" -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$HOME/.ssh/known_hosts" -p "$AZURE_VM_SSH_PORT")
           printf '%s' "$GHCR_PULL_TOKEN" | ssh "${ssh_options[@]}" "$target" \
-            "set -eu; cd '$AZURE_VM_APP_DIR'; docker login ghcr.io --username '$GHCR_USERNAME' --password-stdin; trap 'docker logout ghcr.io >/dev/null 2>&1 || true' EXIT; docker compose --env-file .env -f compose.prod.yaml pull; docker compose --env-file .env -f compose.prod.yaml run --rm --no-deps --entrypoint python app -c \"from pathlib import Path; p=Path('/workspace/releases/atlas30/.write-test'); p.touch(); p.unlink()\"; docker compose --env-file .env -f compose.prod.yaml up -d --remove-orphans --wait; docker logout ghcr.io >/dev/null; trap - EXIT"
+            "set -eu; cd '$AZURE_VM_APP_DIR'; docker login ghcr.io --username '$GHCR_USERNAME' --password-stdin; trap 'docker logout ghcr.io >/dev/null 2>&1 || true' EXIT; docker compose --env-file .env -f docker-compose.yml pull; docker compose --env-file .env -f docker-compose.yml run --rm --no-deps --entrypoint python app -c \"from pathlib import Path; p=Path('/workspace/releases/atlas30/.write-test'); p.touch(); p.unlink()\"; docker compose --env-file .env -f docker-compose.yml up -d --remove-orphans --wait; docker logout ghcr.io >/dev/null; trap - EXIT"
