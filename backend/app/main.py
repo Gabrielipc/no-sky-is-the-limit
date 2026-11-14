@@ -24,3 +24,8 @@ app.include_router(dimensions_router)
 app.include_router(minerals_router)
 app.include_router(atlas_router)
 app.include_router(regions_router)
+
+# Re-exported for backwards compatibility with prototype (commit 0274759)
+from app.routers.regions_router import get_region, regions, search  # noqa: E402
+from app.schemas.search import Search, Weights  # noqa: E402
+
