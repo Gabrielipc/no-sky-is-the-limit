@@ -7,7 +7,7 @@ from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 from app.main import app
-from app import regional
+from app.routers import regional_router as regional
 
 
 class RegionalAPITests(unittest.TestCase):

@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from app.main import Search, Weights, search
+from app.routers.regions_router import Search, Weights, search
 from fastapi import HTTPException
 
 FIXTURE = [
@@ -12,7 +12,7 @@ FIXTURE = [
 
 class SearchTests(unittest.TestCase):
     def setUp(self):
-        self.patcher = patch('app.main.regions', return_value=FIXTURE)
+        self.patcher = patch('app.routers.regions_router.regions', return_value=FIXTURE)
         self.patcher.start()
         self.addCleanup(self.patcher.stop)
 

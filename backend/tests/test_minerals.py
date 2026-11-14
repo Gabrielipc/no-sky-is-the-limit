@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 from app.main import app
-from app import minerals
+from app.routers import minerals_router as minerals
 
 
 class MineralAPITests(unittest.TestCase):
