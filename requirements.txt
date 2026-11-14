@@ -1,0 +1,10 @@
+fastapi[standard]
+pydantic-settings 
+sqlalchemy[asyncio] 
+asyncpg 
+httpx 
+aiofiles 
+duckdb 
+orjson 
+pyarrow 
+pytest
