@@ -290,15 +290,15 @@ _OPENER = urllib.request.build_opener(_StripAuthOnRedirect)
 def _token_header() -> dict:
     token = os.environ.get('EARTHDATA_TOKEN')
     if not token:
-        raise PermissionError('ICESat-2 requiere EARTHDATA_TOKEN en el entorno')
+        raise PermissionError('Earthdata requiere EARTHDATA_TOKEN en el entorno')
     if any(ord(c) < 33 for c in token):
         raise ValueError('EARTHDATA_TOKEN contiene caracteres inválidos')
     return {'Authorization': 'Bearer ' + token}
 
 
-def _check_host(url: str) -> str:
-    if urllib.parse.urlsplit(url).scheme != 'https' or urllib.parse.urlsplit(url).hostname not in ALLOWED_HOSTS:
-        raise ValueError(f'Host no permitido para ICESat-2: {url}')
+def _check_host(url: str, allowed_hosts: tuple[str, ...] = ALLOWED_HOSTS) -> str:
+    if urllib.parse.urlsplit(url).scheme != 'https' or urllib.parse.urlsplit(url).hostname not in allowed_hosts:
+        raise ValueError(f'Host no permitido para Earthdata: {url}')
     return url
 
 
@@ -353,9 +353,10 @@ class RangeFile(io.RawIOBase):
     that URL. The token never leaves memory.
     """
 
-    def __init__(self, url: str, block_size: int = 128 * 1024, attempts: int = 4) -> None:
+    def __init__(self, url: str, block_size: int = 128 * 1024, attempts: int = 4,
+                 allowed_hosts: tuple[str, ...] = ALLOWED_HOSTS) -> None:
         super().__init__()
-        _check_host(url)
+        _check_host(url, allowed_hosts)
         self.url, self.block, self.attempts = url, block_size, attempts
         self.pos, self.cache, self.signed = 0, {}, None
         self.requests, self.bytes_read, self.etag, self.size = 0, 0, None, None

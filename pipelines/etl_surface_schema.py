@@ -7,6 +7,8 @@ Implements Section 3 of the 2026-11-14 audit:
 - `permafrost` (ESA CCI Permafrost v5.0)
 - `thermal_emissivity` (ASTER GED v3, bridging to Diviner CF and THEMIS IR)
 - `sar_backscatter` (Sentinel-1 RTC / OPERA-S1, bridging to Mini-RF)
+- `apparent_thermal_inertia` (MODIS MOD11A1/MYD11A1 + MCD43A3, audit §2.2, bridging to THEMIS TI
+  and Diviner by within-body ranks; units 1/K, never mixed with `thermal_inertia_p50` of THEMIS)
 
 Only depends on PyArrow so `etl_contract` can import it without a cycle; extraction
 and raster adapters live in `pipelines.etl_surface_dimensions`.
@@ -22,6 +24,7 @@ SURFACE_DIMENSIONS: dict[str, tuple[str, ...]] = {
     'permafrost': ('cci_permafrost_probability', 'cci_active_layer_thickness_m'),
     'thermal_emissivity': ('aster_emissivity_mafic_index', 'aster_christiansen_wb_um'),
     'sar_backscatter': ('s1_rtc_vv_p50_db', 's1_rtc_vh_p50_db', 's1_rtc_vh_vv_ratio_db'),
+    'apparent_thermal_inertia': ('modis_ati_p50_per_k', 'modis_ati_iqr_per_k'),
 }
 
 # Physical bounds checked before writing (inclusive).
@@ -39,6 +42,8 @@ SURFACE_RANGES: dict[str, tuple[float, float]] = {
     's1_rtc_vv_p50_db': (-35.0, 10.0),
     's1_rtc_vh_p50_db': (-40.0, 5.0),
     's1_rtc_vh_vv_ratio_db': (-25.0, 10.0),
+    'modis_ati_p50_per_k': (0.0, 1.0),
+    'modis_ati_iqr_per_k': (0.0, 1.0),
 }
 
 

@@ -1,7 +1,7 @@
 {
   "spec_id": "dimensiones-superficie-oficiales-v1",
   "schema_version": "1.0.0",
-  "description": "Especificación declarativa de las seis dimensiones de superficie pendientes con fuentes oficiales del NASA Space Apps Challenge 2026 y agencias asociadas (auditoría 2026-11-14, sección 3).",
+  "description": "Especificación declarativa de las siete dimensiones de superficie pendientes con fuentes oficiales del NASA Space Apps Challenge 2026 y agencias asociadas (auditoría 2026-11-14, sección 3).",
   "checked_on": "2026-11-14",
   "min_valid_fraction": 0.8,
   "body": "Earth",
@@ -32,6 +32,17 @@
           "native_resolution_m": 11132.0,
           "url": "https://sharaku.eorc.jaxa.jp/GSMaP/",
           "access_mode": "gportal_on_demand"
+        },
+        "monthly": {
+          "product_id": "GPM_3IMERGM.07",
+          "product_name": "GPM IMERG Final Precipitation L3 1 month 0.1° x 0.1° v07",
+          "provider": "NASA GES DISC",
+          "doi": "10.5067/GPM/IMERG/3B-MONTH/07",
+          "product_version": "07",
+          "native_resolution_m": 11132.0,
+          "url": "https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGM_07/summary",
+          "role_note": "Agregado mensual oficial del mismo algoritmo IMERG Final; es la entrada que usa la descarga (tasa media mm/h × horas del mes = mm/mes).",
+          "access_mode": "cmr_on_demand"
         }
       },
       "metrics": {
@@ -210,6 +221,69 @@
           "units": "dB",
           "valid_range": [-25.0, 10.0],
           "description": "Mediana de la razón de polarización cruzada 10·log10(σ⁰_VH / σ⁰_VV)."
+        }
+      }
+    },
+    "apparent_thermal_inertia": {
+      "label": "Inercia térmica aparente climatológica (puente hacia THEMIS TI y Diviner)",
+      "comparability_tier": "functional_contract_bridge",
+      "min_valid_fraction": 0.8,
+      "earth_to_planetary_bridge": "ATI = (1 − albedo) / (T_día − T_noche) con medianas estacionales MODIS. No es la inercia de THEMIS (depende de la hora de paso y de la atmósfera): se compara por rangos dentro de cada cuerpo, nunca por valor absoluto.",
+      "min_clear_obs_per_season": 20,
+      "max_lst_error_k": 2.0,
+      "min_day_night_delta_k": 1.0,
+      "min_valid_seasons": 2,
+      "sources": {
+        "primary": {
+          "product_id": "MOD11A1.061",
+          "product_name": "MODIS/Terra Land Surface Temperature/Emissivity Daily L3 Global 1km SIN Grid v061",
+          "provider": "NASA LP DAAC",
+          "doi": "10.5067/MODIS/MOD11A1.061",
+          "product_version": "061",
+          "native_resolution_m": 1000.0,
+          "url": "https://lpdaac.usgs.gov/products/mod11a1v061/",
+          "qa_policy": "QC bits 0-1 en {00, 01} y error de LST (bits 6-7) ≤ 2 K.",
+          "access_mode": "cmr_on_demand"
+        },
+        "aqua": {
+          "product_id": "MYD11A1.061",
+          "product_name": "MODIS/Aqua Land Surface Temperature/Emissivity Daily L3 Global 1km SIN Grid v061",
+          "provider": "NASA LP DAAC",
+          "doi": "10.5067/MODIS/MYD11A1.061",
+          "product_version": "061",
+          "native_resolution_m": 1000.0,
+          "url": "https://lpdaac.usgs.gov/products/myd11a1v061/",
+          "qa_policy": "Igual que MOD11A1.",
+          "access_mode": "cmr_on_demand"
+        },
+        "albedo": {
+          "product_id": "MCD43A3.061",
+          "product_name": "MODIS/Terra+Aqua BRDF/Albedo Daily L3 Global 500m v061",
+          "provider": "NASA LP DAAC",
+          "doi": "10.5067/MODIS/MCD43A3.061",
+          "product_version": "061",
+          "native_resolution_m": 500.0,
+          "url": "https://lpdaac.usgs.gov/products/mcd43a3v061/",
+          "qa_policy": "Albedo de cielo blanco de onda corta con calidad obligatoria 0 (inversión completa).",
+          "access_mode": "cmr_on_demand"
+        }
+      },
+      "metrics": {
+        "modis_ati_p50_per_k": {
+          "units": "1/K",
+          "valid_range": [
+            0.0,
+            1.0
+          ],
+          "description": "Mediana en la huella de la ATI por píxel (mediana de las ATI estacionales válidas)."
+        },
+        "modis_ati_iqr_per_k": {
+          "units": "1/K",
+          "valid_range": [
+            0.0,
+            1.0
+          ],
+          "description": "Rango intercuartílico de la ATI por píxel en la huella."
         }
       }
     }

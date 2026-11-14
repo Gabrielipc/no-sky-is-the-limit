@@ -4,13 +4,13 @@
   "files": [
     {
       "path": "specs/analysis/contrato-comun-entrega3.json",
-      "bytes": 12707,
-      "sha256": "afdfbcb3211b407327bd412e72f159d6adec03caf9ce535b73ef51e400d0434f"
+      "bytes": 12835,
+      "sha256": "c9ef633205bcae011e5089f228552a624e9c25fbf1788726d53649e1641f80f7"
     },
     {
       "path": "specs/sources/dimensiones-superficie-oficiales-v1.json",
-      "bytes": 9862,
-      "sha256": "efe3bc1a1dff184e17673d2aa62c05945930db3567524084bb94aa647ca70504"
+      "bytes": 13192,
+      "sha256": "6ceec7ff79d99b844d1f15d051211b77ae959be468918fc9b86954c409647d56"
     },
     {
       "path": "scripts/contrato_comun_y_seleccion.py",

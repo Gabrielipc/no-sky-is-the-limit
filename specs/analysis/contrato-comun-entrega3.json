@@ -248,7 +248,8 @@
       {"id": "snow_persistence", "primary_product": "MOD10A1.061", "comparability_tier": "planet_specific_constraint"},
       {"id": "permafrost", "primary_product": "ESA_CCI_PERMAFROST_v5.0", "comparability_tier": "planet_specific_constraint"},
       {"id": "thermal_emissivity", "primary_product": "AG100.003", "comparability_tier": "functional_contract_bridge"},
-      {"id": "sar_backscatter", "primary_product": "OPERA_L2_RTC-S1_V1", "comparability_tier": "functional_contract_bridge"}
+      {"id": "sar_backscatter", "primary_product": "OPERA_L2_RTC-S1_V1", "comparability_tier": "functional_contract_bridge"},
+      {"id": "apparent_thermal_inertia", "primary_product": "MOD11A1.061", "comparability_tier": "functional_contract_bridge"}
     ]
   }
 }

@@ -7,6 +7,9 @@ Covers Section 3 of the 2026-11-14 audit:
 4. Permafrost (ESA CCI Permafrost v5.0 from ESA Open Science Catalog)
 5. Silicate thermal-IR emissivity (NASA ASTER GED v3, functional bridge to Diviner CF & THEMIS IR)
 6. Decimetric SAR backscatter (Copernicus Sentinel-1 RTC / OPERA-S1, functional bridge to Mini-RF)
+7. Apparent thermal inertia (MODIS MOD11A1/MYD11A1 + MCD43A3, audit §2.2, functional bridge to THEMIS TI)
+
+Downloads live in `pipelines.etl_surface_fetch`; this module only turns arrays into metrics.
 """
 from __future__ import annotations
 
@@ -280,6 +283,75 @@ def compute_sentinel1_rtc_metrics(
     return out, valid_fraction, 'measured'
 
 
+def compute_modis_ati_metrics(
+    lst_day_k: np.ndarray,
+    lst_night_k: np.ndarray,
+    albedo: np.ndarray,
+    day_season: np.ndarray,
+    night_season: np.ndarray,
+    albedo_season: np.ndarray,
+    *,
+    min_obs_per_season: int = 20,
+    min_delta_k: float = 1.0,
+    min_valid_seasons: int = 2,
+    min_valid_fraction: float = MIN_VALID_FRACTION,
+) -> tuple[dict[str, float | None], float, str]:
+    """Climatological apparent thermal inertia `ATI = (1 - albedo) / (T_day - T_night)` (1/K).
+
+    Inputs are stacks over observations of the footprint pixels on the LST grid, already
+    QA-filtered (invalid = NaN): `lst_day_k (n_day, n_pix)`, `lst_night_k (n_night, n_pix)`,
+    `albedo (n_alb, n_pix)` and one season label per observation. Per pixel and season the
+    day and night medians need `min_obs_per_season` clear observations each (Terra and Aqua
+    together); the pixel ATI is the median of its valid seasonal values and needs
+    `min_valid_seasons` of them. The valid fraction is the share of footprint pixels with ATI.
+    """
+    day = np.asarray(lst_day_k, dtype=np.float64)
+    night = np.asarray(lst_night_k, dtype=np.float64)
+    alb = np.asarray(albedo, dtype=np.float64)
+    out: dict[str, float | None] = dict.fromkeys(SURFACE_DIMENSIONS['apparent_thermal_inertia'])
+    if day.ndim != 2 or night.ndim != 2 or alb.ndim != 2 or day.shape[1] == 0:
+        return out, 0.0, 'no_swath_coverage'
+    n_pix = day.shape[1]
+    if night.shape[1] != n_pix or alb.shape[1] != n_pix:
+        raise ValueError('LST de día, de noche y albedo deben compartir los píxeles de la huella')
+    day_season, night_season, albedo_season = (np.asarray(v) for v in (day_season, night_season, albedo_season))
+    if len(day_season) != day.shape[0] or len(night_season) != night.shape[0] or len(albedo_season) != alb.shape[0]:
+        raise ValueError('Cada observación necesita su estación')
+
+    day = np.where((day >= 150.0) & (day <= 400.0), day, np.nan)
+    night = np.where((night >= 150.0) & (night <= 400.0), night, np.nan)
+    alb = np.where((alb >= 0.0) & (alb <= 1.0), alb, np.nan)
+
+    seasonal = []
+    for season in sorted(set(day_season.tolist()) & set(night_season.tolist()) & set(albedo_season.tolist())):
+        d, n, a = day[day_season == season], night[night_season == season], alb[albedo_season == season]
+        enough = (np.isfinite(d).sum(axis=0) >= min_obs_per_season) & (np.isfinite(n).sum(axis=0) >= min_obs_per_season)
+        enough &= np.isfinite(a).any(axis=0)
+        ati = np.full(n_pix, np.nan)
+        if enough.any():
+            with np.errstate(all='ignore'):
+                delta = np.nanmedian(d[:, enough], axis=0) - np.nanmedian(n[:, enough], axis=0)
+                albedo_med = np.nanmedian(a[:, enough], axis=0)
+                ati[enough] = np.where(delta >= min_delta_k, (1.0 - albedo_med) / delta, np.nan)
+        seasonal.append(ati)
+    if not seasonal:
+        return out, 0.0, 'no_swath_coverage'
+
+    stack = np.vstack(seasonal)
+    valid = np.isfinite(stack).sum(axis=0) >= min_valid_seasons
+    valid_fraction = float(valid.mean())
+    if valid_fraction == 0.0:
+        return out, 0.0, 'no_swath_coverage'
+    if valid_fraction < min_valid_fraction:
+        return out, valid_fraction, 'insufficient_coverage'
+    with np.errstate(all='ignore'):
+        pixel_ati = np.nanmedian(stack[:, valid], axis=0)
+    q25, q50, q75 = np.percentile(pixel_ati, [25.0, 50.0, 75.0])
+    out['modis_ati_p50_per_k'] = float(np.clip(q50, 0.0, 1.0))
+    out['modis_ati_iqr_per_k'] = float(np.clip(q75 - q25, 0.0, 1.0))
+    return out, valid_fraction, 'measured'
+
+
 def extract_surface_dimensions_window(
     region_id: str,
     *,
@@ -328,6 +400,14 @@ def extract_surface_dimensions_window(
             cfg['sigma0_vv_linear'],
             cfg['sigma0_vh_linear'],
             cfg.get('layover_shadow_mask'),
+            min_valid_fraction=min_valid_fraction,
+        ),
+        'apparent_thermal_inertia': lambda cfg: compute_modis_ati_metrics(
+            cfg['lst_day_k'], cfg['lst_night_k'], cfg['albedo'],
+            cfg['day_season'], cfg['night_season'], cfg['albedo_season'],
+            min_obs_per_season=cfg.get('min_obs_per_season', 20),
+            min_delta_k=cfg.get('min_delta_k', 1.0),
+            min_valid_seasons=cfg.get('min_valid_seasons', 2),
             min_valid_fraction=min_valid_fraction,
         ),
     }
