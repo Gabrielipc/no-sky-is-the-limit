@@ -163,7 +163,19 @@ def _process_stream_batch(
 
 
 def _dir_bytes(path: Path) -> int:
-    return sum(p.stat().st_size for p in path.iterdir() if p.is_file()) if path.exists() else 0
+    """Bytes in the temp dir; download workers rename or delete `.part` files concurrently."""
+    total = 0
+    try:
+        entries = list(path.iterdir())
+    except FileNotFoundError:
+        return 0
+    for entry in entries:
+        try:
+            if entry.is_file():
+                total += entry.stat().st_size
+        except FileNotFoundError:
+            continue
+    return total
 
 
 def run_stream(

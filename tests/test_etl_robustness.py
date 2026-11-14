@@ -6,6 +6,7 @@ from contextlib import ExitStack
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
 import httpx
 import numpy as np
@@ -163,6 +164,26 @@ class TestDownloadRetries(unittest.TestCase):
         self.assertEqual(len(calls), 3)
 
 
+class TestDirBytes(unittest.TestCase):
+    def test_file_vanishing_mid_scan_is_skipped(self) -> None:
+        from pipelines import etl_stream
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / 'a.tif').write_bytes(b'x' * 10)
+            gone = root / '.b.tif.part'
+            gone.write_bytes(b'y' * 5)
+            real_iterdir = Path.iterdir
+
+            def iterdir_then_delete(self):
+                items = list(real_iterdir(self))
+                gone.unlink()
+                return iter(items)
+
+            with mock.patch.object(Path, 'iterdir', iterdir_then_delete):
+                self.assertEqual(etl_stream._dir_bytes(root), 10)
+            self.assertEqual(etl_stream._dir_bytes(root / 'missing'), 0)
+
+
 class TestResume(unittest.TestCase):
     def test_identity_and_incomplete_batches(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -174,14 +195,16 @@ class TestResume(unittest.TestCase):
             store.mark_batch_completed(incomplete, {'status': 'incomplete', 'identity': ex.run_identity(10000)})
             store.mark_batch_completed(other_stride, {'status': 'complete', 'identity': ex.run_identity(3000)})
 
-            self.assertEqual(store.completed_batch_ids(ex.run_identity(10000)), {legacy, complete})
+            # Legacy records predate the shape descriptors and cover_status: always reprocessed.
+            self.assertEqual(store.completed_batch_ids(ex.run_identity(10000)), {complete})
+            self.assertEqual(store.completed_batch_ids(ex.LEGACY_RUN_IDENTITY), {legacy})
             self.assertEqual(store.completed_batch_ids(ex.run_identity(3000)), {other_stride})
             self.assertEqual(store.incomplete_batch_ids(), {incomplete})
 
             args = argparse.Namespace(scope='pilot', mode='auto', start=0, max_batches=0, overwrite=False,
                                       stride=10000)
             pending = {b.id for b in cli._select_batches(args, store)}
-            self.assertEqual(pending, {incomplete, other_stride, batches[4].id})
+            self.assertEqual(pending, {legacy, incomplete, other_stride, batches[4].id})
 
 
 if __name__ == '__main__':

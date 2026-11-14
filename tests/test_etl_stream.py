@@ -12,6 +12,7 @@ from rasterio.transform import from_origin
 
 from pipelines import atlas_sources as sources
 from pipelines import atlas_topography as topo
+from pipelines import etl_extractors as ex
 from pipelines import etl_stream as stream_engine
 from pipelines.etl_store import FeatureStore
 from scripts import etl_pipeline as cli
@@ -22,7 +23,8 @@ class TestETLStreamAndSkip(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             store = FeatureStore(Path(tmp) / 'store')
             batches = list(topo.benchmark_batches())[:2]
-            store.mark_batch_completed(batches[0].id, {'batch_id': batches[0].id})
+            store.mark_batch_completed(batches[0].id, {'batch_id': batches[0].id, 'status': 'complete',
+                                                       'identity': ex.run_identity(10000)})
             self.assertIn(batches[0].id, store.completed_batch_ids())
 
             args_skip = argparse.Namespace(

@@ -268,16 +268,23 @@ COVER_FIELDS = (
 )
 
 
+# Bump when the columns or values a batch writes change, so resume reprocesses older batches.
+# 2: footprint shape descriptors, cover_status and versioned eligibility gate (2026-11-14).
+FEATURE_VERSION = 2
+
+
 def run_identity(stride_m: int) -> dict:
-    """Parameters that change the topographic result of a batch; resume only skips matching runs."""
+    """Parameters that change the result of a batch; resume only skips matching runs."""
     return {
         'grid_version': topo.GRID_VERSION, 'stride_m': int(stride_m), 'window_m': WINDOW_M, 'cell_m': CELL_M,
         'halo_m': HALO_M, 'slope_base_m': SLOPE_BASE_M, 'roughness_radius_m': ROUGHNESS_RADIUS_M,
+        'feature_version': FEATURE_VERSION,
     }
 
 
-# Batches written before run identities existed were all produced with these parameters.
-LEGACY_RUN_IDENTITY = run_identity(10000)
+# Batches written before run identities existed: same grid parameters, feature version 1
+# (no shape descriptors nor cover_status), so they never match a current identity.
+LEGACY_RUN_IDENTITY = {k: v for k, v in run_identity(10000).items() if k != 'feature_version'}
 
 
 def asset_failures(rasters: topo.Rasters, entries: list[dict]) -> dict[str, str]:
