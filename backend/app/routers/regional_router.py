@@ -7,7 +7,7 @@ from typing import Literal
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import FileResponse, JSONResponse
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 EVIDENCE = ROOT / 'docs/evidencia-fase-4'
 CONFIG = ROOT / 'specs/search/busqueda-regional-v1.json'
 router = APIRouter(prefix='/api/regional-search', tags=['Búsqueda regional exploratoria'])

@@ -9,7 +9,7 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import FileResponse
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 EVIDENCE = ROOT / 'docs' / 'evidencia-fase-2'
 CONFIG = ROOT / 'specs' / 'analysis' / 'primer-caso-fase2.json'
 SCENARIO_ID = 'relieve-regional'
@@ -98,14 +98,15 @@ def evidence_url(filename):
 
 @router.get('/scenarios')
 def list_scenarios():
-    from app.expansion import SCENARIO as STABILITY
-    from app.dimensions import SCENARIO as DIMENSIONS_SCENARIO
+    from app.routers.expansion_router import SCENARIO as STABILITY
+    from app.routers.dimensions_router import SCENARIO as DIMENSIONS_SCENARIO
     return [SCENARIO, STABILITY, DIMENSIONS_SCENARIO]
 
 
 @router.get('/scenarios/{scenario_id}/comparison')
 def comparison(scenario_id: str, reference_id: str = REFERENCE_ID, cell_m: int = Query(60), candidate_id: str = 'earth-utah'):
-    from app import expansion, dimensions
+    from app.routers import dimensions_router as dimensions
+    from app.routers import expansion_router as expansion
     if scenario_id == dimensions.SCENARIO_ID:
         return dimensions.comparison_view(cell_m, candidate_id, reference_id)
     if scenario_id == expansion.SCENARIO['id']:

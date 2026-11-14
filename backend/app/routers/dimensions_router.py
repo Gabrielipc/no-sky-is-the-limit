@@ -6,7 +6,7 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import FileResponse
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 EVIDENCE = ROOT/'docs/evidencia-dimensiones'
 CONFIG = ROOT/'specs/scenarios/superficie-multidimensional-v1.json'
 SCENARIO_ID = 'superficie-multidimensional'
