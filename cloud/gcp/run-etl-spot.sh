@@ -102,9 +102,17 @@ done
 
 if [[ "$SYNC_INTERVAL_S" -gt 0 ]]; then
     log "Periodic sync every ${SYNC_INTERVAL_S} s"
+    # `sleep` runs in the background and is awaited: bash defers a TERM trap until the
+    # foreground child exits, so a foreground `sleep` would stall the final sync for up to
+    # SYNC_INTERVAL_S. `wait` is interrupted at once; an upload in progress is let finish.
     (
-        trap 'exit 0' TERM
-        while sleep "$SYNC_INTERVAL_S"; do
+        sleep_pid=""
+        trap '[[ -n "$sleep_pid" ]] && kill "$sleep_pid" 2>/dev/null; exit 0' TERM
+        while true; do
+            sleep "$SYNC_INTERVAL_S" &
+            sleep_pid=$!
+            wait "$sleep_pid"
+            sleep_pid=""
             bash "$WORKDIR/cloud/gcp/sync-outputs.sh" || true
         done
     ) &
