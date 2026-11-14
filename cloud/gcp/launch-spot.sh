@@ -22,6 +22,7 @@ SYNC_INTERVAL_S="${SYNC_INTERVAL_S:-600}"
 # goes into the VM metadata: the VM reads the secret at start-up with its service account.
 EARTHDATA_SECRET="${EARTHDATA_SECRET:-earthdata-token}"
 
+echo "Checking bucket ${GCS_BUCKET}..."
 if ! gcloud storage buckets describe "$GCS_BUCKET" --project="$PROJECT_ID" >/dev/null 2>&1; then
     echo "Creating bucket ${GCS_BUCKET} in ${REGION}..."
     gcloud storage buckets create "$GCS_BUCKET" --project="$PROJECT_ID" --location="$REGION" --uniform-bucket-level-access
