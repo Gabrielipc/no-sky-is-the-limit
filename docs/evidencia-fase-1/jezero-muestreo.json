@@ -1,0 +1,205 @@
+{
+  "url": "https://www.uahirise.org/PDS/DTM/PSP/ORB_002300_002399/PSP_002387_1985_PSP_003798_1985/DTEEC_002387_1985_003798_1985_A01.IMG",
+  "retrieved_at_utc": "2026-11-07T05:11:38.742869+00:00",
+  "method": "17 evenly spaced native raster rows spanning polygon bounding pixel window; complete column segments; includes boundary pixels possibly outside polygon",
+  "dtype": "little-endian Float32 (PC_REAL)",
+  "image_start_byte": 27736,
+  "nodata": -3.4028226550889045e+38,
+  "valid_range_label": [
+    -2600.51,
+    -2298.75
+  ],
+  "rows": [
+    {
+      "row_zero_based": 4904,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 136056432-136063695/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-4904.bin",
+      "sha256": "402470c00b141b027f0802309f486613e49b843b32ab50125275411bff9ad2a1",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 5015,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 139135128-139142391/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-5015.bin",
+      "sha256": "616d1e4ac84a785964cf48c7f005a6a7c55e8e3753bf3619ee51598f109ad99a",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 5126,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 142213824-142221087/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-5126.bin",
+      "sha256": "7383090b952b43d8f8465071c156b1a289fc9c7e15299f798131e4a96f3921b8",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 5238,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 145320256-145327519/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-5238.bin",
+      "sha256": "c87715086572dbe6622058f108ef778b744d598e12aa49b5ae09d52918ddf67f",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 5349,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 148398952-148406215/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-5349.bin",
+      "sha256": "55a7afa9acc6e84fee712d83eee65a80f7c0d42d6054d4da6910f7caf65ac51c",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 5461,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 151505384-151512647/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-5461.bin",
+      "sha256": "025af017f83171991ca225c23cbb90b60ba3ae0f25b2bcb65d02eb9c0bc77ddf",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 5572,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 154584080-154591343/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-5572.bin",
+      "sha256": "d292207f45c1ac01320b5ac1aa58d9846cf451d155809fd75c0d2de9dd85cede",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 5684,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 157690512-157697775/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-5684.bin",
+      "sha256": "2a5efe25ab6691673a49d50534c062d0de258ef1b6570a39f294acc70b099af5",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 5795,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 160769208-160776471/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-5795.bin",
+      "sha256": "0066357ec0ad1fedb5a1039a156982b2ea7bff3c58c52551f240ae1e716ab458",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 5906,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 163847904-163855167/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-5906.bin",
+      "sha256": "8b90f599ba453247f059b24f9837eecf3604e102fb57ee5f3b4fd7a60dd276a1",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 6018,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 166954336-166961599/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-6018.bin",
+      "sha256": "a468411ad253457e5dc4e83719258c195e82ec2b156ab06fa0e1876c18723abe",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 6129,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 170033032-170040295/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-6129.bin",
+      "sha256": "ccb45431d0d384a5e6755233d37abb388c80f2087628b0f84bc480ab327f96ee",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 6241,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 173139464-173146727/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-6241.bin",
+      "sha256": "5e6c4537dca67b1d63df90c1b2cfadd06b706946fb06d0eee5b5b46baf9ba204",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 6352,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 176218160-176225423/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-6352.bin",
+      "sha256": "3acc5b4d7652cf12b9b131daa8d49f2de92492a09302fcb342fe5f3f0e5bb028",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 6464,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 179324592-179331855/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-6464.bin",
+      "sha256": "57f77e7aa8d0416cd9fb9d3d65b9afe44bfaed49a568a202b9e4b461c1a0f54a",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 6575,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 182403288-182410551/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-6575.bin",
+      "sha256": "c81e727a3574f3ba00de8c94873c256796fdbc34797df2db6f32ca9199467a38",
+      "sample_count": 1816,
+      "valid_count": 1816
+    },
+    {
+      "row_zero_based": 6687,
+      "col_first_zero_based": 2838,
+      "col_last_zero_based": 4653,
+      "range": "bytes 185509720-185516983/320045704",
+      "bytes": 7264,
+      "file": "jezero-fila-6687.bin",
+      "sha256": "7e98213b27613198b21419205b4e3bc9911792897579556e9a49bce25e1eea6e",
+      "sample_count": 1816,
+      "valid_count": 1816
+    }
+  ],
+  "sample_count": 30872,
+  "valid_count": 30872,
+  "bytes": 123488,
+  "limitation": "Systematic strip sample, not complete polygon mask, random sample, independent measurements, quality assessment or guaranteed full valid coverage."
+}

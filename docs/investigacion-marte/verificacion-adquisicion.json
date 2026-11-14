@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-08",
+  "scientific_and_acquisition_tests": 69,
+  "new_crism_tests": 13,
+  "parameters_package": {
+    "files": 7,
+    "bytes": 188972526,
+    "all_verified": true,
+    "repeat_fetch": "reused verified local files without network",
+    "unfinished_partials": 0,
+    "structural_read": "ENVI SR: 847x808x60 float32; IN: 847x808x9 float32; 18m step; nodata65535"
+  },
+  "full_package": {
+    "files": 13,
+    "reused_verified_files": 7,
+    "additional_bytes": 1338694468,
+    "binary_IF_acquired": false,
+    "budget_guard": "fetch with max-new-gb 0.25 rejected before network or transfer"
+  },
+  "previous_scientific_evidence_files_unchanged": 126,
+  "evidence": [
+    "adquisicion-crism.json",
+    "lectura-crism.json"
+  ],
+  "scientific_status": "Acquisition complete for parameters package. Valid-pixel coverage inside the Jezero polygon and mineral comparison remain unevaluated."
+}

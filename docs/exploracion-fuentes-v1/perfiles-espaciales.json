@@ -1,0 +1,399 @@
+[
+  {
+    "site": "desierto",
+    "source": "3dep",
+    "path": "data/raw/3dep/USGS_1M_12_x53y428_UT_FEMA_FS_FlamingGorge_2020_B20.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 8993056,
+      "denominator": 8993056,
+      "valid_fraction": 1.0,
+      "min": 1539.01904296875,
+      "p05": 1545.4180908203125,
+      "p50": 1560.278564453125,
+      "p95": 1579.326171875,
+      "max": 1651.9669189453125
+    }
+  },
+  {
+    "site": "tropico",
+    "source": "glo30",
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N00_00_E114_00_DEM.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 9409,
+      "denominator": 9409,
+      "valid_fraction": 1.0,
+      "min": 909.5003051757812,
+      "p05": 1024.0001220703125,
+      "p50": 1152.1390380859375,
+      "p95": 1325.349560546875,
+      "max": 1436.1646728515625
+    }
+  },
+  {
+    "site": "desierto",
+    "source": "glo30",
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N38_00_W111_00_DEM.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 11937,
+      "denominator": 11937,
+      "valid_fraction": 1.0,
+      "min": 1538.2034912109375,
+      "p05": 1544.7254150390625,
+      "p50": 1559.5306396484375,
+      "p95": 1578.2822998046875,
+      "max": 1594.09619140625
+    }
+  },
+  {
+    "site": "montana",
+    "source": "glo30",
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N46_00_E011_00_DEM.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 13677,
+      "denominator": 13677,
+      "valid_fraction": 1.0,
+      "min": 256.0,
+      "p05": 258.19952392578125,
+      "p50": 315.8092956542969,
+      "p95": 1103.6218749999996,
+      "max": 1274.6033935546875
+    }
+  },
+  {
+    "site": "costa",
+    "source": "glo30",
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_S24_00_W071_00_DEM.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 10185,
+      "denominator": 10185,
+      "valid_fraction": 1.0,
+      "min": 927.2069702148438,
+      "p05": 950.90546875,
+      "p50": 1012.3988037109375,
+      "p95": 1076.876171875,
+      "max": 1149.3824462890625
+    }
+  },
+  {
+    "site": "polar",
+    "source": "glo30",
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_S81_00_E000_00_DEM.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 11543,
+      "denominator": 11543,
+      "valid_fraction": 1.0,
+      "min": 2291.61279296875,
+      "p05": 2293.6083740234376,
+      "p50": 2296.171630859375,
+      "p95": 2299.08447265625,
+      "max": 2301.563720703125
+    }
+  },
+  {
+    "site": "montana",
+    "source": "jrc",
+    "path": "data/raw/atlas30/jrc/occurrence_10E_50N_v1_5_2024.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 16848,
+      "denominator": 16848,
+      "valid_fraction": 1.0,
+      "min": 0.0,
+      "p05": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 66.0
+    },
+    "raw_value_counts": {
+      "0": 16672,
+      "1": 8,
+      "2": 14,
+      "3": 9,
+      "4": 6,
+      "5": 10,
+      "6": 4,
+      "7": 5,
+      "8": 10,
+      "9": 3,
+      "10": 2,
+      "11": 7,
+      "12": 9,
+      "13": 4,
+      "14": 9,
+      "15": 8,
+      "16": 4,
+      "17": 8,
+      "18": 3,
+      "19": 2,
+      "20": 2,
+      "22": 1,
+      "24": 1,
+      "25": 3,
+      "28": 1,
+      "29": 2,
+      "30": 2,
+      "31": 3,
+      "33": 4,
+      "35": 3,
+      "36": 2,
+      "41": 2,
+      "42": 2,
+      "43": 2,
+      "44": 3,
+      "45": 2,
+      "47": 2,
+      "49": 2,
+      "50": 1,
+      "51": 1,
+      "55": 1,
+      "58": 2,
+      "59": 2,
+      "60": 1,
+      "62": 1,
+      "64": 2,
+      "66": 1
+    }
+  },
+  {
+    "site": "tropico",
+    "source": "jrc",
+    "path": "data/raw/atlas30/jrc/occurrence_110E_10N_v1_5_2024.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 11664,
+      "denominator": 11664,
+      "valid_fraction": 1.0,
+      "min": 0.0,
+      "p05": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0
+    },
+    "raw_value_counts": {
+      "0": 11664
+    }
+  },
+  {
+    "site": "desierto",
+    "source": "jrc",
+    "path": "data/raw/atlas30/jrc/occurrence_120W_40N_v1_5_2024.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 14904,
+      "denominator": 14904,
+      "valid_fraction": 1.0,
+      "min": 0.0,
+      "p05": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 6.0
+    },
+    "raw_value_counts": {
+      "0": 14901,
+      "2": 1,
+      "3": 1,
+      "6": 1
+    }
+  },
+  {
+    "site": "atacama-materiales",
+    "source": "jrc",
+    "path": "data/raw/atlas30/jrc/occurrence_70W_20S_v1_5_2024.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 12744,
+      "denominator": 12744,
+      "valid_fraction": 1.0,
+      "min": 0.0,
+      "p05": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0
+    },
+    "raw_value_counts": {
+      "0": 12744
+    }
+  },
+  {
+    "site": "costa",
+    "source": "jrc",
+    "path": "data/raw/atlas30/jrc/occurrence_80W_20S_v1_5_2024.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 12744,
+      "denominator": 12744,
+      "valid_fraction": 1.0,
+      "min": 0.0,
+      "p05": 0.0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0
+    },
+    "raw_value_counts": {
+      "0": 12744
+    }
+  },
+  {
+    "site": "tropico",
+    "source": "worldcover",
+    "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N00E114_Map.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 105624,
+      "denominator": 105624,
+      "valid_fraction": 1.0,
+      "min": 10.0,
+      "p05": 10.0,
+      "p50": 10.0,
+      "p95": 10.0,
+      "max": 30.0
+    },
+    "raw_value_counts": {
+      "10": 105362,
+      "30": 262
+    },
+    "valid_class_counts": {
+      "10": 105362,
+      "30": 262
+    }
+  },
+  {
+    "site": "desierto",
+    "source": "worldcover",
+    "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N36W111_Map.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 134136,
+      "denominator": 134136,
+      "valid_fraction": 1.0,
+      "min": 10.0,
+      "p05": 60.0,
+      "p50": 60.0,
+      "p95": 60.0,
+      "max": 60.0
+    },
+    "raw_value_counts": {
+      "10": 17,
+      "20": 278,
+      "30": 90,
+      "60": 133751
+    },
+    "valid_class_counts": {
+      "10": 17,
+      "20": 278,
+      "30": 90,
+      "60": 133751
+    }
+  },
+  {
+    "site": "montana",
+    "source": "worldcover",
+    "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N45E009_Map.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 152280,
+      "denominator": 152280,
+      "valid_fraction": 1.0,
+      "min": 10.0,
+      "p05": 10.0,
+      "p50": 10.0,
+      "p95": 50.0,
+      "max": 90.0
+    },
+    "raw_value_counts": {
+      "10": 120904,
+      "30": 19142,
+      "40": 241,
+      "50": 9208,
+      "60": 257,
+      "80": 2526,
+      "90": 2
+    },
+    "valid_class_counts": {
+      "10": 120904,
+      "30": 19142,
+      "40": 241,
+      "50": 9208,
+      "60": 257,
+      "80": 2526,
+      "90": 2
+    }
+  },
+  {
+    "site": "costa",
+    "source": "worldcover",
+    "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_S24W072_Map.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 114752,
+      "denominator": 114752,
+      "valid_fraction": 1.0,
+      "min": 60.0,
+      "p05": 60.0,
+      "p50": 60.0,
+      "p95": 60.0,
+      "max": 60.0
+    },
+    "raw_value_counts": {
+      "60": 114752
+    },
+    "valid_class_counts": {
+      "60": 114752
+    }
+  },
+  {
+    "site": "desierto",
+    "source": "srtm",
+    "path": "data/raw/srtm/N38W111.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 11937,
+      "denominator": 11937,
+      "valid_fraction": 1.0,
+      "min": 1540.0,
+      "p05": 1548.0,
+      "p50": 1563.0,
+      "p95": 1582.0,
+      "max": 1616.0
+    }
+  },
+  {
+    "site": "atacama-materiales",
+    "source": "srtm",
+    "path": "data/raw/srtm/S24W068.tif",
+    "window_m": 3000,
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "statistics": {
+      "n": 10185,
+      "denominator": 10185,
+      "valid_fraction": 1.0,
+      "min": 3382.0,
+      "p05": 3419.0,
+      "p50": 3582.0,
+      "p95": 3714.0,
+      "max": 3750.0
+    }
+  }
+]

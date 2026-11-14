@@ -1,0 +1,65 @@
+{
+  "plan_id": "crism-jezero-47a3-v1",
+  "status": "acquisition_implemented_local_state_in_manifest",
+  "body": "Mars",
+  "observation_id": "FRT000047A3",
+  "authentication": "No Earthdata token required for the public PDS route tested with a one-byte unauthenticated GET.",
+  "coverage_check": {
+    "aoi_file": "docs/evidencia-fase-2/areas-marte.json",
+    "aoi_bbox_lon_lat": [
+      77.39398221615262,
+      18.474809743808823,
+      77.42601778384737,
+      18.505189580800714
+    ],
+    "label_bbox_lon_lat": [
+      77.375951,
+      18.442814,
+      77.642025,
+      18.687974
+    ],
+    "declared_bbox_contains_aoi": true,
+    "valid_pixel_coverage_verified": false,
+    "note": "Declared rectangular bounds only; acquisition does not establish valid-pixel coverage or mineral classes."
+  },
+  "product_directory": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/mtrdr/2007/2007_057/frt000047a3/",
+  "documentation": "https://pds-geosciences.wustl.edu/missions/mro/crism.htm",
+  "minimum_parameter_package": [
+    {
+      "role": "refined_spectral_summary_parameters",
+      "file": "frt000047a3_07_sr166j_mtr3.img",
+      "bytes": 164250240,
+      "url": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/mtrdr/2007/2007_057/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+      "bands": 60
+    },
+    {
+      "role": "supplemental_information_and_mask",
+      "file": "frt000047a3_07_in166j_mtr3.img",
+      "bytes": 24637536,
+      "url": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/mtrdr/2007/2007_057/frt000047a3/frt000047a3_07_in166j_mtr3.img",
+      "bands": 9
+    }
+  ],
+  "full_spectral_cube": {
+    "role": "corrected_reflectance",
+    "file": "frt000047a3_07_if166j_mtr3.img",
+    "bytes": 1338639456,
+    "url": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/mtrdr/2007/2007_057/frt000047a3/frt000047a3_07_if166j_mtr3.img",
+    "bands": 489
+  },
+  "required_metadata": "Keep corresponding HDR, LBL/XML and, for spectral analysis, WV TAB/LBL. Metadata copies are in docs/investigacion-marte.",
+  "next_steps": [
+    "Acquire bounded files, record complete SHA-256 and sizes; preserve metadata.",
+    "Check actual valid pixels and supplemental VNIR/IR mask inside the exact Jezero polygon.",
+    "Review selected spectral parameters or spectra; document indicators and false detections before identifying mineral classes.",
+    "Build a reviewed class correspondence with EMIT. Different instruments and class codes cannot be compared directly."
+  ],
+  "acquisition": {
+    "cli": "scripts/adquirir_marte.py",
+    "default_package": "parameters",
+    "default_plan": "data/manifests/crism-jezero.json",
+    "raw_directory": "data/raw/crism/frt000047a3",
+    "local_state": "Read the verified acquisition manifest or report; this source specification does not claim local file availability."
+  },
+  "not_included": "No mineral labels or cross-planet similarity published. Acquisition of raw products is tracked separately."
+}

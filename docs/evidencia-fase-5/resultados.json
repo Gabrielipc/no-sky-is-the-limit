@@ -1,0 +1,5823 @@
+{
+  "scenario": {
+    "scenario_id": "estabilidad-topografica",
+    "name": "Reconocimiento topográfico · sensibilidad a fuente y escala",
+    "question": "¿Se conservan las decisiones regionales al cambiar GMTED por SRTM a la misma escala, y cómo cambian los descriptores al examinar 60/120 m?",
+    "reference_id": "mars-jezero-fan",
+    "body": "Mars",
+    "window_m": 3000,
+    "scales_m": [
+      60,
+      120,
+      300,
+      600
+    ],
+    "margin_m": 600,
+    "selection_cell_m": 300,
+    "selection_profile": "baseline",
+    "selection_seed": "fase5-v1",
+    "per_stratum": 1,
+    "prefer_local_tiles": true,
+    "max_candidates": 10,
+    "anchors": [
+      "utah-010-007"
+    ],
+    "selection_policy": "Tres controles y ancla de fase 4; una ventana generada por área y decisión base a 300 m. Se prefieren teselas locales y luego el menor SHA-256 de semilla:id. Muestra de conveniencia estratificada; no representa el catálogo ni estima exactitud.",
+    "output": "docs/evidencia-fase-5"
+  },
+  "window_m": 3000,
+  "reference": {
+    "id": "mars-jezero-fan",
+    "name": "Jezero — abanico sedimentario",
+    "body": "Mars",
+    "latitude": 18.49,
+    "longitude": 77.41,
+    "radius_m": 3394839.8133163,
+    "input": "data/raw/hirise/DTEEC_002387_1985_003798_1985_A01.IMG",
+    "product_id": "DTEEC_002387_1985_003798_1985_A01",
+    "version": "1.0",
+    "url": "https://www.uahirise.org/PDS/DTM/PSP/ORB_002300_002399/PSP_002387_1985_PSP_003798_1985/DTEEC_002387_1985_003798_1985_A01.IMG",
+    "bytes": 320045704,
+    "sha256": "268bd5912f0aa0e0b0be8db9004085c2ace78f559377acad0a47b32878c7ccea",
+    "valid_range_m": [
+      -2600.51,
+      -2298.75
+    ],
+    "vertical_reference": "Mars 2000 equipotential surface, label",
+    "observation_dates": [
+      "2007-01-29",
+      "2007-05-19"
+    ],
+    "limitations": [
+      "DTM estéreo, resolución efectiva y precisión local no cuantificadas",
+      "Posibles interpolaciones, facetas y costuras",
+      "La escala de imagen no es la escala del DTM"
+    ],
+    "metrics": [
+      {
+        "cells": 2500,
+        "valid_elevation_cells": 2500,
+        "valid_slope_cells": 2500,
+        "elevation_coverage": 1.0,
+        "slope_coverage": 1.0,
+        "relief_p95_p5_m": 120.14708825278967,
+        "slope_quantiles_deg": {
+          "p10": 1.2322980551947613,
+          "p50": 3.423628035938025,
+          "p90": 10.692963049378598
+        },
+        "slope_histogram_counts": [
+          180,
+          398,
+          1095,
+          548,
+          158,
+          89,
+          32,
+          0,
+          0
+        ],
+        "status": "available_exploratory",
+        "cell_m": 60,
+        "slope_baseline_m": 120,
+        "window_m": 3000
+      },
+      {
+        "cells": 625,
+        "valid_elevation_cells": 625,
+        "valid_slope_cells": 625,
+        "elevation_coverage": 1.0,
+        "slope_coverage": 1.0,
+        "relief_p95_p5_m": 118.27515865583837,
+        "slope_quantiles_deg": {
+          "p10": 1.2332907131681168,
+          "p50": 2.910064182966454,
+          "p90": 8.73420529733886
+        },
+        "slope_histogram_counts": [
+          33,
+          149,
+          291,
+          103,
+          38,
+          11,
+          0,
+          0,
+          0
+        ],
+        "status": "available_exploratory",
+        "cell_m": 120,
+        "slope_baseline_m": 240,
+        "window_m": 3000
+      },
+      {
+        "cells": 100,
+        "valid_elevation_cells": 100,
+        "valid_slope_cells": 100,
+        "elevation_coverage": 1.0,
+        "slope_coverage": 1.0,
+        "relief_p95_p5_m": 111.30265321397201,
+        "slope_quantiles_deg": {
+          "p10": 1.2111986701739024,
+          "p50": 2.350975628117199,
+          "p90": 5.712048848766614
+        },
+        "slope_histogram_counts": [
+          9,
+          26,
+          52,
+          13,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "status": "available_exploratory",
+        "cell_m": 300,
+        "slope_baseline_m": 600,
+        "window_m": 3000
+      },
+      {
+        "cells": 25,
+        "valid_elevation_cells": 25,
+        "valid_slope_cells": 25,
+        "elevation_coverage": 1.0,
+        "slope_coverage": 1.0,
+        "relief_p95_p5_m": 97.28383340168557,
+        "slope_quantiles_deg": {
+          "p10": 1.2775760254464346,
+          "p50": 2.012450708478698,
+          "p90": 3.770598666054797
+        },
+        "slope_histogram_counts": [
+          1,
+          9,
+          15,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "status": "available_exploratory",
+        "cell_m": 600,
+        "slope_baseline_m": 1200,
+        "window_m": 3000
+      }
+    ]
+  },
+  "source_catalog_sha256": "3786f3de7b69b5813f70bcad6b13e01f6d8a27675af8e5c28c9d426b820a0d21",
+  "strata": [
+    {
+      "area_id": "utah",
+      "decision": "accepted",
+      "pool_count": 99,
+      "locally_available_count": 40,
+      "selected_ids": [
+        "utah-006-006"
+      ]
+    },
+    {
+      "area_id": "utah",
+      "decision": "excluded",
+      "pool_count": 173,
+      "locally_available_count": 40,
+      "selected_ids": [
+        "utah-007-005"
+      ]
+    },
+    {
+      "area_id": "mojave",
+      "decision": "accepted",
+      "pool_count": 128,
+      "locally_available_count": 0,
+      "selected_ids": [
+        "mojave-010-013"
+      ]
+    },
+    {
+      "area_id": "mojave",
+      "decision": "excluded",
+      "pool_count": 150,
+      "locally_available_count": 0,
+      "selected_ids": [
+        "mojave-011-002"
+      ]
+    },
+    {
+      "area_id": "atacama",
+      "decision": "accepted",
+      "pool_count": 136,
+      "locally_available_count": 29,
+      "selected_ids": [
+        "atacama-018-014"
+      ]
+    },
+    {
+      "area_id": "atacama",
+      "decision": "excluded",
+      "pool_count": 284,
+      "locally_available_count": 71,
+      "selected_ids": [
+        "atacama-013-011"
+      ]
+    }
+  ],
+  "candidates": [
+    {
+      "id": "atacama-013-011",
+      "name": "Atacama interior · 013/011",
+      "role": "generated",
+      "area_id": "atacama",
+      "latitude": -23.816045228529926,
+      "longitude": -67.91193853366788,
+      "area": {
+        "type": "Feature",
+        "properties": {
+          "site_id": "atacama-013-011",
+          "body": "Earth",
+          "side_m": 3000,
+          "crs_wkt": "GEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]],CS[ellipsoidal,2],AXIS[\"longitude\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"latitude\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]]",
+          "role": "analysis extent; supersedes nominal phase-1 polygon only for this experiment"
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -67.92666096939708,
+                -23.829587850779316
+              ],
+              [
+                -67.92492891814514,
+                -23.82958800640438
+              ],
+              [
+                -67.92319686688934,
+                -23.829588142576306
+              ],
+              [
+                -67.92146481563019,
+                -23.829588259295104
+              ],
+              [
+                -67.91973276436819,
+                -23.829588356560762
+              ],
+              [
+                -67.91800071310388,
+                -23.8295884343733
+              ],
+              [
+                -67.91626866183773,
+                -23.829588492732693
+              ],
+              [
+                -67.91453661057031,
+                -23.82958853163897
+              ],
+              [
+                -67.91280455930212,
+                -23.8295885510921
+              ],
+              [
+                -67.91107250803367,
+                -23.8295885510921
+              ],
+              [
+                -67.90934045676548,
+                -23.82958853163897
+              ],
+              [
+                -67.90760840549805,
+                -23.829588492732693
+              ],
+              [
+                -67.90587635423192,
+                -23.8295884343733
+              ],
+              [
+                -67.90414430296761,
+                -23.829588356560762
+              ],
+              [
+                -67.9024122517056,
+                -23.829588259295104
+              ],
+              [
+                -67.90068020044644,
+                -23.829588142576306
+              ],
+              [
+                -67.89894814919064,
+                -23.82958800640438
+              ],
+              [
+                -67.89721609793871,
+                -23.829587850779316
+              ],
+              [
+                -67.89721627771249,
+                -23.827994519684704
+              ],
+              [
+                -67.8972164574743,
+                -23.82640118826088
+              ],
+              [
+                -67.89721663722418,
+                -23.824807856507853
+              ],
+              [
+                -67.89721681696213,
+                -23.823214524425644
+              ],
+              [
+                -67.89721699668814,
+                -23.821621192014288
+              ],
+              [
+                -67.89721717640221,
+                -23.820027859273775
+              ],
+              [
+                -67.89721735610436,
+                -23.818434526204122
+              ],
+              [
+                -67.89721753579458,
+                -23.816841192805363
+              ],
+              [
+                -67.89721771547285,
+                -23.815247859077502
+              ],
+              [
+                -67.89721789513919,
+                -23.81365452502056
+              ],
+              [
+                -67.8972180747936,
+                -23.812061190634566
+              ],
+              [
+                -67.89721825443607,
+                -23.81046785591951
+              ],
+              [
+                -67.89721843406663,
+                -23.80887452087542
+              ],
+              [
+                -67.89721861368524,
+                -23.807281185502326
+              ],
+              [
+                -67.89721879329193,
+                -23.80568784980023
+              ],
+              [
+                -67.89721897288668,
+                -23.804094513769147
+              ],
+              [
+                -67.89721915246952,
+                -23.802501177409106
+              ],
+              [
+                -67.8989508443649,
+                -23.80250133294689
+              ],
+              [
+                -67.90068253626416,
+                -23.80250146904244
+              ],
+              [
+                -67.90241422816675,
+                -23.802501585695783
+              ],
+              [
+                -67.90414592007218,
+                -23.802501682906893
+              ],
+              [
+                -67.90587761197993,
+                -23.80250176067579
+              ],
+              [
+                -67.90760930388949,
+                -23.802501819002455
+              ],
+              [
+                -67.90934099580033,
+                -23.802501857886906
+              ],
+              [
+                -67.91107268771195,
+                -23.802501877329124
+              ],
+              [
+                -67.91280437962384,
+                -23.802501877329124
+              ],
+              [
+                -67.91453607153545,
+                -23.802501857886906
+              ],
+              [
+                -67.9162677634463,
+                -23.802501819002455
+              ],
+              [
+                -67.91799945535585,
+                -23.80250176067579
+              ],
+              [
+                -67.9197311472636,
+                -23.802501682906893
+              ],
+              [
+                -67.92146283916904,
+                -23.802501585695783
+              ],
+              [
+                -67.92319453107164,
+                -23.80250146904244
+              ],
+              [
+                -67.9249262229709,
+                -23.80250133294689
+              ],
+              [
+                -67.92665791486627,
+                -23.802501177409106
+              ],
+              [
+                -67.92665809444911,
+                -23.804094513769147
+              ],
+              [
+                -67.92665827404386,
+                -23.80568784980023
+              ],
+              [
+                -67.92665845365055,
+                -23.807281185502323
+              ],
+              [
+                -67.92665863326917,
+                -23.80887452087542
+              ],
+              [
+                -67.92665881289972,
+                -23.81046785591951
+              ],
+              [
+                -67.92665899254219,
+                -23.812061190634566
+              ],
+              [
+                -67.9266591721966,
+                -23.81365452502056
+              ],
+              [
+                -67.92665935186294,
+                -23.815247859077502
+              ],
+              [
+                -67.92665953154122,
+                -23.816841192805363
+              ],
+              [
+                -67.92665971123142,
+                -23.818434526204122
+              ],
+              [
+                -67.92665989093358,
+                -23.820027859273775
+              ],
+              [
+                -67.92666007064764,
+                -23.821621192014284
+              ],
+              [
+                -67.92666025037366,
+                -23.823214524425644
+              ],
+              [
+                -67.92666043011161,
+                -23.824807856507853
+              ],
+              [
+                -67.92666060986149,
+                -23.82640118826088
+              ],
+              [
+                -67.92666078962331,
+                -23.827994519684704
+              ],
+              [
+                -67.92666096939708,
+                -23.829587850779316
+              ]
+            ]
+          ]
+        }
+      },
+      "selection": "excluded",
+      "plan": {
+        "candidate_id": "atacama-013-011",
+        "tiles": [
+          {
+            "filename": "S24W068.tif",
+            "local_file": "data/raw/srtm/S24W068.tif",
+            "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/S24W068.tif"
+          }
+        ],
+        "bbox": [
+          -67.93255079946582,
+          -23.835005876861526,
+          -67.89132626786997,
+          -23.797083157143888
+        ],
+        "window_m": 3000,
+        "scales_m": [
+          60,
+          120,
+          300,
+          600
+        ],
+        "status": "pending_acquisition_and_validation",
+        "note": "SRTM is a proposed detail source for these nonpolar areas; file coverage and units require checks. No implicit download in API.",
+        "margin_m": 600
+      },
+      "regional_metrics": [
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 257.3657611639551,
+          "slope_quantiles_deg": {
+            "p10": 1.2509222479263522,
+            "p50": 5.7374501563063935,
+            "p90": 7.883773900264235
+          },
+          "slope_histogram_counts": [
+            9,
+            7,
+            20,
+            63,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 2.399093332232695,
+          "candidate_minus_reference_relief_m": 146.06310794998308,
+          "filter_outcomes": {
+            "strict": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "baseline": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "relaxed": [
+              "relief_difference_above_threshold"
+            ]
+          }
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 244.54117259714712,
+          "slope_quantiles_deg": {
+            "p10": 1.94574462536139,
+            "p50": 5.2344563641916935,
+            "p90": 7.233177932582854
+          },
+          "slope_histogram_counts": [
+            2,
+            1,
+            9,
+            13,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 2.4748850670054376,
+          "candidate_minus_reference_relief_m": 147.25733919546155,
+          "filter_outcomes": {
+            "strict": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "baseline": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "relaxed": [
+              "relief_difference_above_threshold"
+            ]
+          }
+        }
+      ],
+      "status": "evaluated_exploratory",
+      "local_metrics": [
+        {
+          "cells": 2500,
+          "valid_elevation_cells": 2500,
+          "valid_slope_cells": 2500,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 261.9812781390033,
+          "slope_quantiles_deg": {
+            "p10": 1.9067068639243752,
+            "p50": 6.54635918843765,
+            "p90": 11.061987575249882
+          },
+          "slope_histogram_counts": [
+            96,
+            167,
+            517,
+            1344,
+            298,
+            59,
+            19,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 60,
+          "slope_baseline_m": 120,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 2.0263778355305884,
+          "candidate_minus_reference_relief_m": 141.8341898862136
+        },
+        {
+          "cells": 625,
+          "valid_elevation_cells": 625,
+          "valid_slope_cells": 625,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 261.9014881178173,
+          "slope_quantiles_deg": {
+            "p10": 1.4362589229204596,
+            "p50": 6.4080148027745345,
+            "p90": 9.552977011708832
+          },
+          "slope_histogram_counts": [
+            46,
+            38,
+            112,
+            381,
+            45,
+            3,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 120,
+          "slope_baseline_m": 240,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 2.2487971216829687,
+          "candidate_minus_reference_relief_m": 143.6263294619789
+        },
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 260.41968326651113,
+          "slope_quantiles_deg": {
+            "p10": 1.2492158577552606,
+            "p50": 5.925082007714861,
+            "p90": 8.12728317436866
+          },
+          "slope_histogram_counts": [
+            8,
+            7,
+            20,
+            64,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 2.4831475299021455,
+          "candidate_minus_reference_relief_m": 149.11703005253912
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 245.00710783096247,
+          "slope_quantiles_deg": {
+            "p10": 1.9545863370235588,
+            "p50": 5.240426951847757,
+            "p90": 7.255843877722281
+          },
+          "slope_histogram_counts": [
+            2,
+            1,
+            9,
+            13,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 2.4906231607062446,
+          "candidate_minus_reference_relief_m": 147.7232744292769
+        }
+      ],
+      "source_contrasts": [
+        {
+          "cell_m": 300,
+          "status": "compared_exploratory",
+          "candidate_source_wasserstein_deg": 0.11994724946796029,
+          "slope_distance_delta_deg": 0.08405419766945066,
+          "relief_difference_delta_m": 3.0539221025560437,
+          "filter_decisions": {
+            "strict": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "baseline": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "relaxed": {
+              "gmted_reasons": [
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            }
+          }
+        },
+        {
+          "cell_m": 600,
+          "status": "compared_exploratory",
+          "candidate_source_wasserstein_deg": 0.047521375269938965,
+          "slope_distance_delta_deg": 0.01573809370080692,
+          "relief_difference_delta_m": 0.46593523381534396,
+          "filter_decisions": {
+            "strict": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "baseline": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "relaxed": {
+              "gmted_reasons": [
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            }
+          }
+        }
+      ],
+      "missing_tiles": [],
+      "crop": {
+        "file": "data/normalized/fase5/atacama-013-011-srtm.tif",
+        "sha256": "bb07e783de645ab5f9b33051b27fbbc883924a00a57500b464a340c37bd1ad0f"
+      },
+      "inputs": [
+        {
+          "file": "data/raw/srtm/S24W068.tif",
+          "bytes": 16464310,
+          "sha256": "4f64ff3421208d6f1c95cd94e1df9d9c686a877e3905b53fd940ab9cf194db4a",
+          "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/S24W068.tif",
+          "vertical_reference": "Metros EGM96 según documentación SRTM; asignación por procedencia, sin transformación vertical"
+        }
+      ]
+    },
+    {
+      "id": "atacama-018-014",
+      "name": "Atacama interior · 018/014",
+      "role": "generated",
+      "area_id": "atacama",
+      "latitude": -23.3641406378301,
+      "longitude": -67.61883525120581,
+      "area": {
+        "type": "Feature",
+        "properties": {
+          "site_id": "atacama-018-014",
+          "body": "Earth",
+          "side_m": 3000,
+          "crs_wkt": "GEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]],CS[ellipsoidal,2],AXIS[\"longitude\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"latitude\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]]",
+          "role": "analysis extent; supersedes nominal phase-1 polygon only for this experiment"
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -67.63350731860724,
+                -23.377684062779267
+              ],
+              [
+                -67.63178119304047,
+                -23.377684215105184
+              ],
+              [
+                -67.63005506746998,
+                -23.377684348390364
+              ],
+              [
+                -67.6283289418963,
+                -23.37768446263481
+              ],
+              [
+                -67.6266028163199,
+                -23.37768455783851
+              ],
+              [
+                -67.6248766907413,
+                -23.37768463400147
+              ],
+              [
+                -67.62315056516096,
+                -23.377684691123687
+              ],
+              [
+                -67.62142443957939,
+                -23.377684729205175
+              ],
+              [
+                -67.61969831399708,
+                -23.377684748245912
+              ],
+              [
+                -67.61797218841453,
+                -23.377684748245912
+              ],
+              [
+                -67.6162460628322,
+                -23.377684729205175
+              ],
+              [
+                -67.61451993725063,
+                -23.377684691123687
+              ],
+              [
+                -67.6127938116703,
+                -23.37768463400147
+              ],
+              [
+                -67.61106768609169,
+                -23.37768455783851
+              ],
+              [
+                -67.60934156051529,
+                -23.37768446263481
+              ],
+              [
+                -67.60761543494162,
+                -23.377684348390364
+              ],
+              [
+                -67.60588930937112,
+                -23.377684215105184
+              ],
+              [
+                -67.60416318380435,
+                -23.377684062779267
+              ],
+              [
+                -67.60416335915548,
+                -23.376090638983896
+              ],
+              [
+                -67.60416353449489,
+                -23.374497214864064
+              ],
+              [
+                -67.6041637098226,
+                -23.37290379041978
+              ],
+              [
+                -67.60416388513858,
+                -23.37131036565107
+              ],
+              [
+                -67.60416406044286,
+                -23.36971694055794
+              ],
+              [
+                -67.60416423573542,
+                -23.3681235151404
+              ],
+              [
+                -67.60416441101627,
+                -23.366530089398502
+              ],
+              [
+                -67.6041645862854,
+                -23.36493666333222
+              ],
+              [
+                -67.60416476154285,
+                -23.363343236941603
+              ],
+              [
+                -67.60416493678856,
+                -23.36174981022665
+              ],
+              [
+                -67.60416511202259,
+                -23.36015638318738
+              ],
+              [
+                -67.6041652872449,
+                -23.358562955823817
+              ],
+              [
+                -67.6041654624555,
+                -23.35696952813598
+              ],
+              [
+                -67.60416563765439,
+                -23.355376100123873
+              ],
+              [
+                -67.60416581284159,
+                -23.35378267178752
+              ],
+              [
+                -67.60416598801707,
+                -23.35218924312694
+              ],
+              [
+                -67.60416616318085,
+                -23.350595814142142
+              ],
+              [
+                -67.60589193823277,
+                -23.35059596638212
+              ],
+              [
+                -67.60761771328838,
+                -23.350596099592085
+              ],
+              [
+                -67.60934348834718,
+                -23.350596213772064
+              ],
+              [
+                -67.6110692634087,
+                -23.350596308922047
+              ],
+              [
+                -67.61279503847243,
+                -23.35059638504203
+              ],
+              [
+                -67.61452081353787,
+                -23.35059644213202
+              ],
+              [
+                -67.61624658860455,
+                -23.350596480192014
+              ],
+              [
+                -67.61797236367197,
+                -23.350596499222007
+              ],
+              [
+                -67.61969813873964,
+                -23.350596499222007
+              ],
+              [
+                -67.62142391380705,
+                -23.350596480192014
+              ],
+              [
+                -67.62314968887374,
+                -23.35059644213202
+              ],
+              [
+                -67.62487546393919,
+                -23.350596385042028
+              ],
+              [
+                -67.62660123900291,
+                -23.350596308922047
+              ],
+              [
+                -67.62832701406441,
+                -23.35059621377206
+              ],
+              [
+                -67.63005278912321,
+                -23.350596099592085
+              ],
+              [
+                -67.63177856417883,
+                -23.35059596638212
+              ],
+              [
+                -67.63350433923074,
+                -23.350595814142142
+              ],
+              [
+                -67.63350451439452,
+                -23.35218924312694
+              ],
+              [
+                -67.63350468957,
+                -23.35378267178752
+              ],
+              [
+                -67.6335048647572,
+                -23.355376100123873
+              ],
+              [
+                -67.63350503995609,
+                -23.35696952813598
+              ],
+              [
+                -67.63350521516669,
+                -23.358562955823817
+              ],
+              [
+                -67.63350539038902,
+                -23.36015638318738
+              ],
+              [
+                -67.63350556562304,
+                -23.36174981022665
+              ],
+              [
+                -67.63350574086874,
+                -23.363343236941603
+              ],
+              [
+                -67.6335059161262,
+                -23.36493666333222
+              ],
+              [
+                -67.63350609139532,
+                -23.366530089398502
+              ],
+              [
+                -67.63350626667618,
+                -23.3681235151404
+              ],
+              [
+                -67.63350644196875,
+                -23.369716940557932
+              ],
+              [
+                -67.63350661727301,
+                -23.37131036565107
+              ],
+              [
+                -67.633506792589,
+                -23.37290379041978
+              ],
+              [
+                -67.6335069679167,
+                -23.374497214864064
+              ],
+              [
+                -67.63350714325611,
+                -23.376090638983896
+              ],
+              [
+                -67.63350731860724,
+                -23.377684062779267
+              ]
+            ]
+          ]
+        }
+      },
+      "selection": "accepted",
+      "plan": {
+        "candidate_id": "atacama-018-014",
+        "tiles": [
+          {
+            "filename": "S24W068.tif",
+            "local_file": "data/raw/srtm/S24W068.tif",
+            "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/S24W068.tif"
+          }
+        ],
+        "bbox": [
+          -67.63937698029402,
+          -23.38310238918068,
+          -67.59829352211757,
+          -23.3451774932832
+        ],
+        "window_m": 3000,
+        "scales_m": [
+          60,
+          120,
+          300,
+          600
+        ],
+        "status": "pending_acquisition_and_validation",
+        "note": "SRTM is a proposed detail source for these nonpolar areas; file coverage and units require checks. No implicit download in API.",
+        "margin_m": 600
+      },
+      "regional_metrics": [
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 140.50863643367393,
+          "slope_quantiles_deg": {
+            "p10": 1.3513667375252534,
+            "p50": 3.0244371956705622,
+            "p90": 9.928845831011076
+          },
+          "slope_histogram_counts": [
+            2,
+            36,
+            34,
+            18,
+            10,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.4603909903712189,
+          "candidate_minus_reference_relief_m": 29.20598321970192,
+          "filter_outcomes": {
+            "strict": [
+              "slope_distance_above_threshold"
+            ],
+            "baseline": [],
+            "relaxed": []
+          }
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 125.33821290350261,
+          "slope_quantiles_deg": {
+            "p10": 1.4774916139797112,
+            "p50": 4.072765964262075,
+            "p90": 6.682689254035756
+          },
+          "slope_histogram_counts": [
+            0,
+            7,
+            12,
+            6,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.4621312890485338,
+          "candidate_minus_reference_relief_m": 28.05437950181704,
+          "filter_outcomes": {
+            "strict": [
+              "slope_distance_above_threshold"
+            ],
+            "baseline": [],
+            "relaxed": []
+          }
+        }
+      ],
+      "status": "evaluated_exploratory",
+      "local_metrics": [
+        {
+          "cells": 2500,
+          "valid_elevation_cells": 2500,
+          "valid_slope_cells": 2500,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 143.55009150476417,
+          "slope_quantiles_deg": {
+            "p10": 1.1790146804272514,
+            "p50": 2.8363002329819804,
+            "p90": 15.27429281395093
+          },
+          "slope_histogram_counts": [
+            159,
+            681,
+            934,
+            309,
+            154,
+            192,
+            71,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 60,
+          "slope_baseline_m": 120,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 0.9353433673926599,
+          "candidate_minus_reference_relief_m": 23.403003251974496
+        },
+        {
+          "cells": 625,
+          "valid_elevation_cells": 625,
+          "valid_slope_cells": 625,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 143.84407527079202,
+          "slope_quantiles_deg": {
+            "p10": 1.2926316443215613,
+            "p50": 2.753472617773602,
+            "p90": 14.420796549235112
+          },
+          "slope_histogram_counts": [
+            14,
+            242,
+            202,
+            67,
+            46,
+            45,
+            9,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 120,
+          "slope_baseline_m": 240,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.1094438979038685,
+          "candidate_minus_reference_relief_m": 25.56891661495365
+        },
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 141.19854901837607,
+          "slope_quantiles_deg": {
+            "p10": 1.311033992510751,
+            "p50": 2.840781570313596,
+            "p90": 11.084337899795205
+          },
+          "slope_histogram_counts": [
+            1,
+            38,
+            34,
+            14,
+            12,
+            1,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.5810906128870361,
+          "candidate_minus_reference_relief_m": 29.895895804404063
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 125.00759199819004,
+          "slope_quantiles_deg": {
+            "p10": 1.4600281935645982,
+            "p50": 4.115768386098569,
+            "p90": 6.844751735911173
+          },
+          "slope_histogram_counts": [
+            0,
+            7,
+            11,
+            7,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.4825925979756647,
+          "candidate_minus_reference_relief_m": 27.723758596504467
+        }
+      ],
+      "source_contrasts": [
+        {
+          "cell_m": 300,
+          "status": "compared_exploratory",
+          "candidate_source_wasserstein_deg": 0.20873114228182038,
+          "slope_distance_delta_deg": 0.12069962251581723,
+          "relief_difference_delta_m": 0.6899125847021423,
+          "filter_decisions": {
+            "strict": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold"
+              ],
+              "changed": false
+            },
+            "baseline": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            },
+            "relaxed": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            }
+          }
+        },
+        {
+          "cell_m": 600,
+          "status": "compared_exploratory",
+          "candidate_source_wasserstein_deg": 0.06348501391219191,
+          "slope_distance_delta_deg": 0.020461308927130828,
+          "relief_difference_delta_m": -0.33062090531257127,
+          "filter_decisions": {
+            "strict": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold"
+              ],
+              "changed": false
+            },
+            "baseline": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            },
+            "relaxed": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            }
+          }
+        }
+      ],
+      "missing_tiles": [],
+      "crop": {
+        "file": "data/normalized/fase5/atacama-018-014-srtm.tif",
+        "sha256": "3d3990fcfbf1dda0b49c0a75c09444e95c0fa8273545e902f752a3786b984360"
+      },
+      "inputs": [
+        {
+          "file": "data/raw/srtm/S24W068.tif",
+          "bytes": 16464310,
+          "sha256": "4f64ff3421208d6f1c95cd94e1df9d9c686a877e3905b53fd940ab9cf194db4a",
+          "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/S24W068.tif",
+          "vertical_reference": "Metros EGM96 según documentación SRTM; asignación por procedencia, sin transformación vertical"
+        }
+      ]
+    },
+    {
+      "id": "control-atacama",
+      "name": "Atacama — centro de fase 2",
+      "role": "control",
+      "area_id": "atacama",
+      "latitude": -23.8,
+      "longitude": -67.9,
+      "area": {
+        "type": "Feature",
+        "properties": {
+          "site_id": "control-atacama",
+          "body": "Earth",
+          "side_m": 3000,
+          "crs_wkt": "GEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]],CS[ellipsoidal,2],AXIS[\"longitude\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"latitude\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]]",
+          "role": "analysis extent; supersedes nominal phase-1 polygon only for this experiment"
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -67.91472062578245,
+                -23.813542650947916
+              ],
+              [
+                -67.91298878746541,
+                -23.81354280645547
+              ],
+              [
+                -67.91125694914452,
+                -23.813542942524567
+              ],
+              [
+                -67.90952511082027,
+                -23.81354305915522
+              ],
+              [
+                -67.90779327249317,
+                -23.813543156347436
+              ],
+              [
+                -67.90606143416376,
+                -23.81354323410121
+              ],
+              [
+                -67.90432959583255,
+                -23.813543292416536
+              ],
+              [
+                -67.90259775750005,
+                -23.813543331293427
+              ],
+              [
+                -67.90086591916678,
+                -23.81354335073187
+              ],
+              [
+                -67.89913408083325,
+                -23.81354335073187
+              ],
+              [
+                -67.89740224249998,
+                -23.813543331293427
+              ],
+              [
+                -67.89567040416748,
+                -23.813543292416536
+              ],
+              [
+                -67.89393856583627,
+                -23.81354323410121
+              ],
+              [
+                -67.89220672750686,
+                -23.813543156347436
+              ],
+              [
+                -67.89047488917977,
+                -23.81354305915522
+              ],
+              [
+                -67.88874305085551,
+                -23.813542942524567
+              ],
+              [
+                -67.88701121253462,
+                -23.81354280645547
+              ],
+              [
+                -67.88527937421757,
+                -23.813542650947916
+              ],
+              [
+                -67.88527955383316,
+                -23.811949316538808
+              ],
+              [
+                -67.8852797334368,
+                -23.810355981800644
+              ],
+              [
+                -67.8852799130285,
+                -23.80876264673346
+              ],
+              [
+                -67.88528009260828,
+                -23.80716931133725
+              ],
+              [
+                -67.88528027217615,
+                -23.80557597561205
+              ],
+              [
+                -67.88528045173207,
+                -23.80398263955787
+              ],
+              [
+                -67.88528063127607,
+                -23.802389303174728
+              ],
+              [
+                -67.88528081080814,
+                -23.800795966462633
+              ],
+              [
+                -67.8852809903283,
+                -23.79920262942161
+              ],
+              [
+                -67.88528116983652,
+                -23.797609292051675
+              ],
+              [
+                -67.88528134933281,
+                -23.79601595435284
+              ],
+              [
+                -67.88528152881719,
+                -23.79442261632512
+              ],
+              [
+                -67.88528170828965,
+                -23.79282927796854
+              ],
+              [
+                -67.88528188775018,
+                -23.791235939283116
+              ],
+              [
+                -67.88528206719879,
+                -23.789642600268852
+              ],
+              [
+                -67.88528224663548,
+                -23.788049260925785
+              ],
+              [
+                -67.88528242606026,
+                -23.78645592125391
+              ],
+              [
+                -67.88701390533699,
+                -23.78645607667422
+              ],
+              [
+                -67.88874538461758,
+                -23.786456212666995
+              ],
+              [
+                -67.89047686390153,
+                -23.78645632923223
+              ],
+              [
+                -67.8922083431883,
+                -23.78645642636992
+              ],
+              [
+                -67.89393982247739,
+                -23.78645650408008
+              ],
+              [
+                -67.89567130176827,
+                -23.786456562362687
+              ],
+              [
+                -67.89740278106046,
+                -23.78645660121777
+              ],
+              [
+                -67.8991342603534,
+                -23.78645662064531
+              ],
+              [
+                -67.90086573964662,
+                -23.78645662064531
+              ],
+              [
+                -67.90259721893956,
+                -23.78645660121777
+              ],
+              [
+                -67.90432869823175,
+                -23.786456562362687
+              ],
+              [
+                -67.90606017752263,
+                -23.78645650408007
+              ],
+              [
+                -67.90779165681172,
+                -23.78645642636992
+              ],
+              [
+                -67.9095231360985,
+                -23.786456329232227
+              ],
+              [
+                -67.91125461538245,
+                -23.786456212666995
+              ],
+              [
+                -67.91298609466304,
+                -23.78645607667422
+              ],
+              [
+                -67.91471757393977,
+                -23.78645592125391
+              ],
+              [
+                -67.91471775336454,
+                -23.788049260925785
+              ],
+              [
+                -67.91471793280124,
+                -23.789642600268852
+              ],
+              [
+                -67.91471811224984,
+                -23.791235939283116
+              ],
+              [
+                -67.91471829171037,
+                -23.79282927796854
+              ],
+              [
+                -67.91471847118284,
+                -23.79442261632512
+              ],
+              [
+                -67.91471865066721,
+                -23.79601595435284
+              ],
+              [
+                -67.91471883016351,
+                -23.797609292051675
+              ],
+              [
+                -67.91471900967173,
+                -23.79920262942161
+              ],
+              [
+                -67.91471918919189,
+                -23.800795966462633
+              ],
+              [
+                -67.91471936872395,
+                -23.802389303174728
+              ],
+              [
+                -67.91471954826795,
+                -23.80398263955787
+              ],
+              [
+                -67.9147197278239,
+                -23.805575975612047
+              ],
+              [
+                -67.91471990739174,
+                -23.80716931133725
+              ],
+              [
+                -67.91472008697153,
+                -23.80876264673346
+              ],
+              [
+                -67.91472026656322,
+                -23.810355981800644
+              ],
+              [
+                -67.91472044616687,
+                -23.811949316538808
+              ],
+              [
+                -67.91472062578245,
+                -23.813542650947916
+              ]
+            ]
+          ]
+        }
+      },
+      "selection": "control",
+      "plan": {
+        "candidate_id": "control-atacama",
+        "tiles": [
+          {
+            "filename": "S24W068.tif",
+            "local_file": "data/raw/srtm/S24W068.tif",
+            "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/S24W068.tif"
+          }
+        ],
+        "bbox": [
+          -67.92060973111954,
+          -23.81896068776998,
+          -67.87939026888048,
+          -23.781037890238935
+        ],
+        "window_m": 3000,
+        "scales_m": [
+          60,
+          120,
+          300,
+          600
+        ],
+        "status": "pending_acquisition_and_validation",
+        "note": "SRTM is a proposed detail source for these nonpolar areas; file coverage and units require checks. No implicit download in API.",
+        "margin_m": 600
+      },
+      "regional_metrics": [
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 280.7380762437192,
+          "slope_quantiles_deg": {
+            "p10": 4.5485048507618835,
+            "p50": 6.014396003531749,
+            "p90": 8.407831578903554
+          },
+          "slope_histogram_counts": [
+            0,
+            0,
+            20,
+            80,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 3.353745496150082,
+          "candidate_minus_reference_relief_m": 169.4354230297472,
+          "filter_outcomes": {
+            "strict": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "baseline": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "relaxed": [
+              "relief_difference_above_threshold"
+            ]
+          }
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 284.4647338243244,
+          "slope_quantiles_deg": {
+            "p10": 4.292143485735788,
+            "p50": 5.795118942233389,
+            "p90": 7.696498877780116
+          },
+          "slope_histogram_counts": [
+            0,
+            0,
+            9,
+            16,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 3.416947195016742,
+          "candidate_minus_reference_relief_m": 187.18090042263884,
+          "filter_outcomes": {
+            "strict": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "baseline": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "relaxed": [
+              "relief_difference_above_threshold"
+            ]
+          }
+        }
+      ],
+      "status": "evaluated_exploratory",
+      "local_metrics": [
+        {
+          "cells": 2500,
+          "valid_elevation_cells": 2500,
+          "valid_slope_cells": 2500,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 297.11927073914194,
+          "slope_quantiles_deg": {
+            "p10": 4.145900099639482,
+            "p50": 6.843353458754744,
+            "p90": 10.927241535338577
+          },
+          "slope_histogram_counts": [
+            2,
+            13,
+            501,
+            1641,
+            281,
+            55,
+            7,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 60,
+          "slope_baseline_m": 120,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 2.729977333591055,
+          "candidate_minus_reference_relief_m": 176.97218248635227
+        },
+        {
+          "cells": 625,
+          "valid_elevation_cells": 625,
+          "valid_slope_cells": 625,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 295.05522793047385,
+          "slope_quantiles_deg": {
+            "p10": 4.448007808469674,
+            "p50": 6.6165095014078545,
+            "p90": 9.629087735048875
+          },
+          "slope_histogram_counts": [
+            0,
+            3,
+            116,
+            451,
+            54,
+            1,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 120,
+          "slope_baseline_m": 240,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 3.0856620719647223,
+          "candidate_minus_reference_relief_m": 176.78006927463548
+        },
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 284.42696131580624,
+          "slope_quantiles_deg": {
+            "p10": 4.644047781070321,
+            "p50": 6.14016790937879,
+            "p90": 8.331466605248545
+          },
+          "slope_histogram_counts": [
+            0,
+            0,
+            18,
+            82,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 3.4301045658265523,
+          "candidate_minus_reference_relief_m": 173.12430810183423
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 285.8368343772663,
+          "slope_quantiles_deg": {
+            "p10": 4.243730768340884,
+            "p50": 5.84756454783907,
+            "p90": 7.756176604113418
+          },
+          "slope_histogram_counts": [
+            0,
+            0,
+            9,
+            16,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 3.4382482479217518,
+          "candidate_minus_reference_relief_m": 188.55300097558074
+        }
+      ],
+      "source_contrasts": [
+        {
+          "cell_m": 300,
+          "status": "compared_exploratory",
+          "candidate_source_wasserstein_deg": 0.10483877412382323,
+          "slope_distance_delta_deg": 0.07635906967647044,
+          "relief_difference_delta_m": 3.6888850720870323,
+          "filter_decisions": {
+            "strict": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "baseline": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "relaxed": {
+              "gmted_reasons": [
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            }
+          }
+        },
+        {
+          "cell_m": 600,
+          "status": "compared_exploratory",
+          "candidate_source_wasserstein_deg": 0.05438548047347161,
+          "slope_distance_delta_deg": 0.021301052905009943,
+          "relief_difference_delta_m": 1.3721005529419017,
+          "filter_decisions": {
+            "strict": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "baseline": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "relaxed": {
+              "gmted_reasons": [
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            }
+          }
+        }
+      ],
+      "missing_tiles": [],
+      "crop": {
+        "file": "data/normalized/fase5/control-atacama-srtm.tif",
+        "sha256": "c2a79ea5a55ac149fa1795b2be2914e72b0886c4741c79a14391577364fa34b1"
+      },
+      "inputs": [
+        {
+          "file": "data/raw/srtm/S24W068.tif",
+          "bytes": 16464310,
+          "sha256": "4f64ff3421208d6f1c95cd94e1df9d9c686a877e3905b53fd940ab9cf194db4a",
+          "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/S24W068.tif",
+          "vertical_reference": "Metros EGM96 según documentación SRTM; asignación por procedencia, sin transformación vertical"
+        }
+      ]
+    },
+    {
+      "id": "control-mojave",
+      "name": "Silver Lake — control contextual",
+      "role": "control",
+      "area_id": "mojave",
+      "latitude": 35.35,
+      "longitude": -116.1,
+      "area": {
+        "type": "Feature",
+        "properties": {
+          "site_id": "control-mojave",
+          "body": "Earth",
+          "side_m": 3000,
+          "crs_wkt": "GEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]],CS[ellipsoidal,2],AXIS[\"longitude\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"latitude\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]]",
+          "role": "analysis extent; supersedes nominal phase-1 polygon only for this experiment"
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -116.11649930867803,
+                35.336478889430154
+              ],
+              [
+                -116.11455821356924,
+                35.33647913882036
+              ],
+              [
+                -116.1126171184493,
+                35.33647935703679
+              ],
+              [
+                -116.11067602331966,
+                35.33647954407944
+              ],
+              [
+                -116.10873492818182,
+                35.33647969994831
+              ],
+              [
+                -116.10679383303724,
+                35.33647982464342
+              ],
+              [
+                -116.10485273788747,
+                35.33647991816475
+              ],
+              [
+                -116.10291164273399,
+                35.3364799805123
+              ],
+              [
+                -116.10097054757823,
+                35.33648001168608
+              ],
+              [
+                -116.09902945242177,
+                35.33648001168608
+              ],
+              [
+                -116.09708835726603,
+                35.3364799805123
+              ],
+              [
+                -116.09514726211253,
+                35.33647991816475
+              ],
+              [
+                -116.09320616696277,
+                35.33647982464342
+              ],
+              [
+                -116.09126507181819,
+                35.33647969994831
+              ],
+              [
+                -116.08932397668036,
+                35.33647954407944
+              ],
+              [
+                -116.08738288155071,
+                35.33647935703679
+              ],
+              [
+                -116.08544178643076,
+                35.33647913882036
+              ],
+              [
+                -116.08350069132199,
+                35.336478889430154
+              ],
+              [
+                -116.08350036797904,
+                35.33806947736837
+              ],
+              [
+                -116.08350004461496,
+                35.33966006488722
+              ],
+              [
+                -116.08349972122978,
+                35.34125065198672
+              ],
+              [
+                -116.0834993978235,
+                35.34284123866682
+              ],
+              [
+                -116.08349907439607,
+                35.344431824927554
+              ],
+              [
+                -116.08349875094756,
+                35.346022410768896
+              ],
+              [
+                -116.08349842747789,
+                35.34761299619083
+              ],
+              [
+                -116.08349810398711,
+                35.34920358119336
+              ],
+              [
+                -116.08349778047521,
+                35.35079416577646
+              ],
+              [
+                -116.0834974569422,
+                35.35238474994014
+              ],
+              [
+                -116.08349713338802,
+                35.35397533368441
+              ],
+              [
+                -116.08349680981274,
+                35.35556591700922
+              ],
+              [
+                -116.08349648621635,
+                35.35715649991459
+              ],
+              [
+                -116.08349616259879,
+                35.3587470824005
+              ],
+              [
+                -116.0834958389601,
+                35.36033766446695
+              ],
+              [
+                -116.0834955153003,
+                35.36192824611392
+              ],
+              [
+                -116.08349519161935,
+                35.36351882734141
+              ],
+              [
+                -116.0854369337519,
+                35.36351907686896
+              ],
+              [
+                -116.08737867589565,
+                35.363519295205556
+              ],
+              [
+                -116.08932041804911,
+                35.363519482351215
+              ],
+              [
+                -116.0912621602108,
+                35.363519638305945
+              ],
+              [
+                -116.09320390237922,
+                35.36351976306971
+              ],
+              [
+                -116.09514564455286,
+                35.36351985664255
+              ],
+              [
+                -116.09708738673022,
+                35.36351991902443
+              ],
+              [
+                -116.09902912890982,
+                35.363519950215384
+              ],
+              [
+                -116.10097087109018,
+                35.363519950215384
+              ],
+              [
+                -116.1029126132698,
+                35.36351991902443
+              ],
+              [
+                -116.10485435544715,
+                35.36351985664255
+              ],
+              [
+                -116.1067960976208,
+                35.36351976306971
+              ],
+              [
+                -116.1087378397892,
+                35.363519638305945
+              ],
+              [
+                -116.11067958195089,
+                35.36351948235122
+              ],
+              [
+                -116.11262132410437,
+                35.363519295205556
+              ],
+              [
+                -116.11456306624811,
+                35.36351907686896
+              ],
+              [
+                -116.11650480838067,
+                35.36351882734141
+              ],
+              [
+                -116.11650448469972,
+                35.36192824611392
+              ],
+              [
+                -116.1165041610399,
+                35.36033766446695
+              ],
+              [
+                -116.11650383740121,
+                35.3587470824005
+              ],
+              [
+                -116.11650351378367,
+                35.35715649991459
+              ],
+              [
+                -116.11650319018726,
+                35.35556591700922
+              ],
+              [
+                -116.11650286661198,
+                35.35397533368441
+              ],
+              [
+                -116.11650254305782,
+                35.35238474994014
+              ],
+              [
+                -116.1165022195248,
+                35.35079416577646
+              ],
+              [
+                -116.11650189601289,
+                35.34920358119336
+              ],
+              [
+                -116.11650157252211,
+                35.34761299619083
+              ],
+              [
+                -116.11650124905245,
+                35.346022410768896
+              ],
+              [
+                -116.11650092560393,
+                35.344431824927554
+              ],
+              [
+                -116.11650060217652,
+                35.34284123866682
+              ],
+              [
+                -116.11650027877023,
+                35.34125065198672
+              ],
+              [
+                -116.11649995538504,
+                35.33966006488722
+              ],
+              [
+                -116.11649963202098,
+                35.33806947736837
+              ],
+              [
+                -116.11649930867803,
+                35.336478889430154
+              ]
+            ]
+          ]
+        }
+      },
+      "selection": "control",
+      "plan": {
+        "candidate_id": "control-mojave",
+        "tiles": [
+          {
+            "filename": "N35W117.tif",
+            "local_file": "data/raw/srtm/N35W117.tif",
+            "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N35W117.tif"
+          }
+        ],
+        "bbox": [
+          -116.12310827247016,
+          35.331069806316,
+          -116.07689172752985,
+          35.368927927274015
+        ],
+        "window_m": 3000,
+        "scales_m": [
+          60,
+          120,
+          300,
+          600
+        ],
+        "status": "pending_acquisition_and_validation",
+        "note": "SRTM is a proposed detail source for these nonpolar areas; file coverage and units require checks. No implicit download in API.",
+        "margin_m": 600
+      },
+      "regional_metrics": [
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 33.65042911985637,
+          "slope_quantiles_deg": {
+            "p10": 0.05813536979931213,
+            "p50": 0.17833791607596475,
+            "p90": 1.950586851368805
+          },
+          "slope_histogram_counts": [
+            72,
+            19,
+            9,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 2.1768149575216587,
+          "candidate_minus_reference_relief_m": -77.65222409411564,
+          "filter_outcomes": {
+            "strict": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "baseline": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "relaxed": []
+          }
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 27.56108773592956,
+          "slope_quantiles_deg": {
+            "p10": 0.03481472261957209,
+            "p50": 0.19247919737552702,
+            "p90": 1.8547397643858634
+          },
+          "slope_histogram_counts": [
+            19,
+            3,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.7773924736301423,
+          "candidate_minus_reference_relief_m": -69.72274566575601,
+          "filter_outcomes": {
+            "strict": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "baseline": [
+              "relief_difference_above_threshold"
+            ],
+            "relaxed": []
+          }
+        }
+      ],
+      "status": "pending_detail",
+      "local_metrics": null,
+      "source_contrasts": null,
+      "missing_tiles": [
+        "N35W117.tif"
+      ]
+    },
+    {
+      "id": "control-utah",
+      "name": "Utah — centro de fase 2",
+      "role": "control",
+      "area_id": "utah",
+      "latitude": 38.6,
+      "longitude": -110.6,
+      "area": {
+        "type": "Feature",
+        "properties": {
+          "site_id": "control-utah",
+          "body": "Earth",
+          "side_m": 3000,
+          "crs_wkt": "GEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]],CS[ellipsoidal,2],AXIS[\"longitude\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"latitude\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]]",
+          "role": "analysis extent; supersedes nominal phase-1 polygon only for this experiment"
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -110.61721597916335,
+                38.58648616131035
+              ],
+              [
+                -110.61519056988939,
+                38.58648644176185
+              ],
+              [
+                -110.6131651606007,
+                38.58648668715691
+              ],
+              [
+                -110.61113975129916,
+                38.586486897495554
+              ],
+              [
+                -110.60911434198682,
+                38.586487072777736
+              ],
+              [
+                -110.6070889326656,
+                38.5864872130035
+              ],
+              [
+                -110.60506352333749,
+                38.58648731817282
+              ],
+              [
+                -110.60303811400446,
+                38.58648738828568
+              ],
+              [
+                -110.60101270466848,
+                38.58648742334212
+              ],
+              [
+                -110.59898729533151,
+                38.58648742334212
+              ],
+              [
+                -110.59696188599551,
+                38.58648738828568
+              ],
+              [
+                -110.59493647666248,
+                38.58648731817282
+              ],
+              [
+                -110.59291106733438,
+                38.5864872130035
+              ],
+              [
+                -110.59088565801315,
+                38.586487072777736
+              ],
+              [
+                -110.58886024870081,
+                38.586486897495554
+              ],
+              [
+                -110.58683483939929,
+                38.58648668715691
+              ],
+              [
+                -110.58480943011058,
+                38.58648644176185
+              ],
+              [
+                -110.58278402083664,
+                38.58648616131035
+              ],
+              [
+                -110.58278364121432,
+                38.58807587727725
+              ],
+              [
+                -110.58278326156646,
+                38.58966559281116
+              ],
+              [
+                -110.58278288189307,
+                38.591255307912064
+              ],
+              [
+                -110.58278250219412,
+                38.59284502257997
+              ],
+              [
+                -110.58278212246964,
+                38.594434736814854
+              ],
+              [
+                -110.58278174271959,
+                38.59602445061673
+              ],
+              [
+                -110.582781362944,
+                38.59761416398559
+              ],
+              [
+                -110.58278098314285,
+                38.59920387692141
+              ],
+              [
+                -110.58278060331615,
+                38.6007935894242
+              ],
+              [
+                -110.5827802234639,
+                38.60238330149396
+              ],
+              [
+                -110.58277984358608,
+                38.60397301313067
+              ],
+              [
+                -110.58277946368267,
+                38.605562724334334
+              ],
+              [
+                -110.58277908375372,
+                38.60715243510495
+              ],
+              [
+                -110.5827787037992,
+                38.6087421454425
+              ],
+              [
+                -110.58277832381911,
+                38.610331855347
+              ],
+              [
+                -110.58277794381347,
+                38.611921564818395
+              ],
+              [
+                -110.58277756378222,
+                38.61351127385675
+              ],
+              [
+                -110.58480373270956,
+                38.61351155446741
+              ],
+              [
+                -110.5868299016517,
+                38.613511800001724
+              ],
+              [
+                -110.58885607060664,
+                38.61351201045972
+              ],
+              [
+                -110.59088223957247,
+                38.61351218584138
+              ],
+              [
+                -110.59290840854715,
+                38.613512326146704
+              ],
+              [
+                -110.59493457752875,
+                38.61351243137571
+              ],
+              [
+                -110.59696074651526,
+                38.61351250152836
+              ],
+              [
+                -110.59898691550475,
+                38.61351253660469
+              ],
+              [
+                -110.60101308449522,
+                38.61351253660469
+              ],
+              [
+                -110.60303925348471,
+                38.61351250152836
+              ],
+              [
+                -110.60506542247124,
+                38.61351243137571
+              ],
+              [
+                -110.60709159145283,
+                38.61351232614671
+              ],
+              [
+                -110.60911776042752,
+                38.61351218584138
+              ],
+              [
+                -110.61114392939334,
+                38.61351201045972
+              ],
+              [
+                -110.61317009834829,
+                38.613511800001724
+              ],
+              [
+                -110.61519626729041,
+                38.61351155446741
+              ],
+              [
+                -110.61722243621777,
+                38.61351127385675
+              ],
+              [
+                -110.61722205618652,
+                38.611921564818395
+              ],
+              [
+                -110.61722167618086,
+                38.610331855347
+              ],
+              [
+                -110.61722129620077,
+                38.60874214544249
+              ],
+              [
+                -110.61722091624625,
+                38.60715243510495
+              ],
+              [
+                -110.6172205363173,
+                38.605562724334334
+              ],
+              [
+                -110.61722015641391,
+                38.60397301313067
+              ],
+              [
+                -110.61721977653609,
+                38.60238330149396
+              ],
+              [
+                -110.61721939668382,
+                38.6007935894242
+              ],
+              [
+                -110.61721901685713,
+                38.59920387692141
+              ],
+              [
+                -110.61721863705597,
+                38.59761416398559
+              ],
+              [
+                -110.6172182572804,
+                38.59602445061673
+              ],
+              [
+                -110.61721787753035,
+                38.594434736814854
+              ],
+              [
+                -110.61721749780585,
+                38.59284502257997
+              ],
+              [
+                -110.61721711810691,
+                38.591255307912064
+              ],
+              [
+                -110.61721673843351,
+                38.58966559281116
+              ],
+              [
+                -110.61721635878567,
+                38.58807587727725
+              ],
+              [
+                -110.61721597916335,
+                38.58648616131035
+              ]
+            ]
+          ]
+        }
+      },
+      "selection": "control",
+      "plan": {
+        "candidate_id": "control-utah",
+        "tiles": [
+          {
+            "filename": "N38W111.tif",
+            "local_file": "data/raw/srtm/N38W111.tif",
+            "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N38W111.tif"
+          }
+        ],
+        "bbox": [
+          -110.6241132196499,
+          38.5810799081648,
+          -110.57588678035007,
+          38.61891754862396
+        ],
+        "window_m": 3000,
+        "scales_m": [
+          60,
+          120,
+          300,
+          600
+        ],
+        "status": "pending_acquisition_and_validation",
+        "note": "SRTM is a proposed detail source for these nonpolar areas; file coverage and units require checks. No implicit download in API.",
+        "margin_m": 600
+      },
+      "regional_metrics": [
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 29.334054840018098,
+          "slope_quantiles_deg": {
+            "p10": 0.502811097200373,
+            "p50": 0.8285143950005471,
+            "p90": 1.5834128460722592
+          },
+          "slope_histogram_counts": [
+            66,
+            30,
+            4,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.8556344313352502,
+          "candidate_minus_reference_relief_m": -81.96859837395391,
+          "filter_outcomes": {
+            "strict": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "baseline": [
+              "relief_difference_above_threshold"
+            ],
+            "relaxed": []
+          }
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 27.84165002260079,
+          "slope_quantiles_deg": {
+            "p10": 0.4858024259157927,
+            "p50": 0.6737469271613359,
+            "p90": 0.9870235370897378
+          },
+          "slope_histogram_counts": [
+            22,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.6782844094704272,
+          "candidate_minus_reference_relief_m": -69.44218337908478,
+          "filter_outcomes": {
+            "strict": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "baseline": [
+              "relief_difference_above_threshold"
+            ],
+            "relaxed": []
+          }
+        }
+      ],
+      "status": "evaluated_exploratory",
+      "local_metrics": [
+        {
+          "cells": 2500,
+          "valid_elevation_cells": 2500,
+          "valid_slope_cells": 2500,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 33.861671641689554,
+          "slope_quantiles_deg": {
+            "p10": 0.5974032158295052,
+            "p50": 1.649856859800669,
+            "p90": 3.593099550421515
+          },
+          "slope_histogram_counts": [
+            594,
+            1009,
+            799,
+            74,
+            13,
+            9,
+            2,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 60,
+          "slope_baseline_m": 120,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 2.916119552636601,
+          "candidate_minus_reference_relief_m": -86.28541661110012
+        },
+        {
+          "cells": 625,
+          "valid_elevation_cells": 625,
+          "valid_slope_cells": 625,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 33.49433322731102,
+          "slope_quantiles_deg": {
+            "p10": 0.5369046142237219,
+            "p50": 1.199881279515513,
+            "p90": 2.7224009960134734
+          },
+          "slope_histogram_counts": [
+            234,
+            249,
+            124,
+            18,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 120,
+          "slope_baseline_m": 240,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 2.533061067071996,
+          "candidate_minus_reference_relief_m": -84.78082542852735
+        },
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 30.765318067353746,
+          "slope_quantiles_deg": {
+            "p10": 0.49750509354311767,
+            "p50": 0.8688445060206313,
+            "p90": 1.720005342076806
+          },
+          "slope_histogram_counts": [
+            60,
+            35,
+            5,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.8094387924442463,
+          "candidate_minus_reference_relief_m": -80.53733514661826
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 28.49814637027498,
+          "slope_quantiles_deg": {
+            "p10": 0.510831891476048,
+            "p50": 0.6740163123522614,
+            "p90": 1.0028974278607725
+          },
+          "slope_histogram_counts": [
+            22,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.6680002424099454,
+          "candidate_minus_reference_relief_m": -68.78568703141059
+        }
+      ],
+      "source_contrasts": [
+        {
+          "cell_m": 300,
+          "status": "compared_exploratory",
+          "candidate_source_wasserstein_deg": 0.05460877035376891,
+          "slope_distance_delta_deg": -0.046195638891003865,
+          "relief_difference_delta_m": 1.4312632273356485,
+          "filter_decisions": {
+            "strict": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "baseline": {
+              "gmted_reasons": [
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "relaxed": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            }
+          }
+        },
+        {
+          "cell_m": 600,
+          "status": "compared_exploratory",
+          "candidate_source_wasserstein_deg": 0.014332767808946406,
+          "slope_distance_delta_deg": -0.010284167060481852,
+          "relief_difference_delta_m": 0.6564963476741923,
+          "filter_decisions": {
+            "strict": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "baseline": {
+              "gmted_reasons": [
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "relaxed": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            }
+          }
+        }
+      ],
+      "missing_tiles": [],
+      "crop": {
+        "file": "data/normalized/fase5/control-utah-srtm.tif",
+        "sha256": "dfa65ab5b3e6f8143efc5de7f7b3c72db8088014714ead5bb401a1a8ed9531ad"
+      },
+      "inputs": [
+        {
+          "file": "data/raw/srtm/N38W111.tif",
+          "bytes": 14938692,
+          "sha256": "73520c1f4d04871db3a999fb2570c4eef723fb18d5a507cc60ba5c22ccac828c",
+          "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N38W111.tif",
+          "vertical_reference": "Metros EGM96 según documentación SRTM; asignación por procedencia, sin transformación vertical"
+        }
+      ]
+    },
+    {
+      "id": "mojave-010-013",
+      "name": "Mojave interior · 010/013",
+      "role": "generated",
+      "area_id": "mojave",
+      "latitude": 35.41412339611552,
+      "longitude": -116.0633511438301,
+      "area": {
+        "type": "Feature",
+        "properties": {
+          "site_id": "mojave-010-013",
+          "body": "Earth",
+          "side_m": 3000,
+          "crs_wkt": "GEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]],CS[ellipsoidal,2],AXIS[\"longitude\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"latitude\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]]",
+          "role": "analysis extent; supersedes nominal phase-1 polygon only for this experiment"
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -116.07986350667332,
+                35.40060242665608
+              ],
+              [
+                -116.07792087578056,
+                35.400602676634634
+              ],
+              [
+                -116.07597824487657,
+                35.40060289536587
+              ],
+              [
+                -116.0740356139628,
+                35.400603082849784
+              ],
+              [
+                -116.07209298304082,
+                35.40060323908638
+              ],
+              [
+                -116.07015035211208,
+                35.400603364075664
+              ],
+              [
+                -116.0682077211781,
+                35.40060345781762
+              ],
+              [
+                -116.06626509024035,
+                35.40060352031225
+              ],
+              [
+                -116.06432245930036,
+                35.400603551559584
+              ],
+              [
+                -116.06237982835964,
+                35.400603551559584
+              ],
+              [
+                -116.06043719741966,
+                35.40060352031225
+              ],
+              [
+                -116.05849456648191,
+                35.40060345781762
+              ],
+              [
+                -116.05655193554793,
+                35.400603364075664
+              ],
+              [
+                -116.05460930461919,
+                35.40060323908638
+              ],
+              [
+                -116.05266667369719,
+                35.400603082849784
+              ],
+              [
+                -116.05072404278344,
+                35.40060289536587
+              ],
+              [
+                -116.04878141187943,
+                35.400602676634634
+              ],
+              [
+                -116.04683878098668,
+                35.40060242665608
+              ],
+              [
+                -116.04683845662093,
+                35.40219299768162
+              ],
+              [
+                -116.046838132234,
+                35.403783568287466
+              ],
+              [
+                -116.04683780782587,
+                35.405374138473626
+              ],
+              [
+                -116.04683748339657,
+                35.40696470824008
+              ],
+              [
+                -116.04683715894605,
+                35.40855527758684
+              ],
+              [
+                -116.04683683447436,
+                35.410145846513885
+              ],
+              [
+                -116.04683650998145,
+                35.4117364150212
+              ],
+              [
+                -116.04683618546737,
+                35.41332698310878
+              ],
+              [
+                -116.04683586093206,
+                35.41491755077664
+              ],
+              [
+                -116.04683553637555,
+                35.41650811802476
+              ],
+              [
+                -116.04683521179786,
+                35.4180986848531
+              ],
+              [
+                -116.04683488719894,
+                35.41968925126169
+              ],
+              [
+                -116.04683456257881,
+                35.4212798172505
+              ],
+              [
+                -116.04683423793749,
+                35.42287038281955
+              ],
+              [
+                -116.04683391327494,
+                35.424460947968804
+              ],
+              [
+                -116.04683358859118,
+                35.426051512698265
+              ],
+              [
+                -116.0468332638862,
+                35.427642077007924
+              ],
+              [
+                -116.04877654384956,
+                35.42764232712422
+              ],
+              [
+                -116.05071982382417,
+                35.42764254597596
+              ],
+              [
+                -116.05266310380856,
+                35.427642733563175
+              ],
+              [
+                -116.05460638380117,
+                35.42764288988586
+              ],
+              [
+                -116.0565496638006,
+                35.427643014944
+              ],
+              [
+                -116.05849294380522,
+                35.427643108737605
+              ],
+              [
+                -116.06043622381365,
+                35.42764317126668
+              ],
+              [
+                -116.06237950382429,
+                35.427643202531215
+              ],
+              [
+                -116.06432278383572,
+                35.427643202531215
+              ],
+              [
+                -116.06626606384636,
+                35.42764317126668
+              ],
+              [
+                -116.06820934385478,
+                35.427643108737605
+              ],
+              [
+                -116.07015262385941,
+                35.427643014943996
+              ],
+              [
+                -116.07209590385882,
+                35.42764288988586
+              ],
+              [
+                -116.07403918385145,
+                35.427642733563175
+              ],
+              [
+                -116.07598246383583,
+                35.42764254597596
+              ],
+              [
+                -116.07792574381044,
+                35.42764232712422
+              ],
+              [
+                -116.07986902377381,
+                35.427642077007924
+              ],
+              [
+                -116.07986869906881,
+                35.426051512698265
+              ],
+              [
+                -116.07986837438507,
+                35.424460947968804
+              ],
+              [
+                -116.07986804972252,
+                35.422870382819546
+              ],
+              [
+                -116.07986772508119,
+                35.4212798172505
+              ],
+              [
+                -116.07986740046105,
+                35.41968925126169
+              ],
+              [
+                -116.07986707586214,
+                35.4180986848531
+              ],
+              [
+                -116.07986675128446,
+                35.41650811802476
+              ],
+              [
+                -116.07986642672793,
+                35.41491755077664
+              ],
+              [
+                -116.07986610219263,
+                35.41332698310878
+              ],
+              [
+                -116.07986577767855,
+                35.4117364150212
+              ],
+              [
+                -116.07986545318565,
+                35.410145846513885
+              ],
+              [
+                -116.07986512871395,
+                35.408555277586835
+              ],
+              [
+                -116.07986480426342,
+                35.40696470824008
+              ],
+              [
+                -116.07986447983413,
+                35.405374138473626
+              ],
+              [
+                -116.079864155426,
+                35.403783568287466
+              ],
+              [
+                -116.07986383103906,
+                35.40219299768162
+              ],
+              [
+                -116.07986350667332,
+                35.40060242665608
+              ]
+            ]
+          ]
+        }
+      },
+      "selection": "accepted",
+      "plan": {
+        "candidate_id": "mojave-010-013",
+        "tiles": [
+          {
+            "filename": "N35W117.tif",
+            "local_file": "data/raw/srtm/N35W117.tif",
+            "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N35W117.tif"
+          }
+        ],
+        "bbox": [
+          -116.0864777213625,
+          35.39519339849248,
+          -116.04022456629751,
+          35.433051122076364
+        ],
+        "window_m": 3000,
+        "scales_m": [
+          60,
+          120,
+          300,
+          600
+        ],
+        "status": "pending_acquisition_and_validation",
+        "note": "SRTM is a proposed detail source for these nonpolar areas; file coverage and units require checks. No implicit download in API.",
+        "margin_m": 600
+      },
+      "regional_metrics": [
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 130.5479653540446,
+          "slope_quantiles_deg": {
+            "p10": 2.1849945391022207,
+            "p50": 3.2371343645863857,
+            "p90": 5.878664718626728
+          },
+          "slope_histogram_counts": [
+            2,
+            5,
+            74,
+            19,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 0.852170019725009,
+          "candidate_minus_reference_relief_m": 19.2453121400726,
+          "filter_outcomes": {
+            "strict": [],
+            "baseline": [],
+            "relaxed": []
+          }
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 119.42940552868527,
+          "slope_quantiles_deg": {
+            "p10": 1.5497511796374113,
+            "p50": 3.1389068142586063,
+            "p90": 4.318708165078805
+          },
+          "slope_histogram_counts": [
+            2,
+            1,
+            21,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 0.694167472519986,
+          "candidate_minus_reference_relief_m": 22.145572126999696,
+          "filter_outcomes": {
+            "strict": [],
+            "baseline": [],
+            "relaxed": []
+          }
+        }
+      ],
+      "status": "pending_detail",
+      "local_metrics": null,
+      "source_contrasts": null,
+      "missing_tiles": [
+        "N35W117.tif"
+      ]
+    },
+    {
+      "id": "mojave-011-002",
+      "name": "Mojave interior · 011/002",
+      "role": "generated",
+      "area_id": "mojave",
+      "latitude": 35.502561206118294,
+      "longitude": -117.27531428873478,
+      "area": {
+        "type": "Feature",
+        "properties": {
+          "site_id": "mojave-011-002",
+          "body": "Earth",
+          "side_m": 3000,
+          "crs_wkt": "GEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]],CS[ellipsoidal,2],AXIS[\"longitude\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"latitude\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]]",
+          "role": "analysis extent; supersedes nominal phase-1 polygon only for this experiment"
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -117.29184472365186,
+                35.48904043145176
+              ],
+              [
+                -117.28989996663304,
+                35.48904068224328
+              ],
+              [
+                -117.28795520960288,
+                35.48904090168583
+              ],
+              [
+                -117.28601045256292,
+                35.48904108977948
+              ],
+              [
+                -117.28406569551461,
+                35.48904124652417
+              ],
+              [
+                -117.28212093845953,
+                35.489041371919924
+              ],
+              [
+                -117.28017618139916,
+                35.48904146596674
+              ],
+              [
+                -117.278231424335,
+                35.489041528664615
+              ],
+              [
+                -117.2762866672686,
+                35.48904156001357
+              ],
+              [
+                -117.27434191020141,
+                35.48904156001357
+              ],
+              [
+                -117.272397153135,
+                35.489041528664615
+              ],
+              [
+                -117.27045239607085,
+                35.48904146596674
+              ],
+              [
+                -117.2685076390105,
+                35.489041371919924
+              ],
+              [
+                -117.2665628819554,
+                35.48904124652417
+              ],
+              [
+                -117.2646181249071,
+                35.48904108977948
+              ],
+              [
+                -117.26267336786712,
+                35.48904090168583
+              ],
+              [
+                -117.26072861083696,
+                35.48904068224328
+              ],
+              [
+                -117.25878385381816,
+                35.48904043145176
+              ],
+              [
+                -117.25878352803646,
+                35.49063097913012
+              ],
+              [
+                -117.25878320223349,
+                35.492221526388334
+              ],
+              [
+                -117.25878287640923,
+                35.49381207322643
+              ],
+              [
+                -117.25878255056367,
+                35.49540261964438
+              ],
+              [
+                -117.25878222469677,
+                35.4969931656422
+              ],
+              [
+                -117.25878189880862,
+                35.49858371121986
+              ],
+              [
+                -117.25878157289914,
+                35.500174256377356
+              ],
+              [
+                -117.25878124696837,
+                35.501764801114675
+              ],
+              [
+                -117.25878092101627,
+                35.503355345431814
+              ],
+              [
+                -117.25878059504286,
+                35.50494588932879
+              ],
+              [
+                -117.25878026904815,
+                35.50653643280553
+              ],
+              [
+                -117.25877994303214,
+                35.5081269758621
+              ],
+              [
+                -117.2587796169948,
+                35.509717518498455
+              ],
+              [
+                -117.25877929093615,
+                35.51130806071458
+              ],
+              [
+                -117.25877896485616,
+                35.51289860251049
+              ],
+              [
+                -117.25877863875488,
+                35.514489143886166
+              ],
+              [
+                -117.25877831263226,
+                35.5160796848416
+              ],
+              [
+                -117.26072372155525,
+                35.51607993577138
+              ],
+              [
+                -117.26266913048961,
+                35.51608015533494
+              ],
+              [
+                -117.2646145394338,
+                35.51608034353228
+              ],
+              [
+                -117.2665599483863,
+                35.516080500363394
+              ],
+              [
+                -117.26850535734562,
+                35.51608062582828
+              ],
+              [
+                -117.27045076631023,
+                35.51608071992694
+              ],
+              [
+                -117.27239617527863,
+                35.51608078265939
+              ],
+              [
+                -117.2743415842493,
+                35.51608081402562
+              ],
+              [
+                -117.27628699322072,
+                35.51608081402562
+              ],
+              [
+                -117.27823240219138,
+                35.51608078265939
+              ],
+              [
+                -117.28017781115977,
+                35.51608071992694
+              ],
+              [
+                -117.28212322012439,
+                35.51608062582827
+              ],
+              [
+                -117.2840686290837,
+                35.516080500363394
+              ],
+              [
+                -117.28601403803623,
+                35.51608034353227
+              ],
+              [
+                -117.2879594469804,
+                35.51608015533494
+              ],
+              [
+                -117.28990485591476,
+                35.51607993577138
+              ],
+              [
+                -117.29185026483776,
+                35.5160796848416
+              ],
+              [
+                -117.29184993871513,
+                35.514489143886166
+              ],
+              [
+                -117.29184961261386,
+                35.51289860251049
+              ],
+              [
+                -117.29184928653387,
+                35.51130806071458
+              ],
+              [
+                -117.2918489604752,
+                35.509717518498455
+              ],
+              [
+                -117.29184863443787,
+                35.5081269758621
+              ],
+              [
+                -117.29184830842186,
+                35.50653643280553
+              ],
+              [
+                -117.29184798242714,
+                35.50494588932879
+              ],
+              [
+                -117.29184765645374,
+                35.503355345431814
+              ],
+              [
+                -117.29184733050165,
+                35.501764801114675
+              ],
+              [
+                -117.29184700457087,
+                35.500174256377356
+              ],
+              [
+                -117.29184667866139,
+                35.49858371121986
+              ],
+              [
+                -117.29184635277323,
+                35.4969931656422
+              ],
+              [
+                -117.29184602690636,
+                35.49540261964438
+              ],
+              [
+                -117.2918457010608,
+                35.49381207322643
+              ],
+              [
+                -117.29184537523652,
+                35.492221526388334
+              ],
+              [
+                -117.29184504943355,
+                35.49063097913012
+              ],
+              [
+                -117.29184472365186,
+                35.48904043145176
+              ]
+            ]
+          ]
+        }
+      },
+      "selection": "excluded",
+      "plan": {
+        "candidate_id": "mojave-011-002",
+        "tiles": [
+          {
+            "filename": "N35W118.tif",
+            "local_file": "data/raw/srtm/N35W118.tif",
+            "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N35W118.tif"
+          }
+        ],
+        "bbox": [
+          -117.29846620763757,
+          35.4836314791416,
+          -117.25216236983243,
+          35.5214886541763
+        ],
+        "window_m": 3000,
+        "scales_m": [
+          60,
+          120,
+          300,
+          600
+        ],
+        "status": "pending_acquisition_and_validation",
+        "note": "SRTM is a proposed detail source for these nonpolar areas; file coverage and units require checks. No implicit download in API.",
+        "margin_m": 600
+      },
+      "regional_metrics": [
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 42.60239626876182,
+          "slope_quantiles_deg": {
+            "p10": 0.7501368327113583,
+            "p50": 0.9533843764456924,
+            "p90": 1.1633760954691348
+          },
+          "slope_histogram_counts": [
+            64,
+            36,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.896326708657513,
+          "candidate_minus_reference_relief_m": -68.70025694521019,
+          "filter_outcomes": {
+            "strict": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "baseline": [
+              "relief_difference_above_threshold"
+            ],
+            "relaxed": []
+          }
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 41.16915972412562,
+          "slope_quantiles_deg": {
+            "p10": 0.7134010143813153,
+            "p50": 0.9653497200866097,
+            "p90": 1.1239358651741693
+          },
+          "slope_histogram_counts": [
+            17,
+            8,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.4726079692779988,
+          "candidate_minus_reference_relief_m": -56.11467367755995,
+          "filter_outcomes": {
+            "strict": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "baseline": [],
+            "relaxed": []
+          }
+        }
+      ],
+      "status": "pending_detail",
+      "local_metrics": null,
+      "source_contrasts": null,
+      "missing_tiles": [
+        "N35W118.tif"
+      ]
+    },
+    {
+      "id": "utah-006-006",
+      "name": "Utah interior · 006/006",
+      "role": "generated",
+      "area_id": "utah",
+      "latitude": 38.55365454435692,
+      "longitude": -110.80209746192392,
+      "area": {
+        "type": "Feature",
+        "properties": {
+          "site_id": "utah-006-006",
+          "body": "Earth",
+          "side_m": 3000,
+          "crs_wkt": "GEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]],CS[ellipsoidal,2],AXIS[\"longitude\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"latitude\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]]",
+          "role": "analysis extent; supersedes nominal phase-1 polygon only for this experiment"
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -110.81930238804064,
+                38.54014060047156
+              ],
+              [
+                -110.81727827912499,
+                38.5401408804611
+              ],
+              [
+                -110.8152541701946,
+                38.54014112545196
+              ],
+              [
+                -110.81323006125147,
+                38.54014133544411
+              ],
+              [
+                -110.81120595229756,
+                38.540141510437586
+              ],
+              [
+                -110.80918184333483,
+                38.540141650432346
+              ],
+              [
+                -110.8071577343652,
+                38.540141755428444
+              ],
+              [
+                -110.80513362539068,
+                38.54014182542582
+              ],
+              [
+                -110.80310951641323,
+                38.54014186042451
+              ],
+              [
+                -110.80108540743478,
+                38.54014186042451
+              ],
+              [
+                -110.79906129845733,
+                38.54014182542582
+              ],
+              [
+                -110.79703718948281,
+                38.540141755428444
+              ],
+              [
+                -110.79501308051319,
+                38.540141650432346
+              ],
+              [
+                -110.79298897155046,
+                38.540141510437586
+              ],
+              [
+                -110.79096486259652,
+                38.54014133544411
+              ],
+              [
+                -110.78894075365339,
+                38.54014112545196
+              ],
+              [
+                -110.78691664472302,
+                38.5401408804611
+              ],
+              [
+                -110.78489253580737,
+                38.54014060047156
+              ],
+              [
+                -110.78489215705677,
+                38.541730329059355
+              ],
+              [
+                -110.7848917782807,
+                38.5433200572143
+              ],
+              [
+                -110.78489139947916,
+                38.544909784936415
+              ],
+              [
+                -110.78489102065215,
+                38.546499512225665
+              ],
+              [
+                -110.78489064179966,
+                38.548089239082074
+              ],
+              [
+                -110.7848902629217,
+                38.549678965505606
+              ],
+              [
+                -110.78488988401826,
+                38.55126869149628
+              ],
+              [
+                -110.78488950508932,
+                38.552858417054075
+              ],
+              [
+                -110.7848891261349,
+                38.554448142179005
+              ],
+              [
+                -110.78488874715501,
+                38.55603786687105
+              ],
+              [
+                -110.78488836814961,
+                38.5576275911302
+              ],
+              [
+                -110.78488798911873,
+                38.55921731495646
+              ],
+              [
+                -110.78488761006236,
+                38.56080703834982
+              ],
+              [
+                -110.78488723098049,
+                38.56239676131028
+              ],
+              [
+                -110.78488685187311,
+                38.56398648383783
+              ],
+              [
+                -110.78488647274025,
+                38.565576205932466
+              ],
+              [
+                -110.78488609358186,
+                38.56716592759418
+              ],
+              [
+                -110.78691096040635,
+                38.56716620774253
+              ],
+              [
+                -110.78893582724557,
+                38.567166452872335
+              ],
+              [
+                -110.79096069409756,
+                38.56716666298359
+              ],
+              [
+                -110.79298556096035,
+                38.56716683807632
+              ],
+              [
+                -110.79501042783198,
+                38.56716697815049
+              ],
+              [
+                -110.79703529471051,
+                38.56716708320613
+              ],
+              [
+                -110.79906016159394,
+                38.56716715324321
+              ],
+              [
+                -110.80108502848032,
+                38.567167188261756
+              ],
+              [
+                -110.80310989536768,
+                38.567167188261756
+              ],
+              [
+                -110.80513476225406,
+                38.56716715324321
+              ],
+              [
+                -110.8071596291375,
+                38.56716708320613
+              ],
+              [
+                -110.80918449601602,
+                38.56716697815049
+              ],
+              [
+                -110.81120936288767,
+                38.56716683807632
+              ],
+              [
+                -110.81323422975046,
+                38.56716666298359
+              ],
+              [
+                -110.81525909660245,
+                38.567166452872335
+              ],
+              [
+                -110.81728396344167,
+                38.56716620774253
+              ],
+              [
+                -110.81930883026614,
+                38.56716592759418
+              ],
+              [
+                -110.81930845110776,
+                38.565576205932466
+              ],
+              [
+                -110.8193080719749,
+                38.56398648383783
+              ],
+              [
+                -110.81930769286753,
+                38.56239676131028
+              ],
+              [
+                -110.81930731378564,
+                38.56080703834982
+              ],
+              [
+                -110.81930693472928,
+                38.55921731495646
+              ],
+              [
+                -110.8193065556984,
+                38.5576275911302
+              ],
+              [
+                -110.819306176693,
+                38.55603786687105
+              ],
+              [
+                -110.8193057977131,
+                38.554448142179005
+              ],
+              [
+                -110.81930541875869,
+                38.552858417054075
+              ],
+              [
+                -110.81930503982976,
+                38.55126869149628
+              ],
+              [
+                -110.8193046609263,
+                38.549678965505606
+              ],
+              [
+                -110.81930428204835,
+                38.54808923908207
+              ],
+              [
+                -110.81930390319586,
+                38.546499512225665
+              ],
+              [
+                -110.81930352436885,
+                38.544909784936415
+              ],
+              [
+                -110.81930314556732,
+                38.5433200572143
+              ],
+              [
+                -110.81930276679124,
+                38.541730329059355
+              ],
+              [
+                -110.81930238804064,
+                38.54014060047156
+              ]
+            ]
+          ]
+        }
+      },
+      "selection": "accepted",
+      "plan": {
+        "candidate_id": "utah-006-006",
+        "tiles": [
+          {
+            "filename": "N38W111.tif",
+            "local_file": "data/raw/srtm/N38W111.tif",
+            "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N38W111.tif"
+          }
+        ],
+        "bbox": [
+          -110.8261951823935,
+          38.53473430641846,
+          -110.77799974145451,
+          38.5725722431941
+        ],
+        "window_m": 3000,
+        "scales_m": [
+          60,
+          120,
+          300,
+          600
+        ],
+        "status": "pending_acquisition_and_validation",
+        "note": "SRTM is a proposed detail source for these nonpolar areas; file coverage and units require checks. No implicit download in API.",
+        "margin_m": 600
+      },
+      "regional_metrics": [
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 139.68208702334232,
+          "slope_quantiles_deg": {
+            "p10": 2.246992522950079,
+            "p50": 3.313333073048798,
+            "p90": 5.294659150088995
+          },
+          "slope_histogram_counts": [
+            0,
+            5,
+            84,
+            9,
+            2,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 0.8934661415997932,
+          "candidate_minus_reference_relief_m": 28.379433809370312,
+          "filter_outcomes": {
+            "strict": [],
+            "baseline": [],
+            "relaxed": []
+          }
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 123.87777804041434,
+          "slope_quantiles_deg": {
+            "p10": 2.1531875201172603,
+            "p50": 3.03570745604481,
+            "p90": 4.110527109963029
+          },
+          "slope_histogram_counts": [
+            0,
+            1,
+            24,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 0.6960186880957422,
+          "candidate_minus_reference_relief_m": 26.59394463872877,
+          "filter_outcomes": {
+            "strict": [],
+            "baseline": [],
+            "relaxed": []
+          }
+        }
+      ],
+      "status": "evaluated_exploratory",
+      "local_metrics": [
+        {
+          "cells": 2500,
+          "valid_elevation_cells": 2500,
+          "valid_slope_cells": 2500,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 140.98337932761,
+          "slope_quantiles_deg": {
+            "p10": 2.0785708310603908,
+            "p50": 4.220438420751958,
+            "p90": 11.040750915042992
+          },
+          "slope_histogram_counts": [
+            32,
+            192,
+            1280,
+            676,
+            204,
+            67,
+            45,
+            4,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 60,
+          "slope_baseline_m": 120,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 0.7627627413721811,
+          "candidate_minus_reference_relief_m": 20.836291074820338
+        },
+        {
+          "cells": 625,
+          "valid_elevation_cells": 625,
+          "valid_slope_cells": 625,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 141.47906269098735,
+          "slope_quantiles_deg": {
+            "p10": 2.16175936877781,
+            "p50": 3.8164233444215436,
+            "p90": 8.702504897376633
+          },
+          "slope_histogram_counts": [
+            5,
+            39,
+            387,
+            152,
+            28,
+            8,
+            6,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 120,
+          "slope_baseline_m": 240,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 0.8404748642131341,
+          "candidate_minus_reference_relief_m": 23.20390403514898
+        },
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 136.1464572641662,
+          "slope_quantiles_deg": {
+            "p10": 2.214200141558304,
+            "p50": 3.2669477530129996,
+            "p90": 5.480467190583227
+          },
+          "slope_histogram_counts": [
+            0,
+            7,
+            79,
+            12,
+            2,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 0.9038745703376199,
+          "candidate_minus_reference_relief_m": 24.843804050194194
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 122.9933596844553,
+          "slope_quantiles_deg": {
+            "p10": 2.1271741083523352,
+            "p50": 3.0423684895330054,
+            "p90": 4.191306637520574
+          },
+          "slope_histogram_counts": [
+            0,
+            1,
+            24,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 0.7245221535622403,
+          "candidate_minus_reference_relief_m": 25.70952628276973
+        }
+      ],
+      "source_contrasts": [
+        {
+          "cell_m": 300,
+          "status": "compared_exploratory",
+          "candidate_source_wasserstein_deg": 0.11719746362664123,
+          "slope_distance_delta_deg": 0.010408428737826658,
+          "relief_difference_delta_m": -3.5356297591761177,
+          "filter_decisions": {
+            "strict": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            },
+            "baseline": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            },
+            "relaxed": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            }
+          }
+        },
+        {
+          "cell_m": 600,
+          "status": "compared_exploratory",
+          "candidate_source_wasserstein_deg": 0.05554543092767829,
+          "slope_distance_delta_deg": 0.028503465466498068,
+          "relief_difference_delta_m": -0.884418355959042,
+          "filter_decisions": {
+            "strict": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            },
+            "baseline": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            },
+            "relaxed": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            }
+          }
+        }
+      ],
+      "missing_tiles": [],
+      "crop": {
+        "file": "data/normalized/fase5/utah-006-006-srtm.tif",
+        "sha256": "5ec763dcccff5e2ad4b3d1abd510d41e4d088c58ecdf45e9df9a86a197ddb8df"
+      },
+      "inputs": [
+        {
+          "file": "data/raw/srtm/N38W111.tif",
+          "bytes": 14938692,
+          "sha256": "73520c1f4d04871db3a999fb2570c4eef723fb18d5a507cc60ba5c22ccac828c",
+          "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N38W111.tif",
+          "vertical_reference": "Metros EGM96 según documentación SRTM; asignación por procedencia, sin transformación vertical"
+        }
+      ]
+    },
+    {
+      "id": "utah-007-005",
+      "name": "Utah interior · 007/005",
+      "role": "generated",
+      "area_id": "utah",
+      "latitude": 38.643383617343034,
+      "longitude": -110.91733893985491,
+      "area": {
+        "type": "Feature",
+        "properties": {
+          "site_id": "utah-007-005",
+          "body": "Earth",
+          "side_m": 3000,
+          "crs_wkt": "GEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]],CS[ellipsoidal,2],AXIS[\"longitude\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"latitude\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]]",
+          "role": "analysis extent; supersedes nominal phase-1 polygon only for this experiment"
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -110.93456528882342,
+                38.629869877159315
+              ],
+              [
+                -110.93253865957256,
+                38.62987015804378
+              ],
+              [
+                -110.93051203030687,
+                38.629870403817705
+              ],
+              [
+                -110.92848540102834,
+                38.629870614481064
+              ],
+              [
+                -110.92645877173892,
+                38.62987079003385
+              ],
+              [
+                -110.92443214244061,
+                38.6298709304761
+              ],
+              [
+                -110.92240551313537,
+                38.62987103580779
+              ],
+              [
+                -110.92037888382521,
+                38.6298711060289
+              ],
+              [
+                -110.91835225451207,
+                38.62987114113946
+              ],
+              [
+                -110.91632562519794,
+                38.62987114113946
+              ],
+              [
+                -110.9142989958848,
+                38.6298711060289
+              ],
+              [
+                -110.91227236657464,
+                38.62987103580779
+              ],
+              [
+                -110.9102457372694,
+                38.6298709304761
+              ],
+              [
+                -110.90821910797109,
+                38.62987079003385
+              ],
+              [
+                -110.90619247868167,
+                38.629870614481064
+              ],
+              [
+                -110.90416584940314,
+                38.629870403817705
+              ],
+              [
+                -110.90213922013746,
+                38.62987015804378
+              ],
+              [
+                -110.9001125908866,
+                38.629869877159315
+              ],
+              [
+                -110.9001122104463,
+                38.631459581307716
+              ],
+              [
+                -110.90011182998039,
+                38.63304928502298
+              ],
+              [
+                -110.90011144948888,
+                38.634638988305106
+              ],
+              [
+                -110.90011106897174,
+                38.636228691154066
+              ],
+              [
+                -110.900110688429,
+                38.63781839356989
+              ],
+              [
+                -110.90011030786064,
+                38.63940809555253
+              ],
+              [
+                -110.90010992726667,
+                38.640997797102024
+              ],
+              [
+                -110.90010954664706,
+                38.64258749821835
+              ],
+              [
+                -110.90010916600184,
+                38.64417719890149
+              ],
+              [
+                -110.90010878533099,
+                38.64576689915144
+              ],
+              [
+                -110.90010840463451,
+                38.647356598968216
+              ],
+              [
+                -110.90010802391241,
+                38.64894629835179
+              ],
+              [
+                -110.90010764316466,
+                38.65053599730218
+              ],
+              [
+                -110.90010726239127,
+                38.65212569581936
+              ],
+              [
+                -110.90010688159227,
+                38.653715393903326
+              ],
+              [
+                -110.9001065007676,
+                38.655305091554084
+              ],
+              [
+                -110.90010611991731,
+                38.65689478877162
+              ],
+              [
+                -110.9021335104586,
+                38.65689506981557
+              ],
+              [
+                -110.90416090101476,
+                38.656895315729024
+              ],
+              [
+                -110.90618829158377,
+                38.65689552651199
+              ],
+              [
+                -110.9082156821637,
+                38.656895702164455
+              ],
+              [
+                -110.91024307275252,
+                38.656895842686446
+              ],
+              [
+                -110.91227046334828,
+                38.65689594807791
+              ],
+              [
+                -110.91429785394898,
+                38.6568960183389
+              ],
+              [
+                -110.91632524455268,
+                38.6568960534694
+              ],
+              [
+                -110.91835263515733,
+                38.6568960534694
+              ],
+              [
+                -110.92038002576103,
+                38.6568960183389
+              ],
+              [
+                -110.92240741636172,
+                38.65689594807791
+              ],
+              [
+                -110.92443480695749,
+                38.65689584268643
+              ],
+              [
+                -110.92646219754631,
+                38.656895702164455
+              ],
+              [
+                -110.92848958812623,
+                38.65689552651199
+              ],
+              [
+                -110.93051697869525,
+                38.656895315729024
+              ],
+              [
+                -110.93254436925142,
+                38.65689506981557
+              ],
+              [
+                -110.9345717597927,
+                38.65689478877162
+              ],
+              [
+                -110.93457137894241,
+                38.655305091554084
+              ],
+              [
+                -110.93457099811775,
+                38.653715393903326
+              ],
+              [
+                -110.93457061731873,
+                38.65212569581936
+              ],
+              [
+                -110.93457023654535,
+                38.65053599730218
+              ],
+              [
+                -110.9345698557976,
+                38.64894629835179
+              ],
+              [
+                -110.9345694750755,
+                38.647356598968216
+              ],
+              [
+                -110.93456909437903,
+                38.64576689915144
+              ],
+              [
+                -110.93456871370817,
+                38.64417719890149
+              ],
+              [
+                -110.93456833306296,
+                38.64258749821835
+              ],
+              [
+                -110.93456795244335,
+                38.640997797102024
+              ],
+              [
+                -110.93456757184937,
+                38.63940809555253
+              ],
+              [
+                -110.93456719128102,
+                38.63781839356989
+              ],
+              [
+                -110.93456681073827,
+                38.636228691154066
+              ],
+              [
+                -110.93456643022114,
+                38.634638988305106
+              ],
+              [
+                -110.93456604972963,
+                38.63304928502298
+              ],
+              [
+                -110.93456566926372,
+                38.631459581307716
+              ],
+              [
+                -110.93456528882342,
+                38.629869877159315
+              ]
+            ]
+          ]
+        }
+      },
+      "selection": "excluded",
+      "plan": {
+        "candidate_id": "utah-007-005",
+        "tiles": [
+          {
+            "filename": "N38W111.tif",
+            "local_file": "data/raw/srtm/N38W111.tif",
+            "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N38W111.tif"
+          }
+        ],
+        "bbox": [
+          -110.94146670061124,
+          38.62446366231892,
+          -110.89321117909877,
+          38.662301025303904
+        ],
+        "window_m": 3000,
+        "scales_m": [
+          60,
+          120,
+          300,
+          600
+        ],
+        "status": "pending_acquisition_and_validation",
+        "note": "SRTM is a proposed detail source for these nonpolar areas; file coverage and units require checks. No implicit download in API.",
+        "margin_m": 600
+      },
+      "regional_metrics": [
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 190.64363858693605,
+          "slope_quantiles_deg": {
+            "p10": 2.3011890885850814,
+            "p50": 4.975758813752159,
+            "p90": 7.496465122933576
+          },
+          "slope_histogram_counts": [
+            1,
+            5,
+            46,
+            48,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 2.1403909929607696,
+          "candidate_minus_reference_relief_m": 79.34098537296404,
+          "filter_outcomes": {
+            "strict": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "baseline": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "relaxed": []
+          }
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 174.88232603592542,
+          "slope_quantiles_deg": {
+            "p10": 2.0460951630717035,
+            "p50": 3.6684106557930574,
+            "p90": 5.518188058005536
+          },
+          "slope_histogram_counts": [
+            0,
+            2,
+            16,
+            7,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.3944970442314382,
+          "candidate_minus_reference_relief_m": 77.59849263423985,
+          "filter_outcomes": {
+            "strict": [
+              "slope_distance_above_threshold",
+              "relief_difference_above_threshold"
+            ],
+            "baseline": [
+              "relief_difference_above_threshold"
+            ],
+            "relaxed": []
+          }
+        }
+      ],
+      "status": "evaluated_exploratory",
+      "local_metrics": [
+        {
+          "cells": 2500,
+          "valid_elevation_cells": 2500,
+          "valid_slope_cells": 2500,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 197.3055078362945,
+          "slope_quantiles_deg": {
+            "p10": 2.861467693403883,
+            "p50": 7.842170509375718,
+            "p90": 19.18624698097584
+          },
+          "slope_histogram_counts": [
+            14,
+            76,
+            665,
+            729,
+            446,
+            370,
+            186,
+            14,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 60,
+          "slope_baseline_m": 120,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 4.769411943295723,
+          "candidate_minus_reference_relief_m": 77.15841958350484
+        },
+        {
+          "cells": 625,
+          "valid_elevation_cells": 625,
+          "valid_slope_cells": 625,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 196.2620255369295,
+          "slope_quantiles_deg": {
+            "p10": 2.6948921065617903,
+            "p50": 7.131467411845569,
+            "p90": 14.191126391249243
+          },
+          "slope_histogram_counts": [
+            2,
+            27,
+            175,
+            219,
+            159,
+            38,
+            5,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 120,
+          "slope_baseline_m": 240,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 3.8343648131948815,
+          "candidate_minus_reference_relief_m": 77.98686688109115
+        },
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 193.49712022561334,
+          "slope_quantiles_deg": {
+            "p10": 2.399429674780773,
+            "p50": 5.108649113017074,
+            "p90": 7.739855214606959
+          },
+          "slope_histogram_counts": [
+            0,
+            6,
+            41,
+            52,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 2.3990710320981914,
+          "candidate_minus_reference_relief_m": 82.19446701164134
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 175.99333318337085,
+          "slope_quantiles_deg": {
+            "p10": 2.070981140777281,
+            "p50": 3.824082420826067,
+            "p90": 5.56773598594139
+          },
+          "slope_histogram_counts": [
+            0,
+            2,
+            16,
+            7,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.4452488903034149,
+          "candidate_minus_reference_relief_m": 78.70949978168528
+        }
+      ],
+      "source_contrasts": [
+        {
+          "cell_m": 300,
+          "status": "compared_exploratory",
+          "candidate_source_wasserstein_deg": 0.25915339594686165,
+          "slope_distance_delta_deg": 0.25868003913742177,
+          "relief_difference_delta_m": 2.8534816386772945,
+          "filter_decisions": {
+            "strict": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "baseline": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "relaxed": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            }
+          }
+        },
+        {
+          "cell_m": 600,
+          "status": "compared_exploratory",
+          "candidate_source_wasserstein_deg": 0.07301582957015597,
+          "slope_distance_delta_deg": 0.05075184607197669,
+          "relief_difference_delta_m": 1.1110071474454344,
+          "filter_decisions": {
+            "strict": {
+              "gmted_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "slope_distance_above_threshold",
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "baseline": {
+              "gmted_reasons": [
+                "relief_difference_above_threshold"
+              ],
+              "srtm_reasons": [
+                "relief_difference_above_threshold"
+              ],
+              "changed": false
+            },
+            "relaxed": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            }
+          }
+        }
+      ],
+      "missing_tiles": [],
+      "crop": {
+        "file": "data/normalized/fase5/utah-007-005-srtm.tif",
+        "sha256": "a6defbd5c756b406e88adbb938b157290bc85d1108bf63ebbd73c99fbff44f8d"
+      },
+      "inputs": [
+        {
+          "file": "data/raw/srtm/N38W111.tif",
+          "bytes": 14938692,
+          "sha256": "73520c1f4d04871db3a999fb2570c4eef723fb18d5a507cc60ba5c22ccac828c",
+          "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N38W111.tif",
+          "vertical_reference": "Metros EGM96 según documentación SRTM; asignación por procedencia, sin transformación vertical"
+        }
+      ]
+    },
+    {
+      "id": "utah-010-007",
+      "name": "Utah interior · 010/007",
+      "role": "generated",
+      "area_id": "utah",
+      "latitude": 38.91422045903038,
+      "longitude": -110.688320760781,
+      "area": {
+        "type": "Feature",
+        "properties": {
+          "site_id": "utah-010-007",
+          "body": "Earth",
+          "side_m": 3000,
+          "crs_wkt": "GEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]],CS[ellipsoidal,2],AXIS[\"longitude\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"latitude\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]]",
+          "role": "analysis extent; supersedes nominal phase-1 polygon only for this experiment"
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                -110.70561235582346,
+                38.900707334512425
+              ],
+              [
+                -110.70357805056481,
+                38.900707618111646
+              ],
+              [
+                -110.701543745291,
+                38.900707866260966
+              ],
+              [
+                -110.69950944000402,
+                38.900708078960385
+              ],
+              [
+                -110.69747513470591,
+                38.900708256209896
+              ],
+              [
+                -110.6954408293987,
+                38.90070839800951
+              ],
+              [
+                -110.69340652408442,
+                38.900708504359216
+              ],
+              [
+                -110.69137221876508,
+                38.90070857525903
+              ],
+              [
+                -110.6893379134427,
+                38.90070861070894
+              ],
+              [
+                -110.68730360811931,
+                38.90070861070894
+              ],
+              [
+                -110.68526930279693,
+                38.90070857525903
+              ],
+              [
+                -110.68323499747758,
+                38.900708504359216
+              ],
+              [
+                -110.6812006921633,
+                38.90070839800951
+              ],
+              [
+                -110.6791663868561,
+                38.900708256209896
+              ],
+              [
+                -110.67713208155799,
+                38.900708078960385
+              ],
+              [
+                -110.67509777627102,
+                38.900707866260966
+              ],
+              [
+                -110.67306347099719,
+                38.900707618111646
+              ],
+              [
+                -110.67102916573855,
+                38.900707334512425
+              ],
+              [
+                -110.67102878014809,
+                38.90229696479011
+              ],
+              [
+                -110.67102839453162,
+                38.903886594633796
+              ],
+              [
+                -110.67102800888911,
+                38.90547622404345
+              ],
+              [
+                -110.67102762322055,
+                38.90706585301906
+              ],
+              [
+                -110.67102723752596,
+                38.90865548156064
+              ],
+              [
+                -110.67102685180532,
+                38.910245109668196
+              ],
+              [
+                -110.67102646605865,
+                38.911834737341685
+              ],
+              [
+                -110.67102608028591,
+                38.91342436458115
+              ],
+              [
+                -110.67102569448714,
+                38.915013991386544
+              ],
+              [
+                -110.67102530866231,
+                38.91660361775788
+              ],
+              [
+                -110.67102492281141,
+                38.91819324369515
+              ],
+              [
+                -110.67102453693448,
+                38.919782869198364
+              ],
+              [
+                -110.67102415103147,
+                38.92137249426749
+              ],
+              [
+                -110.6710237651024,
+                38.92296211890254
+              ],
+              [
+                -110.67102337914729,
+                38.92455174310351
+              ],
+              [
+                -110.67102299316608,
+                38.92614136687039
+              ],
+              [
+                -110.67102260715882,
+                38.92773099020317
+              ],
+              [
+                -110.673057684015,
+                38.927731273963886
+              ],
+              [
+                -110.67509276088641,
+                38.92773152225454
+              ],
+              [
+                -110.67712783777098,
+                38.927731735075085
+              ],
+              [
+                -110.67916291466669,
+                38.92773191242554
+              ],
+              [
+                -110.68119799157152,
+                38.9277320543059
+              ],
+              [
+                -110.68323306848346,
+                38.92773216071619
+              ],
+              [
+                -110.68526814540044,
+                38.927732231656364
+              ],
+              [
+                -110.68730322232048,
+                38.927732267126444
+              ],
+              [
+                -110.68933829924153,
+                38.927732267126444
+              ],
+              [
+                -110.69137337616156,
+                38.927732231656364
+              ],
+              [
+                -110.69340845307855,
+                38.92773216071619
+              ],
+              [
+                -110.69544352999048,
+                38.9277320543059
+              ],
+              [
+                -110.69747860689532,
+                38.92773191242554
+              ],
+              [
+                -110.69951368379103,
+                38.927731735075085
+              ],
+              [
+                -110.70154876067559,
+                38.92773152225454
+              ],
+              [
+                -110.703583837547,
+                38.927731273963886
+              ],
+              [
+                -110.70561891440319,
+                38.92773099020317
+              ],
+              [
+                -110.70561852839593,
+                38.92614136687039
+              ],
+              [
+                -110.70561814241472,
+                38.92455174310351
+              ],
+              [
+                -110.7056177564596,
+                38.92296211890254
+              ],
+              [
+                -110.70561737053053,
+                38.92137249426749
+              ],
+              [
+                -110.70561698462754,
+                38.919782869198364
+              ],
+              [
+                -110.7056165987506,
+                38.91819324369515
+              ],
+              [
+                -110.7056162128997,
+                38.91660361775788
+              ],
+              [
+                -110.70561582707488,
+                38.915013991386544
+              ],
+              [
+                -110.7056154412761,
+                38.91342436458115
+              ],
+              [
+                -110.70561505550336,
+                38.911834737341685
+              ],
+              [
+                -110.70561466975668,
+                38.910245109668196
+              ],
+              [
+                -110.70561428403605,
+                38.90865548156064
+              ],
+              [
+                -110.70561389834145,
+                38.90706585301906
+              ],
+              [
+                -110.7056135126729,
+                38.90547622404345
+              ],
+              [
+                -110.70561312703039,
+                38.903886594633796
+              ],
+              [
+                -110.70561274141392,
+                38.90229696479011
+              ],
+              [
+                -110.70561235582346,
+                38.900707334512425
+              ]
+            ]
+          ]
+        }
+      },
+      "selection": "phase4_anchor",
+      "plan": {
+        "candidate_id": "utah-010-007",
+        "tiles": [
+          {
+            "filename": "N38W111.tif",
+            "local_file": "data/raw/srtm/N38W111.tif",
+            "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N38W111.tif"
+          }
+        ],
+        "bbox": [
+          -110.71254001324077,
+          38.89530135905923,
+          -110.66410150832124,
+          38.933136987790526
+        ],
+        "window_m": 3000,
+        "scales_m": [
+          60,
+          120,
+          300,
+          600
+        ],
+        "status": "pending_acquisition_and_validation",
+        "note": "SRTM is a proposed detail source for these nonpolar areas; file coverage and units require checks. No implicit download in API.",
+        "margin_m": 600
+      },
+      "regional_metrics": [
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 103.82986782179682,
+          "slope_quantiles_deg": {
+            "p10": 1.044077906807728,
+            "p50": 2.681305716675853,
+            "p90": 4.549802957737174
+          },
+          "slope_histogram_counts": [
+            7,
+            29,
+            54,
+            10,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 0.3281212559918966,
+          "candidate_minus_reference_relief_m": -7.472785392175183,
+          "filter_outcomes": {
+            "strict": [],
+            "baseline": [],
+            "relaxed": []
+          }
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 87.23202556042793,
+          "slope_quantiles_deg": {
+            "p10": 1.1958716838606591,
+            "p50": 1.798234736074729,
+            "p90": 3.152880678961015
+          },
+          "slope_histogram_counts": [
+            2,
+            13,
+            10,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 0.41098245253176346,
+          "candidate_minus_reference_relief_m": -10.051807841257641,
+          "filter_outcomes": {
+            "strict": [],
+            "baseline": [],
+            "relaxed": []
+          }
+        }
+      ],
+      "status": "evaluated_exploratory",
+      "local_metrics": [
+        {
+          "cells": 2500,
+          "valid_elevation_cells": 2500,
+          "valid_slope_cells": 2500,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 116.33080568553692,
+          "slope_quantiles_deg": {
+            "p10": 1.5301676256107466,
+            "p50": 4.182167448988066,
+            "p90": 14.095778805256755
+          },
+          "slope_histogram_counts": [
+            113,
+            296,
+            1061,
+            586,
+            227,
+            185,
+            32,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 60,
+          "slope_baseline_m": 120,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 1.024759558423921,
+          "candidate_minus_reference_relief_m": -3.816282567252756
+        },
+        {
+          "cells": 625,
+          "valid_elevation_cells": 625,
+          "valid_slope_cells": 625,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 114.09379722678023,
+          "slope_quantiles_deg": {
+            "p10": 1.3431654527948789,
+            "p50": 3.6345784066673867,
+            "p90": 10.671795173170521
+          },
+          "slope_histogram_counts": [
+            30,
+            118,
+            271,
+            136,
+            58,
+            12,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 120,
+          "slope_baseline_m": 240,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 0.752652124263266,
+          "candidate_minus_reference_relief_m": -4.181361429058143
+        },
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 107.1536328958714,
+          "slope_quantiles_deg": {
+            "p10": 1.1113647029525695,
+            "p50": 2.883354894360255,
+            "p90": 5.1027553490867374
+          },
+          "slope_histogram_counts": [
+            9,
+            27,
+            52,
+            12,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 0.3880912969262169,
+          "candidate_minus_reference_relief_m": -4.149020318100611
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 87.40856919214207,
+          "slope_quantiles_deg": {
+            "p10": 1.149249306946315,
+            "p50": 1.8649640489698738,
+            "p90": 3.19078478262454
+          },
+          "slope_histogram_counts": [
+            2,
+            12,
+            11,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000,
+          "slope_wasserstein_deg": 0.3890032098439833,
+          "candidate_minus_reference_relief_m": -9.875264209543502
+        }
+      ],
+      "source_contrasts": [
+        {
+          "cell_m": 300,
+          "status": "compared_exploratory",
+          "candidate_source_wasserstein_deg": 0.2231523345686215,
+          "slope_distance_delta_deg": 0.05997004093432029,
+          "relief_difference_delta_m": 3.323765074074572,
+          "filter_decisions": {
+            "strict": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            },
+            "baseline": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            },
+            "relaxed": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            }
+          }
+        },
+        {
+          "cell_m": 600,
+          "status": "compared_exploratory",
+          "candidate_source_wasserstein_deg": 0.050032276280470654,
+          "slope_distance_delta_deg": -0.021979242687780176,
+          "relief_difference_delta_m": 0.17654363171413934,
+          "filter_decisions": {
+            "strict": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            },
+            "baseline": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            },
+            "relaxed": {
+              "gmted_reasons": [],
+              "srtm_reasons": [],
+              "changed": false
+            }
+          }
+        }
+      ],
+      "missing_tiles": [],
+      "crop": {
+        "file": "data/normalized/fase5/utah-010-007-srtm.tif",
+        "sha256": "a90fd82d7fe6d7b171fa9327d928079bcbc0abf89cb6ddeff8c15de2c532fc46"
+      },
+      "inputs": [
+        {
+          "file": "data/raw/srtm/N38W111.tif",
+          "bytes": 14938692,
+          "sha256": "73520c1f4d04871db3a999fb2570c4eef723fb18d5a507cc60ba5c22ccac828c",
+          "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N38W111.tif",
+          "vertical_reference": "Metros EGM96 según documentación SRTM; asignación por procedencia, sin transformación vertical"
+        }
+      ]
+    }
+  ],
+  "summary": [
+    {
+      "cell_m": 300,
+      "profile": "strict",
+      "paired_count": 7,
+      "changed_count": 0
+    },
+    {
+      "cell_m": 300,
+      "profile": "baseline",
+      "paired_count": 7,
+      "changed_count": 0
+    },
+    {
+      "cell_m": 300,
+      "profile": "relaxed",
+      "paired_count": 7,
+      "changed_count": 0
+    },
+    {
+      "cell_m": 600,
+      "profile": "strict",
+      "paired_count": 7,
+      "changed_count": 0
+    },
+    {
+      "cell_m": 600,
+      "profile": "baseline",
+      "paired_count": 7,
+      "changed_count": 0
+    },
+    {
+      "cell_m": 600,
+      "profile": "relaxed",
+      "paired_count": 7,
+      "changed_count": 0
+    }
+  ],
+  "limitations": [
+    "Muestra de conveniencia estratificada, condicionada por las teselas locales; no estima tasas de error del catálogo.",
+    "GMTED y SRTM pueden compartir observaciones de origen: el contraste entre productos no es una validación independiente ni aísla el efecto del sensor.",
+    "Los perfiles heredados de fase 4 solo se aplican a 300/600 m. No se extrapolan a 60/120 m.",
+    "Los cambios a escala común describen sensibilidad al producto y procesamiento, no exactitud física. Cambiar escala modifica también la referencia de Jezero.",
+    "Cobertura numérica no equivale a observación directa. Resolución efectiva, rellenos y errores locales siguen sin cuantificar.",
+    "Geología, térmica, obstáculos, polvo, agua/hielo, acceso y movilidad siguen sin evaluar; no se certifican análogos."
+  ],
+  "method": {
+    "source_comparison": "Misma ventana, celda y referencia; SRTM menos GMTED en las diferencias frente a Jezero. Wasserstein adicional entre pendientes terrestres de ambos productos.",
+    "scale_comparison": "SRTM y DTM HiRISE agregados de nuevo a cada escala; 60/120 m sin filtros heredados.",
+    "native_grid": "Recorte por ventanas nativas, sin desplazar el origen de píxel al crear mosaicos. No sustituye el detalle de fase 4, que usó merge con límites geográficos.",
+    "missing": "Pendiente o insuficiente produce null, nunca cero ni mala semejanza.",
+    "selection": "Tres controles y ancla de fase 4; una ventana generada por área y decisión base a 300 m. Se prefieren teselas locales y luego el menor SHA-256 de semilla:id. Muestra de conveniencia estratificada; no representa el catálogo ni estima exactitud.",
+    "score": "Sin puntuación combinada ni etiquetas de analogía."
+  },
+  "expansion_decisions": [
+    {
+      "id": "scenario",
+      "status": "implemented",
+      "reason": "Pregunta explícita, fuentes locales verificadas y contraste pareado reproducible."
+    },
+    {
+      "id": "moon_and_polar",
+      "status": "deferred",
+      "reason": "Esta evidencia no establece una pregunta lunar/polar ni comparabilidad y cobertura local verificadas."
+    },
+    {
+      "id": "ml",
+      "status": "deferred",
+      "reason": "Sin etiquetas independientes, partición geográfica ni evaluación que demuestre mejora sobre la línea base."
+    },
+    {
+      "id": "distributed_infrastructure",
+      "status": "deferred",
+      "reason": "La fase 4 midió unos 9,3 s para 970 ventanas; este lote acotado no demuestra necesidad de distribución."
+    }
+  ]
+}

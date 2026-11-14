@@ -1,0 +1,43 @@
+{
+  "method": "AEQD local; 500 m; margen 1 celda; pendiente por diferencias centrales; relieve p95-p5; elevación MOLA bilineal y SRTM promedio.",
+  "regions": [
+    {
+      "id": "mars-jezero",
+      "input": "data/raw/mola/megt44n000hb.img",
+      "sha256": "14022166079edafc99650f354e5a634e6eb2c2ea544b444c01cd8ee55437df36",
+      "grid_crs": "PROJCS[\"unknown\",GEOGCS[\"unknown\",DATUM[\"unknown\",SPHEROID[\"unknown\",3396000,0]],PRIMEM[\"Reference meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Azimuthal_Equidistant\"],PARAMETER[\"latitude_of_center\",18.44],PARAMETER[\"longitude_of_center\",77.45],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+      "grid_m": 500,
+      "cells": 400,
+      "valid_elevation_cells": 400,
+      "valid_slope_cells": 400,
+      "resampling": "bilinear",
+      "fraction_output_cells_nearest_mola_count_positive": 0.44,
+      "counts_input": "data/raw/mola/megc44n000hb.img",
+      "counts_sha256": "cfb4d7e3626106ef4ed2a466eb03a538feed9c163be99e860b7ae8700a8ecab5"
+    },
+    {
+      "id": "earth-atacama",
+      "input": "data/raw/srtm/S24W068.tif",
+      "sha256": "4f64ff3421208d6f1c95cd94e1df9d9c686a877e3905b53fd940ab9cf194db4a",
+      "grid_crs": "PROJCS[\"unknown\",GEOGCS[\"unknown\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Azimuthal_Equidistant\"],PARAMETER[\"latitude_of_center\",-23.8],PARAMETER[\"longitude_of_center\",-67.9],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+      "grid_m": 500,
+      "cells": 400,
+      "valid_elevation_cells": 400,
+      "valid_slope_cells": 400,
+      "resampling": "average",
+      "fraction_output_cells_nearest_mola_count_positive": null
+    },
+    {
+      "id": "earth-utah",
+      "input": "data/raw/srtm/N38W111.tif",
+      "sha256": "73520c1f4d04871db3a999fb2570c4eef723fb18d5a507cc60ba5c22ccac828c",
+      "grid_crs": "PROJCS[\"unknown\",GEOGCS[\"unknown\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Azimuthal_Equidistant\"],PARAMETER[\"latitude_of_center\",38.6],PARAMETER[\"longitude_of_center\",-110.6],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+      "grid_m": 500,
+      "cells": 400,
+      "valid_elevation_cells": 400,
+      "valid_slope_cells": 400,
+      "resampling": "average",
+      "fraction_output_cells_nearest_mola_count_positive": null
+    }
+  ]
+}

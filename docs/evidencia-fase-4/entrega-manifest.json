@@ -1,0 +1,170 @@
+{
+  "scope": "Final local file identity; paths relative to project root; excludes this manifest itself. Not a signature or accuracy certificate.",
+  "files": [
+    {
+      "file": "backend/app/main.py",
+      "bytes": 3238,
+      "sha256": "42c85be366087db25fd5110c387fe6bb6b7d8fba5cd7c4274862ec244194f5f9"
+    },
+    {
+      "file": "backend/app/scenarios.py",
+      "bytes": 8799,
+      "sha256": "c14a163722b554b0bb04c9eb2a89d34b6a4262870581200ac02fcba68cf7367d"
+    },
+    {
+      "file": "backend/app/regional.py",
+      "bytes": 7324,
+      "sha256": "fbe7e52f2ff9223ed0574fa4d1986f0456b2225daea218f7a0661ab28145c47f"
+    },
+    {
+      "file": "backend/tests/test_regional.py",
+      "bytes": 5428,
+      "sha256": "913f29d50a41499ef387a577e065736e87d6d68c82c8d30f768247bebc1d2f08"
+    },
+    {
+      "file": "scripts/buscar_candidatas.py",
+      "bytes": 25934,
+      "sha256": "988a6c1bca1afec19bd8423ebc5961fd893dbf3c6c5d1012c205627cb1fd2a99"
+    },
+    {
+      "file": "tests/test_buscar_candidatas.py",
+      "bytes": 4325,
+      "sha256": "f6655b09dbc1e1335ab1d64781e3a7945aa420850c3d2e5334e3f347406efc23"
+    },
+    {
+      "file": "specs/search/busqueda-regional-v1.json",
+      "bytes": 2995,
+      "sha256": "479d0e989b9cbb2d7e5ac6d5e6c6acba07decd5cde718cd671465488a210953b"
+    },
+    {
+      "file": "specs/search/README.md",
+      "bytes": 893,
+      "sha256": "1cd3ac1218da2ab617ec5002778cd191a68124c21bf380343a669aecc9e886f8"
+    },
+    {
+      "file": "frontend/src/main.tsx",
+      "bytes": 157,
+      "sha256": "bfa395715b1c127b8e177a75a5041bd699dd05f54bd12b37245e4fdd83bed9f1"
+    },
+    {
+      "file": "frontend/src/App.tsx",
+      "bytes": 18214,
+      "sha256": "4d982ec9a92e2d72743d1207b2b290678ec6c4639a0df47626b0e30818996d07"
+    },
+    {
+      "file": "frontend/src/RegionalSearch.tsx",
+      "bytes": 15275,
+      "sha256": "ee075815fd049bad7c9693fb297818112934947533e68be89b8723a507ae112c"
+    },
+    {
+      "file": "frontend/src/ContextGlobe.tsx",
+      "bytes": 3668,
+      "sha256": "a8232838bfc23d1c37ec37baa880b075aa25477aea1310be69906fb5118c4070"
+    },
+    {
+      "file": "frontend/src/style.css",
+      "bytes": 12765,
+      "sha256": "2beb17c1a276a9e61beca1955f8d1b094ac6c7e460986a5ce657f5f7cd136890"
+    },
+    {
+      "file": "README.md",
+      "bytes": 6081,
+      "sha256": "3b500f7de5208cffe0ab02d66d347ae165dae5fa4cb66276f5689eead7654abc"
+    },
+    {
+      "file": "docs/Plan de implementacion orientado a escenarios.md",
+      "bytes": 12323,
+      "sha256": "1f8f54316b206b993c14b733400d7a138d52b3ee849fda7855dd8cf1382325fe"
+    },
+    {
+      "file": "docs/Fase 4 - busqueda regional terrestre.md",
+      "bytes": 14798,
+      "sha256": "d5c77ed1c93d2c2359c2206540b738e8460bc19920ebbf5182c1e9e2fc6a16a1"
+    },
+    {
+      "file": "pipelines/README.md",
+      "bytes": 707,
+      "sha256": "10836d6399420274e12fc9cffd0769635d40752d4755c5bb357bcb31ab87b400"
+    },
+    {
+      "file": "docs/evidencia-fase-4/README.md",
+      "bytes": 1792,
+      "sha256": "4b653573259bee40996e4c00e41a44c255250240c647c1b026523055a18d97ec"
+    },
+    {
+      "file": "docs/evidencia-fase-4/auditoria-gmted.json",
+      "bytes": 20141,
+      "sha256": "4bd69b5464b6d102d2c6b84ef31aac3e19b8725794b0d95e0b1aa66935808ada"
+    },
+    {
+      "file": "docs/evidencia-fase-4/candidatas.json",
+      "bytes": 11239545,
+      "sha256": "3786f3de7b69b5813f70bcad6b13e01f6d8a27675af8e5c28c9d426b820a0d21"
+    },
+    {
+      "file": "docs/evidencia-fase-4/detalle/utah-010-007.json",
+      "bytes": 4273,
+      "sha256": "37d49d802ec25dbc944a292969edeb79f891b8c114fe7844148f0227141947ff"
+    },
+    {
+      "file": "docs/evidencia-fase-4/detalle-utah.jpg",
+      "bytes": 50353,
+      "sha256": "40eff6e1c6ed439d8115247732baa4739920edb4d46d04b0edd24f81f7a372c9"
+    },
+    {
+      "file": "docs/evidencia-fase-4/manifest-local.json",
+      "bytes": 1390,
+      "sha256": "9d93103ceb0829176e492daceb859e335799cd618f0639f13dd9784866f0cc2b"
+    },
+    {
+      "file": "docs/evidencia-fase-4/manifiesto-gmted.json",
+      "bytes": 1567,
+      "sha256": "6375fe2881894dcdd51ac52911e7ad261d0eb9cb3a37ca14544800edc4e0857d"
+    },
+    {
+      "file": "docs/evidencia-fase-4/mn30_grd-metadata.xml",
+      "bytes": 7092,
+      "sha256": "c6f12cd973c882a9a53be41d6e62db3cef351cf19985e27f43cf395c42b28fb9"
+    },
+    {
+      "file": "docs/evidencia-fase-4/mn30_grd-prj.adf",
+      "bytes": 114,
+      "sha256": "1d7948d79d794c3ae17cf06f808797214ed18415f7b5562aeea7ab992c564667"
+    },
+    {
+      "file": "docs/evidencia-fase-4/mn75_grd-metadata.xml",
+      "bytes": 6012,
+      "sha256": "001e876438be0197fca30d1ee96f9aa8f90c6c007c925cb9ec7eeb405c949f04"
+    },
+    {
+      "file": "docs/evidencia-fase-4/mn75_grd-prj.adf",
+      "bytes": 114,
+      "sha256": "1d7948d79d794c3ae17cf06f808797214ed18415f7b5562aeea7ab992c564667"
+    },
+    {
+      "file": "docs/evidencia-fase-4/procesamiento.json",
+      "bytes": 9592,
+      "sha256": "37baf51ef935253e439e25eecb83d1b5264fb8f0c37de7ea618a157cb796cc90"
+    },
+    {
+      "file": "docs/evidencia-fase-4/recorrido.jpg",
+      "bytes": 69119,
+      "sha256": "e734589d319da99d4aa1ab8ea7c5faec85b4999bb5f2cc796febc0158f3c2d4c"
+    },
+    {
+      "file": "docs/evidencia-fase-4/repeticion.json",
+      "bytes": 399,
+      "sha256": "01c9cf3d68c40d48fbd0e9677286da64ab3807416b9918be43b1e7cbd7c21d7e"
+    },
+    {
+      "file": "docs/evidencia-fase-4/seleccion-de-ventana.json",
+      "bytes": 9321,
+      "sha256": "7575e9c59fa35dfc908a7fd2ce09652ca550a2882f43ee5bcb8a0ace400bccf9"
+    },
+    {
+      "file": "docs/evidencia-fase-4/verificacion.json",
+      "bytes": 2672,
+      "sha256": "76e91595d346f6f92c0598df3ea99052d3e9b4a9dfebce6e5e7e9ac64dec1255"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+# Analysis-only reader. API/browser consume the published JSON without HDF5.
+h5py==3.16.0

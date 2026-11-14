@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "file": "scripts/analizar_crism.py",
+      "bytes": 7482,
+      "sha256": "b150bd43986d738af5897b0d192ec5d05191d8df398057745ac9c3a63c2b9fc3"
+    },
+    {
+      "file": "docs/evidencia-fase-2/areas-marte.json",
+      "bytes": 7446,
+      "sha256": "6640e247f6572e1687cbb07bead4962569d6e77eaf9681ea92b5a82070f2ed7c"
+    },
+    {
+      "file": "docs/investigacion-marte/adquisicion-crism.json",
+      "bytes": 4202,
+      "sha256": "bffe61e84be9706c118cf5bdc7148adc2c5e52bb12bed21c2d1b34f3e2bac6b7"
+    },
+    {
+      "file": "docs/evidencia-crism/resultados.json",
+      "bytes": 714225,
+      "sha256": "2324d557424f3f88b6a568917f7784562943ed73958a5318ccfa0b85233e3a8a"
+    }
+  ]
+}

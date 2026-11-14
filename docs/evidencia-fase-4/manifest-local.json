@@ -1,0 +1,45 @@
+{
+  "scope": "Local identity only; paths relative to evidence folder",
+  "files": [
+    {
+      "file": "auditoria-gmted.json",
+      "bytes": 20141,
+      "sha256": "4bd69b5464b6d102d2c6b84ef31aac3e19b8725794b0d95e0b1aa66935808ada"
+    },
+    {
+      "file": "manifiesto-gmted.json",
+      "bytes": 1567,
+      "sha256": "6375fe2881894dcdd51ac52911e7ad261d0eb9cb3a37ca14544800edc4e0857d"
+    },
+    {
+      "file": "candidatas.json",
+      "bytes": 11239545,
+      "sha256": "3786f3de7b69b5813f70bcad6b13e01f6d8a27675af8e5c28c9d426b820a0d21"
+    },
+    {
+      "file": "procesamiento.json",
+      "bytes": 9592,
+      "sha256": "37baf51ef935253e439e25eecb83d1b5264fb8f0c37de7ea618a157cb796cc90"
+    },
+    {
+      "file": "detalle/utah-010-007.json",
+      "bytes": 4273,
+      "sha256": "37d49d802ec25dbc944a292969edeb79f891b8c114fe7844148f0227141947ff"
+    },
+    {
+      "file": "../../specs/search/busqueda-regional-v1.json",
+      "bytes": 2995,
+      "sha256": "479d0e989b9cbb2d7e5ac6d5e6c6acba07decd5cde718cd671465488a210953b"
+    },
+    {
+      "file": "../../scripts/buscar_candidatas.py",
+      "bytes": 25934,
+      "sha256": "988a6c1bca1afec19bd8423ebc5961fd893dbf3c6c5d1012c205627cb1fd2a99"
+    },
+    {
+      "file": "../../scripts/analizar_primer_caso.py",
+      "bytes": 20477,
+      "sha256": "fea9f43e5972ee14f748703bc4724b3a50885214700cbca19bd423bd545a4fcc"
+    }
+  ]
+}

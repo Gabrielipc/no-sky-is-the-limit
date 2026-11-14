@@ -1,0 +1,164 @@
+{
+  "contract_id": "contrato-comun-superficie-v1",
+  "version": 1,
+  "description": "Contrato común de características independientes del instrumento, partición espacial por bloques reservados, selección cuantitativa de variables y política de consulta bajo demanda para la Entrega 3.",
+  "windows_m": [1800, 3000],
+  "primary_window_m": 3000,
+  "primary_cell_m": 30,
+  "scales_m": [30, 60, 120],
+  "slope_base_m": 240,
+  "roughness_radius_m": 360,
+  "margin_m": 720,
+  "quality_thresholds": {
+    "min_window_valid_fraction": 0.80,
+    "min_topographic_descriptor_fraction": 0.95,
+    "min_coastal_land_cell_fraction": 0.95,
+    "min_emit_qualified_samples": 30,
+    "emit_min_restored_fit": 0.80,
+    "emit_min_depth_sigma_ratio": 2.0,
+    "crism_qa_valid_code": 0,
+    "landsat_max_st_qa_k": 3.0,
+    "landsat_min_cell_support": 0.75,
+    "hls_min_band_sum": 0.01,
+    "hls_exclude_high_aerosol": true
+  },
+  "comparability_tiers": {
+    "direct_metric": "Misma magnitud física, unidad y operador matemático sobre soporte espacial equivalente en ambos cuerpos.",
+    "functional_contract_bridge": "Adaptadores independientes por instrumento que proyectan observaciones nativas distintas hacia un complejo físico común con cuantiles de intensidad y fracción activa estandarizados.",
+    "requires_on_demand_product": "Contrato definido matemáticamente; requiere adquirir bajo demanda un producto adicional (p. ej. reflectancia EMIT L2A a 1,0 µm o pares térmicos día-noche ECOSTRESS/MODIS) para habilitar la comparación directa.",
+    "planet_specific_constraint": "Condición de contorno o filtro de elegibilidad propio de un cuerpo (vegetación, urbanización, agua superficial actual o temperatura instantánea de escena)."
+  },
+  "spectral_absorption_complexes": [
+    {
+      "complex_id": "abs_fe3_oxide_0p53_0p90um",
+      "label": "Óxidos/oxihidróxidos férricos (Fe³⁺, 0,53–0,90 µm)",
+      "physical_mechanism": "Transiciones electrónicas de campo cristalino y transferencia de carga en Fe³⁺ (hematita, goethita, nano-óxidos férricos).",
+      "comparability_tier": "functional_contract_bridge",
+      "crism_adapter": {
+        "primary_parameter": "BD530_2",
+        "secondary_parameter": "BD860_2",
+        "positive_floor": 0.05
+      },
+      "emit_l2b_adapter": {
+        "spectral_group": 1,
+        "families": ["Hematita", "Goethita"]
+      }
+    },
+    {
+      "complex_id": "abs_al_oh_2p20um",
+      "label": "Filosilicatos ricos en Al-OH (2,16–2,22 µm)",
+      "physical_mechanism": "Vibración de combinación Al-OH en filosilicatos dioctaédricos (montmorillonita, moscovita/illita, caolinita, micas).",
+      "comparability_tier": "functional_contract_bridge",
+      "crism_adapter": {
+        "primary_parameter": "D2200",
+        "secondary_parameter": "BD2210_2",
+        "positive_floor": 0.005
+      },
+      "emit_l2b_adapter": {
+        "spectral_group": 2,
+        "families": ["Moscovita", "Illita", "Montmorillonita", "Caolinita", "Mezcla de biblioteca: Caolinita", "Mica"]
+      }
+    },
+    {
+      "complex_id": "abs_fe_mg_oh_2p30um",
+      "label": "Filosilicatos ricos en Fe/Mg-OH (2,28–2,35 µm)",
+      "physical_mechanism": "Vibración de combinación Fe/Mg-OH en esmectitas trioctaédricas/férricas, nontronita, saponita y clorita.",
+      "comparability_tier": "functional_contract_bridge",
+      "crism_adapter": {
+        "primary_parameter": "D2300",
+        "secondary_parameter": "BD2290",
+        "positive_floor": 0.008
+      },
+      "emit_l2b_adapter": {
+        "spectral_group": 2,
+        "families": ["Esmectita", "Clorita", "Serpentina", "Paligorskita"]
+      }
+    },
+    {
+      "complex_id": "abs_carbonate_2p30_2p50um",
+      "label": "Carbonatos anhidros/hidratados (CO₃²⁻, 2,30–2,53 µm)",
+      "physical_mechanism": "Sobretonos vibracionales acoplados del enlace C–O en carbonatos de Mg, Ca y Fe (magnesite, calcita, dolomita, aragonito).",
+      "comparability_tier": "functional_contract_bridge",
+      "crism_adapter": {
+        "primary_parameter": "MIN2295_2480",
+        "secondary_parameter": "BD2500_2",
+        "positive_floor": 0.0
+      },
+      "emit_l2b_adapter": {
+        "spectral_group": 2,
+        "families": ["Calcita", "Dolomita", "Aragonito", "Mezcla de biblioteca: Calcita", "Mezcla de biblioteca: Calcita + Dolomita", "Mezcla de biblioteca: Moscovita + Calcita"]
+      }
+    },
+    {
+      "complex_id": "abs_hydrated_sioh_so4_1p9_2p26um",
+      "label": "Sílice hidratada, sulfatos hidratados y H₂O ligada (1,90–2,26 µm)",
+      "physical_mechanism": "Combinaciones H₂O/OH en sílice opalina/calcedonia, vidrio hidratado y sulfatos hidratados/hidroxilados (jarosita, yeso).",
+      "comparability_tier": "functional_contract_bridge",
+      "crism_adapter": {
+        "primary_parameter": "BD1900R2",
+        "secondary_parameter": "BD2265",
+        "positive_floor": 0.005
+      },
+      "emit_l2b_adapter": {
+        "spectral_group": 2,
+        "families": ["Sílice o vidrio hidratado", "Jarosita", "Yeso"]
+      }
+    },
+    {
+      "complex_id": "abs_mafic_fe2_1p0um",
+      "label": "Silicatos máficos de Fe²⁺ (olivino y piroxenos, 0,90–1,30 µm)",
+      "physical_mechanism": "Absorción electrónica de campo cristalino de Fe²⁺ en olivino y piroxenos de bajo/alto calcio.",
+      "comparability_tier": "requires_on_demand_product",
+      "crism_adapter": {
+        "primary_parameter": "OLINDEX3",
+        "secondary_parameter": "LCPINDEX2",
+        "positive_floor": 0.13
+      },
+      "emit_l2b_adapter": {
+        "spectral_group": null,
+        "families": [],
+        "note": "EMIT L2B Tetracorder no reporta olivino/piroxeno en las escenas locales; requiere reflectancia EMIT L2A bajo demanda en la banda de 1,0 µm."
+      }
+    }
+  ],
+  "on_demand_query_policy": {
+    "policy_id": "consulta-bajo-demanda-v1",
+    "supported_modes": ["auto", "range", "cache"],
+    "default_mode": "auto",
+    "cache_limit_gb": 100,
+    "principles": [
+      "Ninguna búsqueda global exige descargar el planeta completo en disco: las fuentes COG (GLO-30, WorldCover, JRC, HLS, Landsat) se consultan por ventana mediante lecturas parciales HTTP 206 (/vsicurl/) o caché local verificada.",
+      "El cálculo del contrato común ocurre al vuelo sobre la ventana solicitada (window_m + 2 * margin_m) y solo se persisten vectores compactos de características e identidades de procedencia.",
+      "Los sensores por franja (EMIT, CRISM, ECOSTRESS, 3DEP) se consultan como módulos de enriquecimiento condicional: la ausencia de franja local u orbital produce un estado tipado (on_demand_fetchable o no_swath_coverage) sin penalizar ni imputar cero."
+    ],
+    "stages": [
+      {
+        "stage": 1,
+        "name": "Preselección topográfica regional",
+        "source": "GMTED2010 7,5\" o índice regional",
+        "access_mode": "local_archive_or_index",
+        "measured_throughput": "973 ventanas de 3 km en 9,3 s (~9,6 ms/ventana)"
+      },
+      {
+        "stage": 2,
+        "name": "Contrato base 30 m bajo demanda (topografía + elegibilidad)",
+        "source": "Copernicus GLO-30 COG + ESA WorldCover COG + JRC Surface Water COG",
+        "access_mode": "http_206_range_read_or_verified_cache",
+        "measured_throughput": "Bloque de 100x100 km leído por HTTP 206 en 16,35 s y 38,46 MB (23 rangos); ventana individual de 3 km (~4,44x4,44 km con margen) requiere <0,5 MB por producto."
+      },
+      {
+        "stage": 3,
+        "name": "Enriquecimiento espectral y térmico bajo demanda",
+        "source": "EMIT L2B/L2A (CMR/LP DAAC), Landsat ST / HLS y pares diurnos ECOSTRESS",
+        "access_mode": "on_demand_granule_window_adapter",
+        "measured_throughput": "Ejecutado solo sobre candidatas que superan los filtros de elegibilidad y topografía de las etapas 1 y 2."
+      }
+    ]
+  },
+  "spatial_partition_policy": {
+    "block_side_km": 100,
+    "min_inter_region_separation_km": 250,
+    "holdout_fraction_target": 0.30,
+    "assign_rule": "Partición determinista por bloques geográficos de 100x100 km en cada región y estrato ambiental; los bloques reservados (holdout) permanecen congelados hasta la evaluación ciega de búsqueda (Paso 7)."
+  }
+}

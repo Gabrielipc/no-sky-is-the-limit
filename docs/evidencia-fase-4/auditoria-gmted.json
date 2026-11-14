@@ -1,0 +1,751 @@
+{
+  "sources": [
+    {
+      "id": "mn75_grd",
+      "input": "data/raw/gmted2010/mn75_grd.zip",
+      "bytes": 2919537239,
+      "sha256": "eab22d18b46a34b2e21bbd019ec7a16f2c0b5d3b983d9bd27bd56d68c791c0cf",
+      "arcsec": 7.5,
+      "shape": [
+        67200,
+        172800
+      ],
+      "role": "screening",
+      "metadata": {
+        "driver": "AIG",
+        "shape": [
+          67200,
+          172800
+        ],
+        "crs_wkt": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+        "transform": [
+          0.002083333333333335,
+          0.0,
+          -180.00013888888893,
+          0.0,
+          -0.002083333333333335,
+          83.9998611111112,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "bounds": [
+          -180.00013888888893,
+          -56.00013888888891,
+          179.99986111111136,
+          83.9998611111112
+        ],
+        "step_degrees": [
+          0.002083333333333335,
+          0.002083333333333335
+        ],
+        "nodata": -32768.0,
+        "dtype": "int16",
+        "band_units": null,
+        "units_assignment": "Meters (USGS FGDC); vertical datum varies by input source, not verified per pixel. No absolute elevation comparison."
+      },
+      "zip_crc": "passed_all_members",
+      "members": [
+        {
+          "file": "info/arc.dir",
+          "bytes": 1140,
+          "crc32": "b77a9be9"
+        },
+        {
+          "file": "info/arc0000.dat",
+          "bytes": 80,
+          "crc32": "48db0ac4"
+        },
+        {
+          "file": "info/arc0000.nit",
+          "bytes": 576,
+          "crc32": "96b27420"
+        },
+        {
+          "file": "info/arc0001.dat",
+          "bytes": 80,
+          "crc32": "90c7e522"
+        },
+        {
+          "file": "info/arc0001.nit",
+          "bytes": 576,
+          "crc32": "367fe582"
+        },
+        {
+          "file": "mn75_grd.aux.xml",
+          "bytes": 219,
+          "crc32": "b8c13cb3"
+        },
+        {
+          "file": "mn75_grd/dblbnd.adf",
+          "bytes": 32,
+          "crc32": "2542d93b"
+        },
+        {
+          "file": "mn75_grd/hdr.adf",
+          "bytes": 308,
+          "crc32": "cd8647a3"
+        },
+        {
+          "file": "mn75_grd/metadata.xml",
+          "bytes": 6012,
+          "crc32": "9d84acb2"
+        },
+        {
+          "file": "mn75_grd/prj.adf",
+          "bytes": 114,
+          "crc32": "a00025dd"
+        },
+        {
+          "file": "mn75_grd/sta.adf",
+          "bytes": 32,
+          "crc32": "ea96eff7"
+        },
+        {
+          "file": "mn75_grd/w001000.adf",
+          "bytes": 57243546,
+          "crc32": "4159dc28"
+        },
+        {
+          "file": "mn75_grd/w001000x.adf",
+          "bytes": 707500,
+          "crc32": "1c704985"
+        },
+        {
+          "file": "mn75_grd/w001001.adf",
+          "bytes": 41065986,
+          "crc32": "758f6b83"
+        },
+        {
+          "file": "mn75_grd/w001001x.adf",
+          "bytes": 707500,
+          "crc32": "cd840f7a"
+        },
+        {
+          "file": "mn75_grd/z001001.adf",
+          "bytes": 95454230,
+          "crc32": "2a9e9e42"
+        },
+        {
+          "file": "mn75_grd/z001001x.adf",
+          "bytes": 707500,
+          "crc32": "6657c221"
+        },
+        {
+          "file": "mn75_grd/z001002.adf",
+          "bytes": 286121642,
+          "crc32": "da07c4c1"
+        },
+        {
+          "file": "mn75_grd/z001002x.adf",
+          "bytes": 707500,
+          "crc32": "aef5994e"
+        },
+        {
+          "file": "mn75_grd/z001003.adf",
+          "bytes": 367656506,
+          "crc32": "92b38e57"
+        },
+        {
+          "file": "mn75_grd/z001003x.adf",
+          "bytes": 707500,
+          "crc32": "b4689c4f"
+        },
+        {
+          "file": "mn75_grd/z001004.adf",
+          "bytes": 294436598,
+          "crc32": "8ed5fe4a"
+        },
+        {
+          "file": "mn75_grd/z001004x.adf",
+          "bytes": 707500,
+          "crc32": "b155f8a6"
+        },
+        {
+          "file": "mn75_grd/z001005.adf",
+          "bytes": 273887334,
+          "crc32": "00743b86"
+        },
+        {
+          "file": "mn75_grd/z001005x.adf",
+          "bytes": 707500,
+          "crc32": "b4891aec"
+        },
+        {
+          "file": "mn75_grd/z001006.adf",
+          "bytes": 296986486,
+          "crc32": "06d4e1c1"
+        },
+        {
+          "file": "mn75_grd/z001006x.adf",
+          "bytes": 707500,
+          "crc32": "897cec21"
+        },
+        {
+          "file": "mn75_grd/z001007.adf",
+          "bytes": 273583050,
+          "crc32": "7c717e9a"
+        },
+        {
+          "file": "mn75_grd/z001007x.adf",
+          "bytes": 707500,
+          "crc32": "8e365b72"
+        },
+        {
+          "file": "mn75_grd/z001008.adf",
+          "bytes": 263906082,
+          "crc32": "f7a9f184"
+        },
+        {
+          "file": "mn75_grd/z001008x.adf",
+          "bytes": 707500,
+          "crc32": "6232bb1c"
+        },
+        {
+          "file": "mn75_grd/z001009.adf",
+          "bytes": 256006434,
+          "crc32": "edc64f4c"
+        },
+        {
+          "file": "mn75_grd/z001009x.adf",
+          "bytes": 707500,
+          "crc32": "699d4a74"
+        },
+        {
+          "file": "mn75_grd/z001010.adf",
+          "bytes": 247823754,
+          "crc32": "19b8dac0"
+        },
+        {
+          "file": "mn75_grd/z001010x.adf",
+          "bytes": 707500,
+          "crc32": "169077ec"
+        },
+        {
+          "file": "mn75_grd/z001011.adf",
+          "bytes": 230378878,
+          "crc32": "4e66310d"
+        },
+        {
+          "file": "mn75_grd/z001011x.adf",
+          "bytes": 707500,
+          "crc32": "6b2144e8"
+        },
+        {
+          "file": "mn75_grd/z001012.adf",
+          "bytes": 199029294,
+          "crc32": "fd410fc0"
+        },
+        {
+          "file": "mn75_grd/z001012x.adf",
+          "bytes": 707500,
+          "crc32": "ac6ae6d2"
+        },
+        {
+          "file": "mn75_grd/z001013.adf",
+          "bytes": 168224506,
+          "crc32": "50fed7d4"
+        },
+        {
+          "file": "mn75_grd/z001013x.adf",
+          "bytes": 707500,
+          "crc32": "36da24e1"
+        },
+        {
+          "file": "mn75_grd/z001014.adf",
+          "bytes": 137343562,
+          "crc32": "ff137f07"
+        },
+        {
+          "file": "mn75_grd/z001014x.adf",
+          "bytes": 707500,
+          "crc32": "260dd8cd"
+        },
+        {
+          "file": "mn75_grd/z001015.adf",
+          "bytes": 118863778,
+          "crc32": "e2015156"
+        },
+        {
+          "file": "mn75_grd/z001015x.adf",
+          "bytes": 707500,
+          "crc32": "4257396e"
+        },
+        {
+          "file": "mn75_grd/z001016.adf",
+          "bytes": 127711906,
+          "crc32": "353c844d"
+        },
+        {
+          "file": "mn75_grd/z001016x.adf",
+          "bytes": 707500,
+          "crc32": "9589157b"
+        },
+        {
+          "file": "mn75_grd/z001017.adf",
+          "bytes": 114539178,
+          "crc32": "569b93b5"
+        },
+        {
+          "file": "mn75_grd/z001017x.adf",
+          "bytes": 707500,
+          "crc32": "b028d38e"
+        },
+        {
+          "file": "mn75_grd/z001018.adf",
+          "bytes": 119375790,
+          "crc32": "e64a67a3"
+        },
+        {
+          "file": "mn75_grd/z001018x.adf",
+          "bytes": 707500,
+          "crc32": "f19aeca5"
+        },
+        {
+          "file": "mn75_grd/z001019.adf",
+          "bytes": 129856238,
+          "crc32": "bdb8c91c"
+        },
+        {
+          "file": "mn75_grd/z001019x.adf",
+          "bytes": 707500,
+          "crc32": "b5e173cf"
+        },
+        {
+          "file": "mn75_grd/z001020.adf",
+          "bytes": 112034770,
+          "crc32": "5ab39fe3"
+        },
+        {
+          "file": "mn75_grd/z001020x.adf",
+          "bytes": 707500,
+          "crc32": "3ed6341c"
+        },
+        {
+          "file": "mn75_grd/z001021.adf",
+          "bytes": 119216986,
+          "crc32": "1d1610fa"
+        },
+        {
+          "file": "mn75_grd/z001021x.adf",
+          "bytes": 707500,
+          "crc32": "4eda810e"
+        },
+        {
+          "file": "mn75_grd/z001022.adf",
+          "bytes": 123606378,
+          "crc32": "82ae98f3"
+        },
+        {
+          "file": "mn75_grd/z001022x.adf",
+          "bytes": 707500,
+          "crc32": "4f918170"
+        },
+        {
+          "file": "mn75_grd/z001023.adf",
+          "bytes": 119097094,
+          "crc32": "4d0b9486"
+        },
+        {
+          "file": "mn75_grd/z001023x.adf",
+          "bytes": 707500,
+          "crc32": "e1bc0712"
+        },
+        {
+          "file": "mn75_grd/z001024.adf",
+          "bytes": 101921694,
+          "crc32": "0d868394"
+        },
+        {
+          "file": "mn75_grd/z001024x.adf",
+          "bytes": 707500,
+          "crc32": "91c8fa8f"
+        },
+        {
+          "file": "mn75_grd/z001025.adf",
+          "bytes": 86342774,
+          "crc32": "cc35ce08"
+        },
+        {
+          "file": "mn75_grd/z001025x.adf",
+          "bytes": 707500,
+          "crc32": "9a5196ed"
+        },
+        {
+          "file": "mn75_grd/z001026.adf",
+          "bytes": 42886870,
+          "crc32": "02de4883"
+        },
+        {
+          "file": "mn75_grd/z001026x.adf",
+          "bytes": 707500,
+          "crc32": "466a6455"
+        },
+        {
+          "file": "mn75_grd/z001027.adf",
+          "bytes": 26668670,
+          "crc32": "6a8ed48d"
+        },
+        {
+          "file": "mn75_grd/z001027x.adf",
+          "bytes": 707500,
+          "crc32": "5b2305ec"
+        },
+        {
+          "file": "mn75_grd/z001028.adf",
+          "bytes": 22493954,
+          "crc32": "6691259c"
+        },
+        {
+          "file": "mn75_grd/z001028x.adf",
+          "bytes": 707500,
+          "crc32": "ce802079"
+        },
+        {
+          "file": "mn75_grd/z001029.adf",
+          "bytes": 14665246,
+          "crc32": "4c0d11ab"
+        },
+        {
+          "file": "mn75_grd/z001029x.adf",
+          "bytes": 707500,
+          "crc32": "6ebeef08"
+        },
+        {
+          "file": "mn75_grd/z001030.adf",
+          "bytes": 10146514,
+          "crc32": "4ca2da54"
+        },
+        {
+          "file": "mn75_grd/z001030x.adf",
+          "bytes": 707500,
+          "crc32": "e1b307a4"
+        },
+        {
+          "file": "mn75_grd/z001031.adf",
+          "bytes": 73528,
+          "crc32": "f9f05aaa"
+        },
+        {
+          "file": "mn75_grd/z001031x.adf",
+          "bytes": 43300,
+          "crc32": "8a1ed6d6"
+        }
+      ],
+      "coverage_samples": [
+        {
+          "name": "Utah",
+          "longitude": -110.6,
+          "latitude": 38.6,
+          "inside_grid": true,
+          "valid_cells": 25,
+          "sample_cells": 25,
+          "center_m": 1565.0
+        },
+        {
+          "name": "Atacama",
+          "longitude": -67.9,
+          "latitude": -23.8,
+          "inside_grid": true,
+          "valid_cells": 25,
+          "sample_cells": 25,
+          "center_m": 3600.0
+        },
+        {
+          "name": "Mojave",
+          "longitude": -116.1,
+          "latitude": 35.35,
+          "inside_grid": true,
+          "valid_cells": 25,
+          "sample_cells": 25,
+          "center_m": 278.0
+        },
+        {
+          "name": "Greenland",
+          "longitude": -40,
+          "latitude": 72,
+          "inside_grid": true,
+          "valid_cells": 25,
+          "sample_cells": 25,
+          "center_m": 0.0
+        },
+        {
+          "name": "Antarctica",
+          "longitude": 0,
+          "latitude": -80,
+          "inside_grid": false,
+          "valid_cells": 0,
+          "sample_cells": 25,
+          "center_m": null
+        },
+        {
+          "name": "Arctic outside grid",
+          "longitude": 0,
+          "latitude": 86,
+          "inside_grid": false,
+          "valid_cells": 0,
+          "sample_cells": 25,
+          "center_m": null
+        },
+        {
+          "name": "Pacific",
+          "longitude": -140,
+          "latitude": 0,
+          "inside_grid": true,
+          "valid_cells": 25,
+          "sample_cells": 25,
+          "center_m": 0.0
+        }
+      ],
+      "manifest_reconciliation": {
+        "previous_status": "downloaded",
+        "previous_sha256_matches": true,
+        "previous_bytes_match": true
+      }
+    },
+    {
+      "id": "mn30_grd",
+      "input": "data/raw/gmted2010/mn30_grd.zip",
+      "bytes": 277229566,
+      "sha256": "dfd0d6c6486f4da22109be6107c93a70ef9917a5b6f954cd82d87cf8b920149d",
+      "arcsec": 30,
+      "shape": [
+        20880,
+        43200
+      ],
+      "role": "audited_context_only",
+      "metadata": {
+        "driver": "AIG",
+        "shape": [
+          20880,
+          43200
+        ],
+        "crs_wkt": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+        "transform": [
+          0.008333333300000011,
+          0.0,
+          -180.00013888888893,
+          0.0,
+          -0.008333333300000011,
+          83.99986041511133,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "bounds": [
+          -180.00013888888893,
+          -90.0001388888889,
+          179.99985967111152,
+          83.99986041511133
+        ],
+        "step_degrees": [
+          0.008333333300000011,
+          0.008333333300000011
+        ],
+        "nodata": -32768.0,
+        "dtype": "int16",
+        "band_units": null,
+        "units_assignment": "Meters (USGS FGDC); vertical datum varies by input source, not verified per pixel. No absolute elevation comparison."
+      },
+      "zip_crc": "passed_all_members",
+      "members": [
+        {
+          "file": "mn30_grd.aux.xml",
+          "bytes": 219,
+          "crc32": "b8c13cb3"
+        },
+        {
+          "file": "info/arc.dir",
+          "bytes": 1140,
+          "crc32": "b7fd37ff"
+        },
+        {
+          "file": "info/arc0000.dat",
+          "bytes": 80,
+          "crc32": "c3d07087"
+        },
+        {
+          "file": "info/arc0000.nit",
+          "bytes": 576,
+          "crc32": "96b27420"
+        },
+        {
+          "file": "info/arc0001.dat",
+          "bytes": 80,
+          "crc32": "1bcc9f61"
+        },
+        {
+          "file": "info/arc0001.nit",
+          "bytes": 576,
+          "crc32": "367fe582"
+        },
+        {
+          "file": "info/arc0002.dat",
+          "bytes": 80,
+          "crc32": "ad02ade8"
+        },
+        {
+          "file": "info/arc0002.nit",
+          "bytes": 288,
+          "crc32": "14cfeecb"
+        },
+        {
+          "file": "mn30_grd/dblbnd.adf",
+          "bytes": 32,
+          "crc32": "17c1871e"
+        },
+        {
+          "file": "mn30_grd/hdr.adf",
+          "bytes": 308,
+          "crc32": "f61a197b"
+        },
+        {
+          "file": "mn30_grd/metadata.xml",
+          "bytes": 7092,
+          "crc32": "f168595b"
+        },
+        {
+          "file": "mn30_grd/prj.adf",
+          "bytes": 114,
+          "crc32": "a00025dd"
+        },
+        {
+          "file": "mn30_grd/sta.adf",
+          "bytes": 32,
+          "crc32": "358d975e"
+        },
+        {
+          "file": "mn30_grd/vat.adf",
+          "bytes": 61656,
+          "crc32": "930a4b2f"
+        },
+        {
+          "file": "mn30_grd/w001000.adf",
+          "bytes": 139532768,
+          "crc32": "4ecb6182"
+        },
+        {
+          "file": "mn30_grd/w001000x.adf",
+          "bytes": 881604,
+          "crc32": "d1c9032d"
+        },
+        {
+          "file": "mn30_grd/w001001.adf",
+          "bytes": 310474348,
+          "crc32": "4da8dc4e"
+        },
+        {
+          "file": "mn30_grd/w001001x.adf",
+          "bytes": 881604,
+          "crc32": "18d06c8e"
+        },
+        {
+          "file": "mn30_grd/z001001.adf",
+          "bytes": 11990,
+          "crc32": "50ff8781"
+        },
+        {
+          "file": "mn30_grd/z001001x.adf",
+          "bytes": 1452,
+          "crc32": "6cce497f"
+        }
+      ],
+      "coverage_samples": [
+        {
+          "name": "Utah",
+          "longitude": -110.6,
+          "latitude": 38.6,
+          "inside_grid": true,
+          "valid_cells": 25,
+          "sample_cells": 25,
+          "center_m": 1560.0
+        },
+        {
+          "name": "Atacama",
+          "longitude": -67.9,
+          "latitude": -23.8,
+          "inside_grid": true,
+          "valid_cells": 25,
+          "sample_cells": 25,
+          "center_m": 3635.0
+        },
+        {
+          "name": "Mojave",
+          "longitude": -116.1,
+          "latitude": 35.35,
+          "inside_grid": true,
+          "valid_cells": 25,
+          "sample_cells": 25,
+          "center_m": 283.0
+        },
+        {
+          "name": "Greenland",
+          "longitude": -40,
+          "latitude": 72,
+          "inside_grid": true,
+          "valid_cells": 25,
+          "sample_cells": 25,
+          "center_m": 3103.0
+        },
+        {
+          "name": "Antarctica",
+          "longitude": 0,
+          "latitude": -80,
+          "inside_grid": true,
+          "valid_cells": 25,
+          "sample_cells": 25,
+          "center_m": 2340.0
+        },
+        {
+          "name": "Arctic outside grid",
+          "longitude": 0,
+          "latitude": 86,
+          "inside_grid": false,
+          "valid_cells": 0,
+          "sample_cells": 25,
+          "center_m": null
+        },
+        {
+          "name": "Pacific",
+          "longitude": -140,
+          "latitude": 0,
+          "inside_grid": true,
+          "valid_cells": 25,
+          "sample_cells": 25,
+          "center_m": 0.0
+        }
+      ],
+      "manifest_reconciliation": {
+        "previous_status": "verified_local",
+        "previous_sha256_matches": true,
+        "previous_bytes_match": true
+      }
+    }
+  ],
+  "limitations": [
+    "Preselección exploratoria; los umbrales son decisiones operativas, no criterios científicos validados.",
+    "Ventana de 3 km y celdas de 300/600 m: resultados distintos de fase 2 (1,8 km, 60/120 m).",
+    "GMTED integra fuentes heterogéneas. No hay máscara de procedencia, rellenos ni precisión local por píxel en este análisis.",
+    "Las celdas válidas no demuestran observaciones directas ni ausencia de interpolación.",
+    "La malla se muestrea cada 10 km; no inspecciona toda la superficie ni permite afirmar que no existan otras candidatas.",
+    "Áreas elegidas en el interior continental; no se aplicó una máscara de tierra/agua. Lagos, infraestructura y acceso siguen sin evaluar.",
+    "Geología, térmica, rocas, polvo, agua/hielo y transitabilidad no evaluados. Los controles no son verdad de referencia.",
+    "El producto de 30″ se audita como contexto; no rellena vacíos de 7,5″ ni se usa a 300 m. No se incluyen áreas polares."
+  ],
+  "documentation": [
+    {
+      "title": "USGS EROS — GMTED2010",
+      "url": "https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-global-multi-resolution-terrain-elevation"
+    },
+    {
+      "title": "USGS — ArcGrid globales por estadística",
+      "url": "https://topotools.cr.usgs.gov/gmted_viewer/gmted2010_global_grids.php"
+    },
+    {
+      "title": "USGS — metadatos FGDC",
+      "url": "https://topotools.cr.usgs.gov/gmted_viewer/gmted2010_fgdc_metadata.html"
+    }
+  ],
+  "scope": "Complete ZIP CRC and local identity, metadata, point-window samples. No global valid-land percentage or independent accuracy validation.",
+  "coverage_interpretation": "Numeric validity only. Zero is a valid value, also observed in ocean and Greenland samples; no land/observation mask or global coverage percentage inferred."
+}

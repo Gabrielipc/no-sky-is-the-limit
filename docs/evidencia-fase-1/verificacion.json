@@ -1,0 +1,25 @@
+{
+  "checked_at_utc": "2026-11-07T05:37:59.639046+00:00",
+  "status": "passed",
+  "checks": [
+    "All JSON files parse without non-finite constants",
+    "All four polygons valid, nonempty and closed; planetary and terrestrial files separated",
+    "Local input hashes unchanged; polygon SRTM counts consistent",
+    "Both 3DEP raster rectangles contain selected polygons; valid coverage remains unknown",
+    "17 Mars sample segments: stored ranges, byte counts, hashes and 30872 valid sample counts consistent",
+    "All 16 grouped remote consultations succeeded; saved body hashes match",
+    "35 matrix rows unique by site-variable-product; all eight variables covered or explicitly pending at every site",
+    "16 relative Markdown links resolve"
+  ],
+  "versions": {
+    "rasterio": "1.4.4",
+    "gdal": "3.12.3",
+    "pyproj": "3.7.2",
+    "numpy": "1.26.4"
+  },
+  "limitations": [
+    "Checks verify documentary consistency and examined samples; no full Mars valid mask or 3DEP pixel inspection.",
+    "External URLs recorded with actual successful metadata access where available; large raster bodies and every external link were not downloaded.",
+    "No terrain metrics or analogy scores computed; no application changes made."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "scenario_id": "estabilidad-topografica",
+  "name": "Reconocimiento topográfico · sensibilidad a fuente y escala",
+  "question": "¿Se conservan las decisiones regionales al cambiar GMTED por SRTM a la misma escala, y cómo cambian los descriptores al examinar 60/120 m?",
+  "reference_id": "mars-jezero-fan",
+  "body": "Mars",
+  "window_m": 3000,
+  "scales_m": [60, 120, 300, 600],
+  "margin_m": 600,
+  "selection_cell_m": 300,
+  "selection_profile": "baseline",
+  "selection_seed": "fase5-v1",
+  "per_stratum": 1,
+  "prefer_local_tiles": true,
+  "max_candidates": 10,
+  "anchors": ["utah-010-007"],
+  "selection_policy": "Tres controles y ancla de fase 4; una ventana generada por área y decisión base a 300 m. Se prefieren teselas locales y luego el menor SHA-256 de semilla:id. Muestra de conveniencia estratificada; no representa el catálogo ni estima exactitud.",
+  "output": "docs/evidencia-fase-5"
+}

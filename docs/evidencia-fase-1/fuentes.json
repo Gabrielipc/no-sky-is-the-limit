@@ -1,0 +1,65 @@
+{
+  "local_date": "2026-11-06",
+  "timezone": "America/Managua",
+  "initial_downloads": [
+    {
+      "file": "jezero-dtm-prefix.bin",
+      "url": "https://www.uahirise.org/PDS/DTM/PSP/ORB_002300_002399/PSP_002387_1985_PSP_003798_1985/DTEEC_002387_1985_003798_1985_A01.IMG",
+      "requested_range": "bytes=0-65535",
+      "observed_bytes": 65536,
+      "method": "curl --range 0-65535 --max-filesize 1000000; successful exit; HTTP headers were not retained"
+    },
+    {
+      "file": "PSP_002387_1985_RED_C_01_ORTHO.LBL",
+      "url": "https://www.uahirise.org/PDS/DTM/PSP/ORB_002300_002399/PSP_002387_1985_PSP_003798_1985/PSP_002387_1985_RED_C_01_ORTHO.LBL",
+      "method": "curl -fsSL; successful exit"
+    }
+  ],
+  "catalog_queries": [
+    {
+      "file": "tnm-utah-1m.json",
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital+Elevation+Model+%28DEM%29+1+meter&bbox=-110.62%2C38.58%2C-110.58%2C38.62&max=10&outputFormat=JSON",
+      "params": {
+        "datasets": "Digital Elevation Model (DEM) 1 meter",
+        "bbox": "-110.62,38.58,-110.58,38.62",
+        "max": "10",
+        "outputFormat": "JSON"
+      },
+      "method": "curl -fsSL --get; successful exit"
+    },
+    {
+      "file": "tnm-mojave-1m.json",
+      "url": "https://tnmaccess.nationalmap.gov/api/v1/products?datasets=Digital+Elevation+Model+%28DEM%29+1+meter&bbox=-116.12%2C35.31%2C-116.08%2C35.35&max=10&outputFormat=JSON",
+      "params": {
+        "datasets": "Digital Elevation Model (DEM) 1 meter",
+        "bbox": "-116.12,35.31,-116.08,35.35",
+        "max": "10",
+        "outputFormat": "JSON"
+      },
+      "method": "curl -fsSL --get; successful exit"
+    }
+  ],
+  "supplementary_sources": [
+    {
+      "id": "bell2022",
+      "title": "Geological, multispectral, and meteorological imaging results from the Mars 2020 Perseverance rover in Jezero crater",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9683734/",
+      "doi": "10.1126/sciadv.abo4856",
+      "verified": "Primary research article read via web research tool; no full local copy",
+      "supports": "Scientific context of Jezero; does not validate the exact polygon or terrestrial analogy."
+    },
+    {
+      "id": "sim3464",
+      "title": "Geologic map of Jezero crater and the Nili Planum region, Mars",
+      "url": "https://www.usgs.gov/maps/geologic-map-jezero-crater-and-nili-planum-region-mars",
+      "doi": "10.3133/sim3464",
+      "verified": "Catalog entry located via web search; direct curl HTTP 403; web open timed out; GIS not obtained",
+      "supports": "Candidate interpreted geological map only; no polygon coverage or units verified."
+    }
+  ],
+  "tools": {
+    "python": "3.11 (Pixi environment)",
+    "libraries": "rasterio, GDAL, pyproj, NumPy; versions recorded in verificacion.json"
+  },
+  "scope": "Public metadata and small binary samples only; no complete remote DEM, orthoimage or 3DEP tile downloaded."
+}

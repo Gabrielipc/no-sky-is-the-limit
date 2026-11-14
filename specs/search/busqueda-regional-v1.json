@@ -1,0 +1,141 @@
+{
+  "search_id": "jezero-gmted-regional-v1",
+  "window_m": 3000,
+  "scales_m": [
+    300,
+    600
+  ],
+  "margin_m": 600,
+  "stride_m": 10000,
+  "min_coverage": 0.95,
+  "support_tolerance": 1e-06,
+  "max_windows": 1500,
+  "slope_histogram_edges_deg": [
+    0,
+    1,
+    2,
+    5,
+    10,
+    15,
+    20,
+    30,
+    45,
+    90
+  ],
+  "profiles": {
+    "strict": {
+      "slope_distance_max_deg": 1,
+      "abs_relief_difference_max_m": 30
+    },
+    "baseline": {
+      "slope_distance_max_deg": 2,
+      "abs_relief_difference_max_m": 60
+    },
+    "relaxed": {
+      "slope_distance_max_deg": 4,
+      "abs_relief_difference_max_m": 120
+    }
+  },
+  "areas": [
+    {
+      "id": "utah",
+      "name": "Utah interior",
+      "bbox": [
+        -111.5,
+        38,
+        -109.5,
+        39.5
+      ]
+    },
+    {
+      "id": "mojave",
+      "name": "Mojave interior",
+      "bbox": [
+        -117.5,
+        34.5,
+        -115.5,
+        36
+      ]
+    },
+    {
+      "id": "atacama",
+      "name": "Atacama interior",
+      "bbox": [
+        -69,
+        -25,
+        -67,
+        -23
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "id": "control-utah",
+      "name": "Utah — centro de fase 2",
+      "body": "Earth",
+      "latitude": 38.6,
+      "longitude": -110.6,
+      "area_id": "utah",
+      "phase2_site_id": "earth-utah"
+    },
+    {
+      "id": "control-mojave",
+      "name": "Silver Lake — control contextual",
+      "body": "Earth",
+      "latitude": 35.35,
+      "longitude": -116.1,
+      "area_id": "mojave",
+      "phase2_site_id": null
+    },
+    {
+      "id": "control-atacama",
+      "name": "Atacama — centro de fase 2",
+      "body": "Earth",
+      "latitude": -23.8,
+      "longitude": -67.9,
+      "area_id": "atacama",
+      "phase2_site_id": "earth-atacama"
+    }
+  ],
+  "sources": [
+    {
+      "id": "mn75_grd",
+      "input": "data/raw/gmted2010/mn75_grd.zip",
+      "bytes": 2919537239,
+      "sha256": "eab22d18b46a34b2e21bbd019ec7a16f2c0b5d3b983d9bd27bd56d68c791c0cf",
+      "arcsec": 7.5,
+      "shape": [
+        67200,
+        172800
+      ],
+      "role": "screening"
+    },
+    {
+      "id": "mn30_grd",
+      "input": "data/raw/gmted2010/mn30_grd.zip",
+      "bytes": 277229566,
+      "sha256": "dfd0d6c6486f4da22109be6107c93a70ef9917a5b6f954cd82d87cf8b920149d",
+      "arcsec": 30,
+      "shape": [
+        20880,
+        43200
+      ],
+      "role": "audited_context_only"
+    }
+  ],
+  "source_documentation": [
+    {
+      "title": "USGS EROS — GMTED2010",
+      "url": "https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-global-multi-resolution-terrain-elevation"
+    },
+    {
+      "title": "USGS — ArcGrid globales por estadística",
+      "url": "https://topotools.cr.usgs.gov/gmted_viewer/gmted2010_global_grids.php"
+    },
+    {
+      "title": "USGS — metadatos FGDC",
+      "url": "https://topotools.cr.usgs.gov/gmted_viewer/gmted2010_fgdc_metadata.html"
+    }
+  ],
+  "output": "docs/evidencia-fase-4"
+}

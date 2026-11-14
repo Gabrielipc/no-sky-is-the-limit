@@ -1,0 +1,2837 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:dc="http://purl.org/dc/terms/"
+    xmlns:foaf="http://xmlns.com/foaf/0.1/"
+    xmlns:og="http://ogp.me/ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:sioc="http://rdfs.org/sioc/ns#"
+    xmlns:sioct="http://rdfs.org/sioc/types#"
+    xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+
+<head profile="http://www.w3.org/1999/xhtml/vocab">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="Generator" content="Drupal 7 (http://drupal.org)" />
+    <!-- <link rel="canonical" href="/donate" /> -->
+    <!-- <link rel="shortlink" href="/node/3160" /> -->
+    <meta name="MobileOptimized" content="width" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/vnd.microsoft.icon" />
+    <title>OpenTopography - Shuttle Radar Topography Mission (SRTM GL1) Global 30m</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="/scripts/EasyAutocomplete/1.4.0/jquery.easy-autocomplete.min.js"></script>
+    <!-- Autocomplete CSS file -->
+    <link rel="stylesheet" href="/scripts/EasyAutocomplete/1.4.0/easy-autocomplete.min.css">
+    <!-- Autocomplete additional CSS Themes file - not required-->
+    <link rel="stylesheet" href="/scripts/EasyAutocomplete/1.4.0/easy-autocomplete.themes.min.css">
+
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/css/css1_autocomplete.css?20200429" media="all" />
+    <link type="text/css" rel="stylesheet" href="/css/css2_aggregator.css?20200429" media="all" />
+    <link type="text/css" rel="stylesheet" href="/css/css3_ctools.css?20200429" media="all" />
+    <link type="text/css" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" media="all" />
+    <link type="text/css" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" media="all" />
+    <link type="text/css" rel="stylesheet" href="/css/css4_meanmenu.css?20200429" media="all" />
+    <link type="text/css" rel="stylesheet" href="/css/css5_body.css?20200429" media="all" />
+    <link type="text/css" rel="stylesheet" href="/css/css6_font.css?20200429" media="all" />
+
+<!--[if (IE 9)&(!IEMobile)]>
+<link type="text/css" rel="stylesheet" href="https://opentopography.org/sites/opentopography.org/themes/scholarly_lite/ie9.css?q9gpu3" media="all" />
+<![endif]-->
+
+    <link type="text/css" rel="stylesheet" href="/css/css7_flexslider.css?20200429" media="all" />
+    <link type="text/css" rel="stylesheet" href="/css/local.css?20250422" media="all" />
+
+  <!-- HTML5 element support for IE6-8 -->
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+    <script type="text/javascript" src="/scripts/js1_jquery1.7.2.js"></script>
+    <script type="text/javascript">
+
+<!--//--><![CDATA[//><!--
+jQuery(document).ready(function($) {
+    $(window).scroll(function() {
+        if($(this).scrollTop() != 0) {
+            $("#toTop").addClass("show");
+        }
+        else {
+            $("#toTop").removeClass("show");
+        }
+    });
+
+    $("#toTop").click(function() {
+        $("body,html").animate({scrollTop:0},800);
+    });
+});
+//--><!]]>
+    </script>
+
+    <script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery(document).ready(function($) {
+    var headerTopHeight = $("#header-top").outerHeight(),
+    headerHeight = $("#header").outerHeight();
+
+    $(window).scroll(function() {
+    if(($(this).scrollTop() > headerTopHeight+headerHeight) && ($(window).width() > 767)) {
+        $("body").addClass("onscroll");
+        if (($("#site-name").length > 0) && ($("#logo").length > 0)) {
+            $(".onscroll #logo").addClass("hide");
+        }
+
+        if ($("#banner").length > 0) {
+             $("#banner").css("marginTop", (headerHeight)+"px");
+        }
+        else if ($("#page-intro").length > 0) {
+            $("#page-intro").css("marginTop", (headerHeight)+"px");
+        }
+        else {
+            $("#page").css("marginTop", (headerHeight)+"px");
+        }
+    }
+    else {
+        $("body").removeClass("onscroll");
+        $("#logo").removeClass("hide");
+        $("#page,#banner,#page-intro").css("marginTop", (0)+"px");
+    }
+    });
+});
+//--><!]]>
+    </script>
+
+    <script type="text/javascript" src="/scripts/jquery.meanmenu.fork.js?20200429"></script>
+
+    <script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery(document).ready(function($) {
+    $("#main-navigation .sf-menu, #main-navigation .content>ul.menu, #main-navigation ul.main-menu").wrap("<div class='meanmenu-wrapper'></div>");
+    $("#main-navigation .meanmenu-wrapper").meanmenu({
+        meanScreenWidth: "767",
+        meanRemoveAttrs: true,
+        meanMenuContainer: "#header-inside",
+        meanMenuClose: ""
+    });
+
+    $("#header-top .sf-menu, #header-top .content>ul.menu").wrap("<div class='header-top-meanmenu-wrapper'></div>");
+    $("#header-top .header-top-meanmenu-wrapper").meanmenu({
+        meanScreenWidth: "767",
+        meanRemoveAttrs: true,
+        meanMenuContainer: "#header-top-inside",
+        meanMenuClose: ""
+    });
+});
+//--><!]]>
+    </script>
+
+    <script type="text/javascript" src="/scripts/js3_hoverIntent.js?20200429"></script>
+
+    <script type="text/javascript">
+<!--//--><![CDATA[//><!--
+jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"","ajaxPageState":{"theme":"scholarly_lite","theme_token":"9fRXNf4iEX_xrHy08hHiwr9VdKUyfClGCvKdrs2q8h0","js":{"sites\/opentopography.org\/modules\/jquery_update\/replace\/jquery\/1.7\/jquery.min.js":1,"misc\/jquery-extend-3.4.0.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"\/\/maxcdn.bootstrapcdn.com\/bootstrap\/3.2.0\/js\/bootstrap.min.js":1,"0":1,"1":1,"sites\/opentopography.org\/themes\/scholarly_lite\/js\/meanmenu\/jquery.meanmenu.fork.js":1,"2":1,"sites\/opentopography.org\/libraries\/superfish\/jquery.hoverIntent.minified.js":1,"sites\/opentopography.org\/libraries\/superfish\/supposition.js":1,"sites\/opentopography.org\/libraries\/superfish\/superfish.js":1,"sites\/opentopography.org\/libraries\/superfish\/supersubs.js":1,"sites\/opentopography.org\/modules\/superfish\/superfish.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"modules\/aggregator\/aggregator.css":1,"modules\/comment\/comment.css":1,"sites\/opentopography.org\/modules\/date\/date_api\/date.css":1,"sites\/opentopography.org\/modules\/date\/date_popup\/themes\/datepicker.1.7.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"modules\/search\/search.css":1,"modules\/user\/user.css":1,"sites\/opentopography.org\/modules\/views\/css\/views.css":1,"sites\/opentopography.org\/modules\/ckeditor\/css\/ckeditor.css":1,"sites\/opentopography.org\/modules\/ctools\/css\/ctools.css":1,"sites\/opentopography.org\/modules\/biblio\/biblio.css":1,"sites\/opentopography.org\/modules\/ds\/layouts\/ds_2col_stacked_fluid\/ds_2col_stacked_fluid.css":1,"\/\/maxcdn.bootstrapcdn.com\/font-awesome\/4.2.0\/css\/font-awesome.min.css":1,"\/\/maxcdn.bootstrapcdn.com\/bootstrap\/3.2.0\/css\/bootstrap.min.css":1,"sites\/opentopography.org\/themes\/scholarly_lite\/js\/meanmenu\/meanmenu.css":1,"sites\/opentopography.org\/libraries\/superfish\/css\/superfish.css":1,"sites\/opentopography.org\/themes\/scholarly_lite\/bootstrap\/css\/bootstrap.css":1,"sites\/opentopography.org\/themes\/scholarly_lite\/style.css":1,"sites\/opentopography.org\/themes\/scholarly_lite\/style-blue.css":1,"sites\/opentopography.org\/themes\/scholarly_lite\/fonts\/lato-font.css":1,"sites\/opentopography.org\/themes\/scholarly_lite\/fonts\/sourcecodepro-font.css":1,"sites\/opentopography.org\/themes\/scholarly_lite\/fonts\/ptserif-blockquote-font.css":1,"sites\/opentopography.org\/themes\/scholarly_lite\/ie9.css":1,"sites\/opentopography.org\/themes\/scholarly_lite\/local.css":1}},"superfish":{"2":{"id":"2","sf":{"animation":{"opacity":"show"},"speed":"\u0027fast\u0027","autoArrows":false,"dropShadows":false,"disableHI":false},"plugins":{"supposition":true,"bgiframe":false,"supersubs":{"minWidth":"12","maxWidth":"27","extraWidth":1}}}}});
+//--><!]]>
+    </script>
+    <meta name="google-site-verification" content="8UCd8FhXSdN3jeDPVrpLecrKDwBffsxjVBnADeE1HME" />
+</head>
+<body class="html not-front not-logged-in no-sidebars page-node page-node- page-node-3160 node-type-page no-banner sff-7 slff-7 hff-7 pff-7 form-style-1" >
+
+    <script type="text/javascript" src="/scripts/wz_tooltip.js?20220404"></script>
+
+    <div id="wrapper">
+        <div id="skip-link">
+            <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
+        </div>
+        <div id="toTop"><i class="fa fa-angle-up"></i></div>
+
+<!-- #header-top -->
+<div id="header-top" class="clearfix">
+    <div class="container">
+
+        <!-- #header-top-inside -->
+        <div id="header-top-inside" class="clearfix">
+            <div class="row">
+
+                <div class="col-md-8">
+                    <!-- #header-top-left -->
+                    <div id="header-top-left" class="clearfix">
+                        <div class="header-top-area">
+                            <div class="region region-header-top-left">
+                                <div id="block-block-13" class="block block-block clearfix">
+                                    <div class="content">
+
+                                        <div id="block-search-form" class="block block-search clearfix">
+                                            <div class="content">
+                                                <form action="/dataSearch" method="post" id="search-block-form" accept-charset="UTF-8">
+                                                <div>
+                                                    <div class="container-inline">
+                                                        <h2 class="element-invisible">Search form</h2>
+                                                        <div class="form-item form-type-textfield form-item-search-block-form">
+                                                            <label for="edit-search-block-form--2" class="sr-only">Dataset Search</label><input onblur="if (this.value == &#039;&#039;) {this.value = &#039;Dataset Search...&#039;;}" onfocus="if (this.value == &#039;Dataset Search...&#039;) {this.value = &#039;&#039;;}" type="text" id="edit-search-block-form--2" name="search" value="Dataset Search..." size="15" maxlength="128" class="form-text" />
+                                                        </div>
+                                                        <div class="form-actions form-wrapper" id="edit-actions"><input value="" type="submit" id="edit-submit--3" name="op" class="form-submit" /></div>
+                                                    </div>
+                                                </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- EOF:#header-top-left -->
+                </div>
+
+                <div class="col-md-4">
+                    <!-- #header-top-right -->
+                    <div id="header-top-right" class="clearfix">
+                        <div class="header-top-area">
+                            <div class="region region-header-top-right">
+                                <div id="block-menu-menu-top-menu" class="block block-menu clearfix">
+                                    <div class="content">
+                                        <ul class="menu"><li class="first leaf"><a href="https://opentopography.org/start" title="">Getting Started</a></li><li class="last leaf"><a href="/myopentopo" title="">My Account</a></li></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- EOF:#header-top-right -->
+                </div>
+            </div>
+        </div>
+        <!-- EOF: #header-top-inside -->
+
+    </div>
+</div>
+<!-- EOF: #header-top -->
+
+<!-- #header -->
+<header id="header"  role="banner" class="clearfix">
+    <div class="container">
+
+        <!-- #header-inside -->
+        <div id="header-inside" class="clearfix">
+            <div class="row">
+
+                <div class="col-md-4">
+                    <!-- #header-inside-left -->
+                    <div id="header-inside-left" class="clearfix">
+
+                        <div id="logo">
+                            <a href="https://opentopography.org/" title="Home" rel="home"> <img src="https://opentopography.org/sites/opentopography.org/files/ot_transp_logo_2.png" alt="Home" /> </a>
+                        </div>
+
+                        <div id="site-name">
+                            <a href="https://opentopography.org/" title="Home">OpenTopography</a>
+                        </div>
+
+                        <div id="site-slogan">
+                            High-Resolution Topography Data and Tools
+                        </div>
+
+                    </div>
+                    <!-- EOF:#header-inside-left -->
+                </div>
+
+                <div class="col-md-8">
+                    <!-- #header-inside-right -->
+                    <div id="header-inside-right" class="clearfix">
+
+                        <!-- #main-navigation -->
+                        <div id="main-navigation" class="clearfix">
+                            <nav role="navigation">
+                                <div class="region region-navigation">
+                                    <div id="block-superfish-2" class="block block-superfish clearfix">
+                                        <div class="content">
+                                            <ul id="superfish-2" class="menu sf-menu sf-main-menu sf-horizontal sf-style-none"><li id="menu-218-2" class="active-trail sf-depth-1 sf-no-children"><a href="https://opentopography.org/" title="" class="sf-depth-1 active">Home</a></li><li id="menu-355-2" class="sf-depth-1 menuparent"><a href="/datasets" title="" class="sf-depth-1 menuparent">Data</a><ul><li id="menu-2345-2" class="sf-depth-2 sf-no-children"><a href="/datasets" title="" class="sf-depth-2">Find Data Map</a></li><li id="menu-2996-2" class="sf-depth-2 sf-no-children"><a href="/dataCatalog" title="" class="sf-depth-2">Data Catalog</a></li><li id="menu-1086-2" class="sf-depth-2 sf-no-children"><a href="https://opentopography.org/data/contribute" title="" class="sf-depth-2">Contribute</a></li><li id="menu-1349-2" class="sf-depth-2 sf-no-children"><a href="https://opentopography.org/developers" title="" class="sf-depth-2">Developers/API</a></li></ul></li><li id="menu-357-2" class="sf-depth-1 menuparent"><a href="https://opentopography.org/learn" class="sf-depth-1 menuparent">Learn</a><ul><li id="menu-3043-2" class="sf-depth-2 sf-no-children"><a href="https://opentopography.org/learn/onlinetraining" class="sf-depth-2">Online Training</a></li><li id="menu-3045-2" class="sf-depth-2 sf-no-children"><a href="https://opentopography.org/learn/curriculum" class="sf-depth-2">Curriculum for Educators</a></li><li id="menu-1026-2" class="sf-depth-2 sf-no-children"><a href="https://opentopography.org/learn/workshops" class="sf-depth-2">Workshops &amp; Short Courses</a></li><li id="menu-1085-2" class="sf-depth-2 sf-no-children"><a href="https://opentopography.org/blog" class="sf-depth-2">Blog</a></li></ul></li><li id="menu-309-2" class="sf-depth-1 menuparent"><a href="https://opentopography.org/about" class="sf-depth-1 menuparent">About</a><ul><li id="menu-2390-2" class="sf-depth-2 menuparent"><a href="https://opentopography.org/about" title="" class="sf-depth-2 menuparent">About OpenTopography</a><ul><li id="menu-387-2" class="sf-depth-3 sf-no-children"><a href="https://opentopography.org/about/people" class="sf-depth-3">People</a></li><li id="menu-3896-2" class="sf-depth-3 sf-no-children"><a href="https://opentopography.org/about/ac" class="sf-depth-3">Advisory Committees</a></li></ul></li><li id="menu-3478-2" class="sf-depth-2 sf-no-children"><a href="https://opentopography.org/about/subscriptions" title="" class="sf-depth-2">Subscriptions</a></li><li id="menu-763-2" class="sf-depth-2 sf-no-children"><a href="https://opentopography.org/publications" title="" class="sf-depth-2">Publications</a></li><li id="menu-684-2" class="sf-depth-2 sf-no-children"><a href="https://opentopography.org/news" title="" class="sf-depth-2">News</a></li></ul></li></ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                        <!-- EOF: #main-navigation -->
+
+                    </div>
+                    <!-- EOF:#header-inside-right -->
+                </div>
+
+            </div>
+        </div>
+        <!-- EOF: #header-inside -->
+
+    </div>
+</header>
+<!-- EOF: #header -->
+
+<!-- #banner -->
+<!--
+<div id="banner" class="clearfix">
+    <div class="region region-banner">
+        <div id="block-block-14" class="block block-block clearfix">
+            <div class="content">
+                <div style="color: #ffffff; background-color: #7aa239; border-color: #be7be7; padding: 1em; min-width: 100%;"><center>The OpenTopography site will be intermittently unavailable from 8AM until 1PM (Pacific Time) this Saturday, November 5th during planned maintenance.</center></div>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+<!-- EOF:#banner -->
+
+
+
+        <!-- #page -->
+        <div id="page" class="clearfix">
+
+            <!-- #messages-console -->
+            <!-- EOF: #messages-console -->
+
+            <!-- #main-content -->
+            <div id="main-content">
+                <div class="container">
+                    <div class="row">
+                        <section class="col-md-12">
+                            <!-- #promoted -->
+                            <!-- EOF: #promoted -->
+
+                            <!-- #main -->
+                            <div id="main" class="clearfix">
+
+                                <!-- END HEADER -->
+
+
+<script type="text/javascript" src="/scripts/openlayers-4.6.5/build/ol.js"></script>
+<link rel="stylesheet" href="/scripts/openlayers-4.6.5/css/ol.css" type="text/css">
+<script type="text/javascript" src="/scripts/FormChek.js"></script>
+
+
+
+<div id="bulkDownloadModal" class="modal fade" role="dialog" aria-labelledby="gridModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">OpenTopography Bulk Download</h4>
+            </div>
+            <div class="modal-body">
+
+                This resource provides bulk downloads of point cloud data from datasets hosted by OpenTopography. It is designed for advanced users seeking to download large amounts of data quickly and who have the bandwidth, expertise, and software necessary to manage the gigabytes of data available. We expect that users accessing bulk data have the ability to automate downloads using AWS Command Line Interface or other compatible GUI clients.
+                <br><br>
+                <ul>
+                    <li><strong>Bulk Download using AWS Command Line Interface</strong> [<a href="https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html" target="_blank">AWS CLI version 2 installation instructions</a>]</li>
+                    List all files example:
+                    <div style="padding-left: 40px;">
+                        <em>aws s3 ls s3://raster/SRTM_GL1/ --recursive --endpoint-url https://opentopography.s3.sdsc.edu --no-sign-request</em>
+                    </div>
+                    <br>
+                    Download files example:
+                    <div style="padding-left: 40px;">
+                        <em>aws s3 cp s3://raster/SRTM_GL1/ . --recursive --endpoint-url https://opentopography.s3.sdsc.edu --no-sign-request</em>
+                    </div>
+                    <br>
+
+                    <li><strong>Bulk Download using CyberDuck</strong></li>
+                    Once Cyberduck is installed, use <em>S3 (HTTPS)</em> connection protocol with the following information:
+
+                    <div style="padding-left: 40px;">
+                        <br>Server: <em>opentopography.s3.sdsc.edu</em>
+                        <br>Port: <em>443</em>
+                        <br>Access Key ID: <em>raster</em>
+                        <br>Secret Access Key: <em>raster-1B7Kvi</em>
+                        <br>Path: <em>/raster/SRTM_GL1</em>
+                    </div>
+                </ul>
+
+                By accessing data via OpenTopography you agree to acknowledge OpenTopography and the dataset source as specified in the dataset metadata and on <a href="https://opentopography.org/citations">OpenTopography's data acknowledgement page</a> in publications, presentations, and other materials produced using these data.
+                <br><br>Please <a href="https://opentopography.org/contact">contact us</a> if you have questions.
+            </div>
+            <div class="modal-footer">
+                <a data-dismiss="modal" href="javascript:void(0);" onclick="window.open('null')"><strong>Agree and access data</strong></a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<style>
+#map-div {
+    width:100%;
+    height:600px;
+    background-color: #cccccc;
+    position:relative;
+    border: 1px solid #cccccc;
+}
+
+#bbox_img {
+    position: absolute;
+    left: 50px;
+    top:10px;
+    width: 48px;
+    height: 49px;
+    cursor: pointer;
+}
+
+#mapView {
+    position:absolute;
+    top: 5px;
+    right: 5px;
+    white-space: nowrap;
+}
+
+#mapTypes {
+    background-color:rgba(255, 255, 255, 0.8);
+    border: 1px #cccccc solid;
+    cursor: pointer;
+    white-space: nowrap;
+    font-size:11px;
+    margin-left: 10px;
+    width: 75px;
+    padding: 7px 5px;
+}
+
+#heatMap {
+    position:absolute;
+    background-color:rgba(255, 255, 255, 0.8);
+    border: 1px #cccccc solid;
+    border-top: none;
+    border-right: none;
+    cursor: pointer;
+    white-space: nowrap;
+    font-size:11px;
+    top: 5px;
+    right: 100px;
+    padding:7px;
+}
+
+.mouse_position {
+    position:absolute;
+    bottom: 40px;
+    left: 10px;
+    width: 100%;
+    max-width: 180px;
+    white-space: nowrap;
+    font-size:12px;
+    padding: 5px 10px 10px 5px;
+    text-align:left;
+    border: 1px #cccccc solid;
+    background-color:rgba(255, 255, 255, 0.5);
+    z-index: 1;
+}
+
+select option:disabled {
+    color: #ccc;
+}
+
+#sidebar_left_box {
+    position: absolute;
+    top: 70px;
+    left: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    padding: 2px;
+}
+
+#reset_btn {
+    border-radius: 2px 2px 0 0;
+    display: block;
+    margin: 1px;
+    padding: 2px 0 0 2px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 100;
+    text-decoration: none;
+    text-align: center;
+    height: 22px;
+    width: 22px;
+    line-height: .4em;
+    background-color: rgba(0, 60, 136, .5);
+    cursor: pointer;
+}
+
+#reset_btn:hover {
+    background-color: rgba(0, 60, 136, 0.7);
+}
+
+#copyico.disabled {
+    cursor: default;
+    color: grey;
+    opacity: 0.5;
+}
+
+#copyico.enabled {
+    cursor: pointer;
+}
+
+.btn-indent {
+    margin-left: 10px;
+}
+</style>
+
+<script type="text/javascript">
+window.addEventListener('pageshow', function (event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+
+var maxResolutionValue = 100;
+var gridCellLimit = 500000000;
+
+var hasLayerType = false;
+
+var has_tauDEM = true;
+
+// TODO: hard-code for Lost River Fault Zone Near Borah Peak, Idaho dataset
+// to increase double limit for gridcell dem, need to be revise
+var maxGridcellDem = 500000000;
+
+var maxGridCellOrthophoto = 0;
+
+var rasterResolution = 30;
+
+var orthophotoResolution = 0;
+
+// 1 km2 = 1000000 m2
+var maxAreaDem = (maxGridcellDem * rasterResolution * rasterResolution) / 1000000;
+var maxAreaOrthophoto = (maxGridCellOrthophoto * orthophotoResolution * orthophotoResolution) / 1000000;
+
+var maxRoundAreaDem = maxAreaDem < 1 ? 1 : Math.round(maxAreaDem);
+
+var maxRoundAreaOrthophoto = maxAreaOrthophoto < 1 ? 1 : Math.round(maxAreaOrthophoto);
+
+var isGMRTDataset = false;
+var isNEDDataset = false;
+var isGlobalDataset = true;
+var fullMap = false;
+
+var boundingboxUpdated = true;
+
+function clearMessage(divId) {
+    var div_ele = document.getElementById(divId);
+    if (div_ele) {
+        div_ele.innerHTML = "";
+        div_ele.className = "";
+    }
+}
+
+function clearAllErrorMessage() {
+    clearMessage('submitFail');
+    clearMessage('validate');
+    clearMessage('inf_minx');
+    clearMessage('inf_miny');
+    clearMessage('inf_maxx');
+    clearMessage('inf_maxy');
+    clearMessage('inf_reqEmail');
+    clearMessage('inf_option');
+    clearMessage('inf_chmResolution');
+    $("#message_coordinates").addClass("hidden");
+}
+
+function submitForm() {
+    try {
+        clearAllErrorMessage();
+
+        if (select_coordinates_ele.checked) {
+            if (Number(auto_xmin_ele.value) != Number(minX_ele.value) ||
+                Number(auto_ymin_ele.value) != Number(minY_ele.value) ||
+                Number(auto_xmax_ele.value) != Number(maxX_ele.value) ||
+                Number(auto_ymax_ele.value) != Number(maxY_ele.value))
+            {
+                $("#validate").html("<div class='alert alert-danger'>You have manually entered selection coordinates. Please validate your entry by clicking the 'Validate coordinates and estimate area' button before submitting.</div>");
+                mapDiv.focus();
+                return false;
+            }
+        }
+
+        if (!verifyCoordinates()) {
+            displayErrorMessage("submitFail", "alert alert-danger", "ERROR! Invalid bounding box selection.");
+            mapDiv.focus();
+            return false;
+        }
+
+        var errs = 0;
+
+        if (isEmptyData) {
+            if (includeSRTM_ele && includeSRTM_ele.checked) {
+                if (!confirm("The bounding box contains no data. It might be available only for SRTM data. Are you sure to continue to submit the job?")) {
+                    mapDiv.focus();
+                    return false;
+                }
+            }
+            else {
+                displayErrorMessage("submitFail", "alert alert-danger", "ERROR! The bounding box contains no data.");
+                return false;
+            }
+        }
+
+        if ($("#rasterVizType_hillshade").is(':checked') || $("#rasterVizType_color_hillshade").is(':checked')) {
+            var exaggerationS = $("#rasterVizVerticalExaggeration").val().trim();
+            var exaggeration = Number(exaggerationS);
+
+            if (exaggerationS.length == 0 || !Number.isInteger(exaggeration) || exaggeration < 1 || exaggeration > 100) {
+                errs = 1;
+                displayErrorMessage("inf_rasterVizVerticalExaggeration", "alert alert-danger", "Must be an integer between 1 and 100.");
+            }
+
+            if ($("#rasterVizMultidirectional").is(':checked') == false) {
+                var altitudeS = $("#rasterVizAltitude").val().trim();
+                var azimuthS = $("#rasterVizAzimuth").val().trim();
+
+                var altitude = Number(altitudeS);
+                var azimuth = Number(azimuthS);
+
+                if (altitudeS.length == 0 || altitude < 0 || altitude > 90 ) {
+                    errs = 1;
+                    displayErrorMessage("inf_rasterVizAltitude", "alert alert-danger", "Must be a number of degree between 0 and 90.");
+                }
+
+                if (azimuthS.length == 0 || azimuth < 0 || azimuth > 360 ) {
+                    errs = 1;
+                    displayErrorMessage("inf_rasterVizAzimuth", "alert alert-danger", "Must be a number of degree between 0 and 360.");
+                }
+            }
+        }
+
+        if (!verifyByArea()) {
+            errs = 1;
+        }
+
+        if (!verifyLayerType()) {
+            errs = 1;
+        }
+
+        if ($("#chm").is(':checked')) {
+            var chmResolutionVal = $("#chmResolution").val();
+
+            if (chmResolutionVal < rasterResolution || chmResolutionVal > maxResolutionValue) {
+                errs = 1;
+                displayErrorMessage("inf_chmResolution", "alert alert-danger", "The input grid resolution cannot be higher than the default resolution of the data source (30 meter). Please enter a positive value between [" + rasterResolution + ", " + maxResolutionValue + "]");
+            }
+        }
+
+        if ($("#disableSendMail").is(":checked") == false || $("#disableSendMail").val() == "false") {
+            if (!validateFormField(email_ele, EMAIL_CHECK, "inf_reqEmail", "Invalid email address")) {
+                return false;
+            }
+        }
+
+        if (errs == 1) {
+            mapDiv.focus();
+            return false;
+        }
+
+        if (isGlobalDataset && !checkValidSRTMBoundingBox()) {
+            $("#validate").html("<div class='alert alert-danger'>The global dataset requires each side of the bounding box be greater than approximately 250 meters. Please try again with a larger bounding box.</div>");
+            mapDiv.focus();
+            return false;
+        }
+    }
+    catch (err) {
+        displayErrorMessage("submitFail", "alert alert-danger", "ERROR! Validation failed: " + err.message);
+        return false;
+    }
+
+    return true;
+}
+
+function verifyLayerType() {
+    if (!hasLayerType) {
+        return true;
+    }
+
+    var numLayers = 0;
+    if (layerType_be_ele && layerType_be_ele.checked) {
+        numLayers++;
+    }
+
+    if (layerType_hh_ele && layerType_hh_ele.checked) {
+        numLayers++;
+    }
+
+    if (layerType_in_ele && layerType_in_ele.checked) {
+        numLayers++;
+    }
+
+    if (layerType_op_ele && layerType_op_ele.checked) {
+        numLayers++;
+    }
+
+    if (layerType_cd_ele && layerType_cd_ele.checked) {
+        numLayers++;
+    }
+
+    if (layerType_ia_ele && layerType_ia_ele.checked) {
+        numLayers++;
+    }
+
+    if (layerType_iv_ele && layerType_iv_ele.checked) {
+        numLayers++;
+    }
+
+    if (layerType_hb_ele && layerType_hb_ele.checked) {
+        numLayers++;
+    }
+
+    if (layerType_vh_ele && layerType_vh_ele.checked) {
+        numLayers++;
+    }
+
+    if (layerType_ba_ele && layerType_ba_ele.checked) {
+        numLayers++;
+    }
+
+    if (numLayers == 0) {
+        displayErrorMessage("inf_option", "alert alert-danger", "ERROR! Raster processing required at least one layer type of Digital Elevation Models (DEMs).");
+        document.getElementById("inf_option").focus();
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Estimates the total number of raster grid cells based on bounding box coordinates,
+ * including a 10% safety buffer.
+ * @returns {number} The estimated total grid cells (rounded integer)
+ */
+function estimateGridCells() {
+    // 1. Group only the dynamic map coordinates into an array
+    var coordinates = [min_lng, max_lng, min_lat, max_lat];
+
+    // 2. Check if ANY coordinate is missing, empty, or not a number
+    if (coordinates.some(v => v == null || v === '' || isNaN(v))) {
+        return 0;
+    }
+
+    // 3. Calculate width and height in degrees
+    var widthDegrees = Math.abs(max_lng - min_lng);
+    var heightDegrees = Math.abs(max_lat - min_lat);
+
+    // 4. Convert nominal meter resolution to exact degrees
+    var resolutionDegrees = rasterResolution / 108000;
+
+    // 5. Calculate grid dimensions
+    var cellsX = Math.round(widthDegrees / resolutionDegrees);
+    var cellsY = Math.round(heightDegrees / resolutionDegrees);
+
+    // 6. Calculate total and add a 10% safety buffer
+    var totalCells = Math.round(cellsX * cellsY * 1.1);
+    console.log("estimateGridCells with 10% buffer", totalCells.toLocaleString());
+
+    return totalCells;
+}
+
+function getTotalCellCount() {
+    if (boundingBox_area === 0) {
+        return 0;
+    }
+
+    var area = boundingBox_area / 1000000;
+    return Math.round((area * 1000000) / (rasterResolution * rasterResolution));
+}
+
+function verifyByArea() {
+    if ($("#rasterVizBox").length > 0) {
+        $("#rasterVizBox").show();
+        $("#validate_viz").html("");
+    }
+
+    if (isEmptyData || boundingBox_area === 0) {
+        $("#validate").html("<div class='alert alert-warning'>The selection area contains no data.</div>");
+        return false;
+    }
+
+    var area = boundingBox_area / 1000000;
+
+    var gridcellDem = (area * 1000000) / (rasterResolution * rasterResolution);
+    var gridcellOrthophoto = 0;
+
+    var validateByOp = false;
+
+    if (layerType_op_ele && layerType_op_ele.checked) {
+        gridcellOrthophoto = (area * 1000000) / (orthophotoResolution * orthophotoResolution);
+        validateByOp = true;
+    }
+
+    var roundArea = Math.round(area);
+
+    var areaStr = roundArea == 0 ? "less than 1 " : roundArea.toLocaleString();
+
+    var minGridcellDem = 10;
+    var minGridcellDemWithViz = 2500;
+
+    var minArea4Viz = Math.ceil(minGridcellDemWithViz * (rasterResolution * rasterResolution) / 1000000);
+    var minArea4Dem = Math.ceil(minGridcellDem * (rasterResolution * rasterResolution) / 1000000);
+
+    //console.log("gridcellDem: " + gridcellDem.toFixed(0) + " | area: " + area.toFixed(3) + " km2");
+
+    if (gridcellDem < minGridcellDem || area < 0.01) {
+        $("#validate").html("<div class='alert alert-danger'>DEM generation service is enabled for selection area over " + minArea4Dem.toLocaleString() + " km<sup>2</sup>. Current selection area is " + areaStr + " km<sup>2</sup>. Please adjust your query area.</div>");
+        return false;
+    }
+    else if (validateByOp && gridcellOrthophoto > maxGridCellOrthophoto) {
+        $("#validate").html("<div class='alert alert-danger'>The maximum query areas are limited to " + maxRoundAreaDem.toLocaleString() + " km<sup>2</sup> for DEMs and " + maxRoundAreaOrthophoto.toLocaleString() + " km<sup>2</sup> for orthophotos. <br>Current selection area is " + areaStr + " km<sup>2</sup>. Please adjust your query area or uncheck orthophotos to select a lower resolution data product.</div>");
+        return false;
+    }
+    else if (!isGMRTDataset && !validateByOp && gridcellDem > maxGridcellDem) {
+        $("#validate").html("<div class='alert alert-danger'>The maximum query areas are limited to " + maxRoundAreaDem.toLocaleString() + " km<sup>2</sup> for DEMs.<br>Current selection area is " + areaStr + " km<sup>2</sup>. Please adjust your query area.</div>");
+        return false;
+    }
+    else {
+        $("#validate").html("<div class='alert alert-success'>Current selection area is approximately " + areaStr + " km<sup>2</sup>.</div>");
+
+        if (gridcellDem < minGridcellDemWithViz) {
+            $("#validate_viz").html("<div class='alert alert-warning'>Visualization service is enabled for selection area over " + minArea4Viz.toLocaleString() + " km<sup>2</sup>. Current selection area is " + areaStr + " km<sup>2</sup>.</div>");
+
+            $('input[type=checkbox][class=rasterVizType]').prop('checked', false);
+            $("#rasterVizBox").hide();
+            $(".rasterVizOptions").hide();
+        }
+    }
+
+    if (roundArea_ele) {
+        roundArea_ele.value = roundArea;
+    }
+    return true;
+}
+
+function verifyCoordinates() {
+    var errs = false;
+
+    if (select_coordinates_ele.checked) {
+        var minx = Number(minX_ele.value);
+        var maxx = Number(maxX_ele.value);
+        var miny = Number(minY_ele.value);
+        var maxy = Number(maxY_ele.value);
+
+        if (!validateFormField(minX_ele, SIGNEDFLOAT_CHECK, "inf_minx")) {
+            errs = true;
+        }
+
+        if (!validateFormField(maxX_ele, SIGNEDFLOAT_CHECK, "inf_maxx")) {
+            errs = true;
+        }
+
+        if (!validateFormField(minY_ele, SIGNEDFLOAT_CHECK, "inf_miny")) {
+            errs = true;
+        }
+
+        if (!validateFormField(maxY_ele, SIGNEDFLOAT_CHECK, "inf_maxy")) {
+            errs = true;
+        }
+    }
+    else {
+        var minx = Number(auto_xmin_ele.value);
+        var maxx = Number(auto_xmax_ele.value);
+        var miny = Number(auto_ymin_ele.value);
+        var maxy = Number(auto_ymax_ele.value);
+
+        if (!validateFormField(auto_xmin_ele, SIGNEDFLOAT_CHECK, "inf_minx")) {
+            errs = true;
+        }
+
+        if (!validateFormField(auto_xmax_ele, SIGNEDFLOAT_CHECK, "inf_maxx")) {
+            errs = true;
+        }
+
+        if (!validateFormField(auto_ymin_ele, SIGNEDFLOAT_CHECK, "inf_miny")) {
+            errs = true;
+        }
+
+        if (!validateFormField(auto_ymax_ele, SIGNEDFLOAT_CHECK, "inf_maxy")) {
+            errs = true;
+        }
+    }
+
+    if (!errs && isLatLong) {
+        if (minx > 180 || minx < -180 ||
+                maxx > 180 || maxx < -180 ||
+                miny > 90 || miny < -90 ||
+                maxy > 90 || maxy < -90) {
+
+            if (minx > 180 || minx < -180) {
+                displayErrorMessage("inf_minx", "alert alert-danger", "Invalid coordinate", "The longitude coordinates Xmin must be within the range [-180, 180]");
+            }
+
+            if (maxx > 180 || maxx < -180) {
+                displayErrorMessage("inf_maxx", "alert alert-danger", "Invalid coordinate", "The longitude coordinates Xmax must be within the range [-180, 180]");
+            }
+
+            if (miny > 90 || miny < -90) {
+                displayErrorMessage("inf_miny", "alert alert-danger", "Invalid value", "The latitude coordinates Ymin must be within the range [-90, 90]");
+            }
+
+            if (maxy > 90 || maxy < -90) {
+                displayErrorMessage("inf_maxy", "alert alert-danger", "Invalid value", "The latitude coordinates Ymax must be within the range [-90, 90]");
+            }
+
+            errs = true;
+        }
+        /*
+        else if (minx < 0 && maxx > 180) {
+            displayErrorMessage("inf_minx", "alert alert-danger", "Invalid coordinate", "The longitude coordinates Xmin is in range [-180, 180] <br>The longitude coordinates Xmax is in range [0, 360].<br>Both coordinates must be in the same range");
+            displayErrorMessage("inf_maxx", "alert alert-danger", "Invalid coordinate", "The longitude coordinates Xmin is in range [-180, 180] <br>The longitude coordinates Xmax is in range [0, 360].<br>Both coordinates must be in the same range");
+            errs = true;
+        }
+        else if (minx > 180 || maxx > 180) {
+            if (minx > 180) {
+                minx = convert180(minx);
+                minX_ele.value = minx;
+            }
+
+            if (maxx > 180) {
+                maxx = convert180(maxx);
+                maxX_ele.value = maxx;
+            }
+        }
+        */
+    }
+
+    if (!isGMRTDataset && maxx <= minx) {
+
+        var explanation = "Queries across the 180 degrees longitude line are currently only supported for the <a href=&quot;raster?opentopoID=OTGMRT.112016.4326.1&quot;>GMRT</a> dataset. Please adjust your query.";
+
+        displayErrorMessage("inf_maxx", "alert alert-danger", "Invalid value", explanation);
+        displayErrorMessage("inf_minx", "alert alert-danger", "Invalid value", explanation);
+        errs = true;
+    }
+
+    if (errs) {
+        $("#message_coordinates").removeClass("hidden")
+
+        if (select_coordinates_ele.checked) {
+            $("#manually_coordinates").removeClass("hidden");
+        }
+        else {
+            $("#auto_coordinates").removeClass("hidden");
+        }
+
+        return false;
+    }
+
+    if (!isSignedFloat(minx)) {
+        displayErrorMessage("inf_minx", "alert alert-danger", "Invalid coordinate");
+        errs = true;
+    }
+
+    if (!isSignedFloat(miny)) {
+        displayErrorMessage("inf_miny", "alert alert-danger", "Invalid coordinate");
+        errs = true;
+    }
+
+    if (!isSignedFloat(maxx)) {
+        displayErrorMessage("inf_maxx", "alert alert-danger", "Invalid coordinate");
+        errs = true;
+    }
+
+    if (!isSignedFloat(maxy)) {
+        displayErrorMessage("inf_maxy", "alert alert-danger", "Invalid coordinate");
+        errs = true;
+    }
+
+    if (errs == 1 || parseFloat(maxy) <= parseFloat(miny)) {
+        if (parseFloat(maxy) <= parseFloat(miny)) {
+            var explanation = "Bounding box values must be valid numbers. Ymax must be greater than Ymin. If you do not know what are the inputs, try to click on the &quot;SELECT A REGION&quot; button on the map and draw a box to get the valid bounding box values automatically.";
+
+            if (parseFloat(maxy) <= parseFloat(miny)) {
+                displayErrorMessage("inf_maxy", "alert alert-danger", "Invalid value", explanation);
+                displayErrorMessage("inf_miny", "alert alert-danger", "Invalid value", explanation);
+            }
+        }
+
+        $("#message_coordinates").removeClass("hidden");
+
+        return false;
+    }
+    return true;
+}
+
+function do_select_coordinates() {
+
+    if (select_coordinates_ele.checked) {
+        $("#auto_coordinates").addClass("hidden");
+        $("#manually_coordinates").removeClass("hidden");
+        $("#extra_manual_coordinates").removeClass("hidden");
+    }
+    else {
+        if (boundingboxUpdated) {
+            $("#auto_coordinates").removeClass("hidden");
+        }
+        else {
+            $("#auto_coordinates").addClass("hidden");
+        }
+
+        $("#manually_coordinates").addClass("hidden");
+        $("#extra_manual_coordinates").addClass("hidden");
+    }
+}
+
+//Orthophotograph will not be available for Arc ASCII Grid format)
+function disableOrthophoto() {
+    if (!layerType_op_ele) {
+        return;
+    }
+    //var op_na_ele = document.getElementById("op_na");
+
+    var val = outputFormat_ele.options[outputFormat_ele.selectedIndex].value;
+    if (val == "AAIGrid") {
+        layerType_op_ele.checked = false;
+        layerType_op_ele.disabled = true;
+        //if(op_na_ele) op_na_ele.style.display = "";
+        $("#op_na").removeClass("hidden");
+    }
+    else {
+        layerType_op_ele.disabled = false;
+        $("#op_na").addClass("hidden");
+    }
+    verifyByArea();
+}
+
+
+$(document).ready(function() {
+    $(".wbw_product").on('change', function() {
+        if ($(this).is(':checked')) {
+            if (!isGlobalDataset) {
+                layerType_be_ele.checked = true;
+            }
+
+            var outputFormat_value = outputFormat_ele.options[outputFormat_ele.selectedIndex].value;
+
+            var has_gtiff = (outputFormat_value == "GTiff");
+
+            if (!has_gtiff) {
+                outputFormat_value.selectedIndex = 1;
+            }
+        }
+    });
+});
+
+// 1. Listen for clicks on the Visualization checkbox
+$(document).on('change', '#tauDemViz', function() {
+    var has_wbw_product = $('.wbw_product').is(':checked');
+
+    if ($(this).is(':checked')) {
+        if (!has_wbw_product) {
+            // Uncheck the box and show the Bootstrap error
+            $(this).prop('checked', false);
+
+            alert("To generate visualizations, you must select at least one of the Hydrological products.");
+        }
+    }
+});
+
+// 2. Listen to the required products to clean up the UI instantly
+$(document).on('change', '.wbw_product', function() {
+    var has_wbw_product = $('.wbw_product').is(':checked');
+
+    if (!has_wbw_product) {
+        // If they uncheck all required products, quietly uncheck the Viz box to prevent orphaned visualizations
+        $('#tauDemViz').prop('checked', false);
+    }
+});
+
+// Define WbW threshold
+var MAX_WBW_CELL_COUNT = 50000000; // 50 million cells
+
+/**
+ * Evaluates the grid size and toggles the entire WbW panel safely.
+ * Call this function immediately after your map updates `boundingBox_area`.
+ */
+function updateWbwState() {
+    var $tauDemBox = $('#tauDemBox');
+    var $limitMsgDiv = $('#wbwLimitMessage');
+
+    // Make sure the elements exist on the page before manipulating
+    if ($tauDemBox.length === 0 || $limitMsgDiv.length === 0) return;
+
+    var totalGridCells = estimateGridCells();
+
+    if (totalGridCells > MAX_WBW_CELL_COUNT) {
+        // 1. DISABLE the checkboxes so they don't submit, but KEEP their checked status
+        $('.wbw_product, #tauDemViz').prop('disabled', true);
+
+        // 2. Hide the entire WbW tools container
+        $tauDemBox.hide();
+
+        // 3. Show the Bootstrap Warning Alert
+        var warningHtml = '<div class="alert alert-warning" style="margin-top:0px; margin-bottom:0px;">' +
+                          '<strong>Processing Limit Exceeded:</strong> Your selection area estimate is <strong>' + totalGridCells.toLocaleString() + '</strong> cells, ' +
+                          'which exceeds the ' + MAX_WBW_CELL_COUNT.toLocaleString() + ' cell limit for Hydrologic Terrain Analysis. ' +
+                          'Please select a smaller area to enable this tool.' +
+                          '</div>';
+
+        $limitMsgDiv.html(warningHtml).show();
+
+    } else {
+        // 1. Hide and clear the warning message
+        $limitMsgDiv.hide().html("");
+
+        // 2. RE-ENABLE the checkboxes so they are ready for submission again
+        $('.wbw_product, #tauDemViz').prop('disabled', false);
+
+        // 3. Reveal the WbW tools container with all previous states intact
+        $tauDemBox.show();
+    }
+}
+
+function bothDtmDsmSelect() {
+    if ($("#contour").length == 0 || $("#layerType_be").length == 0 || $("#layerType_hh").length == 0) {
+        return;
+    }
+
+    $("#contourDsmDtmMessage").html("");
+
+    if ($("#contour").is(':checked') && $("#layerType_be").is(':checked') && $("#layerType_hh").is(':checked')) {
+        $("#contourDsmDtmMessage").html("<div class='alert alert-info'>Note: Contours will only be created for the DTM. If DSM contours are desired, deselect DTM as an output type</div>");
+    }
+}
+
+function checkContourDependency() {
+    if ($("#contour").length == 0) {
+        return;
+    }
+
+    var has_no_be_hh = false;
+
+    if ($("#layerType_be").length == 0 && $("#layerType_hh").length == 0) {
+        has_no_be_hh = true;
+    }
+
+    var has_be_hh_checked = false;
+
+    if ($("#layerType_be").length && $("#layerType_be").is(':checked')) {
+        has_be_hh_checked = true;
+    }
+    if ($("#layerType_hh").length && $("#layerType_hh").is(':checked')) {
+        has_be_hh_checked = true;
+    }
+
+    if (has_be_hh_checked || has_no_be_hh) {
+        $("#contourBox").removeClass("hidden");
+        $("#noContourBox").addClass("hidden");
+    }
+    else {
+        $("#contourBox").addClass("hidden");
+        $("#noContourBox").removeClass("hidden");
+    }
+}
+
+function checkChmDependency() {
+    if ($("#chm").length == 0) {
+        return;
+    }
+
+    if ($("#layerType_be").length == 0 && $("#layerType_hh").length == 0) {
+        return;
+    }
+
+    var has_be_checked = false;
+    var has_hh_checked = false;
+
+    if ($("#layerType_be").length && $("#layerType_be").is(':checked')) {
+        has_be_checked = true;
+    }
+    if ($("#layerType_hh").length && $("#layerType_hh").is(':checked')) {
+        has_hh_checked = true;
+    }
+
+    if (has_be_checked && has_hh_checked) {
+        $("#chmBox").removeClass("hidden");
+        $("#noChmBox").addClass("hidden");
+    }
+    else {
+        $("#chmBox").addClass("hidden");
+        $("#noChmBox").removeClass("hidden");
+    }
+}
+
+function tauDemPreRequireCheck() {
+    if (!has_tauDEM)
+        return;
+
+    var validTauDem = true;
+
+    if (!isGlobalDataset) {
+        if (!layerType_be_ele.checked) {
+            if (tauDemPitRemove_ele.checked) {
+                if (confirm("The Digital Terrain Model (DTM) layer type is required for Hydrologic Terrain Analysis products. Uncheck this layer also remove all selected Hydrologic Terrain Analysis products. Are you sure to do this?")) {
+                    validTauDem = false;
+                }
+                else {
+                    layerType_be_ele.checked = true;
+                }
+            }
+            else {
+                validTauDem = false;
+            }
+        }
+    }
+
+    var val = outputFormat_ele.options[outputFormat_ele.selectedIndex].value;
+
+    if (val != "GTiff" && val != "geotiff") {
+        if (tauDemPitRemove_ele.checked) {
+            if (confirm("The Hydrologic Terrain Analysis products is required input of GeoTiff. Select a none-geoTiff format also remove all selected Hydrologic Terrain Analysis products. Are you sure to do this?")) {
+                validTauDem = false;
+            }
+            else {
+                outputFormat_ele.selectedIndex = 1;
+            }
+        }
+        else {
+            validTauDem = false;
+        }
+    }
+
+    if (validTauDem) {
+        $("#tauDemBox").removeClass("hidden");
+        $("#noTauDemBox").addClass("hidden");
+    }
+    else {
+        tauDemStreamNetwork_ele.checked = false;
+        tauDemTWI_ele.checked = false;
+        tauDemDinfFlowDir_ele.checked = false;
+        tauDemD8FlowDir_ele.checked = false;
+        tauDemAreaDinf_ele.checked = false;
+        tauDemAreaD8_ele.checked = false;
+        tauDemPitRemove_ele.checked = false;
+        tauDemViz_ele.checked = false;
+
+        $("#tauDemBox").addClass("hidden");
+        $("#noTauDemBox").removeClass("hidden");
+    }
+}
+
+function validateAtleastOneLayer() {
+    //if (isGlobalDataset) {
+    //    return;
+    //}
+    if (!hasLayerType) {
+        return true;
+    }
+
+    var countSelectedLayers = 0;
+
+    if (layerType_be_ele && layerType_be_ele.checked) {
+        countSelectedLayers++;
+    }
+    if (layerType_hh_ele && layerType_hh_ele.checked) {
+        countSelectedLayers++;
+    }
+    if (layerType_in_ele && layerType_in_ele.checked) {
+        countSelectedLayers++;
+    }
+    if (layerType_op_ele && layerType_op_ele.checked) {
+        countSelectedLayers++;
+    }
+    if (layerType_cd_ele && layerType_cd_ele.checked) {
+        countSelectedLayers++;
+    }
+    if (layerType_ia_ele && layerType_ia_ele.checked) {
+        countSelectedLayers++;
+    }
+    if (layerType_iv_ele && layerType_iv_ele.checked) {
+        countSelectedLayers++;
+    }
+    if (layerType_hb_ele && layerType_hb_ele.checked) {
+        countSelectedLayers++;
+    }
+    if (layerType_vh_ele && layerType_vh_ele.checked) {
+        countSelectedLayers++;
+    }
+    if (layerType_ba_ele && layerType_ba_ele.checked) {
+        countSelectedLayers++;
+    }
+    if (layerType_ws_ele && layerType_ws_ele.checked) {
+        countSelectedLayers++;
+    }
+
+    var messageId = document.getElementById("inf_option");
+    if (!messageId) {
+        return;
+    }
+
+    if (countSelectedLayers == 0) {
+        displayErrorMessage("inf_option", "alert alert-danger", "ERROR! Raster processing required at least one layer type of Digital Elevation Models (DEMs).");
+        messageId.focus();
+    }
+    else {
+        messageId.innerHTML = "";
+    }
+}
+
+function demVizPreRequireCheck() {
+    var has_rasterViz = true;
+    if (!has_rasterViz) {
+        return;
+    }
+
+    if (isGlobalDataset && !hasLayerType) {
+        return;
+    }
+
+    if (
+            (layerType_be_ele && layerType_be_ele.checked) ||
+            (layerType_hh_ele && layerType_hh_ele.checked) ||
+            (layerType_hb_ele && layerType_hb_ele.checked) ||
+            (layerType_ba_ele && layerType_ba_ele.checked) ||
+            (layerType_ws_ele && layerType_ws_ele.checked)
+            ) {
+        $("#noRasterVizBox").addClass("hidden");
+        $("#rasterVizBox").removeClass("hidden");
+    }
+    else {
+        $("#noRasterVizBox").removeClass("hidden");
+        $("#rasterVizBox").addClass("hidden");
+    }
+}
+
+function activateTauDem() {
+    if (!has_tauDEM)
+        return;
+
+    if (layerType_be_ele)
+        layerType_be_ele.checked = true;
+    //outputFormat_ele.selectedIndex = 1;
+
+
+    for (var x = 0; x < outputFormat_ele.length - 1; x++) {
+        if (outputFormat_ele.options[x].text == "GeoTiff") {
+            outputFormat_ele.selectedIndex = x;
+            break;
+        }
+    }
+
+    tauDemPreRequireCheck();
+    demVizPreRequireCheck();
+    validateAtleastOneLayer();
+}
+
+function verifyContourGridSize() {
+    $("#contourMessage").html("");
+
+    if (!$("#contour").is(":checked")) {
+        return;
+    }
+
+    var totalTinGridCells = getTotalCellCount();
+    //console.log("totalTinGridCells", totalTinGridCells);
+
+    if (isNaN(totalTinGridCells) || totalTinGridCells === 0) {
+        return;
+    }
+
+    var contourIntervalValue = parseFloat($("#contourInterval").val());
+    if (isNaN(contourIntervalValue)) {
+        contourIntervalValue = 0;
+    }
+
+    var contourMessageStr = "";
+    var alertClass = "alert-info";
+    var limitInterval = 0;
+
+    if (totalTinGridCells > 250000000) {
+        limitInterval = isNEDDataset ? 10 : 5;
+    }
+    else if (totalTinGridCells > 100000000) {
+        limitInterval = isNEDDataset ? 5 : 2.5;
+    }
+    else if (totalTinGridCells > 10000000) {
+        limitInterval = isNEDDataset ? 2.5 : 1;
+    }
+    else {
+        limitInterval = isNEDDataset ? 1 : 0;
+    }
+
+    if (limitInterval > 0) {
+        if (contourIntervalValue < limitInterval) {
+            alertClass = "alert-warning";
+            $("#contourInterval").val(limitInterval).change();
+        }
+
+        contourMessageStr = getContourIntervalMessage(alertClass, totalTinGridCells, limitInterval);
+        setDisableContourIntervalOptions(limitInterval);
+
+        if (isNEDDataset && limitInterval === 1) {
+            contourMessageStr = "<div class='alert alert-info'>Estimate number of grid cells is " + totalTinGridCells.toLocaleString() + "</div>";
+        }
+    }
+    else {
+        contourMessageStr = "<div class='alert alert-info'>Estimate number of grid cells is " + totalTinGridCells.toLocaleString() + "</div>";
+        setDisableContourIntervalOptions(0);
+    }
+
+    $("#contourMessage").html(contourMessageStr);
+}
+
+function getContourIntervalMessage(alertClass, totalTinGridCells, limit) {
+    return "<div class='alert " + alertClass + "'>Estimated number of grid cells is <strong>" + totalTinGridCells.toLocaleString() + "</strong> cells. This job is limited to contour interval of " + limit + "m or greater. To enable a finer contour interval, choose a smaller area.</div>";
+}
+
+function setDisableContourIntervalOptions (min) {
+    var contourIntervalArr = [0.1, 0.25, 0.5, 1, 2.5, 5];
+
+    for (var i = 0; i < contourIntervalArr.length; i++) {
+        $("#contourInterval option[value='" + contourIntervalArr[i] + "']").prop("disabled", contourIntervalArr[i] < min);
+    }
+}
+
+function copyCitation() {
+    if ($('#copyico').hasClass('disabled')) {
+        return;
+    }
+
+    copyTextToClipboard($('#citationContent').html(), 'copiedCitation');
+}
+</script>
+
+
+
+<div style="float:left;">
+    <h2 class="title">Shuttle Radar Topography Mission (SRTM GL1) Global 30m</h2>
+</div>
+<div style="float:right; margin: 20px 0 10px 0;">
+    <strong>Welcome Guest</strong> &nbsp; ( <a href='/login?redirect=%2Fraster%3FjobId%3Drt1674642591184'>Sign In</a> )
+</div>
+<div style="clear: both;"></div>
+
+<div id="not_authorized_user_copy_message"></div>
+
+
+
+
+
+
+<div class="panel-group" id="panel_head_overview">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#panel_head_overview" href="#panel_overview"><strong>Overview</strong></a>
+            </h4>
+        </div>
+        <div id="panel_overview" class="panel-collapse collapse in">
+            <div class="panel-body">
+                <div style="text-align:right; background-color:#000000; width:100%;"><img src="https://cloud.sdsc.edu/v1/AUTH_opentopography/www/images/logos/SRTM_logo.jpg" alt="" width="727" height="97" border="0" /></div><br>
+                <p>The <a href="http://www2.jpl.nasa.gov/srtm/"title="Shuttle Radar Topography Mission (SRTM)">Shuttle Radar Topography Mission (SRTM)</a> obtained elevation data on a near-global scale to generate the most complete high-resolution digital topographic database of Earth. SRTM consisted of a specially modified radar system that flew onboard the Space Shuttle Endeavour during an 11-day mission in February of 2000. SRTM is an international project spearheaded by the National Geospatial-Intelligence Agency (NGA) and the National Aeronautics and Space Administration (NASA). </p>  <b>Version 3</b>:  Elimination of the voids in the NASA SRTM DEM was the primary goal of a project under the NASA MEaSUREs (Making Earth System Data Records for Use in Research Environments) Program.  Ultimately this was achieved by filling the voids with elevation data primarily from the ASTER GDEM2 (Global Digital Elevation Model Version 2) and secondarily from the USGS GMTED2010 elevation model or the USGS National Elevation Dataset (NED). NASA SRTM V3.0 three-arc-second data are provided in two forms: (1) by three-by-three averaging of the one arc-second samples, and (2) by extracting the middle sample of those same three-by-three samples. For more information on this dataset visit the <a href="https://lpdaac.usgs.gov/products/srtmgl1v003/">LP DAAC NASA Shuttle Radar Topography Mission Global 1 arc second page</a>.</p>
+            </div>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-3">
+                        <i>Platform</i>: Satellite Data
+                    </div>
+
+                    <div class="col-md-3">
+                        <i>Survey Area</i>: 119,560,000 km<sup>2</sup>
+                    </div>
+
+                    <div class="col-md-3">
+                        <i>Raster Resolution</i>: 30 meter
+                        
+                    </div>
+
+                    <div class="col-md-3">
+                        <i>Survey Date</i>: 02/11/2000 - 02/22/2000
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <a href='/datasetMetadata?otCollectionID=OT.042013.4326.1'>Full Metadata</a>
+                    </div>
+
+                    <div class="col-md-3">
+                        <a onmouseover="Tip('<span id=\'citationContent\'>NASA Shuttle Radar Topography Mission (SRTM)(2013). Shuttle Radar Topography Mission (SRTM) Global.  Distributed by OpenTopography.  https:\/\/doi.org\/10.5069\/G9445JDF. Accessed 2026-11-07</span>', WIDTH, -400, PADDING, 15, STICKY, true, CLOSEBTN, true); $('#copyico').removeClass('disabled').addClass('enabled');" onmouseout='UnTip();'>Data Citation</a>
+                        <script type="text/javascript" src="/scripts/copyTextToClipboard.js?20240610"></script>
+                        &nbsp; <a href="javascript: void(0);" onclick="copyCitation();"><span id="copyico" class="fa fa-copy disabled" title="Copy Citation"></span></a> &nbsp; <span id='copiedCitation' class="link-copied">Copied</span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <em>Use License</em>: Not Provided
+                    </div>
+
+                    <div class="col-md-3">
+                        
+                        <i>Partners</i>: &nbsp; <span onmouseover="Tip('National Aeronautics and Space Administration', WIDTH, -400);" onmouseout='UnTip();'><a href='https://www.nasa.gov/' target='_blank'>NASA</a></span>, <span onmouseover="Tip('National Geospatial-Intelligence Agency', WIDTH, -400);" onmouseout='UnTip();'><a href='https://www.nga.mil/' target='_blank'>NGA</a></span>, <span onmouseover="Tip('International Agencies', WIDTH, -400);" onmouseout='UnTip();'><a href='https://www2.jpl.nasa.gov/srtm/links.html' target='_blank'>International Agencies</a></span>
+                         &nbsp; &nbsp; 
+                    </div>
+                </div>
+
+                <br>
+                <div class="panel-footer text-center">
+                    <strong>Other Available Data Products:</strong>
+                    <a class='btn btn-primary btn-sm btn-indent' href='/raster?opentopoID=OTSRTM.042013.4326.1'>SRTM GL3</a><a class='btn btn-primary btn-sm btn-indent' href='/raster?opentopoID=OTSRTM.082016.4326.1'>SRTM GL1 Ellipsoidal</a><a class='btn btn-primary btn-sm btn-indent' style='opacity: .65;' href='/login?redirect=%2Fraster%3FjobId%3Drt1674642591184' title='Sign in required.'>Raster Bulk Download</a><a class='btn btn-primary btn-sm btn-indent' href='https://portal.opentopography.org/apidocs/#/Public/getGlobalDem'>Global API</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<form name="selectForm" action="/rasterSubmit" method="post" onsubmit="return submitForm();">
+    <input type="hidden" name="userId" value=""/>
+    <input type="hidden" id="datasetToken" name="datasetToken" value="3aadec82-62f9-46bc-bbe1-e2f033785e4a"/>
+
+    <strong>Select area of data to process: &nbsp; &nbsp;<span class="fa fa-info-circle fa-tooltip" onmouseover="Tip('Navigation of the map below is performed using the zoom bar and navigation arrows in the upper left hand corner of the map. To select data, use the box selection tool just below the zoom bar labeled \'SELECT A REGION\'. Use the tool to draw a box on the map that corresponds to the portion of the raster dataset that you are interested in processing and downloading. The bounds of the raster dataset are shown as a colored polygon that overlays the map.', WIDTH, -400, PADDING, 15);" onmouseout="UnTip();"></span></strong>
+
+    <div class="clearfix"></div>
+
+    <!-- <div id="map" class="gmap" style="height:500px;" tabindex="-1"></div> -->
+
+    <div id="map-div">
+        <div id="map" tabindex='0' style="height:600px;"></div>
+
+        <img id="bbox_img" src="../images/select.png" onmouseover="Tip('Click here to activate drag & zoom', WIDTH, 220, FIX, [this, 52, -40]);" onmouseout="UnTip();">
+
+        <div id="mapView" onmouseover="Tip('Select map types', WIDTH, 110);" onmouseout="UnTip();">
+            <select id="mapTypes">
+                <option value="terrain">Terrain</option>
+                <option value="hillshade">Hillshade</option>
+                <option value="satellite">Satellite</option>
+                <option value="hybrid">Hybrid</option>
+                <option value="" disabled>---------------</option>
+                <option value="toggleOutline">Toggle dataset overlay</option>
+            </select>
+        </div>
+
+        <div id="heatMap" onmouseover="Tip('Spatial regions popular with OT users', WIDTH, -400);" onmouseout="UnTip();">
+            <input type='checkbox' id='heatMap_option' name='' onclick="viewHeatMap();"> &nbsp; Usage Heat Map
+        </div>
+
+        <div id="sidebar_left_box">
+            <!-- 1st icon: Reset button -->
+            <div id="reset_btn-div" onmouseover="Tip('Reset Map to original', WIDTH, 200, FIX, [this, 28, -25]);" onmouseout="UnTip();">
+                <div id="reset_btn" onclick="resetMap();"><span class="fa fa-undo"></span></div>
+            </div>
+        </div>
+
+        <div id="mouse_position">&nbsp;</div>
+    </div>
+
+    <script type="text/javascript">
+    var heatMap_layer = null;
+    var heatMap_source = null;
+    var heatMapReady = false;
+
+    var terrainBaseMapLayer =
+        new ol.layer.Tile({
+            source: new ol.source.XYZ({
+                attributions: 'Tiles &copy; <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">ArcGIS</a>',
+                url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+                wrapX: true
+            })
+        });
+
+    var satelliteBaseMapLayer =
+        new ol.layer.Tile({
+            source: new ol.source.TileArcGISRest({
+                attributions: 'Tiles &copy; <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">ArcGIS</a>',
+                url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export',
+                wrapX: true
+            }),
+            visible: false
+        });
+
+    var hybridBaseMapLayer =
+        new ol.layer.Tile({
+            source: new ol.source.TileArcGISRest({
+                attributions: 'Tiles &copy; <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">ArcGIS</a>',
+                url: 'https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/export',
+                wrapX: true
+            }),
+            visible: false
+        });
+
+    var hillshadeBaseMapLayer = new ol.layer.Tile({
+        source: new ol.source.TileArcGISRest({
+            attributions: 'Tiles &copy; <a href="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer">ArcGIS</a>',
+            url: "https://services.arcgisonline.com/arcgis/rest/services/Elevation/World_Hillshade/MapServer",
+            wrapX: true
+        }),
+        visible: false
+    });
+
+    var scaleLineControl = new ol.control.ScaleLine();
+
+    var map = new ol.Map({
+        controls: ol.control.defaults({
+            attributionOptions: {
+                collapsible: true
+            }
+        }).extend([
+            scaleLineControl
+        ]),
+        layers: [terrainBaseMapLayer, satelliteBaseMapLayer, hybridBaseMapLayer, hillshadeBaseMapLayer],
+        loadTilesWhileInteracting: true,
+        target: 'map',
+        view: new ol.View({
+            center: ol.proj.transform([0, 0], 'EPSG:4326', 'EPSG:3857'),
+            zoom: 2,
+            maxZoom: 16,
+            minZoom: 2
+        })
+    });
+
+    var mousePosition = new ol.control.MousePosition({
+        coordinateFormat: function(coordinate) {
+            return ol.coordinate.format(coordinate, 'Lat: {y}, Lng: {x}', 4);
+        },
+        projection: 'EPSG:4326',
+        target: document.getElementById('mouse_position'),
+        undefinedHTML: '&nbsp;'
+    });
+
+    map.addControl(mousePosition);
+
+    $("#map").mouseleave(function() {
+        $("#mouse_position").removeClass('mouse_position');
+    });
+
+    $("#map").mouseover(function() {
+        $("#mouse_position").addClass('mouse_position');
+    });
+
+    $("#mapTypes").change(function() {
+        var mapTypeVal = $("#mapTypes").val();
+
+        if (mapTypeVal === "toggleOutline") {
+            geojson_layer.setStyle(transparentStyleApplied ? geojson_layer_style : geojson_layer_transparent_style);
+            transparentStyleApplied = !transparentStyleApplied;
+
+            $("#mapTypes").val(currentMapType);
+        }
+        else {
+            setMapTypeId($("#mapTypes option:selected" ).val());
+        }
+    });
+
+    var mapType = "terrain";
+    var currentMapType = mapType;
+    var transparentStyleApplied = false;
+
+    var geojson_source = new ol.source.Vector({
+        url: "/getGeoJson?host=OT&id=OTSRTM.082015.4326.1&isRaster=true&sid=" + Math.random(),
+        format: new ol.format.GeoJSON(),
+        wrapX: false
+    });
+
+    var geojson_layer_style = new ol.style.Style({
+        fill: new ol.style.Fill({color: 'rgba(255, 0, 0, 0.1)'}),
+        stroke: new ol.style.Stroke({color: 'rgba(255, 0, 0, 1)'})
+    });
+
+    var geojson_layer_transparent_style = new ol.style.Style({
+        fill: new ol.style.Fill({ color: 'rgba(0, 0, 0, 0)' }),
+        stroke: new ol.style.Stroke({color: 'rgba(255, 0, 0, 1)'})
+    });
+
+    var geojson_layer = new ol.layer.Vector({
+        source: geojson_source,
+        style: geojson_layer_style
+    });
+
+    map.addLayer(geojson_layer);
+
+
+
+    function setMapTypeId(mapType) {
+        terrainBaseMapLayer.setVisible(mapType === "terrain");
+        hybridBaseMapLayer.setVisible(mapType === "hybrid");
+        satelliteBaseMapLayer.setVisible(mapType === "satellite" || mapType === "hybrid");
+        hillshadeBaseMapLayer.setVisible(mapType === "hillshade");
+
+        currentMapType = mapType;
+    }
+
+    var currZoom = map.getView().getZoom();
+    var total_heatmap_bound = 0;
+
+    map.on('moveend', function(e) {
+        var newZoom = map.getView().getZoom();
+
+        if (currZoom != newZoom) {
+            //console.log('zoom end, new zoom: ' + newZoom);
+            currZoom = newZoom;
+
+            if ($("#heatMap_option").is(':checked') && total_heatmap_bound > 0) {
+                var myradius = getHeatMapRadius();
+                var myblur = myradius * 2;
+
+                //console.log("total_heatmap_bound: " + total_heatmap_bound + " | myblur: " + myblur + " | myradius: " + myradius);
+
+                heatMap_layer.setBlur(myblur);
+                heatMap_layer.setRadius(myradius);
+            }
+        }
+    });
+
+    $(document).ready(function() {
+        $.ajax({
+            url: "/ajaxHeatMap",
+            data: {
+                jobType: "raster",
+                opentopoID: "OTSRTM.082015.4326.1",
+                action: "countJobs"
+            },
+            cache: false,
+            dataType: "json",
+            success: function (obj) {
+                var jobsCount = obj.jobsCount;
+
+                if (jobsCount < 25) {
+                    //console.log("count jobs = " + jobsCount + " < 25. Hide heatMap" );
+                    $("#heatMap").hide();
+                }
+            }
+        });
+    });
+
+    function getHeatMapRadius() {
+        var myradius = (12 + currZoom) - (Math.ceil(Math.log(total_heatmap_bound) / Math.log(2)));
+        myradius = Math.max(1, myradius);
+        myradius = Math.min(11, myradius);
+
+        return myradius;
+    }
+
+    function viewHeatMap() {
+        if ($("#heatMap_option").is(':checked')) {
+            if (!heatMapReady) {
+
+                $.ajax({
+                    url: "/ajaxHeatMap",
+                    data: {
+                        jobType: "raster",
+                        opentopoID: "OTSRTM.082015.4326.1",
+                        action: "getHeatMap"
+                    },
+                    cache: false,
+                    dataType: "json",
+                    success: function (obj) {
+                        var heatmap_bound = obj.bound;
+
+                        if (heatmap_bound != null) {
+                            var heatMap_source = new ol.source.Vector({wrapX: false});
+
+                            for (var i = 0; i < heatmap_bound.length; i++) {
+                                var x = heatmap_bound[i][0];
+                                var y = heatmap_bound[i][1];
+
+                                heatMap_source.addFeature(new ol.Feature({
+                                    geometry: new ol.geom.Point([x, y]).transform('EPSG:4326', 'EPSG:3857')
+                                }));
+                            }
+
+                            total_heatmap_bound = heatmap_bound.length;
+
+                            var myradius = getHeatMapRadius();
+                            var myblur = myradius * 2;
+
+                            //console.log("total_heatmap_bound: " + total_heatmap_bound + " | myblur: " + myblur + " | myradius: " + myradius);
+
+                            heatMap_layer = new ol.layer.Heatmap({
+                                source: heatMap_source,
+                                blur: myblur,
+                                radius: myradius
+                            });
+
+                            map.addLayer(heatMap_layer);
+                            heatMapReady = true;
+                        }
+                    }});
+            }
+            else if (heatMap_layer != null) {
+                heatMap_layer.setVisible(true);
+            }
+        }
+        else if (heatMap_layer != null) {
+            heatMap_layer.setVisible(false);
+        }
+    }
+
+    </script>
+
+
+    <div class="panel-group" id="panel_head_coordinates">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#panel_head_coordinates" href="#panel_coordinates"><strong>1. Coordinates</strong></a>
+                </h4>
+            </div>
+            <div id="panel_coordinates" class="panel-collapse collapse in">
+                <div class="panel-footer">
+                    <div id="system_coordinates">
+                        <strong>Horizontal Coordinates</strong>: WGS84 [EPSG: 4326]
+                        <br>
+                        <strong>Vertical Coordinates</strong>: WGS84 Ellipsoid/EGM1996 Geoid [EPSG: 5773]
+                        <br>
+                        <strong>Units</strong>: degree
+                        <br>
+                        <strong>Data Selection Coordinates</strong> <span class="text-muted small">(Select an area on map)</span>
+                    </div>
+
+                    <div class="table-responsive" style="width:100%;" >
+                        <table class="table-nospace table-borderless" style="margin: 0 auto; max-width:700px;">
+                            <tr  id='auto_coordinates'>
+                                <td class="text-nowrap">
+                                    &nbsp; X<sub>min</sub> = <span id="xmin_value">27.6031494140625</span><input type="hidden" id="auto_xmin" value="27.6031494140625"/>
+                                </td>
+                                <td class="text-nowrap">
+                                    &nbsp; Y<sub>min</sub> = <span id="ymin_value">10.804136408507432</span><input type="hidden" id="auto_ymin" value="10.804136408507432"/>
+                                </td>
+                                <td class="text-nowrap">
+                                    &nbsp; X<sub>max</sub> = <span id="xmax_value">32.4041748046875</span><input type="hidden" id="auto_xmax" value="32.4041748046875"/>
+                                </td>
+                                <td class="text-nowrap">
+                                    &nbsp; Y<sub>max</sub> = <span id="ymax_value">14.150391647150016</span><input type="hidden" id="auto_ymax" value="14.150391647150016"/>
+                                </td>
+                            </tr>
+                            <tr class="hidden" id='manually_coordinates'>
+                                <td class="text-nowrap">
+                                    &nbsp; X<sub>min</sub> = <input style="display: inline; width:140px;" class="form-control" type="text" name="minX" id="minX" value="27.6031494140625" maxlength="20"/>
+                                </td>
+                                <td class="text-nowrap">
+                                    &nbsp; Y<sub>min</sub> = <input style="display: inline; width:140px;" class="form-control" type="text" name="minY" id="minY" value="10.804136408507432" maxlength="20"/>
+                                </td>
+                                <td class="text-nowrap">
+                                    &nbsp; X<sub>max</sub> = <input style="display: inline; width:140px;" class="form-control" type="text" name="maxX" id="maxX" value="32.4041748046875" maxlength="20"/>
+                                </td>
+                                <td class="text-nowrap">
+                                    &nbsp; Y<sub>max</sub> = <input style="display: inline; width:140px;" class="form-control" type="text" name="maxY" id="maxY" value="14.150391647150016" maxlength="20"/>
+                                </td>
+                            </tr>
+                            <tr class="hidden" id="message_coordinates">
+                                <td><div id="inf_minx"></div></td>
+                                <td><div id="inf_miny"></div></td>
+                                <td><div id="inf_maxx"></div></td>
+                                <td><div id="inf_maxy"></div></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div id="extra_manual_coordinates" class="text-center hidden">
+                        <a class="btn btn-primary" onclick="validateCoordinates();">Validate coordinates and estimate area</a><br><br>
+                    </div>
+
+                    <div>
+                        <input type="checkbox" onclick="do_select_coordinates();" id="select_coordinates" /> &nbsp; Manually enter selection coordinates <span class="small text-muted">(in the horizontal coordinate system listed above)</span> &nbsp; <span id="loading"></span><br><br>
+                     </div>
+
+                    <div class="text-center">
+                        <div id="validate"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-group" id="panel_head_outputFormat">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#panel_head_outputFormat" href="#panel_outputFormat" ><strong>2. Data Output Formats</strong></a>
+                </h4>
+            </div>
+            <div id="panel_outputFormat" class="panel-collapse collapse in">
+                <div class="panel-footer">
+                    <div id="outputFormat_box" class="text-nowrap">
+
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <span class="fa fa-info-circle fa-tooltip" onmouseover="Tip('Raster products generated by OpenTopography may be downloaded in the following formats: <br><br><strong>ArcASCII Grid:</strong> This ascii grid format is designed for import into ESRI software such as ArcGIS. The Arc Grid can be imported through ArcToolbox by selecting - Conversion Tools > To Raster > ASCII to Raster. &quot;Output data type&quot; should be set to &quot;float&quot;. The ArcASCII Grid format does not support multi-band imagery so it is not an output option if orthophotography is available.<br><br><strong>GeoTIFF:</strong> GeoTIFF is an interchange format based on the TIFF image format for georeferenced raster data. OpenTopography GeoTIFF DEMs and orthophotographs are 32-bit floating point grids and thus may display oddly in some GIS software packages (e.g. ArcGIS) until grid statistics have been calculated.<br><br><strong>IMG:</strong> Erdas Imagine .IMG (a.k.a HFA) grid format. A common raster format for geospatial imagery and topography. OpenTopography IMG DEMs are 32-bit floating point grids and thus may display oddly in some GIS software packages (e.g. ArcGIS) until grid statistics have been calculated.', WIDTH, -400, PADDING, 15);" onmouseout="UnTip();"></span> &nbsp; Select Data Output Format:
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-control" name="outputFormat" id="outputFormat" onchange="disableOrthophoto(); tauDemPreRequireCheck();">
+                                    <option value="AAIGrid">Arc ASCII Grid</option>
+                                    <option value="GTiff" selected>GeoTiff</option>
+                                    <option value="HFA">IMG</option>
+                                </select>
+                            </div>
+                            <div class="col-md-7"></div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <ul class="nav nav-tabs">
+        <li class='active'><a href="#tab-coreServices" data-toggle="tab">Core Services</a></li>
+    </ul>
+
+
+    <script>
+function showRasterVizOptions() {
+    var hasRasterViz = false;
+    var hasRasterVizHillshade = false;
+    var hasRasterVizColor = false;
+    var hasRasterVizMultidirectional = false;
+
+    $('input[type=checkbox][class=rasterVizType]').each(function(){
+        if (this.checked) {
+            hasRasterViz = true;
+
+            if (this.id === "rasterVizType_hillshade" || this.id === "rasterVizType_color_hillshade") {
+                hasRasterVizHillshade = true;
+            }
+
+            if (this.id === "rasterVizType_color_relief" || this.id === "rasterVizType_color_hillshade") {
+                hasRasterVizColor = true;
+            }
+        }
+    });
+
+    if (hasRasterViz) {
+        $(".rasterVizOptions").show();
+
+        if (hasRasterVizHillshade) {
+            $(".rasterVizHillshadeOptions").show();
+            showRasterVizLightSourceOptions();
+        }
+        else {
+            $(".rasterVizHillshadeOptions").hide();
+        }
+
+        if (hasRasterVizColor) {
+            $(".rasterVizColorOptions").show();
+        }
+        else {
+            $(".rasterVizColorOptions").hide();
+        }
+    }
+    else {
+        $(".rasterVizOptions").hide();
+    }
+}
+
+function showRasterVizLightSourceOptions() {
+    if ($("#rasterVizMultidirectional").is(":checked")) {
+        $(".rasterVizLightSource").hide();
+    }
+    else {
+        $(".rasterVizLightSource").show();
+    }
+}
+
+function validateRasterVizAzimuth() {
+    var value = $("#rasterVizAzimuth").val().trim();
+    var numericValue = parseFloat(value);
+
+    if (isNaN(numericValue) || numericValue > 360 || numericValue < 0) {
+        alert("Azimuth must be a number between 0 and 360.");
+        $("#rasterVizAzimuth").val(value.slice(0,-1));
+    }
+}
+
+function validateRasterVizAltitude() {
+    var value = $("#rasterVizAltitude").val().trim();
+    var numericValue = parseFloat(value);
+
+    if (isNaN(numericValue) || numericValue > 90 || numericValue < 0) {
+        alert("Azimuth must be a number between 0 and 90.");
+        $("#rasterVizAltitude").val(value.slice(0,-1));
+    }
+}
+    </script>
+
+    <div class="panel-group" id="panel_head_rasterViz">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#panel_head_rasterViz" href="#panel_rasterViz"><strong>3. Raster Visualization</strong> &nbsp; <span class="fa fa-info-circle fa-tooltip" onmouseover="Tip('OpenTopography will generate images of hillshades, derivative topographic products, and Google Earth image overlays from the DEMs you produce in the previous section.', WIDTH, -400, PADDING, 15);" onmouseout="UnTip();"></span></a>
+                </h4>
+            </div>
+            <div id="panel_rasterViz" class="panel-collapse collapse in">
+                <div class="panel-footer">
+                    <div id="rasterVizBox">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Visualization type:</strong>
+                                <div style="padding-left: 50px;">
+                                    <span class="fa fa-info-circle fa-tooltip" onmouseover="Tip('<strong>Hillshade</strong>: A shaded relief map showing the terrain\'s appearance with light and shadow as if illuminated by a light source from a specified angle and altitude. This helps to visualize the shape of the landscape by simulating lighting effects.', WIDTH, -400, PADDING, 15);" onmouseout="UnTip();"></span>&nbsp;
+                                    <input type="checkbox" onclick="showRasterVizOptions()" class="rasterVizType" name="rasterVizHillshade" value="true" id="rasterVizType_hillshade" /> &nbsp; Hillshade <br>
+
+                                    <span class="fa fa-info-circle fa-tooltip" onmouseover="Tip('<strong>Color-relief</strong>: A color representation of elevation, where colors are mapped to specific elevation ranges, enhancing depth perception and highlighting terrain features.', WIDTH, -400, PADDING, 15);" onmouseout="UnTip();"></span>&nbsp;
+                                    <input type="checkbox" onclick="showRasterVizOptions()" class="rasterVizType" name="rasterVizColorRelief" value="true" id="rasterVizType_color_relief" /> &nbsp; Color-relief <br>
+
+                                    <span class="fa fa-info-circle fa-tooltip" onmouseover="Tip('<strong>Color Hillshade</strong>: A combination of hillshade and color relief, where the terrain is shaded for depth, and overlaid with a slightly transparent color representation of elevation.', WIDTH, -400, PADDING, 15);" onmouseout="UnTip();"></span>&nbsp;
+                                    <input type="checkbox" onclick="showRasterVizOptions()" class="rasterVizType" name="rasterVizColorHillshade" value="true" id="rasterVizType_color_hillshade" /> &nbsp; Color Hillshade <br>
+
+                                    <span class="fa fa-info-circle fa-tooltip" onmouseover="Tip('<strong>Slope</strong>: A visualization that represents the steepness or incline of terrain at each cell, calculated from the elevation values. Useful for identifying steep areas, landslide risks, and erosion-prone zones.', WIDTH, -400, PADDING, 15);" onmouseout="UnTip();"></span>&nbsp;
+                                    <input type="checkbox" onclick="showRasterVizOptions()" class="rasterVizType" name="rasterVizSlope" value="true" id="rasterVizType_slope" /> &nbsp; Slope <br>
+
+                                    <span class="fa fa-info-circle fa-tooltip" onmouseover="Tip('<strong>Aspect</strong>: A directional representation showing the compass direction (in degrees) that the slope of the terrain faces. This can help in understanding sun exposure, wind patterns, and water flow across the landscape.', WIDTH, -400, PADDING, 15);" onmouseout="UnTip();"></span>&nbsp;
+                                    <input type="checkbox" onclick="showRasterVizOptions()" class="rasterVizType" name="rasterVizAspect" value="true" id="rasterVizType_aspect" /> &nbsp; Aspect <br>
+
+                                    <span class="fa fa-info-circle fa-tooltip" onmouseover="Tip('<strong>Roughness:</strong> A measure of the variability in elevation within a given area, showing the terrain\'s surface irregularity or ruggedness. It\'s useful for assessing areas with complex terrain features.', WIDTH, -400, PADDING, 15);" onmouseout="UnTip();"></span>&nbsp;
+                                    <input type="checkbox" onclick="showRasterVizOptions()" class="rasterVizType" name="rasterVizRoughness" value="true" id="rasterVizType_roughness" /> &nbsp; Roughness
+                                </div>
+                                <div class="rasterVizOptions" style="display: none;">
+                                    <br>
+                                    <strong>Output format: </strong> &nbsp;
+                                        <input type="radio" name="rasterVizOutputFormat" id="rasterVizOutputFormat_tif" value="tif" checked/> &nbsp; TIF &nbsp; &nbsp; &nbsp;
+                                        <input type="radio" name="rasterVizOutputFormat" id="rasterVizOutputFormat_img" value="img" /> &nbsp; IMG
+                                    <br><br>
+                                    <input type="checkbox" name="rasterVizKmz" id="rasterVizKmz" value="true" /> &nbsp; Make additional Google Earth (KMZ) output
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="rasterVizOptions rasterVizHillshadeOptions" style="display: none;">
+                                    <strong>Hillshade options:</strong>
+                                    <div style="padding-left: 50px;">
+                                        <table class="table-nospace table-borderless" style="margin-bottom: 0;">
+                                            <tr>
+                                                <td class="text-nowrap">Vertical Exaggeration</td>
+                                                <td width="100%" class="controls form-inline">
+                                                    <input type="text" class="form-control" id="rasterVizVerticalExaggeration" name="rasterVizVerticalExaggeration" value="1" style="width: 70px;" maxlength="10" />
+                                                     <span class='small text-muted'>&nbsp;(in range: [1, 100])</span>
+                                                     <span id="inf_rasterVizVerticalExaggeration"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-nowrap" colspan="2">
+                                                    <input type="checkbox" name="rasterVizMultidirectional" id="rasterVizMultidirectional" value="true" onclick="showRasterVizLightSourceOptions()" /> &nbsp; Multidirectional hillshade
+                                                </td>
+                                            </tr>
+                                            <tr class="rasterVizLightSource">
+                                                <td class="text-nowrap">Altitude of light source </td>
+                                                <td width="100%" class="controls form-inline">
+                                                    <input type="text" class="form-control" id="rasterVizAltitude" name="rasterVizAltitude" value="45" style="width: 70px;" maxlength="5" onkeyup="validateRasterVizAltitude();"/>
+                                                    <span class='small text-muted'>&nbsp;(in range: [0-90] degrees)</span>
+                                                    <span id="inf_rasterVizAltitude"></span>
+                                                </td>
+                                            </tr>
+                                            <tr class="rasterVizLightSource">
+                                                <td class="text-nowrap">Azimuth of light source </td>
+                                                <td class="controls form-inline">
+                                                    <input type="text" class="form-control" id="rasterVizAzimuth" name="rasterVizAzimuth" value="315" style="width: 70px;" maxlength="6" onkeyup="validateRasterVizAzimuth();"/>
+                                                    <span class='small text-muted'>&nbsp;(in range: [0-360] degrees)</span>
+                                                    <span id="inf_rasterVizAzimuth"></span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="rasterVizOptions rasterVizColorOptions" style="display: none;">
+                                    <strong>Color map:</strong>
+                                    <table class=" table-nospace table-borderless" style="margin-bottom: 0;">
+                                        <tr>
+                                            <td class="text-nowrap">
+                                                <div style="padding-left: 50px;" id="vizColorMapDiv" class="row">
+                                                    <div class="col-md-6">
+                                                        <input type="radio" id="rasterVizColorMap_terrain" name="rasterVizColorMap" value="terrain" checked> &nbsp; <img src="/images/color_terrain.png" style="width:60px; height:20px;"> &nbsp; Terrain <br>
+                                                        <input type="radio" id="rasterVizColorMap_ocean" name="rasterVizColorMap" value="ocean" > &nbsp; <img src="/images/color_ocean.png" style="width:60px; height:20px;"> &nbsp; Ocean <br>
+                                                        <input type="radio" id="rasterVizColorMap_gnuplot" name="rasterVizColorMap" value="gnuplot" > &nbsp; <img src="/images/color_gnuplot.png" style="width:60px; height:20px;"> &nbsp; Gnuplot
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input type="radio" id="rasterVizColorMap_gistEarth" name="rasterVizColorMap" value="gistEarth" > &nbsp; <img src="/images/color_gistEarth.png" style="width:60px; height:20px;"> &nbsp; Gist Earth<br>
+                                                        <input type="radio" id="rasterVizColorMap_viridis" name="rasterVizColorMap" value="viridis" > &nbsp; <img src="/images/color_viridis.png" style="width:60px; height:20px;"> &nbsp; Viridis<br>
+                                                        <input type="radio" id="rasterVizColorMap_cubehelix" name="rasterVizColorMap" value="cubehelix" > &nbsp; <img src="/images/color_cubehelix.png" style="width:60px; height:20px;"> &nbsp; Cubehelix
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="validate_viz"></div>
+
+                    <div id="noRasterVizBox" class="panel-footer hidden">
+                        <i>This algorithm requires a global dataset or at least one DEM with Digital Terrain Model (DTM) or Digital Surface Model (DSM), Hydro-flattened Bare Earth, Bathymetry or Water Surface layer is selected.</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+showRasterVizOptions();
+    </script>
+
+    <ul class="nav nav-tabs">
+        <li class='active'><a href="#tab-advancedServices" data-toggle="tab">Advanced Services</a></li>
+    </ul>
+
+                <div class='alert alert-info'>
+                    Advanced processing services are available to registered users. Please <a href='/login?redirect=%2Fraster%3FjobId%3Drt1674642591184'>log in</a> or <a href='/newUser'>create an account</a> to enable these services.
+                </div>
+
+
+    <div class="panel-group" id="panel_head_description">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#panel_head_description" href="#panel_description"><strong>Job Description & Notification</strong></a>
+                </h4>
+            </div>
+            <div id="panel_description" class="panel-collapse collapse in">
+                <div class="panel-footer">
+                    These options allow users to describe and keep track of their jobs. Information entered below is saved along with other job parameters in your personal <a href="/myopentopo">myOpenTopo</a> dashboard (available only to <a href="/newUser">registered</a> OpenTopography users).
+                    <br><br>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Email address</strong>
+                            <div class="small text-muted text-nowrap">for notification upon completion of processing</div>
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control" type="text" id="email" name="email" value="" />
+                            <div id="inf_reqEmail"></div>
+                        </div>
+                        <div class="col-md-6" style="padding-top: 5px;">
+
+                            <input type="hidden" id="disableSendMail" name="disableSendMail" value="false" /> &nbsp; <a href="/login?redirect=%2Fraster%3FjobId%3Drt1674642591184">Sign in</a>
+
+                        </div>
+                    </div>
+
+                    <a id="moreBtn" class='btn btn-default btn-xs' href="javascript: void(0);" onclick="showMore();" style="margin-top: 10px;">More options</a>
+
+                    <div class="row hidden" id="jobTitleBox" style="padding-top: 10px;">
+                        <div class="col-md-3">
+                            <strong>Title</strong> <span class="small text-muted">(up to 150 characters)</span>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="text" id="title" name="title" class="form-control" value="WRE" maxlength="150" placeholder="Title"/>
+                        </div>
+                    </div>
+
+                    <div class="row hidden" id="jobDescriptionBox" style="padding-top: 10px;">
+                        <div class="col-md-3">
+                            <strong>Description</strong> <span class='small text-muted' id='jobDescriptionLeft'>(up to 750 characters)</span>
+                        </div>
+                        <div class="col-md-9">
+                            <textarea class="form-control" id="jobDescription" name="jobDescription" placeholder = "Description"></textarea>
+                            <script>limitTextOnInput(750, "jobDescription", "jobDescriptionLeft");</script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id='acknowledgement' class="text-muted text-center">By accessing data via OpenTopography you agree to acknowledge OpenTopography and the dataset source in publications, presentations, and other materials produced using these data:
+        <br>
+        <a onmouseover="Tip('<span id=\'citationContent\'>NASA Shuttle Radar Topography Mission (SRTM)(2013). Shuttle Radar Topography Mission (SRTM) Global.  Distributed by OpenTopography.  https:\/\/doi.org\/10.5069\/G9445JDF. Accessed 2026-11-07</span>', WIDTH, -400, PADDING, 15, STICKY, true, CLOSEBTN, true); $('#copyico').removeClass('disabled').addClass('enabled');" onmouseout='UnTip();'>Data Citation</a>
+        &nbsp; &nbsp; | &nbsp; &nbsp;
+        <em>Use License</em>: Not Provided
+    </div>
+
+    <div class="text-center">
+        <input type="hidden" id="roundArea" name="roundArea" value="0"/>
+        <!-- <input type="hidden" name="referer" value="RASTER"/> -->
+        <input type="hidden" name="opentopoID" value="OTSRTM.082015.4326.1" />
+        <input type="hidden" name="isGlobal" value="true" />
+        <div id="serviceDown"></div>
+        <input id="submitBtn" type="submit" value="Submit"/>
+        
+        <input type="hidden" name="horizontalEpsg" id="horizontalEpsg" value="4326"/>
+        <div id="submitFail"></div>
+    </div>
+
+
+</form>
+
+<!-- End Div pcContainer -->
+
+<script type="text/javascript">
+
+    var isEmptyData = false;
+    var mapDiv = document.getElementById('map');
+
+    var minX_ele = document.getElementById('minX');
+    var maxX_ele = document.getElementById('maxX');
+    var minY_ele = document.getElementById('minY');
+    var maxY_ele = document.getElementById('maxY');
+
+    var auto_xmin_ele = document.getElementById('auto_xmin');
+    var auto_xmax_ele = document.getElementById('auto_xmax');
+    var auto_ymin_ele = document.getElementById('auto_ymin');
+    var auto_ymax_ele = document.getElementById('auto_ymax');
+
+    var xmin_value_ele = document.getElementById("xmin_value");
+    var ymin_value_ele = document.getElementById("ymin_value");
+    var xmax_value_ele = document.getElementById("xmax_value");
+    var ymax_value_ele = document.getElementById("ymax_value");
+
+    var select_coordinates_ele = document.getElementById('select_coordinates');
+    var outputFormat_ele = document.getElementById('outputFormat');
+
+    var layerType_be_ele = document.getElementById('layerType_be');
+    var layerType_hh_ele = document.getElementById('layerType_hh');
+    var layerType_in_ele = document.getElementById('layerType_in');
+    var layerType_op_ele = document.getElementById('layerType_op');
+    var layerType_cd_ele = document.getElementById('layerType_cd');
+    var layerType_ia_ele = document.getElementById('layerType_ia');
+    var layerType_iv_ele = document.getElementById('layerType_iv');
+    var layerType_hb_ele = document.getElementById('layerType_hb');
+    var layerType_vh_ele = document.getElementById('layerType_vh');
+    var layerType_ba_ele = document.getElementById('layerType_ba');
+    var layerType_ws_ele = document.getElementById('layerType_ws');
+
+    var tauDemPitRemove_ele = document.getElementById('tauDemPitRemove');
+    var tauDemD8FlowDir_ele = document.getElementById('tauDemD8FlowDir');
+    var tauDemDinfFlowDir_ele = document.getElementById('tauDemDinfFlowDir');
+    var tauDemAreaD8_ele = document.getElementById('tauDemAreaD8');
+    var tauDemAreaDinf_ele = document.getElementById('tauDemAreaDinf');
+    var tauDemTWI_ele = document.getElementById('tauDemTWI');
+    var tauDemStreamNetwork_ele = document.getElementById('tauDemStreamNetwork');
+    var tauDemViz_ele = document.getElementById('tauDemViz');
+    var tauDemBox_ele = document.getElementById('tauDemBox');
+    var noTauDemBox_ele = document.getElementById('noTauDemBox');
+
+    var email_ele = document.getElementById('email');
+    var jobDescription_ele = document.getElementById('jobDescription');
+
+    var validate_ele = document.getElementById("validate");
+    var includeSRTM_ele = document.getElementById("includeSRTM");
+    var notIncludeSRTM_ele = document.getElementById("notIncludeSRTM");
+
+    var roundArea_ele = document.getElementById("roundArea");
+    var boundingBox_area = 0;
+
+    var min_lat, min_lng, max_lat, max_lng;
+
+    var bboxClicked = false;
+
+    var boundingBox_source = new ol.source.Vector({wrapX: false});
+    var boundingBox_layer = new ol.layer.Vector({
+        source: boundingBox_source
+    });
+
+    map.addLayer(boundingBox_layer);
+
+    var interaction = new ol.interaction.DragBox({
+        condition: ol.events.condition.noModifierKeys,
+        style: new ol.style.Style({
+            stroke: new ol.style.Stroke({
+                color: [51, 122, 183, 2]
+            })
+        })
+    });
+
+    interaction.on('boxstart', function (evt) {
+        bboxClicked = false;
+    });
+
+    interaction.on('boxend', function (evt) {
+        clearAllErrorMessage();
+        map.removeInteraction(interaction);
+
+        var geom = evt.target.getGeometry();
+        boundingBox_area = ol.Sphere.getArea(geom);
+
+        var extent = ol.proj.transformExtent(geom.getExtent(), 'EPSG:3857', 'EPSG:4326');
+
+        //var minx = extent[0];
+        //var miny = extent[1];
+        //var maxx = extent[2];
+        //var maxy = extent[3];
+        min_lng = extent[0];
+        min_lat = extent[1];
+        max_lng = extent[2];
+        max_lat = extent[3];
+
+        updateWbwState();
+
+        min_lat = convertLongitude180(min_lat);
+        max_lng = convertLongitude180(max_lng);
+
+        var feature = new ol.Feature({
+            geometry: geom
+        });
+
+        if (boundingBox_layer != null) {
+            map.removeLayer(boundingBox_layer);
+            boundingBox_layer = null;
+        }
+
+        var boundingBox_source = new ol.source.Vector({
+            features: [feature],
+            wrapX: false
+        });
+
+        boundingBox_layer = new ol.layer.Vector({
+            source: boundingBox_source
+        });
+
+        map.addLayer(boundingBox_layer);
+
+        map.getView().fit(geom.getExtent(), map.getSize());
+
+        $('#map').css('cursor', 'default');
+
+        if ($("#auto_coordinates").hasClass("hidden") && $("#manually_coordinates").hasClass("hidden")) {
+            $("#auto_coordinates").removeClass("hidden");
+        }
+
+        updateInfoFromBoundingBox(min_lng, min_lat, max_lng, max_lat);
+        validateIncludeSRTM(min_lng, min_lat, max_lng, max_lat);
+        insertLog(min_lng, min_lat, max_lng, max_lat);
+
+        if (select_coordinates_ele.checked) {
+            select_coordinates_ele.checked = false;
+            do_select_coordinates();
+        }
+    });
+
+    $('#bbox_img').click(function () {
+        if (bboxClicked) {
+            $('#map').css('cursor', 'default');
+            map.removeInteraction(interaction);
+            bboxClicked = false;
+        }
+        else {
+            $('#map').css('cursor', 'crosshair');
+            map.addInteraction(interaction);
+            bboxClicked = true;
+        }
+    });
+
+
+
+    if (boundingBox_layer != null) {
+        map.removeLayer(boundingBox_layer);
+        boundingBox_layer = null;
+    }
+
+    min_lng = 27.6031494140625;
+    min_lat = 10.804136408507432;
+    max_lng = 32.4041748046875;
+    max_lat = 14.150391647150016;
+
+    updateWbwState();
+
+    var max_lng360 = max_lng < min_lng ? max_lng + 360 : max_lng;
+
+    var ext = ol.extent.boundingExtent([[min_lng, min_lat], [max_lng360, max_lat]]);
+    var geom = ol.geom.Polygon.fromExtent(ext);
+
+    var feature = new ol.Feature({
+        geometry: geom
+    });
+
+    boundingBox_area = ol.Sphere.getArea(geom.transform('EPSG:4326', 'EPSG:3857'));
+
+    var boundingBox_source = new ol.source.Vector({
+        features: [feature],
+        wrapX: false
+    });
+
+    boundingBox_layer = new ol.layer.Vector({
+        source: boundingBox_source
+    });
+
+    map.addLayer(boundingBox_layer);
+    map.getView().fit(geom.getExtent(), map.getSize());
+
+    checkEmptyDataByIntersect(min_lng, min_lat, max_lng, max_lat);
+
+
+
+    verifyCoordinates();
+
+
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371000; // Radius of the Earth in meters
+        const toRadians = degrees => degrees * (Math.PI / 180);
+
+        const deltaLat = toRadians(lat2 - lat1);
+        const deltaLon = toRadians(lon2 - lon1);
+
+        const a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+                  Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+                  Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c; // Distance in meters
+    }
+
+    function insertLog(minX, minY, maxX, maxY) {
+        // Just do insert log, nothing important ignore if error
+        $.ajax({
+            url: "/ajaxInsertLog",
+            data: {
+                minX: minX,
+                minY: minY,
+                maxX: maxX,
+                maxY: maxY,
+                opentopoID: "OTSRTM.082015.4326.1",
+                startPage: "raster"
+            }
+        });
+    }
+
+    var isLatLong = true;
+
+    function convert180(in360) {
+        if (!isLatLong) {
+            return in360;
+        }
+
+        in360 = in360 % 360;
+        return (in360 > 180) ? in360 - 360 : (in360 < -180) ? in360 + 360 : in360;
+    }
+
+    function validateCoordinates() {
+        if (!verifyCoordinates()) {
+            return;
+        }
+
+        clearAllErrorMessage();
+
+        $("#validate").html("");
+
+        $('#loading').html("<span class='fa fa-circle-o-notch fa-spin text-info'></span>");
+
+        xmin_value_ele.innerHTML = minX_ele.value;
+        ymin_value_ele.innerHTML = minY_ele.value;
+        xmax_value_ele.innerHTML = maxX_ele.value;
+        ymax_value_ele.innerHTML = maxY_ele.value;
+
+        auto_xmin_ele.value = minX_ele.value;
+        auto_ymin_ele.value = minY_ele.value;
+        auto_xmax_ele.value = maxX_ele.value;
+        auto_ymax_ele.value = maxY_ele.value;
+
+        if (boundingBox_layer != null) {
+            map.removeLayer(boundingBox_layer);
+            boundingBox_layer = null;
+        }
+
+        $.ajax({
+            url: "/ajaxProjection",
+            data: {
+                minx: minX_ele.value,
+                miny: minY_ele.value,
+                maxx: maxX_ele.value,
+                maxy: maxY_ele.value,
+                inEpsg: "4326",
+                outEpsg: "4326"
+            },
+            cache: false,
+            dataType: "json",
+            success: function (obj) {
+                if (obj.status != null) {
+                    if (obj.status == "error") {
+                        alert("Error: " + obj.message);
+                    }
+                    else if (obj.status == "success") {
+                        if (boundingBox_layer != null) {
+                            map.removeLayer(boundingBox_layer);
+                            boundingBox_layer = null;
+                        }
+
+                        if (obj.x1 > obj.x2) {
+                            obj.x2 += 360;
+                        }
+
+                        var ext = ol.extent.boundingExtent([[obj.x1, obj.y1], [obj.x2, obj.y2]]);
+                        var geom = ol.geom.Polygon.fromExtent(ext);
+
+                        boundingBox_area = ol.Sphere.getArea(geom.transform('EPSG:4326', 'EPSG:3857'));
+                        min_lng = obj.y1;
+                        min_lat = obj.x1;
+                        max_lng = obj.y2;
+                        max_lat = obj.x2;
+
+                        updateWbwState();
+
+                        var feature = new ol.Feature({
+                            geometry: geom
+                        });
+
+                        var boundingBox_source = new ol.source.Vector({
+                            features: [feature],
+                            wrapX: false
+                        });
+
+                        boundingBox_layer = new ol.layer.Vector({
+                            source: boundingBox_source
+                        });
+
+                        map.addLayer(boundingBox_layer);
+                        map.getView().fit(geom.getExtent(), map.getSize());
+
+                        checkEmptyDataByIntersect(obj.x1, obj.y1, obj.x2, obj.y2);
+                    }
+                }
+            }
+        });
+    }
+
+    function updateInfoFromBoundingBox(x1, y1, x2, y2) {
+        $('#loading').html("<span class='fa fa-circle-o-notch fa-spin text-info'></span>");
+
+        $.ajax({
+            url: "/ajaxProjection",
+            data: {
+                minx: x1,
+                miny: y1,
+                maxx: x2,
+                maxy: y2,
+                inEpsg: "4326",
+                outEpsg: "4326"
+            },
+            cache: false,
+            dataType: "json",
+            success: function (obj) {
+                if (obj.status != null) {
+                    if (obj.status == "error") {
+                        $("#validate").html("<div class='alert alert-danger'>" + obj.message + "</div>");
+                        $('#loading').html("");
+                    }
+                    else if (obj.status == "success") {
+                        var pMinX = obj.x1;
+                        var pMinY = obj.y1;
+                        var pMaxX = obj.x2;
+                        var pMaxY = obj.y2;
+
+                        minX_ele.value = pMinX;
+                        minY_ele.value = pMinY;
+                        maxX_ele.value = pMaxX;
+                        maxY_ele.value = pMaxY;
+
+                        xmin_value_ele.innerHTML = pMinX;
+                        ymin_value_ele.innerHTML = pMinY;
+                        xmax_value_ele.innerHTML = pMaxX;
+                        ymax_value_ele.innerHTML = pMaxY;
+
+                        auto_xmin_ele.value = pMinX;
+                        auto_ymin_ele.value = pMinY;
+                        auto_xmax_ele.value = pMaxX;
+                        auto_ymax_ele.value = pMaxY;
+
+                        boundingboxUpdated = true;
+
+                        if ($("#auto_coordinates").hasClass("hidden") && $("#manually_coordinates").hasClass("hidden")) {
+                            $("#auto_coordinates").removeClass("hidden");
+                        }
+                        checkEmptyDataByIntersect(x1, y1, x2, y2);
+                        checkValidSRTMBoundingBox();
+                        verifyCoordinates();
+                        verifyContourGridSize();
+                    }
+                }
+            }
+        });
+    }
+
+    function validateIncludeSRTM(lng1, lat1, lng2, lat2) {
+        if (!includeSRTM_ele) {
+            return;
+        }
+
+        if (boundingBox_layer == null) {
+            return;
+        }
+
+        notIncludeSRTM_ele.innerHTML = "";
+        includeSRTM_ele.disabled = false;
+
+        $.ajax({
+            url: "/ajaxRasterJob",
+            data: {
+                action: "checkIntersect",
+                opentopoID: "OTSRTM.082015.4326.1",
+                x1: lng1,
+                y1: lat1,
+                x2: lng2,
+                y2: lat2
+            },
+            cache: false,
+            dataType: "json",
+            success: function (obj) {
+                if (obj.status == null || obj.intersect == false) {
+                    includeSRTM_ele.checked = false;
+                    includeSRTM_ele.disabled = true;
+                    notIncludeSRTM_ele.innerHTML = "SRTM Data is not available in this area";
+                }
+            }
+        });
+    }
+
+// x1, x2, y1, y2 is in Lat - Lng format
+    function checkEmptyDataByIntersect(x1, y1, x2, y2) {
+        isEmptyData = false;
+        $('#loading').html("");
+
+        $.ajax({
+            url: "ajaxRasterJob",
+            data: {
+                action: "checkIntersect",
+                opentopoID: "OTSRTM.082015.4326.1",
+                x1: x1,
+                y1: y1,
+                x2: x2,
+                y2: y2
+            },
+            cache: false,
+            dataType: "json",
+            success: function (obj) {
+                if (obj.status != null) {
+                    isEmptyData = obj.intersect == false && !isGMRTDataset && !fullMap;
+
+                    if (isEmptyData) {
+                        boundingBox_area = 0;
+                    }
+
+                    verifyByArea();
+                }
+                else {
+                    $("#validate").html("<div class='alert alert-warning'>Unable to update coordinate information.</div>");
+                }
+            }
+        });
+    }
+
+    function checkValidSRTMBoundingBox() {
+        if (boundingBox_layer == null || boundingBox_layer.getSource() == null) {
+            return false;
+        }
+
+        if (!isGlobalDataset && $("#includeSRTM").length === 0) {
+            return true;
+        }
+
+        var boxExtent = boundingBox_layer.getSource().getExtent();
+        var sw = ol.proj.toLonLat([boxExtent[0], boxExtent[1]]);
+        var ne = ol.proj.toLonLat([boxExtent[2], boxExtent[3]]);
+
+        // Extract lat/lon values
+        var lon1 = sw[0];
+        var lat1 = sw[1];
+        var lon2 = ne[0];
+        var lat2 = ne[1];
+
+        var lengh_x = calculateDistance(lat1, lon1, lat1, lon2);
+        var lengh_y = calculateDistance(lat1, lon1, lat2, lon1);
+
+        if (lengh_x < 250 || lengh_y < 250) {
+            if (!isGlobalDataset) {
+                $("#includeSRTM").prop("checked", false);
+                $("#includeSRTM").prop("disabled", true);
+                $("#invalid_bb_srtm").removeClass("hidden");
+            }
+
+            return false;
+        }
+        else {
+            if (!isGlobalDataset) {
+                $("#includeSRTM").prop("disabled", false);
+                $("#invalid_bb_srtm").addClass("hidden");
+            }
+        }
+
+        return true;
+    }
+
+    function resetMap() {
+        clearAllErrorMessage();
+
+        if (boundingBox_layer != null) {
+            map.removeLayer(boundingBox_layer);
+            boundingBox_layer = null;
+        }
+
+        document.selectForm.reset();
+
+        var extent = geojson_source.getExtent();
+
+        if (isFinite(extent[0])) {
+            map.getView().fit(extent, map.getSize());
+        }
+        else {
+            map.setView(new ol.View({
+                center: ol.proj.transform([0, 0], 'EPSG:4326', 'EPSG:3857'),
+                zoom: 2,
+                maxZoom: 16,
+                minZoom: 2
+            }));
+        }
+
+        minX_ele.value = "";
+        minY_ele.value = "";
+        maxX_ele.value = "";
+        maxY_ele.value = "";
+
+        xmin_value_ele.innerHTML = "";
+        ymin_value_ele.innerHTML = "";
+        xmax_value_ele.innerHTML = "";
+        ymax_value_ele.innerHTML = "";
+
+        auto_xmin_ele.value = "";
+        auto_ymin_ele.value = "";
+        auto_xmax_ele.value = "";
+        auto_ymax_ele.value = "";
+
+        $("#auto_coordinates").addClass("hidden");
+        $("#manually_coordinates").addClass("hidden");
+
+        boundingboxUpdated = false;
+        $("#mapTypes").val(mapType);
+        setMapTypeId(mapType);
+
+        var $tauDemBox = $('#tauDemBox');
+        var $limitMsgDiv = $('#wbwLimitMessage');
+
+        if ($tauDemBox.length > 0 && $limitMsgDiv.length > 0) {
+            $('.wbw_product, #tauDemViz').prop('disabled', false);
+            $limitMsgDiv.hide().html("");
+            $tauDemBox.show();
+        }
+    }
+
+    function convertLongitude180(lng) {
+        while (lng < -180) {
+            lng += 360;
+        }
+        while (lng > 180) {
+            lng -= 360;
+        }
+
+        return lng;
+    }
+
+    function showMore() {
+        $('#jobTitleBox').toggleClass('hidden');
+        $('#jobDescriptionBox').toggleClass('hidden');
+        $('#moreBtn').addClass('hidden');
+    }
+
+
+    showMore();
+
+
+    window.onload = function () {
+        if (!layerType_op_ele) {
+            disableOrthophoto();
+        }
+        checkChmDependency();
+        checkContourDependency();
+        tauDemPreRequireCheck();
+        demVizPreRequireCheck();
+        validateAtleastOneLayer();
+    };
+
+</script>
+
+
+
+
+
+<!-- #End header - Start body -->
+                        <br><br>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+<!-- EOF:#main-content -->
+</div>
+<!-- EOF: #page -->
+
+
+
+<!-- #footer -->
+<footer id="footer" class="clearfix">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="footer-area">
+                    <div class="region region-footer-first">
+                        <div id="block-block-2" class="block block-block clearfix">
+                            <div class="content">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a href="https://opentopography.org/citations">Citation Policy</a> | <a href="https://opentopography.org/faq-page">FAQ</a> | <a href="https://opentopography.org/media">Media Kit</a> | <a href="https://opentopography.org/donate">Donate</a> | <a href="https://opentopography.org/contact">Contact Us</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="pull-right">
+                                            <a href="https://bsky.app/profile/opentopography.org" target="_blank"><img alt="Bluesky" src="https://cloud.sdsc.edu/v1/AUTH_opentopography/www/images/social_icons/bsky.png" style="height:31px; width:31px" /></a> <a href="https://www.linkedin.com/company/opentopography" target="_blank"><img alt="Linkedin" src="https://cloud.sdsc.edu/v1/AUTH_opentopography/www/images/social_icons/Linkedin.png" style="height:30px; width:30px" /></a> <a href="https://www.youtube.com/user/OpenTopography" target="_blank"><img alt="YouTube" src="https://cloud.sdsc.edu/v1/AUTH_opentopography/www/images/social_icons/Youtube.png" style="height:31px; width:31px" /></a>  <a href="https://instagram.com/opentopography/" target="_blank"><img alt="Instagram" src="https://cloud.sdsc.edu/v1/AUTH_opentopography/www/images/social_icons/Instagram.png" style="height:31px; width:31px" /></a> <a href="http://www.facebook.com/opentopography" target="_blank"><img alt="Facebook" src="https://cloud.sdsc.edu/v1/AUTH_opentopography/www/images/social_icons/Facebook.png" style="height:30px; width:30px" /></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="block-block-1" class="block block-block clearfix">
+                            <div class="content">
+                                <a href="http://www.nsf.gov" target="_blank"><img src="https://cloud.sdsc.edu/v1/AUTH_opentopography/www/images/drupal/nsf1.gif" alt="National Science Foundation" style="border-style:solid; border-width:0px; float:right; height:60px; margin:4px 5px; width:60px"></a>OpenTopography is supported by the <a href="http://www.nsf.gov" target="_blank">National Science Foundation</a> under Award Numbers <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2410799" target="_blank">2410799</a>, <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2410800" target="_blank">2410800</a> & <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2410801" target="_blank">2410801</a><br />
+                                OpenTopography Facility, San Diego Supercomputer Center, University of California San Diego, 9500 Gilman Drive, La Jolla, CA 92093-0505<br />
+                                Copyright © opentopography.org. All Rights Reserved. <a href="https://opentopography.org/usageterms">Terms of Use</a> | <a href="https://opentopography.org/privacypolicy">Privacy Policy</a>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CWEJXP7KH5"></script>
+<script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-CWEJXP7KH5'); </script>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- EOF #footer -->
+
+</div>
+</body>
+</html>
+
+

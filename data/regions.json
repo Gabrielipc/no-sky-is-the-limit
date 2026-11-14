@@ -1,0 +1,74 @@
+[
+  {
+    "id": "mars-jezero",
+    "name": "Jezero · región de referencia",
+    "body": "Mars",
+    "latitude": 18.44,
+    "longitude": 77.45,
+    "scale_km": 10,
+    "coverage": 1.0,
+    "metrics": {
+      "slope_deg": 1.4018,
+      "relief_m": 203.2666
+    },
+    "description": "Ventana exploratoria de 10 × 10 km centrada en coordenadas provisionales.",
+    "sources": [
+      {
+        "name": "MOLA MEGDR 128 ppd · topografía y recuentos",
+        "url": "https://pds-geosciences.wustl.edu/missions/mgs/megdr.html"
+      }
+    ],
+    "limitations": [
+      "El 44.0% de las celdas de la cuadrícula de salida tiene recuento MOLA mayor que cero según remuestreo por vecino más cercano; otras pueden estar interpoladas.",
+      "La resolución regional de MOLA no permite distinguir rocas ni obstáculos pequeños."
+    ]
+  },
+  {
+    "id": "earth-atacama",
+    "name": "Desierto de Atacama",
+    "body": "Earth",
+    "latitude": -23.8,
+    "longitude": -67.9,
+    "scale_km": 10,
+    "coverage": 1.0,
+    "metrics": {
+      "slope_deg": 4.0352,
+      "relief_m": 575.6414
+    },
+    "description": "Ventana exploratoria de 10 × 10 km centrada en coordenadas provisionales.",
+    "sources": [
+      {
+        "name": "SRTM GL1 · distribución OpenTopography",
+        "url": "https://portal.opentopography.org/raster?jobId=rt1674642591184"
+      }
+    ],
+    "limitations": [
+      "SRTM es un modelo radar de superficie y puede contener artefactos o reflejar vegetación y estructuras.",
+      "Su resolución original se agregó a la cuadrícula regional de análisis."
+    ]
+  },
+  {
+    "id": "earth-utah",
+    "name": "Meseta de Colorado",
+    "body": "Earth",
+    "latitude": 38.6,
+    "longitude": -110.6,
+    "scale_km": 10,
+    "coverage": 1.0,
+    "metrics": {
+      "slope_deg": 1.0415,
+      "relief_m": 95.2909
+    },
+    "description": "Ventana exploratoria de 10 × 10 km centrada en coordenadas provisionales.",
+    "sources": [
+      {
+        "name": "SRTM GL1 · distribución OpenTopography",
+        "url": "https://portal.opentopography.org/raster?jobId=rt1674642591184"
+      }
+    ],
+    "limitations": [
+      "SRTM es un modelo radar de superficie y puede contener artefactos o reflejar vegetación y estructuras.",
+      "Su resolución original se agregó a la cuadrícula regional de análisis."
+    ]
+  }
+]

@@ -1,0 +1,40 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "file": "resultados.json",
+      "bytes": 455391,
+      "sha256": "98539f5f32451a490021040e1194484c9415901f017af8b57665a43bae60631a"
+    },
+    {
+      "file": "procesamiento.json",
+      "bytes": 11727,
+      "sha256": "5c2fb88784efe7a17e99a847df7a47e000c2784417e3f82f6ff124d808e90e98"
+    },
+    {
+      "file": "../../specs/scenarios/superficie-multidimensional-v1.json",
+      "bytes": 1114,
+      "sha256": "4b1329e3b89889b3a6bf47d0d71095d9fcb2d0425e8b56ed8e1def29f72326e9"
+    },
+    {
+      "file": "../../specs/analysis/primer-caso-fase2.json",
+      "bytes": 3653,
+      "sha256": "6d6ff28182c0be852f4490ad5cadd18cbb95ee5700803a08989cc060350337a1"
+    },
+    {
+      "file": "../investigacion-dimensiones/catalogo-fuentes.json",
+      "bytes": 21821,
+      "sha256": "dfa2b689c70a5ed28222f1173935e9f99416eb84414a0d608141bbe6ab7fa580"
+    },
+    {
+      "file": "../../scripts/analizar_dimensiones.py",
+      "bytes": 14129,
+      "sha256": "789b2bf050fc880b41c3c60e2cda2ca1c0797c888c654609b4ed2df57b841c8c"
+    },
+    {
+      "file": "../../scripts/analizar_primer_caso.py",
+      "bytes": 20477,
+      "sha256": "fea9f43e5972ee14f748703bc4724b3a50885214700cbca19bd423bd545a4fcc"
+    }
+  ]
+}

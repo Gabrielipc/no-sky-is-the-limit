@@ -1,0 +1,902 @@
+[
+  {
+    "path": "data/raw/3dep/USGS_1M_12_x53y428_UT_FEMA_FS_FlamingGorge_2020_B20.tif",
+    "bytes": 272131915,
+    "sha256": "6a73af9bc1d4d21b641112c233c0ad2f4217525d2e3ad58dd3020ef6f60e023d"
+  },
+  {
+    "path": "data/raw/arcticdem_v4_1/arcticdem_mosaic_500m_v4.1.tar.gz",
+    "bytes": 692307546,
+    "sha256": "88ae0a27606752fcce7f17e952639230d687ca90b8d9405b781b63457f720b7d"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N00_00_E021_00_DEM.tif",
+    "bytes": 44738539,
+    "sha256": "3b595afea9b0cd3dd214ef6fcaaac2dfa1d570ae6504194a68f4634bf1a37920"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N00_00_E114_00_DEM.tif",
+    "bytes": 47099665,
+    "sha256": "bbfb03942288763bfce1bfd0c984b7a68d67e475fce61f2eb25c9161d9a50c71"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N15_00_W002_00_DEM.tif",
+    "bytes": 39046132,
+    "sha256": "24d27c5b024564bb230818c1ce768f6aefc9f2aa1c2b043908e7ad8c0d6f7c71"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N21_00_E107_00_DEM.tif",
+    "bytes": 40868145,
+    "sha256": "c73a8e5af9acb452280145a80e3f1a312dee5ff72068590c283d18deac442dd1"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N29_00_E106_00_DEM.tif",
+    "bytes": 46677899,
+    "sha256": "8a1e2071e60ae75f0ffeb5f43fd01c4d1eaa69182c2bff0a36bf215c180d0e11"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N35_00_E133_00_DEM.tif",
+    "bytes": 24959602,
+    "sha256": "86fd7b3c55efa619b8439068f52092eb634a84fea5abd783a3b64c5f2bd4c3e8"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N38_00_W111_00_DEM.tif",
+    "bytes": 39942573,
+    "sha256": "644d3dc1b67afedb3d51f01491cc6488ab8aa2032bc6c811b9793cf7f830d954"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N42_00_W082_00_DEM.tif",
+    "bytes": 20301502,
+    "sha256": "2c04ab346e3bf9c72c02d3ef788fcf35a4bdcecaf09936073e7283997ebdd1cf"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N46_00_E011_00_DEM.tif",
+    "bytes": 42921831,
+    "sha256": "eaf59e0a1c97c8be53ff38c7ebca4ed1cfd3ba491c4c6dea3302ffe2a5ccb5bb"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N46_00_W095_00_DEM.tif",
+    "bytes": 40939060,
+    "sha256": "2e123b43e8804784021e932c3ffd66b1ebb92ec7b7e9036a6668e7945ddcf9d8"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N49_00_W125_00_DEM.tif",
+    "bytes": 28866043,
+    "sha256": "a8bf470c4212b277838d01d441a002764fe5dce15279828a53c1bbc77efd1552"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N53_00_E077_00_DEM.tif",
+    "bytes": 27288486,
+    "sha256": "3fc0a9bb6afdb7f335290eef1e994bd614216fcf3a810279d40c4c67ee14bef3"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N59_00_E045_00_DEM.tif",
+    "bytes": 31097523,
+    "sha256": "81f1ce506997497ff3f8ed5d74e4c33313c476df288945dcab812c897d04df37"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N64_00_W127_00_DEM.tif",
+    "bytes": 21207243,
+    "sha256": "828ce42a3f5146eed91672d0a257a9c401df255d97d92c65252c5118aeedd2ed"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N67_00_E082_00_DEM.tif",
+    "bytes": 23052007,
+    "sha256": "5ea961d8819319e66377ca95dfe6caf5f3f4dc943cc016e8fff097b142e3b827"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N71_00_E093_00_DEM.tif",
+    "bytes": 15847653,
+    "sha256": "5218223e5283f87f7d7fca541f13261f49d8bc510270bdd235904de75e653be1"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N79_00_W042_00_DEM.tif",
+    "bytes": 11213409,
+    "sha256": "6f611d997583059bf1d504deeba3eba9a27c52398caa680a2caac48afb45bfc3"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_S04_00_W079_00_DEM.tif",
+    "bytes": 43928686,
+    "sha256": "bd0dbf48a9f8b36a988cf5b4ed5baea775388c50e571ea8fd3fc27147ca183fe"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_S15_00_E030_00_DEM.tif",
+    "bytes": 42924575,
+    "sha256": "91907a7efaffc0ffea4f84c533cad8ae1f9e35d327e111938786fa5a46968fbb"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_S20_00_E021_00_DEM.tif",
+    "bytes": 34928683,
+    "sha256": "599ff9b0c9c9b396e450e3d364bd32734ead19a86b987966c854f311bc0fdc0e"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_S24_00_W071_00_DEM.tif",
+    "bytes": 22161009,
+    "sha256": "2562c4e6fac92922caa80941505eabf6998be1a32d139a8fe07c78632bc4ea9b"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_S26_00_W055_00_DEM.tif",
+    "bytes": 41136564,
+    "sha256": "220474710e884aa26b4777b642b4e2e005cbab5f714b30f83252e9ea6e099bce"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_S34_00_E121_00_DEM.tif",
+    "bytes": 35976883,
+    "sha256": "617b00be085eff791f2bc22c5ad05e1f642b3f27a5e7d34130c48f19032505f2"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_S69_00_E048_00_DEM.tif",
+    "bytes": 18411994,
+    "sha256": "8b10143ad88bc0b8a5aa291a40baa603ebd7331da46f727490f6db22c896a5d6"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_S75_00_W121_00_DEM.tif",
+    "bytes": 13804024,
+    "sha256": "b133221fc0730c1de042f291c0680a4e72b814f1bd8a234d99d5b4822244dc7a"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_S80_00_E152_00_DEM.tif",
+    "bytes": 11314070,
+    "sha256": "5dd32f51db9f1819d68aacdfedb3edfd4fc532fe0a92f3bd6a8eb095b5c0c40e"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_S81_00_E000_00_DEM.tif",
+    "bytes": 6730083,
+    "sha256": "8f5854e5363a3d99972690d4464f55d99b0bb080fa8ae67050b4be0ee15d838b"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_S82_00_E003_00_DEM.tif",
+    "bytes": 6701549,
+    "sha256": "83545ecd6b5f4f10ac6a22bc7b7c46a1bdbc193b0b806f9975bd171d50d96564"
+  },
+  {
+    "path": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_S84_00_E140_00_DEM.tif",
+    "bytes": 6625142,
+    "sha256": "5d0e67a8c504961b57ff31f7826730b370038ba2964407ef76a3a10705662a58"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.B03.tif",
+    "bytes": 21348520,
+    "sha256": "c8a1b9737010ec63d5c4c5ab69db5b8101ee1e03b2d8dfb6ba28b71004b808f3"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.B04.tif",
+    "bytes": 21999792,
+    "sha256": "40abc6f1d74fbe4160e8bed5166fd99fe0b439fc9f2979a05d318a195ef6d378"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.B05.tif",
+    "bytes": 22295724,
+    "sha256": "70c9146e6ea11a6d8d3630ba1948b30e1b401852bea00592a1ceb2dd2e33143e"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.B06.tif",
+    "bytes": 22578700,
+    "sha256": "11c479dc6e45e96ea92d8835a639b2ea30c6d8625fc9a6f431d53f851418f615"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.Fmask.tif",
+    "bytes": 1229116,
+    "sha256": "976346e3be29cba4f2d796fd446b68fcf7081eaf3988927d93baf5696019b011"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T12SWH.2024184T180142.v2.0.B03.tif",
+    "bytes": 22270187,
+    "sha256": "a7f333bb3aa9c0b7140cd17f723582093bbf5b912d59aebe93699d3f24291a87"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T12SWH.2024184T180142.v2.0.B04.tif",
+    "bytes": 22920944,
+    "sha256": "b3974d68a7bbebeb25d32c8da5b4fa867141a16cc3f0d8aa94f59ed4934ec1ff"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T12SWH.2024184T180142.v2.0.B05.tif",
+    "bytes": 23190457,
+    "sha256": "f2b24c9320a5cc36787f0e0debe29bde6a123b8239c39391824b3f706ac15736"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T12SWH.2024184T180142.v2.0.B06.tif",
+    "bytes": 23603055,
+    "sha256": "d9ee72c0aa91b9ec6d62b44d8b58ef8e989be01a925678635944fb374bd8ff68"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T12SWH.2024184T180142.v2.0.Fmask.tif",
+    "bytes": 1119243,
+    "sha256": "1fe14a8ee816355e667b6c9acb38e12e0d21796ad4e910245fa3b8587c9094bb"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.B03.tif",
+    "bytes": 18975834,
+    "sha256": "410c4e154563464b51a6e0ebb74e55d66dd6a0add072d85180c186b2b25172f2"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.B04.tif",
+    "bytes": 19356591,
+    "sha256": "5f4a3700a650822a2178116aa24c97c36066affae6920938755937b0b86eb8e5"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.B05.tif",
+    "bytes": 19268747,
+    "sha256": "888edcbddeef6c69ffb2fca7474a5ecde973934b2ac93aa7c4a5f5698750be83"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.B06.tif",
+    "bytes": 18878369,
+    "sha256": "ff926399636547f0e639e6cf915b513a182ee4c8aef25d8c48a47ef6fa7cb0b8"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.Fmask.tif",
+    "bytes": 1290507,
+    "sha256": "e45407e042f4b4372258e2138fc3676d74cf5ac488c1781d8e00f42558b66ae1"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.B03.tif",
+    "bytes": 21836530,
+    "sha256": "2eb995f8e3df749977c5beb7fe799ca2c752671d3f85da230f808810ccdfb8ff"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.B04.tif",
+    "bytes": 22227192,
+    "sha256": "f2cca2a266256f12e8e2047963cca60a3d4aa9cdd004572765cb447eaa1fb08c"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.B05.tif",
+    "bytes": 22166934,
+    "sha256": "ed9deb84940bbe6d3df611bc765be9d2d37b447170cb5383311e860392ec4ba1"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.B06.tif",
+    "bytes": 21675905,
+    "sha256": "67bcf2839673364e033c3d797556b6154b53d6a31cf44024f8fafec169538630"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.Fmask.tif",
+    "bytes": 1330008,
+    "sha256": "c397eef85caa551095e92dac68522a5e322ec5bf4c258c9fc8fa35382ccf5dfc"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.B03.tif",
+    "bytes": 28582357,
+    "sha256": "1d0fe233ed3ef921b68ee5dbc6f7bf809a4bf5cbf9522d1a8a374b32ec87f642"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.B04.tif",
+    "bytes": 28656437,
+    "sha256": "8625c3281904da38b232e724d29096957366f15284039d79f30aea9f688a9dec"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.B05.tif",
+    "bytes": 29375913,
+    "sha256": "7f9cddf67536156934ea29d5af9bfca33b8d18ff31155640296ea952306214ae"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.B06.tif",
+    "bytes": 26644099,
+    "sha256": "ce26f14a14aa53a05d656afd41aabbac8967935af0d02cbb56698a900c45987f"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.Fmask.tif",
+    "bytes": 3436207,
+    "sha256": "43b8f51c6dcdb60bc529c50ea6061df8c27c7c6ee30efb3340a8156086e405a5"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.B03.tif",
+    "bytes": 25615622,
+    "sha256": "9438c9dbdd49a45f1ad29201cc4ca7078af712fdd6ed3c76664a807efee31328"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.B04.tif",
+    "bytes": 25751865,
+    "sha256": "5dc2d310999ee875294546dd82cfd51edfd779808726edbc09001d292d4e7a8e"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.B05.tif",
+    "bytes": 28747348,
+    "sha256": "e7866ff379d5bd84cad2850a7e26bea4142589f3640fbfe91dad3d924e99545a"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.B06.tif",
+    "bytes": 27701886,
+    "sha256": "e53ac25a000ad057715b61b89415e30c8b416d643f6a6619b5281ea260f81123"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.Fmask.tif",
+    "bytes": 2254845,
+    "sha256": "2651823070640b6693e683ddbc76290d46e82cf81fa5b322325030c3104994db"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.B03.tif",
+    "bytes": 27229623,
+    "sha256": "fa7ddf0a7501bd33560152d2db0922eed16f9567b08bf0f2ae8433ea8a95ba33"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.B04.tif",
+    "bytes": 26872237,
+    "sha256": "8fde7d721072452a21602f4ece2cebb80dde3bce0afda68849f06b74dfd7ecfd"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.B05.tif",
+    "bytes": 28307425,
+    "sha256": "4151f65fd77db217bef0380aa6a33310208a837e19444e2665b8f9a46ff56fc6"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.B06.tif",
+    "bytes": 27620147,
+    "sha256": "aaaecd6473a52ccde5839ed29ae20c181bbd1fc3007817b0dc2eb4533c5b91ae"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.Fmask.tif",
+    "bytes": 2403039,
+    "sha256": "318eb377d25c451286363e0f28e9134fbb0a86f63a7aea32dd3f7db22a496317"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.B03.tif",
+    "bytes": 25119934,
+    "sha256": "0e0d277a747b61a435dec89618459f4eba598686b869e69f683aa0001a92576e"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.B04.tif",
+    "bytes": 24582637,
+    "sha256": "f0ebf6ccf1830c52d01dd1ec577fca20bec06241de459c89235209e6fc8ab282"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.B05.tif",
+    "bytes": 28268948,
+    "sha256": "105be2cf679d2143648c21467d918060fd09ac72a02631188acda49079f68a43"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.B06.tif",
+    "bytes": 27395934,
+    "sha256": "bb4a48aac695ff7a4c744e9d163a06a050539913b4e6449b52912c2570ceb58e"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.Fmask.tif",
+    "bytes": 2265681,
+    "sha256": "eeb279b5052f3feac4cfe5c7c6cb701d5cd9f82e663dbf784f41704e5d38fb8e"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.B03.tif",
+    "bytes": 22355050,
+    "sha256": "b9e94d332843999488f904f15dddf71896d87c82e46f006f20de396a6840568d"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.B04.tif",
+    "bytes": 23068639,
+    "sha256": "fe1c34e95d688f62460ebe2561944199b615c19e5b59b3250d3bc78e8d7e2a65"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.B11.tif",
+    "bytes": 23256629,
+    "sha256": "c96f67b27087637cfef972f27bae8fc0e8d9803f2b7d60d49135551a3e6d32a4"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.B8A.tif",
+    "bytes": 23158318,
+    "sha256": "ac5a7c387e40a54d5006c8f07fefd50dff9f77b5bbbb4cf6d07544a8f652d9cb"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.Fmask.tif",
+    "bytes": 1401099,
+    "sha256": "3faab2b23ff97f42cafc096e19be2809e589026c4851378b9599c1a05dd5436e"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.B03.tif",
+    "bytes": 21630881,
+    "sha256": "2de7c410f706265aaf1dc750b334bf9117a60c803d2e8f08c1accc105873d8d9"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.B04.tif",
+    "bytes": 22260669,
+    "sha256": "942da330e08fd7c09437f4ab61bb64134d5d1dd78e9953ee66fe1878c949b528"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.B11.tif",
+    "bytes": 22482793,
+    "sha256": "f86b674241358d8e9ed2a2e280d3f4e6df27a1a7f0ccca8e5c07657d133a5cb5"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.B8A.tif",
+    "bytes": 22180996,
+    "sha256": "2bf084ac3ef79702055e94c6bf6518d5d4a9e63b25a160dcd4d28ba4751c125c"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.Fmask.tif",
+    "bytes": 1149643,
+    "sha256": "acbd083919317e6636033aa153f204b1939ff58f28bfc0bb2d49e33b7bd9586c"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.B03.tif",
+    "bytes": 21851713,
+    "sha256": "db3babeaf3e547697cd554b554520cb3f650c62f9d7e2c6fbb6746799a7f2ec0"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.B04.tif",
+    "bytes": 22072029,
+    "sha256": "188d6527585559e0f6930d1614a516a854974512238b676eee25059cfad69c20"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.B11.tif",
+    "bytes": 21458768,
+    "sha256": "f5aac6e46c23d80262778cb6cd1427caba982b748e8515639c3ae3866ebccca4"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.B8A.tif",
+    "bytes": 22145984,
+    "sha256": "9c7ee308beca92d4dbfafed11c68f5bc9779d37498f46a67999e24848bec35ff"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.Fmask.tif",
+    "bytes": 1177830,
+    "sha256": "6ab4a1d9209debeb4b2d51dd431fc1053049f26ec85921043c8b85e5c6cd02f7"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T19KCP.2024236T144731.v2.0.B03.tif",
+    "bytes": 24694568,
+    "sha256": "ad7b992d2aa6835c0c2d335c2cf57a264949ee78633baf24a6c4a889c853b162"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T19KCP.2024236T144731.v2.0.B04.tif",
+    "bytes": 25009841,
+    "sha256": "d3b93e1a7da7d314887a624f8087467325cb2d271e8e82cc3fb6703d3a36e5c6"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T19KCP.2024236T144731.v2.0.B11.tif",
+    "bytes": 23675609,
+    "sha256": "b4463d5105914b695b286fe77568a82f491c81ba0755f19a554f232ddda2ed62"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T19KCP.2024236T144731.v2.0.B8A.tif",
+    "bytes": 24534564,
+    "sha256": "e82840599e7852ce38ba2adf481a52745e407abdf2c9fa349bee60d47acc695e"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T19KCP.2024236T144731.v2.0.Fmask.tif",
+    "bytes": 779016,
+    "sha256": "2e21fb6ccc9c5417db1492d69645dccf6eceb4c984f16d8e19efb590ec9045dc"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.B03.tif",
+    "bytes": 28991490,
+    "sha256": "e33c49d2e0fa714a87a699bc7004e11479f399495ee9ef02e60e2d6844caeca4"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.B04.tif",
+    "bytes": 28923997,
+    "sha256": "efda5be1b51be6ed8e36da45e483328ca8842bb254755d2a5376f8b9869ec0ce"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.B11.tif",
+    "bytes": 26687153,
+    "sha256": "7269ab69b05a58f136d6142a799702f7b236490bca1837a038ae361836ebb0f1"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.B8A.tif",
+    "bytes": 29402055,
+    "sha256": "89c7670847dbc0bb83ba2e8ca58a644bb3305d53b8dba1f458cb49d9aed3266d"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.Fmask.tif",
+    "bytes": 3525665,
+    "sha256": "0e24c1867dab5658ba142f036fce7cb64d7e1fd2675a784adc597696537b3ef1"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.B03.tif",
+    "bytes": 26255136,
+    "sha256": "a7c18f7dbb3737b38e491e0457d27cc29ed0b5add138cb185d2b6f4cd7029868"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.B04.tif",
+    "bytes": 26318421,
+    "sha256": "74219d27038c05a6251950e83843e9ee2ea610536df51c5a8fbd426eb7362a71"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.B11.tif",
+    "bytes": 27748933,
+    "sha256": "cec003c932a39be3cd4c1da4c751fac404c283967a538b0c7caf09b1a3c7c808"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.B8A.tif",
+    "bytes": 28778481,
+    "sha256": "5d45a52e81162c1ffa1062dfbe167e4285c9fbe06fd728a8f3f0037f9d322174"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.Fmask.tif",
+    "bytes": 1940634,
+    "sha256": "826e11dbe53096fc62df69b7421aafc1d3d91a4cfdc759effe9802e42de9cc9e"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.B03.tif",
+    "bytes": 10469784,
+    "sha256": "7782f6bbc5d4f6a9953b32c2712bca1351b83f141802327d99344d9ef4295643"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.B04.tif",
+    "bytes": 10231464,
+    "sha256": "26bf3eb0dfbc6044c2b98dbc750dc8a1fbaabf09223df4157c845d9cd4ae73c3"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.B11.tif",
+    "bytes": 10660070,
+    "sha256": "f84def3bec95415ff16782538249a204c47eba95c34070b6293e8acc0c6d2213"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.B8A.tif",
+    "bytes": 11037313,
+    "sha256": "2dbdb4b7f5cd2cb849baefc846872e1f46ce3715fa0d95218f787b5bee342ec7"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.Fmask.tif",
+    "bytes": 1334690,
+    "sha256": "3064146125c6e7948bab5f64160a091c4b577985e45deba3acd0dc4aec1ed1b2"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.B03.tif",
+    "bytes": 23333608,
+    "sha256": "d14dae6dde8c73acaface448409d368abad8c9069475580966acbebd687cc127"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.B04.tif",
+    "bytes": 21841193,
+    "sha256": "1e9b372deaaf776685050a50e12d0b6bd9e775c10ec23642889da9de8d76ba55"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.B11.tif",
+    "bytes": 25105673,
+    "sha256": "3fd1fcfe75e2eec19e7cb94422a25c56ec48fb8f0cdba6324e70c8f31fb9695a"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.B8A.tif",
+    "bytes": 26832623,
+    "sha256": "8d62806efa558a58927062837f69fc11996195419f2e5fb37a40c3f93e73a472"
+  },
+  {
+    "path": "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.Fmask.tif",
+    "bytes": 1751769,
+    "sha256": "dd7d37ed4272e0a27e0222c1ae8a32cabfb55569173eb4edda419b3d138e2f9f"
+  },
+  {
+    "path": "data/raw/atlas30/jrc/occurrence_10E_50N_v1_5_2024.tif",
+    "bytes": 50000597,
+    "sha256": "bd9cd8cf9c46f91c1d6ec05ba2772634032d2fa859fa0ea89e50abcb87c0f2b5"
+  },
+  {
+    "path": "data/raw/atlas30/jrc/occurrence_110E_10N_v1_5_2024.tif",
+    "bytes": 36866076,
+    "sha256": "5b341f3c69d67df788e795ec76e2867a153e47677dafa6c349f8bfc2035f8137"
+  },
+  {
+    "path": "data/raw/atlas30/jrc/occurrence_120W_40N_v1_5_2024.tif",
+    "bytes": 27492765,
+    "sha256": "600512a45cff80fde4afdcef1b2677f72a24f13257784f174578ae37cc69e301"
+  },
+  {
+    "path": "data/raw/atlas30/jrc/occurrence_70W_20S_v1_5_2024.tif",
+    "bytes": 26671128,
+    "sha256": "4e3fc6b081133803a8e6305bc7b44ad6126c17766622a1c5e364f185282bff03"
+  },
+  {
+    "path": "data/raw/atlas30/jrc/occurrence_80W_20S_v1_5_2024.tif",
+    "bytes": 17662720,
+    "sha256": "bad50a6f3648883f9fec95f094eb8513f659689583ef2f44aacfd30b9f300f8c"
+  },
+  {
+    "path": "data/raw/atlas30/land/ne_10m_land.zip",
+    "bytes": 3269070,
+    "sha256": "e547d749445eaa0964aba76738090ec88f5e63c4585122170f98c67a7ea922dc"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC08_L2SP_001076_20240229_20240313_02_T1_QA_PIXEL.TIF",
+    "bytes": 597451,
+    "sha256": "009428d21641002f42abc50042ff808863d420d53a879d6bcdc3850ce27da7cf"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC08_L2SP_001076_20240229_20240313_02_T1_ST_B10.TIF",
+    "bytes": 83122657,
+    "sha256": "1af66b03bec52b04022e0242d14bfc5d62abf3f9bb231ced05a14fd37510784c"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC08_L2SP_001076_20240229_20240313_02_T1_ST_QA.TIF",
+    "bytes": 16981975,
+    "sha256": "eda8fc22214808035b667aab987d0b34ffa3c0dcb5a140baec2bf71a57ba3c2f"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC08_L2SP_001077_20240823_20240830_02_T1_QA_PIXEL.TIF",
+    "bytes": 939230,
+    "sha256": "1cc391231e4c9b1bba1025eccc0ef70f96e753ace0223462e432acbaaeb81997"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC08_L2SP_001077_20240823_20240830_02_T1_ST_B10.TIF",
+    "bytes": 78115283,
+    "sha256": "a6cc8faed74c306fedb1f00d7da561c4ff40f5beffe4ecd73389aac7110821e6"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC08_L2SP_001077_20240823_20240830_02_T1_ST_QA.TIF",
+    "bytes": 14032062,
+    "sha256": "5e7c1fd3045745455a5bebccf9c07fc1b575dc65ab1d7319b8f932d5f1b6615e"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_037033_20240116_20240117_02_T1_QA_PIXEL.TIF",
+    "bytes": 5851932,
+    "sha256": "b59e20ae431f3ee6284f561c0c39350bd2e99f4c2ea249fc859387fbda8e8f1a"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_037033_20240116_20240117_02_T1_ST_B10.TIF",
+    "bytes": 86018918,
+    "sha256": "eef82810405e4f903aabb1aa45ba797d5a0493d1661cdf1698365d399ee4e3fc"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_037033_20240116_20240117_02_T1_ST_QA.TIF",
+    "bytes": 38379415,
+    "sha256": "77846f37e953b42b18390cc391dc36d166fba71884ed484c427b982ed02c8260"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_037033_20240827_20240828_02_T1_QA_PIXEL.TIF",
+    "bytes": 465102,
+    "sha256": "6739638e0496ebafa52d1fb1b8ba3243d2b02f129b01ba34cbd9913feca7929c"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_037033_20240827_20240828_02_T1_ST_B10.TIF",
+    "bytes": 88707060,
+    "sha256": "4530a1a3d48d6fe0196b8569f746612a9359049f1eb49214335264a576b27878"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_037033_20240827_20240828_02_T1_ST_QA.TIF",
+    "bytes": 21141458,
+    "sha256": "5ba8600663a2cf35153b92c833525c8846c89de9edfe2bcabdf7764f7efcc42b"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_118060_20240312_20240313_02_T1_QA_PIXEL.TIF",
+    "bytes": 5946577,
+    "sha256": "1b739a6d8d7eeb055b29e225792975174c5117960073a0db9881b2fd2c4c1307"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_118060_20240312_20240313_02_T1_ST_B10.TIF",
+    "bytes": 33699515,
+    "sha256": "5ca8059aef552beb1a7f37c6abc11b48a257226ffd8d8570f37d6f24fc7f368e"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_118060_20240312_20240313_02_T1_ST_QA.TIF",
+    "bytes": 19409107,
+    "sha256": "aeffdbd91def9314947638456e362df92e8832f43fdd9f8baf5e6c27f3bdd658"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_118060_20240920_20240923_02_T1_QA_PIXEL.TIF",
+    "bytes": 5915456,
+    "sha256": "082056c93f9170c5a13e3289fbc36db567ca83b5c7e2b718c5403cacd9b28a8c"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_118060_20240920_20240923_02_T1_ST_B10.TIF",
+    "bytes": 31278238,
+    "sha256": "b393c08b2afaa501ea5e3743d17b175396f874cbcf5003509bba38048b3af0ce"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_118060_20240920_20240923_02_T1_ST_QA.TIF",
+    "bytes": 17455411,
+    "sha256": "09ba9c6578b0a7847f286f9230674f8d548945a37331fbd4a58616c0a77da2d5"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_192028_20240825_20240826_02_T1_QA_PIXEL.TIF",
+    "bytes": 2442463,
+    "sha256": "b92b289fdd9bd54d0422d1075bc0902c4095a18fd8723edc57d442f26dcd4fd4"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_192028_20240825_20240826_02_T1_ST_B10.TIF",
+    "bytes": 87245263,
+    "sha256": "211d8522d7a8efc3137b0555d1e1d7c4a9e06ec8d2f67aa1b524f8a151a40153"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_192028_20240825_20240826_02_T1_ST_QA.TIF",
+    "bytes": 35563146,
+    "sha256": "639e3f7372338b70d6e2e32a3ebbdc3f351f1874b3159aa6ca323ace838a3201"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_193028_20240325_20240326_02_T1_QA_PIXEL.TIF",
+    "bytes": 6887988,
+    "sha256": "584d8d27060a60d90aae4b8e4a690ad030988626b8bafea71678fae8a6efe485"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_193028_20240325_20240326_02_T1_ST_B10.TIF",
+    "bytes": 90635401,
+    "sha256": "6173c2bf62034023b0035975b6641cdcd928ee9aeb31afb472d0c5071dc581e8"
+  },
+  {
+    "path": "data/raw/atlas30/landsat/LC09_L2SP_193028_20240325_20240326_02_T1_ST_QA.TIF",
+    "bytes": 41272023,
+    "sha256": "ea412b1251fb5247b1356e030e3671b8a3169e84490d03c9efc0a7e9af638fc3"
+  },
+  {
+    "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N00E114_Map.tif",
+    "bytes": 11965004,
+    "sha256": "0be3efdaa0c7359876167100e78391094a75394e81d41c325b3b5b7d30578427"
+  },
+  {
+    "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N36W111_Map.tif",
+    "bytes": 121204889,
+    "sha256": "07d1fdbf36e9ed12520da4805a37d1f6812c1aeb3c3ef519fc0a43e42647949e"
+  },
+  {
+    "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N36W114_Map.tif",
+    "bytes": 124750491,
+    "sha256": "6be14fc314cb098583c0a45a8f2b702cdf1cdc784066e3ab7792efaeab2c1e7a"
+  },
+  {
+    "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N39W114_Map.tif",
+    "bytes": 98433488,
+    "sha256": "acc38042c708f7cce4435236e1a4449a28c1518e46755c4a7fc8d3930979772a"
+  },
+  {
+    "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N45E009_Map.tif",
+    "bytes": 106906572,
+    "sha256": "88702b9b5641a9d72d0f53cbc19afe1ae52786355b23757ef0f7fcc59276b552"
+  },
+  {
+    "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_S24W072_Map.tif",
+    "bytes": 4014576,
+    "sha256": "c16525824d76040e6c5ef610ccb903d7bbb28a8b05e1aa21c1c34789e807724b"
+  },
+  {
+    "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_S27W072_Map.tif",
+    "bytes": 12308699,
+    "sha256": "4ad4d29507703ad8e8443555ecc08c2f08d00361ae1723b7fe178a9935710740"
+  },
+  {
+    "path": "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.hdr",
+    "bytes": 1479,
+    "sha256": "4696fe835e4e99c00c22242b02738fc712ea367e8f3aa2f7fc794110b259f835"
+  },
+  {
+    "path": "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img",
+    "bytes": 24637536,
+    "sha256": "575a55fd2792ce6e263901949bbc333003dae87e8b00ea488efbe0d6c8cc828b"
+  },
+  {
+    "path": "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.lbl",
+    "bytes": 6349,
+    "sha256": "c9c3e4121f83359a5b19ab0a7217e176d042068baf656fd97351403efd7939c4"
+  },
+  {
+    "path": "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.hdr",
+    "bytes": 1802,
+    "sha256": "dfb912294226519e500701bd5e215e15dc5b747212c25d4bef2287f4d39a61e4"
+  },
+  {
+    "path": "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+    "bytes": 164250240,
+    "sha256": "10eb37e4dd8f2f95a6c3ebdfda5a0b066bd02c33bb2d1e03558c024f3b16ec2d"
+  },
+  {
+    "path": "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.lbl",
+    "bytes": 8394,
+    "sha256": "10ac486d769f8fdc82ed08fb88f42e37dd1f4cb29a0b6db57a39a7e6cb7ac3c9"
+  },
+  {
+    "path": "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.xml",
+    "bytes": 66726,
+    "sha256": "fc297443c13d362e64285e1c0c93d654d6cd76cd87b056d9d87a50ae12fc1b3c"
+  },
+  {
+    "path": "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc",
+    "bytes": 48585437,
+    "sha256": "92aedf9e30edb13afcc2fcb9f964f09989a3077edd2262fe5d72e5184d12f18f"
+  },
+  {
+    "path": "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc",
+    "bytes": 52315756,
+    "sha256": "cf817e367698d4b20c67d5cac7881d19103488871cec8becfd69453f00d10e56"
+  },
+  {
+    "path": "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc",
+    "bytes": 52491460,
+    "sha256": "746440d80c4f01d5d9b8d06e623f0ef8e6e085976e37384e50ecb3fb3990d2a2"
+  },
+  {
+    "path": "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+    "bytes": 43145931,
+    "sha256": "0ba00de595ff9c589c64a35b63541b02b848f5bf267838138f8fbb22a9ffb8e5"
+  },
+  {
+    "path": "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+    "bytes": 45076060,
+    "sha256": "172a7a32248e4d8c3225e39645a7faab79e7a0bc7491b45dcb4b21357df5e6b4"
+  },
+  {
+    "path": "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+    "bytes": 45656544,
+    "sha256": "f0aaddc57cb2b6975b1e96207f8d1b66bea40d1328c0ddd860ada54f763e917b"
+  },
+  {
+    "path": "data/raw/gmted2010/mn30_grd.zip",
+    "bytes": 277229566,
+    "sha256": "dfd0d6c6486f4da22109be6107c93a70ef9917a5b6f954cd82d87cf8b920149d"
+  },
+  {
+    "path": "data/raw/gmted2010/mn75_grd.zip",
+    "bytes": 2919537239,
+    "sha256": "eab22d18b46a34b2e21bbd019ec7a16f2c0b5d3b983d9bd27bd56d68c791c0cf"
+  },
+  {
+    "path": "data/raw/hirise/DTEEC_002387_1985_003798_1985_A01.IMG",
+    "bytes": 320045704,
+    "sha256": "268bd5912f0aa0e0b0be8db9004085c2ace78f559377acad0a47b32878c7ccea"
+  },
+  {
+    "path": "data/raw/hirise/PSP_002387_1985_RED_C_01_ORTHO.JP2",
+    "bytes": 30941086,
+    "sha256": "be2612e4e932238959fd43b28118b6d319c83b19b3fcf4bd70a754f4b8eea99b"
+  },
+  {
+    "path": "data/raw/lola_gdr/ldem_64_float.img",
+    "bytes": 1061683200,
+    "sha256": "4dd151f230984316602f13df36214563ff575683cb5612f1a7bc4699188ec25b"
+  },
+  {
+    "path": "data/raw/mola/megc44n000hb.img",
+    "bytes": 64880640,
+    "sha256": "cfb4d7e3626106ef4ed2a466eb03a538feed9c163be99e860b7ae8700a8ecab5"
+  },
+  {
+    "path": "data/raw/mola/megt44n000hb.img",
+    "bytes": 129761280,
+    "sha256": "14022166079edafc99650f354e5a634e6eb2c2ea544b444c01cd8ee55437df36"
+  },
+  {
+    "path": "data/raw/mola_meg128/megc00n000hb.img",
+    "bytes": 64880640,
+    "sha256": "0ca368301e1f7ab81ad2164c7659cf8a563e4ff3f0b2211e5b253090deca0676"
+  },
+  {
+    "path": "data/raw/mola_meg128/megc44s180hb.img",
+    "bytes": 64880640,
+    "sha256": "57df8d3d4a2870d0408608abcbbbbb2be7c497630850565bc183905fa129887f"
+  },
+  {
+    "path": "data/raw/mola_meg128/megt44n000hb.img",
+    "bytes": 129761280,
+    "sha256": "14022166079edafc99650f354e5a634e6eb2c2ea544b444c01cd8ee55437df36"
+  },
+  {
+    "path": "data/raw/mola_meg128/megt88n270hb.img",
+    "bytes": 129761280,
+    "sha256": "15a21106e752c7c6cf091d40def5ab6e0c36eec25a0fe57afe058580a2ba32d5"
+  },
+  {
+    "path": "data/raw/mola_polar/megc_n_128.img",
+    "bytes": 104857600,
+    "sha256": "813e02ceb93ebb7ba8775f61406dc95f8da0fd354c58824ed8e3be3a56979275"
+  },
+  {
+    "path": "data/raw/mola_polar/megc_s_128.img",
+    "bytes": 104857600,
+    "sha256": "68d83891f543ca086f1dd4efce6e0a946e8a74b8dc3bdc306d052511a6a7e452"
+  },
+  {
+    "path": "data/raw/mola_polar/megt_n_128_1.img",
+    "bytes": 209715200,
+    "sha256": "e8fac6e99f9ee3c2c418a98599fb8369dd3ca72a84fdb6504756c7ae082de423"
+  },
+  {
+    "path": "data/raw/mola_polar/megt_s_128_1.img",
+    "bytes": 209715200,
+    "sha256": "1dc9725eb018337ed73120a11eba8ef17253ce238373109a4f1ca37522209c96"
+  },
+  {
+    "path": "data/raw/rema_v2_0/rema_mosaic_500m_v2.0.tar.gz",
+    "bytes": 298723479,
+    "sha256": "87c41aee247d058c5e0bdb0cd3f7677a36c00ad91c9881259e058b9b07812c40"
+  },
+  {
+    "path": "data/raw/srtm/N38W111.tif",
+    "bytes": 14938692,
+    "sha256": "73520c1f4d04871db3a999fb2570c4eef723fb18d5a507cc60ba5c22ccac828c"
+  },
+  {
+    "path": "data/raw/srtm/S24W068.tif",
+    "bytes": 16464310,
+    "sha256": "4f64ff3421208d6f1c95cd94e1df9d9c686a877e3905b53fd940ab9cf194db4a"
+  },
+  {
+    "path": "data/raw/themis/Jezero_Thermal_Inertia_v1.tiff",
+    "bytes": 1721889,
+    "sha256": "84401e7717d43ae80cbd80213b91bd141ee48197eb8648293197447c43c2829c"
+  }
+]

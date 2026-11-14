@@ -1,0 +1,109 @@
+{
+  "date": "2026-11-07",
+  "status": "passed",
+  "scenario_id": "estabilidad-topografica",
+  "automated": {
+    "backend_tests": 23,
+    "scientific_and_retrieval_tests": 28,
+    "total_passed": 51,
+    "new_phase5_tests": 12,
+    "typescript_vite_build": "passed",
+    "planetary_crs_check": "passed",
+    "commands": [
+      "make check",
+      "./.pixi/envs/default/bin/python -m unittest discover -s tests -v"
+    ],
+    "verified_manifest_entries": {
+      "2": 47,
+      "4": 8,
+      "5": 7
+    },
+    "preserved_previous_evidence_files": 58,
+    "markdown_links_verified": 17
+  },
+  "data": {
+    "resources": {
+      "selected": 10,
+      "evaluated": 7,
+      "pending": 3,
+      "network_requests": 0,
+      "crop_bytes": 206350
+    },
+    "elapsed_seconds": 5.341,
+    "scales_m": [
+      60,
+      120,
+      300,
+      600
+    ],
+    "filter_scales_m": [
+      300,
+      600
+    ],
+    "result_sha256": "eb4d5e338787a93de422c03e504a9bd923f07f65bf9701f32adb1ec791b418fd",
+    "identical_offline_runs": true,
+    "paired_decisions": [
+      {
+        "cell_m": 300,
+        "profile": "strict",
+        "paired_count": 7,
+        "changed_count": 0
+      },
+      {
+        "cell_m": 300,
+        "profile": "baseline",
+        "paired_count": 7,
+        "changed_count": 0
+      },
+      {
+        "cell_m": 300,
+        "profile": "relaxed",
+        "paired_count": 7,
+        "changed_count": 0
+      },
+      {
+        "cell_m": 600,
+        "profile": "strict",
+        "paired_count": 7,
+        "changed_count": 0
+      },
+      {
+        "cell_m": 600,
+        "profile": "baseline",
+        "paired_count": 7,
+        "changed_count": 0
+      },
+      {
+        "cell_m": 600,
+        "profile": "relaxed",
+        "paired_count": 7,
+        "changed_count": 0
+      }
+    ]
+  },
+  "browser": {
+    "url": "http://localhost:5173/",
+    "checked": [
+      "Initial phase-3 comparison with reviewed values",
+      "Phase-4 Utah: 272 generated and 99 base-profile candidates at 300 m",
+      "Phase-5: 10 selected, 7 evaluated, 3 pending",
+      "Select control-mojave: missing N35W117.tif and no local metrics",
+      "Change profile to relaxed and back to baseline",
+      "Select utah-010-007: paired source contrasts and all four local scales",
+      "Screenshot inspection of layout and tables"
+    ],
+    "console_errors_or_warnings": [],
+    "screenshots": [
+      "recorrido.png",
+      "detalle.png",
+      "pendiente.png"
+    ]
+  },
+  "limitations": [
+    "Convenience sample conditioned on local tiles; not a catalogue-wide accuracy estimate",
+    "Shared product provenance; no independent accuracy validation",
+    "No exhaustive browser/device matrix",
+    "Atomic per-file publication, not a transactional release",
+    "No mobility evaluation or validated analogue labels"
+  ]
+}

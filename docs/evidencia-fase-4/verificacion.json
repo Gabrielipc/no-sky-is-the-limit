@@ -1,0 +1,70 @@
+{
+  "date": "2026-11-07",
+  "status": "passed",
+  "search_id": "jezero-gmted-regional-v1",
+  "automated": {
+    "backend_tests": 17,
+    "scientific_and_retrieval_tests": 22,
+    "total_passed": 39,
+    "new_phase4_tests": 13,
+    "typescript_vite_build": "passed",
+    "planetary_crs_check": "passed",
+    "commands": [
+      "make check",
+      ".pixi/envs/default/bin/python -m unittest discover -s tests -v"
+    ],
+    "phase2_manifest_entries_preserved": 47,
+    "phase2_manifest_mismatches": [],
+    "phase4_scientific_manifest_entries_verified": 8,
+    "phase4_scientific_manifest_mismatches": [],
+    "markdown_links_verified": 20
+  },
+  "data": {
+    "gmted_archive_crc": "All members of both ZIPs passed",
+    "gmted_identity_matches_acquisition_manifest": true,
+    "generated_windows": 970,
+    "controls": 3,
+    "locally_evaluated_exploratory": [
+      "utah-010-007"
+    ],
+    "cell_scales_m": [
+      300,
+      600
+    ],
+    "detail_scales_m": [
+      60,
+      120
+    ],
+    "no_network_requests_for_delivered_analysis": true,
+    "window_m": 3000,
+    "reproduction_sha256": "3786f3de7b69b5813f70bcad6b13e01f6d8a27675af8e5c28c9d426b820a0d21"
+  },
+  "browser": {
+    "url": "http://127.0.0.1:5173/",
+    "checked": [
+      "Phase-3 comparison still loads with reviewed values",
+      "Open regional mode: Utah 272 generated, 99 baseline at 300 m",
+      "Select Mojave, 600 m, strict profile; include excluded windows",
+      "Inspect generated Mojave window: detail pending with no zero score",
+      "Select Atacama, 600 m, relaxed profile: 420 generated, 282 accepted",
+      "Pagination shows 13-24 of 282",
+      "Return to Utah baseline 300 m; inspect utah-010-007 with regional and 60/120 m local metrics",
+      "Fresh browser load after entrypoint/component separation; no console errors or warnings"
+    ],
+    "development_warning_resolved": "React createRoot warning during hot reload; separated the entrypoint from the App component. Fresh-load verification was clean.",
+    "fresh_load_console_errors_or_warnings": [],
+    "screenshots": [
+      "recorrido.jpg",
+      "detalle-utah.jpg"
+    ]
+  },
+  "limitations": [
+    "Local numeric identity/CRC, not authenticated source checksums or scientific accuracy validation",
+    "No exhaustive browser/device matrix",
+    "Sparse regional sample, no global or continuous-area scan",
+    "No source-per-pixel or land/water masks; numeric zero retained",
+    "Thresholds operational and unvalidated; controls are not ground truth",
+    "One new detail evaluation is exploratory; no mobility assessment",
+    "JSON publication is atomic per file, not a transactional multi-file release"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "case_id": "jezero-relieve-regional-v1",
+  "question": "Comparar pendiente y relieve relativo regionales; no evaluar transitabilidad.",
+  "window_m": 1800,
+  "margin_m": 240,
+  "scales_m": [60, 120],
+  "support_tolerance": 0.000001,
+  "slope_histogram_edges_deg": [0, 1, 2, 5, 10, 15, 20, 30, 45, 90],
+  "output": "docs/evidencia-fase-2",
+  "orthoimage": {
+    "input": "data/raw/hirise/PSP_002387_1985_RED_C_01_ORTHO.JP2",
+    "label": "docs/evidencia-fase-1/PSP_002387_1985_RED_C_01_ORTHO.LBL",
+    "product_id": "PSP_002387_1985_RED_C_01_ORTHO",
+    "url": "https://www.uahirise.org/PDS/DTM/PSP/ORB_002300_002399/PSP_002387_1985_PSP_003798_1985/PSP_002387_1985_RED_C_01_ORTHO.JP2",
+    "bytes": 30941086,
+    "sha256": "be2612e4e932238959fd43b28118b6d319c83b19b3fcf4bd70a754f4b8eea99b"
+  },
+  "sites": [
+    {
+      "id": "mars-jezero-fan",
+      "name": "Jezero — abanico sedimentario",
+      "body": "Mars",
+      "latitude": 18.49,
+      "longitude": 77.41,
+      "radius_m": 3394839.8133163,
+      "input": "data/raw/hirise/DTEEC_002387_1985_003798_1985_A01.IMG",
+      "product_id": "DTEEC_002387_1985_003798_1985_A01",
+      "version": "1.0",
+      "url": "https://www.uahirise.org/PDS/DTM/PSP/ORB_002300_002399/PSP_002387_1985_PSP_003798_1985/DTEEC_002387_1985_003798_1985_A01.IMG",
+      "bytes": 320045704,
+      "sha256": "268bd5912f0aa0e0b0be8db9004085c2ace78f559377acad0a47b32878c7ccea",
+      "valid_range_m": [-2600.51, -2298.75],
+      "vertical_reference": "Mars 2000 equipotential surface, label",
+      "observation_dates": ["2007-01-29", "2007-05-19"],
+      "limitations": ["DTM estéreo, resolución efectiva y precisión local no cuantificadas", "Posibles interpolaciones, facetas y costuras", "La escala de imagen no es la escala del DTM"]
+    },
+    {
+      "id": "earth-utah",
+      "name": "Utah — candidata inicial",
+      "body": "Earth",
+      "latitude": 38.6,
+      "longitude": -110.6,
+      "input": "data/raw/srtm/N38W111.tif",
+      "product_id": "N38W111.tif",
+      "version": "SRTM GL1 v3 según distribuidor; versión de esta copia no inscrita en TIFF",
+      "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N38W111.tif",
+      "bytes": 14938692,
+      "sha256": "73520c1f4d04871db3a999fb2570c4eef723fb18d5a507cc60ba5c22ccac828c",
+      "vertical_reference": "Metros EGM96 según documentación SRTM; asignación por procedencia, sin transformación vertical",
+      "observation_dates": ["2000-02-11/2000-02-22; fechas de rellenos desconocidas"],
+      "limitations": ["Modelo radar de superficie; vegetación y estructuras no descartadas", "Máscara de rellenos y precisión local no disponibles", "No es un sitio de ensayo de rover validado"]
+    },
+    {
+      "id": "earth-atacama",
+      "name": "Atacama — contraste regional",
+      "body": "Earth",
+      "latitude": -23.8,
+      "longitude": -67.9,
+      "input": "data/raw/srtm/S24W068.tif",
+      "product_id": "S24W068.tif",
+      "version": "SRTM GL1 v3 según distribuidor; versión de esta copia no inscrita en TIFF",
+      "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/S24W068.tif",
+      "bytes": 16464310,
+      "sha256": "4f64ff3421208d6f1c95cd94e1df9d9c686a877e3905b53fd940ab9cf194db4a",
+      "vertical_reference": "Metros EGM96 según documentación SRTM; asignación por procedencia, sin transformación vertical",
+      "observation_dates": ["2000-02-11/2000-02-22; fechas de rellenos desconocidas"],
+      "limitations": ["Modelo radar de superficie, posibles rellenos", "El polígono no se identificó con una huella ARADS", "Precisión local no cuantificada"]
+    }
+  ]
+}

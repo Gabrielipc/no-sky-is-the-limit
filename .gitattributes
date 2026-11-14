@@ -1,0 +1,5 @@
+# Preserve provider metadata byte-for-byte: local manifests include their hashes.
+docs/investigacion-marte/*.hdr -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+docs/investigacion-marte/*.lbl -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+docs/investigacion-marte/*.xml -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
+docs/investigacion-marte/*.tab -text whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol

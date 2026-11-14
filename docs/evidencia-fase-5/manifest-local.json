@@ -1,0 +1,40 @@
+{
+  "scope": "Identidad local; no autenticidad ni validación científica.",
+  "files": [
+    {
+      "file": "resultados.json",
+      "bytes": 166497,
+      "sha256": "eb4d5e338787a93de422c03e504a9bd923f07f65bf9701f32adb1ec791b418fd"
+    },
+    {
+      "file": "procesamiento.json",
+      "bytes": 4944,
+      "sha256": "a85eeeabf1ba35b1a32ffbc7be104238ec3795f04678e3d5ad5b287b4d447860"
+    },
+    {
+      "file": "../../specs/scenarios/estabilidad-topografica-v1.json",
+      "bytes": 917,
+      "sha256": "69c703831dbc9436db5e7e4872201fa972dc08a331bf0f6d14abbc934d066959"
+    },
+    {
+      "file": "../../specs/analysis/primer-caso-fase2.json",
+      "bytes": 3653,
+      "sha256": "6d6ff28182c0be852f4490ad5cadd18cbb95ee5700803a08989cc060350337a1"
+    },
+    {
+      "file": "../../scripts/evaluar_expansion.py",
+      "bytes": 16640,
+      "sha256": "7c7da87579b99701d5975f3343835aac3a9fcbe45494f78b54409c8f88ede343"
+    },
+    {
+      "file": "../../scripts/buscar_candidatas.py",
+      "bytes": 25934,
+      "sha256": "988a6c1bca1afec19bd8423ebc5961fd893dbf3c6c5d1012c205627cb1fd2a99"
+    },
+    {
+      "file": "../../scripts/analizar_primer_caso.py",
+      "bytes": 20477,
+      "sha256": "fea9f43e5972ee14f748703bc4724b3a50885214700cbca19bd423bd545a4fcc"
+    }
+  ]
+}

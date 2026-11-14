@@ -1,0 +1,312 @@
+{
+  "case_id": "jezero-relieve-regional-v1",
+  "results": [
+    {
+      "cells": 900,
+      "valid_elevation_cells": 900,
+      "valid_slope_cells": 900,
+      "elevation_coverage": 1.0,
+      "slope_coverage": 1.0,
+      "relief_p95_p5_m": 54.62626538569248,
+      "slope_quantiles_deg": {
+        "p10": 1.2876481132031417,
+        "p50": 2.8833213241155624,
+        "p90": 6.9181641385077635
+      },
+      "slope_histogram_counts": [
+        54,
+        178,
+        502,
+        130,
+        27,
+        6,
+        3,
+        0,
+        0
+      ],
+      "status": "available_exploratory",
+      "site_id": "mars-jezero-fan",
+      "cell_m": 60,
+      "slope_baseline_m": 120,
+      "aggregation_footprint_m": 60,
+      "window_m": 1800,
+      "histogram_edges_deg": [
+        0,
+        1,
+        2,
+        5,
+        10,
+        15,
+        20,
+        30,
+        45,
+        90
+      ],
+      "support_min": 1.0,
+      "support_max": 1.0
+    },
+    {
+      "cells": 225,
+      "valid_elevation_cells": 225,
+      "valid_slope_cells": 225,
+      "elevation_coverage": 1.0,
+      "slope_coverage": 1.0,
+      "relief_p95_p5_m": 53.21057990946247,
+      "slope_quantiles_deg": {
+        "p10": 1.2477775496774859,
+        "p50": 2.541868618936145,
+        "p90": 5.210811102026844
+      },
+      "slope_histogram_counts": [
+        10,
+        63,
+        125,
+        22,
+        5,
+        0,
+        0,
+        0,
+        0
+      ],
+      "status": "available_exploratory",
+      "site_id": "mars-jezero-fan",
+      "cell_m": 120,
+      "slope_baseline_m": 240,
+      "aggregation_footprint_m": 120,
+      "window_m": 1800,
+      "histogram_edges_deg": [
+        0,
+        1,
+        2,
+        5,
+        10,
+        15,
+        20,
+        30,
+        45,
+        90
+      ],
+      "support_min": 1.0,
+      "support_max": 1.0
+    },
+    {
+      "cells": 900,
+      "valid_elevation_cells": 900,
+      "valid_slope_cells": 900,
+      "elevation_coverage": 1.0,
+      "slope_coverage": 1.0,
+      "relief_p95_p5_m": 27.378797168345955,
+      "slope_quantiles_deg": {
+        "p10": 0.7366893850133078,
+        "p50": 1.8141715370792388,
+        "p90": 3.8467845244620493
+      },
+      "slope_histogram_counts": [
+        158,
+        355,
+        349,
+        30,
+        3,
+        4,
+        1,
+        0,
+        0
+      ],
+      "status": "available_exploratory",
+      "site_id": "earth-utah",
+      "cell_m": 60,
+      "slope_baseline_m": 120,
+      "aggregation_footprint_m": 60,
+      "window_m": 1800,
+      "histogram_edges_deg": [
+        0,
+        1,
+        2,
+        5,
+        10,
+        15,
+        20,
+        30,
+        45,
+        90
+      ],
+      "support_min": 1.0,
+      "support_max": 1.0
+    },
+    {
+      "cells": 225,
+      "valid_elevation_cells": 225,
+      "valid_slope_cells": 225,
+      "elevation_coverage": 1.0,
+      "slope_coverage": 1.0,
+      "relief_p95_p5_m": 26.876706379124244,
+      "slope_quantiles_deg": {
+        "p10": 0.695501615452912,
+        "p50": 1.402932332886534,
+        "p90": 2.7522137179678388
+      },
+      "slope_histogram_counts": [
+        55,
+        102,
+        63,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "status": "available_exploratory",
+      "site_id": "earth-utah",
+      "cell_m": 120,
+      "slope_baseline_m": 240,
+      "aggregation_footprint_m": 120,
+      "window_m": 1800,
+      "histogram_edges_deg": [
+        0,
+        1,
+        2,
+        5,
+        10,
+        15,
+        20,
+        30,
+        45,
+        90
+      ],
+      "support_min": 1.0,
+      "support_max": 1.0
+    },
+    {
+      "cells": 900,
+      "valid_elevation_cells": 900,
+      "valid_slope_cells": 900,
+      "elevation_coverage": 1.0,
+      "slope_coverage": 1.0,
+      "relief_p95_p5_m": 200.10859529087202,
+      "slope_quantiles_deg": {
+        "p10": 5.430372771804157,
+        "p50": 7.9743231974489515,
+        "p90": 13.488073857730429
+      },
+      "slope_histogram_counts": [
+        1,
+        0,
+        71,
+        615,
+        162,
+        44,
+        7,
+        0,
+        0
+      ],
+      "status": "available_exploratory",
+      "site_id": "earth-atacama",
+      "cell_m": 60,
+      "slope_baseline_m": 120,
+      "aggregation_footprint_m": 60,
+      "window_m": 1800,
+      "histogram_edges_deg": [
+        0,
+        1,
+        2,
+        5,
+        10,
+        15,
+        20,
+        30,
+        45,
+        90
+      ],
+      "support_min": 1.0,
+      "support_max": 1.0
+    },
+    {
+      "cells": 225,
+      "valid_elevation_cells": 225,
+      "valid_slope_cells": 225,
+      "elevation_coverage": 1.0,
+      "slope_coverage": 1.0,
+      "relief_p95_p5_m": 199.19986084355605,
+      "slope_quantiles_deg": {
+        "p10": 5.732964291646859,
+        "p50": 7.809825076396094,
+        "p90": 11.333669887895148
+      },
+      "slope_histogram_counts": [
+        0,
+        1,
+        10,
+        172,
+        41,
+        1,
+        0,
+        0,
+        0
+      ],
+      "status": "available_exploratory",
+      "site_id": "earth-atacama",
+      "cell_m": 120,
+      "slope_baseline_m": 240,
+      "aggregation_footprint_m": 120,
+      "window_m": 1800,
+      "histogram_edges_deg": [
+        0,
+        1,
+        2,
+        5,
+        10,
+        15,
+        20,
+        30,
+        45,
+        90
+      ],
+      "support_min": 1.0,
+      "support_max": 1.0
+    }
+  ],
+  "comparisons": [
+    {
+      "reference": "mars-jezero-fan",
+      "candidate": "earth-utah",
+      "cell_m": 60,
+      "slope_wasserstein_deg": 1.4564448298237294,
+      "candidate_minus_reference_relief_m": -27.247468217346523,
+      "status": "exploratory_no_combined_score"
+    },
+    {
+      "reference": "mars-jezero-fan",
+      "candidate": "earth-atacama",
+      "cell_m": 60,
+      "slope_wasserstein_deg": 5.033053242914566,
+      "candidate_minus_reference_relief_m": 145.48232990517954,
+      "status": "exploratory_no_combined_score"
+    },
+    {
+      "reference": "mars-jezero-fan",
+      "candidate": "earth-utah",
+      "cell_m": 120,
+      "slope_wasserstein_deg": 1.3444570592010403,
+      "candidate_minus_reference_relief_m": -26.333873530338224,
+      "status": "exploratory_no_combined_score"
+    },
+    {
+      "reference": "mars-jezero-fan",
+      "candidate": "earth-atacama",
+      "cell_m": 120,
+      "slope_wasserstein_deg": 5.034345995733261,
+      "candidate_minus_reference_relief_m": 145.98928093409359,
+      "status": "exploratory_no_combined_score"
+    }
+  ],
+  "dimensions_not_evaluated": [
+    "geology_and_materials",
+    "thermal_properties",
+    "rocks_and_obstacles",
+    "dust",
+    "water_and_ice"
+  ],
+  "missing_dimension_policy": "Not measured, not zero, not evidence of similarity; see phase-1 feasibility matrix.",
+  "interpretation": "Regional exploratory terrain descriptors; not validated analog labels or mobility assessment."
+}

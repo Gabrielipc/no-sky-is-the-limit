@@ -1,0 +1,5793 @@
+{
+  "version": 1,
+  "pilot_quality_thresholds": {
+    "minimum_window_fraction": 0.8,
+    "hls_min_band_sum": 0.01,
+    "hls_exclude_high_aerosol": true,
+    "landsat_max_st_qa_k": 3,
+    "landsat_min_cell_support": 0.75,
+    "emit_min_qualified_samples": 30
+  },
+  "records": [
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_trees_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.00012685843916050284,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000002,
+        "valid_area_m2": 8999999.944576984,
+        "footprint_m2": 8999999.944576982
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N36W111_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_built_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.0,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000002,
+        "valid_area_m2": 8999999.944576984,
+        "footprint_m2": 8999999.944576982
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N36W111_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_bare_or_sparse_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.9971271328426368,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000002,
+        "valid_area_m2": 8999999.944576984,
+        "footprint_m2": 8999999.944576982
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N36W111_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_permanent_water_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.0,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000002,
+        "valid_area_m2": 8999999.944576984,
+        "footprint_m2": 8999999.944576982
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N36W111_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "jrc_occurrence_mean_pct",
+      "unit": "percent",
+      "role": "earth_context",
+      "source": "jrc",
+      "value": 0.0007387691781821022,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000002,
+        "valid_area_m2": 8999999.944576984,
+        "footprint_m2": 8999999.944576982
+      },
+      "period": "1984–2024",
+      "path": "data/raw/atlas30/jrc/occurrence_120W_40N_v1_5_2024.tif",
+      "source_nominal_m": 30
+    },
+    {
+      "site": "montana",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_trees_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.794048308580656,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 0.9999999999999998,
+        "valid_area_m2": 8999999.944679854,
+        "footprint_m2": 8999999.944679856
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N45E009_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "montana",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_built_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.060447351450302465,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 0.9999999999999998,
+        "valid_area_m2": 8999999.944679854,
+        "footprint_m2": 8999999.944679856
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N45E009_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "montana",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_bare_or_sparse_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.0016888016325633391,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 0.9999999999999998,
+        "valid_area_m2": 8999999.944679854,
+        "footprint_m2": 8999999.944679856
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N45E009_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "montana",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_permanent_water_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.016585774481040347,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 0.9999999999999998,
+        "valid_area_m2": 8999999.944679854,
+        "footprint_m2": 8999999.944679856
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N45E009_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "montana",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "jrc_occurrence_mean_pct",
+      "unit": "percent",
+      "role": "earth_context",
+      "source": "jrc",
+      "value": 0.18814127567595804,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 0.9999999999999998,
+        "valid_area_m2": 8999999.944679854,
+        "footprint_m2": 8999999.944679856
+      },
+      "period": "1984–2024",
+      "path": "data/raw/atlas30/jrc/occurrence_10E_50N_v1_5_2024.tif",
+      "source_nominal_m": 30
+    },
+    {
+      "site": "costa",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_trees_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.0,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000004,
+        "valid_area_m2": 8999999.944407169,
+        "footprint_m2": 8999999.944407165
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_S24W072_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "costa",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_built_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.0,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000004,
+        "valid_area_m2": 8999999.944407169,
+        "footprint_m2": 8999999.944407165
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_S24W072_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "costa",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_bare_or_sparse_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 1.0,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000004,
+        "valid_area_m2": 8999999.944407169,
+        "footprint_m2": 8999999.944407165
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_S24W072_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "costa",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_permanent_water_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.0,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000004,
+        "valid_area_m2": 8999999.944407169,
+        "footprint_m2": 8999999.944407165
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_S24W072_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "costa",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "jrc_occurrence_mean_pct",
+      "unit": "percent",
+      "role": "earth_context",
+      "source": "jrc",
+      "value": 0.0,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000004,
+        "valid_area_m2": 8999999.944407169,
+        "footprint_m2": 8999999.944407165
+      },
+      "period": "1984–2024",
+      "path": "data/raw/atlas30/jrc/occurrence_80W_20S_v1_5_2024.tif",
+      "source_nominal_m": 30
+    },
+    {
+      "site": "tropico",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_trees_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.9975117269477832,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000004,
+        "valid_area_m2": 8999999.94428729,
+        "footprint_m2": 8999999.944287287
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N00E114_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "tropico",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_built_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.0,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000004,
+        "valid_area_m2": 8999999.94428729,
+        "footprint_m2": 8999999.944287287
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N00E114_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "tropico",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_bare_or_sparse_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.0,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000004,
+        "valid_area_m2": 8999999.94428729,
+        "footprint_m2": 8999999.944287287
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N00E114_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "tropico",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_permanent_water_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.0,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000004,
+        "valid_area_m2": 8999999.94428729,
+        "footprint_m2": 8999999.944287287
+      },
+      "period": "2021",
+      "path": "data/raw/atlas30/worldcover/ESA_WorldCover_10m_2021_v200_N00E114_Map.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "tropico",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "jrc_occurrence_mean_pct",
+      "unit": "percent",
+      "role": "earth_context",
+      "source": "jrc",
+      "value": 0.0,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 1.0000000000000002,
+        "valid_area_m2": 8999999.944287289,
+        "footprint_m2": 8999999.944287287
+      },
+      "period": "1984–2024",
+      "path": "data/raw/atlas30/jrc/occurrence_110E_10N_v1_5_2024.tif",
+      "source_nominal_m": 30
+    },
+    {
+      "site": "polar",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_trees_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": null,
+      "status": "missing_local_asset",
+      "support": null,
+      "period": "2021",
+      "path": null,
+      "source_nominal_m": 10
+    },
+    {
+      "site": "polar",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_built_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": null,
+      "status": "missing_local_asset",
+      "support": null,
+      "period": "2021",
+      "path": null,
+      "source_nominal_m": 10
+    },
+    {
+      "site": "polar",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_bare_or_sparse_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": null,
+      "status": "missing_local_asset",
+      "support": null,
+      "period": "2021",
+      "path": null,
+      "source_nominal_m": 10
+    },
+    {
+      "site": "polar",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_permanent_water_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": null,
+      "status": "missing_local_asset",
+      "support": null,
+      "period": "2021",
+      "path": null,
+      "source_nominal_m": 10
+    },
+    {
+      "site": "polar",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "jrc_occurrence_mean_pct",
+      "unit": "percent",
+      "role": "earth_context",
+      "source": "jrc",
+      "value": null,
+      "status": "missing_local_asset",
+      "support": null,
+      "period": "1984–2024",
+      "path": null,
+      "source_nominal_m": 30
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_trees_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": null,
+      "status": "missing_local_asset",
+      "support": null,
+      "period": "2021",
+      "path": null,
+      "source_nominal_m": 10
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_built_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": null,
+      "status": "missing_local_asset",
+      "support": null,
+      "period": "2021",
+      "path": null,
+      "source_nominal_m": 10
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_bare_or_sparse_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": null,
+      "status": "missing_local_asset",
+      "support": null,
+      "period": "2021",
+      "path": null,
+      "source_nominal_m": 10
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_permanent_water_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": null,
+      "status": "missing_local_asset",
+      "support": null,
+      "period": "2021",
+      "path": null,
+      "source_nominal_m": 10
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "jrc_occurrence_mean_pct",
+      "unit": "percent",
+      "role": "earth_context",
+      "source": "jrc",
+      "value": 0.0,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 0.9999999999999998,
+        "valid_area_m2": 8999999.944407504,
+        "footprint_m2": 8999999.944407506
+      },
+      "period": "1984–2024",
+      "path": "data/raw/atlas30/jrc/occurrence_70W_20S_v1_5_2024.tif",
+      "source_nominal_m": 30
+    },
+    {
+      "site": "costa-carolina",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_trees_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.3181923280317526,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 0.9999999999999996,
+        "valid_area_m2": 8999999.944521314,
+        "footprint_m2": 8999999.944521317
+      },
+      "period": "2021",
+      "path": "data/raw/validacion-topografica/ESA_WorldCover_10m_2021_v200_N33W078_Map-costa-v2-nativo.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "costa-carolina",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_built_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.10834612470793317,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 0.9999999999999996,
+        "valid_area_m2": 8999999.944521314,
+        "footprint_m2": 8999999.944521317
+      },
+      "period": "2021",
+      "path": "data/raw/validacion-topografica/ESA_WorldCover_10m_2021_v200_N33W078_Map-costa-v2-nativo.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "costa-carolina",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_bare_or_sparse_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.03308744799551799,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 0.9999999999999996,
+        "valid_area_m2": 8999999.944521314,
+        "footprint_m2": 8999999.944521317
+      },
+      "period": "2021",
+      "path": "data/raw/validacion-topografica/ESA_WorldCover_10m_2021_v200_N33W078_Map-costa-v2-nativo.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "costa-carolina",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "worldcover_permanent_water_area_fraction",
+      "unit": "fraction",
+      "role": "earth_filter",
+      "source": "worldcover",
+      "value": 0.33389484975605144,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 0.9999999999999996,
+        "valid_area_m2": 8999999.944521314,
+        "footprint_m2": 8999999.944521317
+      },
+      "period": "2021",
+      "path": "data/raw/validacion-topografica/ESA_WorldCover_10m_2021_v200_N33W078_Map-costa-v2-nativo.tif",
+      "source_nominal_m": 10
+    },
+    {
+      "site": "costa-carolina",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "jrc_occurrence_mean_pct",
+      "unit": "percent",
+      "role": "earth_context",
+      "source": "jrc",
+      "value": 31.73988262785468,
+      "status": "measured",
+      "support": {
+        "valid_fraction": 0.9999999999999998,
+        "valid_area_m2": 8999999.944521315,
+        "footprint_m2": 8999999.944521317
+      },
+      "period": "1984–2024",
+      "path": "data/raw/validacion-topografica/occurrence_80W_40N_v1_5_2024-carolina-recorte-nativo.tif",
+      "source_nominal_m": 30
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "landsat_lst_p50_k",
+      "unit": "K",
+      "role": "earth_context",
+      "source": "landsat",
+      "value": 278.6949025003809,
+      "status": "measured",
+      "support": {
+        "accepted_cells": 621,
+        "total_cells": 625,
+        "valid_fraction": 0.9936,
+        "mean_observed_fraction": 0.996295454961911,
+        "st_qa_p50_k": 2.18
+      },
+      "date": "2024-01-16",
+      "scene": "LC09_L2SP_037033_20240116_20240117_02_T1_ST",
+      "paths": [
+        "data/raw/atlas30/landsat/LC09_L2SP_037033_20240116_20240117_02_T1_ST_B10.TIF",
+        "data/raw/atlas30/landsat/LC09_L2SP_037033_20240116_20240117_02_T1_QA_PIXEL.TIF",
+        "data/raw/atlas30/landsat/LC09_L2SP_037033_20240116_20240117_02_T1_ST_QA.TIF"
+      ],
+      "sensor_sampling_nominal_m": 100,
+      "analysis_cell_m": 120
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "landsat_lst_p50_k",
+      "unit": "K",
+      "role": "earth_context",
+      "source": "landsat",
+      "value": 316.77388698259205,
+      "status": "measured",
+      "support": {
+        "accepted_cells": 625,
+        "total_cells": 625,
+        "valid_fraction": 1.0,
+        "mean_observed_fraction": 0.9996997573096371,
+        "st_qa_p50_k": 1.56
+      },
+      "date": "2024-08-27",
+      "scene": "LC09_L2SP_037033_20240827_20240828_02_T1_ST",
+      "paths": [
+        "data/raw/atlas30/landsat/LC09_L2SP_037033_20240827_20240828_02_T1_ST_B10.TIF",
+        "data/raw/atlas30/landsat/LC09_L2SP_037033_20240827_20240828_02_T1_QA_PIXEL.TIF",
+        "data/raw/atlas30/landsat/LC09_L2SP_037033_20240827_20240828_02_T1_ST_QA.TIF"
+      ],
+      "sensor_sampling_nominal_m": 100,
+      "analysis_cell_m": 120
+    },
+    {
+      "site": "montana",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "landsat_lst_p50_k",
+      "unit": "K",
+      "role": "earth_context",
+      "source": "landsat",
+      "value": 289.0349274235988,
+      "status": "measured",
+      "support": {
+        "accepted_cells": 574,
+        "total_cells": 625,
+        "valid_fraction": 0.9184,
+        "mean_observed_fraction": 0.9276509176622365,
+        "st_qa_p50_k": 2.31
+      },
+      "date": "2024-03-25",
+      "scene": "LC09_L2SP_193028_20240325_20240326_02_T1_ST",
+      "paths": [
+        "data/raw/atlas30/landsat/LC09_L2SP_193028_20240325_20240326_02_T1_ST_B10.TIF",
+        "data/raw/atlas30/landsat/LC09_L2SP_193028_20240325_20240326_02_T1_QA_PIXEL.TIF",
+        "data/raw/atlas30/landsat/LC09_L2SP_193028_20240325_20240326_02_T1_ST_QA.TIF"
+      ],
+      "sensor_sampling_nominal_m": 100,
+      "analysis_cell_m": 120
+    },
+    {
+      "site": "montana",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "landsat_lst_p50_k",
+      "unit": "K",
+      "role": "earth_context",
+      "source": "landsat",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "accepted_cells": 0,
+        "total_cells": 625,
+        "valid_fraction": 0.0,
+        "mean_observed_fraction": 0.0,
+        "st_qa_p50_k": null
+      },
+      "date": "2024-08-25",
+      "scene": "LC09_L2SP_192028_20240825_20240826_02_T1_ST",
+      "paths": [
+        "data/raw/atlas30/landsat/LC09_L2SP_192028_20240825_20240826_02_T1_ST_B10.TIF",
+        "data/raw/atlas30/landsat/LC09_L2SP_192028_20240825_20240826_02_T1_QA_PIXEL.TIF",
+        "data/raw/atlas30/landsat/LC09_L2SP_192028_20240825_20240826_02_T1_ST_QA.TIF"
+      ],
+      "sensor_sampling_nominal_m": 100,
+      "analysis_cell_m": 120
+    },
+    {
+      "site": "costa",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "landsat_lst_p50_k",
+      "unit": "K",
+      "role": "earth_context",
+      "source": "landsat",
+      "value": 321.8201330259153,
+      "status": "measured",
+      "support": {
+        "accepted_cells": 625,
+        "total_cells": 625,
+        "valid_fraction": 1.0,
+        "mean_observed_fraction": 1.0,
+        "st_qa_p50_k": 1.8900000000000001
+      },
+      "date": "2024-02-29",
+      "scene": "LC08_L2SP_001076_20240229_20240313_02_T1_ST",
+      "paths": [
+        "data/raw/atlas30/landsat/LC08_L2SP_001076_20240229_20240313_02_T1_ST_B10.TIF",
+        "data/raw/atlas30/landsat/LC08_L2SP_001076_20240229_20240313_02_T1_QA_PIXEL.TIF",
+        "data/raw/atlas30/landsat/LC08_L2SP_001076_20240229_20240313_02_T1_ST_QA.TIF"
+      ],
+      "sensor_sampling_nominal_m": 100,
+      "analysis_cell_m": 120
+    },
+    {
+      "site": "costa",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "landsat_lst_p50_k",
+      "unit": "K",
+      "role": "earth_context",
+      "source": "landsat",
+      "value": 306.9351890391861,
+      "status": "measured",
+      "support": {
+        "accepted_cells": 544,
+        "total_cells": 625,
+        "valid_fraction": 0.8704,
+        "mean_observed_fraction": 0.8797445608704875,
+        "st_qa_p50_k": 1.87
+      },
+      "date": "2024-08-23",
+      "scene": "LC08_L2SP_001077_20240823_20240830_02_T1_ST",
+      "paths": [
+        "data/raw/atlas30/landsat/LC08_L2SP_001077_20240823_20240830_02_T1_ST_B10.TIF",
+        "data/raw/atlas30/landsat/LC08_L2SP_001077_20240823_20240830_02_T1_QA_PIXEL.TIF",
+        "data/raw/atlas30/landsat/LC08_L2SP_001077_20240823_20240830_02_T1_ST_QA.TIF"
+      ],
+      "sensor_sampling_nominal_m": 100,
+      "analysis_cell_m": 120
+    },
+    {
+      "site": "tropico",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "landsat_lst_p50_k",
+      "unit": "K",
+      "role": "earth_context",
+      "source": "landsat",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "accepted_cells": 0,
+        "total_cells": 625,
+        "valid_fraction": 0.0,
+        "mean_observed_fraction": 0.0,
+        "st_qa_p50_k": null
+      },
+      "date": "2024-03-12",
+      "scene": "LC09_L2SP_118060_20240312_20240313_02_T1_ST",
+      "paths": [
+        "data/raw/atlas30/landsat/LC09_L2SP_118060_20240312_20240313_02_T1_ST_B10.TIF",
+        "data/raw/atlas30/landsat/LC09_L2SP_118060_20240312_20240313_02_T1_QA_PIXEL.TIF",
+        "data/raw/atlas30/landsat/LC09_L2SP_118060_20240312_20240313_02_T1_ST_QA.TIF"
+      ],
+      "sensor_sampling_nominal_m": 100,
+      "analysis_cell_m": 120
+    },
+    {
+      "site": "tropico",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "landsat_lst_p50_k",
+      "unit": "K",
+      "role": "earth_context",
+      "source": "landsat",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "accepted_cells": 0,
+        "total_cells": 625,
+        "valid_fraction": 0.0,
+        "mean_observed_fraction": 0.0,
+        "st_qa_p50_k": null
+      },
+      "date": "2024-09-20",
+      "scene": "LC09_L2SP_118060_20240920_20240923_02_T1_ST",
+      "paths": [
+        "data/raw/atlas30/landsat/LC09_L2SP_118060_20240920_20240923_02_T1_ST_B10.TIF",
+        "data/raw/atlas30/landsat/LC09_L2SP_118060_20240920_20240923_02_T1_QA_PIXEL.TIF",
+        "data/raw/atlas30/landsat/LC09_L2SP_118060_20240920_20240923_02_T1_ST_QA.TIF"
+      ],
+      "sensor_sampling_nominal_m": 100,
+      "analysis_cell_m": 120
+    },
+    {
+      "site": "polar",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": null,
+      "status": "no_scene_selected",
+      "support": null
+    },
+    {
+      "site": "polar",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "landsat_lst_p50_k",
+      "unit": "K",
+      "role": "earth_context",
+      "source": "landsat",
+      "value": null,
+      "status": "no_scene_selected",
+      "support": null
+    },
+    {
+      "site": "costa",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": 0.05827158488119933,
+      "status": "measured",
+      "support": {
+        "valid_centers": 10000,
+        "total_centers": 10000,
+        "valid_fraction": 1.0
+      },
+      "date": "2024-01-04",
+      "datetime_utc": "2024-01-04T14:37:18+00:00",
+      "scene": "HLS.L30.T19KCP.2024004T143718.v2.0",
+      "alternatives": [
+        "HLS.L30.T19KCP.2024004T143718.v2.0"
+      ],
+      "paths": [
+        "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.B03.tif",
+        "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.B04.tif",
+        "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.B05.tif",
+        "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.B06.tif",
+        "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.Fmask.tif"
+      ],
+      "analysis_cell_m": 30
+    },
+    {
+      "site": "costa",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": 0.060240963855421666,
+      "status": "measured",
+      "support": {
+        "valid_centers": 10000,
+        "total_centers": 10000,
+        "valid_fraction": 1.0
+      },
+      "date": "2024-03-01",
+      "datetime_utc": "2024-03-01T14:47:29+00:00",
+      "scene": "HLS.S30.T19KCP.2024061T144729.v2.0",
+      "alternatives": [
+        "HLS.S30.T19KCP.2024061T144729.v2.0"
+      ],
+      "paths": [
+        "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.B03.tif",
+        "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.B04.tif",
+        "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.B8A.tif",
+        "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.B11.tif",
+        "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.Fmask.tif"
+      ],
+      "analysis_cell_m": 30
+    },
+    {
+      "site": "costa",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": 0.057429479847082764,
+      "status": "measured",
+      "support": {
+        "valid_centers": 10000,
+        "total_centers": 10000,
+        "valid_fraction": 1.0
+      },
+      "date": "2024-08-23",
+      "datetime_utc": "2024-08-23T14:36:49+00:00",
+      "scene": "HLS.L30.T19KCP.2024236T143649.v2.0",
+      "alternatives": [
+        "HLS.L30.T19KCP.2024236T143649.v2.0",
+        "HLS.S30.T19KCP.2024236T144731.v2.0"
+      ],
+      "paths": [
+        "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.B03.tif",
+        "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.B04.tif",
+        "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.B05.tif",
+        "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.B06.tif",
+        "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.Fmask.tif"
+      ],
+      "analysis_cell_m": 30
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": 0.13707660565731133,
+      "status": "measured",
+      "support": {
+        "valid_centers": 9946,
+        "total_centers": 9982,
+        "valid_fraction": 0.996393508314967
+      },
+      "date": "2024-01-29",
+      "datetime_utc": "2024-01-29T18:06:11+00:00",
+      "scene": "HLS.S30.T12SWH.2024029T180611.v2.0",
+      "alternatives": [
+        "HLS.S30.T12SWH.2024029T180611.v2.0"
+      ],
+      "paths": [
+        "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.B03.tif",
+        "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.B04.tif",
+        "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.B8A.tif",
+        "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.B11.tif",
+        "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.Fmask.tif"
+      ],
+      "analysis_cell_m": 30
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": 0.1263056672126609,
+      "status": "measured",
+      "support": {
+        "valid_centers": 9948,
+        "total_centers": 9982,
+        "valid_fraction": 0.9965938689641355
+      },
+      "date": "2024-03-20",
+      "datetime_utc": "2024-03-20T18:02:33+00:00",
+      "scene": "HLS.L30.T12SWH.2024080T180233.v2.0",
+      "alternatives": [
+        "HLS.L30.T12SWH.2024080T180233.v2.0"
+      ],
+      "paths": [
+        "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.B03.tif",
+        "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.B04.tif",
+        "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.B05.tif",
+        "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.B06.tif",
+        "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.Fmask.tif"
+      ],
+      "analysis_cell_m": 30
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": 0.15447601439440553,
+      "status": "measured",
+      "support": {
+        "valid_centers": 9982,
+        "total_centers": 9982,
+        "valid_fraction": 1.0
+      },
+      "date": "2024-07-02",
+      "datetime_utc": "2024-07-02T17:59:19+00:00",
+      "scene": "HLS.S30.T12SWH.2024184T175919.v2.0",
+      "alternatives": [
+        "HLS.L30.T12SWH.2024184T180142.v2.0",
+        "HLS.S30.T12SWH.2024184T175919.v2.0"
+      ],
+      "paths": [
+        "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.B03.tif",
+        "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.B04.tif",
+        "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.B8A.tif",
+        "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.B11.tif",
+        "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.Fmask.tif"
+      ],
+      "analysis_cell_m": 30
+    },
+    {
+      "site": "montana",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": 0.5021706554251995,
+      "status": "measured",
+      "support": {
+        "valid_centers": 8982,
+        "total_centers": 10000,
+        "valid_fraction": 0.8982
+      },
+      "date": "2024-01-28",
+      "datetime_utc": "2024-01-28T10:13:01+00:00",
+      "scene": "HLS.S30.T32TPS.2024028T101301.v2.0",
+      "alternatives": [
+        "HLS.S30.T32TPS.2024028T101301.v2.0"
+      ],
+      "paths": [
+        "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.B03.tif",
+        "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.B04.tif",
+        "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.B8A.tif",
+        "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.B11.tif",
+        "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.Fmask.tif"
+      ],
+      "analysis_cell_m": 30
+    },
+    {
+      "site": "montana",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": 0.48125937031484267,
+      "status": "measured",
+      "support": {
+        "valid_centers": 8215,
+        "total_centers": 10000,
+        "valid_fraction": 0.8215
+      },
+      "date": "2024-01-29",
+      "datetime_utc": "2024-01-29T10:04:10+00:00",
+      "scene": "HLS.L30.T32TPS.2024029T100410.v2.0",
+      "alternatives": [
+        "HLS.L30.T32TPS.2024029T100410.v2.0"
+      ],
+      "paths": [
+        "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.B03.tif",
+        "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.B04.tif",
+        "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.B05.tif",
+        "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.B06.tif",
+        "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.Fmask.tif"
+      ],
+      "analysis_cell_m": 30
+    },
+    {
+      "site": "montana",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": 0.778516057585825,
+      "status": "measured",
+      "support": {
+        "valid_centers": 8531,
+        "total_centers": 10000,
+        "valid_fraction": 0.8531
+      },
+      "date": "2024-07-31",
+      "datetime_utc": "2024-07-31T10:03:38+00:00",
+      "scene": "HLS.L30.T32TPS.2024213T100338.v2.0",
+      "alternatives": [
+        "HLS.L30.T32TPS.2024213T100338.v2.0"
+      ],
+      "paths": [
+        "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.B03.tif",
+        "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.B04.tif",
+        "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.B05.tif",
+        "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.B06.tif",
+        "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.Fmask.tif"
+      ],
+      "analysis_cell_m": 30
+    },
+    {
+      "site": "montana",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": 0.8160826854873475,
+      "status": "measured",
+      "support": {
+        "valid_centers": 9176,
+        "total_centers": 10000,
+        "valid_fraction": 0.9176
+      },
+      "date": "2024-08-10",
+      "datetime_utc": "2024-08-10T10:05:59+00:00",
+      "scene": "HLS.S30.T32TPS.2024223T100559.v2.0",
+      "alternatives": [
+        "HLS.S30.T32TPS.2024223T100559.v2.0"
+      ],
+      "paths": [
+        "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.B03.tif",
+        "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.B04.tif",
+        "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.B8A.tif",
+        "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.B11.tif",
+        "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.Fmask.tif"
+      ],
+      "analysis_cell_m": 30
+    },
+    {
+      "site": "tropico",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": 0.8591169531513315,
+      "status": "measured",
+      "support": {
+        "valid_centers": 10029,
+        "total_centers": 10029,
+        "valid_fraction": 1.0
+      },
+      "date": "2024-02-14",
+      "datetime_utc": "2024-02-14T02:28:19+00:00",
+      "scene": "HLS.S30.T50NKF.2024045T022819.v2.0",
+      "alternatives": [
+        "HLS.S30.T50NKF.2024045T022819.v2.0"
+      ],
+      "paths": [
+        "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.B03.tif",
+        "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.B04.tif",
+        "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.B8A.tif",
+        "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.B11.tif",
+        "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.Fmask.tif"
+      ],
+      "analysis_cell_m": 30
+    },
+    {
+      "site": "tropico",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "valid_centers": 0,
+        "total_centers": 10029,
+        "valid_fraction": 0.0
+      },
+      "date": "2024-02-17",
+      "datetime_utc": "2024-02-17T02:33:26+00:00",
+      "scene": "HLS.L30.T50NKF.2024048T023326.v2.0",
+      "alternatives": [
+        "HLS.L30.T50NKF.2024048T023326.v2.0"
+      ],
+      "paths": [
+        "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.B03.tif",
+        "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.B04.tif",
+        "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.B05.tif",
+        "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.B06.tif",
+        "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.Fmask.tif"
+      ],
+      "analysis_cell_m": 30
+    },
+    {
+      "site": "tropico",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "valid_centers": 686,
+        "total_centers": 10000,
+        "valid_fraction": 0.0686
+      },
+      "date": "2024-09-06",
+      "datetime_utc": "2024-09-06T02:25:31+00:00",
+      "scene": "HLS.S30.T49NHA.2024250T022531.v2.0",
+      "alternatives": [
+        "HLS.S30.T49NHA.2024250T022531.v2.0"
+      ],
+      "paths": [
+        "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.B03.tif",
+        "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.B04.tif",
+        "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.B8A.tif",
+        "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.B11.tif",
+        "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.Fmask.tif"
+      ],
+      "analysis_cell_m": 30
+    },
+    {
+      "site": "tropico",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "hls_ndvi_p50",
+      "unit": "1",
+      "role": "earth_context",
+      "source": "hls",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "valid_centers": 11,
+        "total_centers": 10029,
+        "valid_fraction": 0.0010968192242496759
+      },
+      "date": "2024-09-20",
+      "datetime_utc": "2024-09-20T02:33:10+00:00",
+      "scene": "HLS.L30.T50NKF.2024264T023310.v2.0",
+      "alternatives": [
+        "HLS.L30.T50NKF.2024264T023310.v2.0"
+      ],
+      "paths": [
+        "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.B03.tif",
+        "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.B04.tif",
+        "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.B05.tif",
+        "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.B06.tif",
+        "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.Fmask.tif"
+      ],
+      "analysis_cell_m": 30
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 1800,
+      "body": "Mars",
+      "feature_id": "themis_thermal_inertia_p50",
+      "unit": "J m^-2 K^-1 s^-1/2",
+      "role": "mars_context",
+      "source": "themis",
+      "value": 253.21662139892578,
+      "status": "measured",
+      "support": {
+        "valid_centers": 342,
+        "total_centers": 342,
+        "valid_fraction": 1.0
+      },
+      "path": "data/raw/themis/Jezero_Thermal_Inertia_v1.tiff",
+      "native_grid_m": [
+        100.0,
+        100.0
+      ]
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 1800,
+      "body": "Mars",
+      "feature_id": "themis_thermal_inertia_iqr",
+      "unit": "J m^-2 K^-1 s^-1/2",
+      "role": "mars_context",
+      "source": "themis",
+      "value": 29.23932647705078,
+      "status": "measured",
+      "support": {
+        "valid_centers": 342,
+        "total_centers": 342,
+        "valid_fraction": 1.0
+      },
+      "path": "data/raw/themis/Jezero_Thermal_Inertia_v1.tiff",
+      "native_grid_m": [
+        100.0,
+        100.0
+      ]
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 3000,
+      "body": "Mars",
+      "feature_id": "themis_thermal_inertia_p50",
+      "unit": "J m^-2 K^-1 s^-1/2",
+      "role": "mars_context",
+      "source": "themis",
+      "value": 239.76403045654297,
+      "status": "measured",
+      "support": {
+        "valid_centers": 930,
+        "total_centers": 930,
+        "valid_fraction": 1.0
+      },
+      "path": "data/raw/themis/Jezero_Thermal_Inertia_v1.tiff",
+      "native_grid_m": [
+        100.0,
+        100.0
+      ]
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 3000,
+      "body": "Mars",
+      "feature_id": "themis_thermal_inertia_iqr",
+      "unit": "J m^-2 K^-1 s^-1/2",
+      "role": "mars_context",
+      "source": "themis",
+      "value": 32.67117691040039,
+      "status": "measured",
+      "support": {
+        "valid_centers": 930,
+        "total_centers": 930,
+        "valid_fraction": 1.0
+      },
+      "path": "data/raw/themis/Jezero_Thermal_Inertia_v1.tiff",
+      "native_grid_m": [
+        100.0,
+        100.0
+      ]
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 1800,
+      "body": "Mars",
+      "feature_id": "crism_olindex3_p95",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": 0.14026964008808135,
+      "status": "measured",
+      "support": {
+        "valid_centers": 8897,
+        "total_centers": 10200,
+        "valid_fraction": 0.8722549019607844,
+        "in_swath_centers": 9806,
+        "outside_swath_centers": 394,
+        "in_swath_valid_fraction": 0.9073016520497654
+      },
+      "unmasked_p95": 0.14026964008808135,
+      "unmasked_p50": 0.1206488311290741,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 1800,
+      "body": "Mars",
+      "feature_id": "crism_olindex3_p50",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": 0.1206488311290741,
+      "status": "measured",
+      "support": {
+        "valid_centers": 8897,
+        "total_centers": 10200,
+        "valid_fraction": 0.8722549019607844,
+        "in_swath_centers": 9806,
+        "outside_swath_centers": 394,
+        "in_swath_valid_fraction": 0.9073016520497654
+      },
+      "unmasked_p95": 0.14026964008808135,
+      "unmasked_p50": 0.1206488311290741,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 1800,
+      "body": "Mars",
+      "feature_id": "crism_bd530_2_p95",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": 0.15612441599369048,
+      "status": "measured",
+      "support": {
+        "valid_centers": 8897,
+        "total_centers": 10200,
+        "valid_fraction": 0.8722549019607844,
+        "in_swath_centers": 9806,
+        "outside_swath_centers": 394,
+        "in_swath_valid_fraction": 0.9073016520497654
+      },
+      "unmasked_p95": 0.15612441599369048,
+      "unmasked_p50": 0.14385341107845306,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 1800,
+      "body": "Mars",
+      "feature_id": "crism_bd530_2_p50",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": 0.14385341107845306,
+      "status": "measured",
+      "support": {
+        "valid_centers": 8897,
+        "total_centers": 10200,
+        "valid_fraction": 0.8722549019607844,
+        "in_swath_centers": 9806,
+        "outside_swath_centers": 394,
+        "in_swath_valid_fraction": 0.9073016520497654
+      },
+      "unmasked_p95": 0.15612441599369048,
+      "unmasked_p50": 0.14385341107845306,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 1800,
+      "body": "Mars",
+      "feature_id": "crism_d2300_p95",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": 0.012140139006078224,
+      "status": "measured",
+      "support": {
+        "valid_centers": 8897,
+        "total_centers": 10200,
+        "valid_fraction": 0.8722549019607844,
+        "in_swath_centers": 9806,
+        "outside_swath_centers": 394,
+        "in_swath_valid_fraction": 0.9073016520497654
+      },
+      "unmasked_p95": 0.012140139006078224,
+      "unmasked_p50": 0.0057922652922570705,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 1800,
+      "body": "Mars",
+      "feature_id": "crism_d2300_p50",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": 0.0057922652922570705,
+      "status": "measured",
+      "support": {
+        "valid_centers": 8897,
+        "total_centers": 10200,
+        "valid_fraction": 0.8722549019607844,
+        "in_swath_centers": 9806,
+        "outside_swath_centers": 394,
+        "in_swath_valid_fraction": 0.9073016520497654
+      },
+      "unmasked_p95": 0.012140139006078224,
+      "unmasked_p50": 0.0057922652922570705,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 1800,
+      "body": "Mars",
+      "feature_id": "crism_min2295_2480_p95",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": 0.0012716796714812397,
+      "status": "measured",
+      "support": {
+        "valid_centers": 8897,
+        "total_centers": 10200,
+        "valid_fraction": 0.8722549019607844,
+        "in_swath_centers": 9806,
+        "outside_swath_centers": 394,
+        "in_swath_valid_fraction": 0.9073016520497654
+      },
+      "unmasked_p95": 0.0012716796714812397,
+      "unmasked_p50": -0.006064164452254772,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 1800,
+      "body": "Mars",
+      "feature_id": "crism_min2295_2480_p50",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": -0.006064164452254772,
+      "status": "measured",
+      "support": {
+        "valid_centers": 8897,
+        "total_centers": 10200,
+        "valid_fraction": 0.8722549019607844,
+        "in_swath_centers": 9806,
+        "outside_swath_centers": 394,
+        "in_swath_valid_fraction": 0.9073016520497654
+      },
+      "unmasked_p95": 0.0012716796714812397,
+      "unmasked_p50": -0.006064164452254772,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 1800,
+      "body": "Mars",
+      "feature_id": "crism_bd1900r2_p95",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": 0.0074398040771484165,
+      "status": "measured",
+      "support": {
+        "valid_centers": 8897,
+        "total_centers": 10200,
+        "valid_fraction": 0.8722549019607844,
+        "in_swath_centers": 9806,
+        "outside_swath_centers": 394,
+        "in_swath_valid_fraction": 0.9073016520497654
+      },
+      "unmasked_p95": 0.0074398040771484165,
+      "unmasked_p50": 0.00236433744430542,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 1800,
+      "body": "Mars",
+      "feature_id": "crism_bd1900r2_p50",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": 0.00236433744430542,
+      "status": "measured",
+      "support": {
+        "valid_centers": 8897,
+        "total_centers": 10200,
+        "valid_fraction": 0.8722549019607844,
+        "in_swath_centers": 9806,
+        "outside_swath_centers": 394,
+        "in_swath_valid_fraction": 0.9073016520497654
+      },
+      "unmasked_p95": 0.0074398040771484165,
+      "unmasked_p50": 0.00236433744430542,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 3000,
+      "body": "Mars",
+      "feature_id": "crism_olindex3_p95",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "valid_centers": 20514,
+        "total_centers": 28390,
+        "valid_fraction": 0.7225783726664319,
+        "in_swath_centers": 22074,
+        "outside_swath_centers": 6316,
+        "in_swath_valid_fraction": 0.9293286219081273
+      },
+      "unmasked_p95": 0.13950140029191968,
+      "unmasked_p50": 0.1191648319363594,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 3000,
+      "body": "Mars",
+      "feature_id": "crism_olindex3_p50",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "valid_centers": 20514,
+        "total_centers": 28390,
+        "valid_fraction": 0.7225783726664319,
+        "in_swath_centers": 22074,
+        "outside_swath_centers": 6316,
+        "in_swath_valid_fraction": 0.9293286219081273
+      },
+      "unmasked_p95": 0.13950140029191968,
+      "unmasked_p50": 0.1191648319363594,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 3000,
+      "body": "Mars",
+      "feature_id": "crism_bd530_2_p95",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "valid_centers": 20514,
+        "total_centers": 28390,
+        "valid_fraction": 0.7225783726664319,
+        "in_swath_centers": 22074,
+        "outside_swath_centers": 6316,
+        "in_swath_valid_fraction": 0.9293286219081273
+      },
+      "unmasked_p95": 0.15839470475912093,
+      "unmasked_p50": 0.14486849308013916,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 3000,
+      "body": "Mars",
+      "feature_id": "crism_bd530_2_p50",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "valid_centers": 20514,
+        "total_centers": 28390,
+        "valid_fraction": 0.7225783726664319,
+        "in_swath_centers": 22074,
+        "outside_swath_centers": 6316,
+        "in_swath_valid_fraction": 0.9293286219081273
+      },
+      "unmasked_p95": 0.15839470475912093,
+      "unmasked_p50": 0.14486849308013916,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 3000,
+      "body": "Mars",
+      "feature_id": "crism_d2300_p95",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "valid_centers": 20514,
+        "total_centers": 28390,
+        "valid_fraction": 0.7225783726664319,
+        "in_swath_centers": 22074,
+        "outside_swath_centers": 6316,
+        "in_swath_valid_fraction": 0.9293286219081273
+      },
+      "unmasked_p95": 0.012577123008668423,
+      "unmasked_p50": 0.0063641716260463,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 3000,
+      "body": "Mars",
+      "feature_id": "crism_d2300_p50",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "valid_centers": 20514,
+        "total_centers": 28390,
+        "valid_fraction": 0.7225783726664319,
+        "in_swath_centers": 22074,
+        "outside_swath_centers": 6316,
+        "in_swath_valid_fraction": 0.9293286219081273
+      },
+      "unmasked_p95": 0.012577123008668423,
+      "unmasked_p50": 0.0063641716260463,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 3000,
+      "body": "Mars",
+      "feature_id": "crism_min2295_2480_p95",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "valid_centers": 20514,
+        "total_centers": 28390,
+        "valid_fraction": 0.7225783726664319,
+        "in_swath_centers": 22074,
+        "outside_swath_centers": 6316,
+        "in_swath_valid_fraction": 0.9293286219081273
+      },
+      "unmasked_p95": -1.4116056263446808e-05,
+      "unmasked_p50": -0.006640702951699495,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 3000,
+      "body": "Mars",
+      "feature_id": "crism_min2295_2480_p50",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "valid_centers": 20514,
+        "total_centers": 28390,
+        "valid_fraction": 0.7225783726664319,
+        "in_swath_centers": 22074,
+        "outside_swath_centers": 6316,
+        "in_swath_valid_fraction": 0.9293286219081273
+      },
+      "unmasked_p95": -1.4116056263446808e-05,
+      "unmasked_p50": -0.006640702951699495,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 3000,
+      "body": "Mars",
+      "feature_id": "crism_bd1900r2_p95",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "valid_centers": 20514,
+        "total_centers": 28390,
+        "valid_fraction": 0.7225783726664319,
+        "in_swath_centers": 22074,
+        "outside_swath_centers": 6316,
+        "in_swath_valid_fraction": 0.9293286219081273
+      },
+      "unmasked_p95": 0.007879674434661865,
+      "unmasked_p50": 0.0026506781578063965,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "mars-jezero-fan",
+      "window_m": 3000,
+      "body": "Mars",
+      "feature_id": "crism_bd1900r2_p50",
+      "unit": "1",
+      "role": "spectral_evidence",
+      "source": "crism",
+      "value": null,
+      "status": "insufficient_coverage",
+      "support": {
+        "valid_centers": 20514,
+        "total_centers": 28390,
+        "valid_fraction": 0.7225783726664319,
+        "in_swath_centers": 22074,
+        "outside_swath_centers": 6316,
+        "in_swath_valid_fraction": 0.9293286219081273
+      },
+      "unmasked_p95": 0.007879674434661865,
+      "unmasked_p50": 0.0026506781578063965,
+      "paths": [
+        "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+        "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+      ],
+      "source_nominal_m": 18
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 738,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 1,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 738,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 1,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 738,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 1,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 738,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 1,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 738,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 2,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 738,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 2,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 738,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 2,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 738,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 2,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 2021,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 1,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 2021,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 1,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 2021,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 1,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 2021,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 1,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 2021,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 2,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 2021,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 2,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 2021,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 2,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "no_support",
+      "support": {
+        "qualified_unique_samples": 0,
+        "unique_glt_samples": 2021,
+        "measured_unique_samples": 0,
+        "no_match_unique": 0,
+        "library_entropy_bits": null,
+        "family_entropy_bits": null
+      },
+      "scene": "EMIT_L2B_MIN_002_20220909T131332",
+      "date": "2022-09-09T13:13:32+0000",
+      "spectral_group": 2,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "Hematita": 1.0
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 747,
+        "unique_glt_samples": 747,
+        "measured_unique_samples": 747,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.5150274102982094,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 1,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 2,
+          "name": "fe3+_hematite.fine.gr.gds76",
+          "label": "Hematita · 2",
+          "sample": "Hematite.02+Quartz.98 GDS76 W1R1Ha",
+          "group": 1,
+          "library": "sprlb06"
+        },
+        {
+          "id": 31,
+          "name": "fe3+_hematite.thincoat",
+          "label": "Hematita · 31",
+          "sample": "Hematite_Thin_Film GDS27 W1R1Ba",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "2": 0.09370816599732262,
+        "31": 0.8982597054886211,
+        "47": 0.008032128514056224
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 747,
+        "unique_glt_samples": 747,
+        "measured_unique_samples": 747,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.5150274102982094,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 1,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 2,
+          "name": "fe3+_hematite.fine.gr.gds76",
+          "label": "Hematita · 2",
+          "sample": "Hematite.02+Quartz.98 GDS76 W1R1Ha",
+          "group": 1,
+          "library": "sprlb06"
+        },
+        {
+          "id": 31,
+          "name": "fe3+_hematite.thincoat",
+          "label": "Hematita · 31",
+          "sample": "Hematite_Thin_Film GDS27 W1R1Ba",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "insufficient_sample",
+      "support": {
+        "qualified_unique_samples": 9,
+        "unique_glt_samples": 747,
+        "measured_unique_samples": 747,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.9910760598382222,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 1,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 2,
+          "name": "fe3+_hematite.fine.gr.gds76",
+          "label": "Hematita · 2",
+          "sample": "Hematite.02+Quartz.98 GDS76 W1R1Ha",
+          "group": 1,
+          "library": "sprlb06"
+        },
+        {
+          "id": 31,
+          "name": "fe3+_hematite.thincoat",
+          "label": "Hematita · 31",
+          "sample": "Hematite_Thin_Film GDS27 W1R1Ba",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "insufficient_sample",
+      "support": {
+        "qualified_unique_samples": 9,
+        "unique_glt_samples": 747,
+        "measured_unique_samples": 747,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.9910760598382222,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 1,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 2,
+          "name": "fe3+_hematite.fine.gr.gds76",
+          "label": "Hematita · 2",
+          "sample": "Hematite.02+Quartz.98 GDS76 W1R1Ha",
+          "group": 1,
+          "library": "sprlb06"
+        },
+        {
+          "id": 31,
+          "name": "fe3+_hematite.thincoat",
+          "label": "Hematita · 31",
+          "sample": "Hematite_Thin_Film GDS27 W1R1Ba",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "Moscovita": 0.7327731092436974,
+        "Mezcla de biblioteca: Calcita": 0.008403361344537815,
+        "Illita": 0.23025210084033612,
+        "Mezcla de biblioteca: Caolinita": 0.02689075630252101,
+        "Paligorskita": 0.0016806722689075631
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 595,
+        "unique_glt_samples": 747,
+        "measured_unique_samples": 747,
+        "no_match_unique": 0,
+        "library_entropy_bits": 1.3906488888377908,
+        "family_entropy_bits": 1.0302443431654422
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 2,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 125,
+          "name": "micagrp_muscovite-med-Al",
+          "label": "Moscovita · 125",
+          "sample": "Muscovite CU91-250A med Al W2R4NbS",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 126,
+          "name": "calcite.33+kaol.33+mus-AMXr2",
+          "label": "Mezcla de biblioteca: Calcita · 126",
+          "sample": "Calcite.33+Kaol.33+Mus AMXr2 W1R1Ba",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 129,
+          "name": "micagrp_illite",
+          "label": "Illita · 129",
+          "sample": "Illite IMt-1.b <2um W1R1BaS",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 130,
+          "name": "micagrp_illite.gds4",
+          "label": "Illita · 130",
+          "sample": "Illite GDS4.2 Marblehead_WI W1R1H_",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 131,
+          "name": "micagrp_muscovite-low-Al",
+          "label": "Moscovita · 131",
+          "sample": "Muscovite CU93-1 low-Al Phyl W2R4Nb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 132,
+          "name": "micagrp_muscoviteFerich",
+          "label": "Moscovita · 132",
+          "sample": "Muscovite GDS116 Tanzania W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 166,
+          "name": "kaolin.5+muscov.medAl",
+          "label": "Mezcla de biblioteca: Caolinita · 166",
+          "sample": "Kaol.5+MuscCU91-250A AMX13 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 168,
+          "name": "kaolin+musc.intimat",
+          "label": "Mezcla de biblioteca: Caolinita · 168",
+          "sample": "Kaol+Musc_intimate CU93-5C W1R1Ha AREF",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 225,
+          "name": "calcite+0.2Na-mont",
+          "label": "Mezcla de biblioteca: Calcita · 225",
+          "sample": "Calcite.80+Mont_Swy-1 GDS212 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 226,
+          "name": "calcite+0.5Ca-mont",
+          "label": "Mezcla de biblioteca: Calcita · 226",
+          "sample": "Calcite+.50Ca-Mont AMX6 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 234,
+          "name": "palygorskite",
+          "label": "Paligorskita · 234",
+          "sample": "Palygorskite PFL-1 Attapulg W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "125": 0.011764705882352941,
+        "126": 0.0033613445378151263,
+        "129": 0.17478991596638654,
+        "130": 0.05546218487394958,
+        "131": 0.7142857142857143,
+        "132": 0.0067226890756302525,
+        "166": 0.013445378151260505,
+        "168": 0.013445378151260505,
+        "225": 0.005042016806722689,
+        "234": 0.0016806722689075631
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 595,
+        "unique_glt_samples": 747,
+        "measured_unique_samples": 747,
+        "no_match_unique": 0,
+        "library_entropy_bits": 1.3906488888377908,
+        "family_entropy_bits": 1.0302443431654422
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 2,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 125,
+          "name": "micagrp_muscovite-med-Al",
+          "label": "Moscovita · 125",
+          "sample": "Muscovite CU91-250A med Al W2R4NbS",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 126,
+          "name": "calcite.33+kaol.33+mus-AMXr2",
+          "label": "Mezcla de biblioteca: Calcita · 126",
+          "sample": "Calcite.33+Kaol.33+Mus AMXr2 W1R1Ba",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 129,
+          "name": "micagrp_illite",
+          "label": "Illita · 129",
+          "sample": "Illite IMt-1.b <2um W1R1BaS",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 130,
+          "name": "micagrp_illite.gds4",
+          "label": "Illita · 130",
+          "sample": "Illite GDS4.2 Marblehead_WI W1R1H_",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 131,
+          "name": "micagrp_muscovite-low-Al",
+          "label": "Moscovita · 131",
+          "sample": "Muscovite CU93-1 low-Al Phyl W2R4Nb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 132,
+          "name": "micagrp_muscoviteFerich",
+          "label": "Moscovita · 132",
+          "sample": "Muscovite GDS116 Tanzania W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 166,
+          "name": "kaolin.5+muscov.medAl",
+          "label": "Mezcla de biblioteca: Caolinita · 166",
+          "sample": "Kaol.5+MuscCU91-250A AMX13 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 168,
+          "name": "kaolin+musc.intimat",
+          "label": "Mezcla de biblioteca: Caolinita · 168",
+          "sample": "Kaol+Musc_intimate CU93-5C W1R1Ha AREF",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 225,
+          "name": "calcite+0.2Na-mont",
+          "label": "Mezcla de biblioteca: Calcita · 225",
+          "sample": "Calcite.80+Mont_Swy-1 GDS212 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 226,
+          "name": "calcite+0.5Ca-mont",
+          "label": "Mezcla de biblioteca: Calcita · 226",
+          "sample": "Calcite+.50Ca-Mont AMX6 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 234,
+          "name": "palygorskite",
+          "label": "Paligorskita · 234",
+          "sample": "Palygorskite PFL-1 Attapulg W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "Moscovita": 0.7335581787521079,
+        "Mezcla de biblioteca: Calcita": 0.008431703204047217,
+        "Illita": 0.23102866779089376,
+        "Mezcla de biblioteca: Caolinita": 0.026981450252951095
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 593,
+        "unique_glt_samples": 747,
+        "measured_unique_samples": 747,
+        "no_match_unique": 0,
+        "library_entropy_bits": 1.376550383387714,
+        "family_entropy_bits": 1.0149925478171193
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 2,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 125,
+          "name": "micagrp_muscovite-med-Al",
+          "label": "Moscovita · 125",
+          "sample": "Muscovite CU91-250A med Al W2R4NbS",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 126,
+          "name": "calcite.33+kaol.33+mus-AMXr2",
+          "label": "Mezcla de biblioteca: Calcita · 126",
+          "sample": "Calcite.33+Kaol.33+Mus AMXr2 W1R1Ba",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 129,
+          "name": "micagrp_illite",
+          "label": "Illita · 129",
+          "sample": "Illite IMt-1.b <2um W1R1BaS",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 130,
+          "name": "micagrp_illite.gds4",
+          "label": "Illita · 130",
+          "sample": "Illite GDS4.2 Marblehead_WI W1R1H_",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 131,
+          "name": "micagrp_muscovite-low-Al",
+          "label": "Moscovita · 131",
+          "sample": "Muscovite CU93-1 low-Al Phyl W2R4Nb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 132,
+          "name": "micagrp_muscoviteFerich",
+          "label": "Moscovita · 132",
+          "sample": "Muscovite GDS116 Tanzania W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 166,
+          "name": "kaolin.5+muscov.medAl",
+          "label": "Mezcla de biblioteca: Caolinita · 166",
+          "sample": "Kaol.5+MuscCU91-250A AMX13 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 168,
+          "name": "kaolin+musc.intimat",
+          "label": "Mezcla de biblioteca: Caolinita · 168",
+          "sample": "Kaol+Musc_intimate CU93-5C W1R1Ha AREF",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 225,
+          "name": "calcite+0.2Na-mont",
+          "label": "Mezcla de biblioteca: Calcita · 225",
+          "sample": "Calcite.80+Mont_Swy-1 GDS212 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 226,
+          "name": "calcite+0.5Ca-mont",
+          "label": "Mezcla de biblioteca: Calcita · 226",
+          "sample": "Calcite+.50Ca-Mont AMX6 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 234,
+          "name": "palygorskite",
+          "label": "Paligorskita · 234",
+          "sample": "Palygorskite PFL-1 Attapulg W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "125": 0.011804384485666104,
+        "126": 0.003372681281618887,
+        "129": 0.17537942664418213,
+        "130": 0.05564924114671164,
+        "131": 0.715008431703204,
+        "132": 0.006745362563237774,
+        "166": 0.013490725126475547,
+        "168": 0.013490725126475547,
+        "225": 0.00505902192242833
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 593,
+        "unique_glt_samples": 747,
+        "measured_unique_samples": 747,
+        "no_match_unique": 0,
+        "library_entropy_bits": 1.376550383387714,
+        "family_entropy_bits": 1.0149925478171193
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 2,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 125,
+          "name": "micagrp_muscovite-med-Al",
+          "label": "Moscovita · 125",
+          "sample": "Muscovite CU91-250A med Al W2R4NbS",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 126,
+          "name": "calcite.33+kaol.33+mus-AMXr2",
+          "label": "Mezcla de biblioteca: Calcita · 126",
+          "sample": "Calcite.33+Kaol.33+Mus AMXr2 W1R1Ba",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 129,
+          "name": "micagrp_illite",
+          "label": "Illita · 129",
+          "sample": "Illite IMt-1.b <2um W1R1BaS",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 130,
+          "name": "micagrp_illite.gds4",
+          "label": "Illita · 130",
+          "sample": "Illite GDS4.2 Marblehead_WI W1R1H_",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 131,
+          "name": "micagrp_muscovite-low-Al",
+          "label": "Moscovita · 131",
+          "sample": "Muscovite CU93-1 low-Al Phyl W2R4Nb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 132,
+          "name": "micagrp_muscoviteFerich",
+          "label": "Moscovita · 132",
+          "sample": "Muscovite GDS116 Tanzania W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 166,
+          "name": "kaolin.5+muscov.medAl",
+          "label": "Mezcla de biblioteca: Caolinita · 166",
+          "sample": "Kaol.5+MuscCU91-250A AMX13 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 168,
+          "name": "kaolin+musc.intimat",
+          "label": "Mezcla de biblioteca: Caolinita · 168",
+          "sample": "Kaol+Musc_intimate CU93-5C W1R1Ha AREF",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 225,
+          "name": "calcite+0.2Na-mont",
+          "label": "Mezcla de biblioteca: Calcita · 225",
+          "sample": "Calcite.80+Mont_Swy-1 GDS212 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 226,
+          "name": "calcite+0.5Ca-mont",
+          "label": "Mezcla de biblioteca: Calcita · 226",
+          "sample": "Calcite+.50Ca-Mont AMX6 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 234,
+          "name": "palygorskite",
+          "label": "Paligorskita · 234",
+          "sample": "Palygorskite PFL-1 Attapulg W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "Hematita": 1.0
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 2057,
+        "unique_glt_samples": 2061,
+        "measured_unique_samples": 2061,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.5922199711935627,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 1,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 2,
+          "name": "fe3+_hematite.fine.gr.gds76",
+          "label": "Hematita · 2",
+          "sample": "Hematite.02+Quartz.98 GDS76 W1R1Ha",
+          "group": 1,
+          "library": "sprlb06"
+        },
+        {
+          "id": 31,
+          "name": "fe3+_hematite.thincoat",
+          "label": "Hematita · 31",
+          "sample": "Hematite_Thin_Film GDS27 W1R1Ba",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "2": 0.10986874088478367,
+        "31": 0.8779776373359262,
+        "47": 0.012153621779290228
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 2057,
+        "unique_glt_samples": 2061,
+        "measured_unique_samples": 2061,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.5922199711935627,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 1,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 2,
+          "name": "fe3+_hematite.fine.gr.gds76",
+          "label": "Hematita · 2",
+          "sample": "Hematite.02+Quartz.98 GDS76 W1R1Ha",
+          "group": 1,
+          "library": "sprlb06"
+        },
+        {
+          "id": 31,
+          "name": "fe3+_hematite.thincoat",
+          "label": "Hematita · 31",
+          "sample": "Hematite_Thin_Film GDS27 W1R1Ba",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "insufficient_sample",
+      "support": {
+        "qualified_unique_samples": 10,
+        "unique_glt_samples": 2061,
+        "measured_unique_samples": 2061,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.9709505944546686,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 1,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 2,
+          "name": "fe3+_hematite.fine.gr.gds76",
+          "label": "Hematita · 2",
+          "sample": "Hematite.02+Quartz.98 GDS76 W1R1Ha",
+          "group": 1,
+          "library": "sprlb06"
+        },
+        {
+          "id": 31,
+          "name": "fe3+_hematite.thincoat",
+          "label": "Hematita · 31",
+          "sample": "Hematite_Thin_Film GDS27 W1R1Ba",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": null,
+      "status": "insufficient_sample",
+      "support": {
+        "qualified_unique_samples": 10,
+        "unique_glt_samples": 2061,
+        "measured_unique_samples": 2061,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.9709505944546686,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 1,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 2,
+          "name": "fe3+_hematite.fine.gr.gds76",
+          "label": "Hematita · 2",
+          "sample": "Hematite.02+Quartz.98 GDS76 W1R1Ha",
+          "group": 1,
+          "library": "sprlb06"
+        },
+        {
+          "id": 31,
+          "name": "fe3+_hematite.thincoat",
+          "label": "Hematita · 31",
+          "sample": "Hematite_Thin_Film GDS27 W1R1Ba",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "Moscovita": 0.7337092731829574,
+        "Mezcla de biblioteca: Calcita": 0.003132832080200501,
+        "Illita": 0.24812030075187969,
+        "Mezcla de biblioteca: Caolinita": 0.014411027568922305,
+        "Paligorskita": 0.0006265664160401002
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 1596,
+        "unique_glt_samples": 2061,
+        "measured_unique_samples": 2061,
+        "no_match_unique": 0,
+        "library_entropy_bits": 1.3093947676660285,
+        "family_entropy_bits": 0.9475789060455311
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 2,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 125,
+          "name": "micagrp_muscovite-med-Al",
+          "label": "Moscovita · 125",
+          "sample": "Muscovite CU91-250A med Al W2R4NbS",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 126,
+          "name": "calcite.33+kaol.33+mus-AMXr2",
+          "label": "Mezcla de biblioteca: Calcita · 126",
+          "sample": "Calcite.33+Kaol.33+Mus AMXr2 W1R1Ba",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 129,
+          "name": "micagrp_illite",
+          "label": "Illita · 129",
+          "sample": "Illite IMt-1.b <2um W1R1BaS",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 130,
+          "name": "micagrp_illite.gds4",
+          "label": "Illita · 130",
+          "sample": "Illite GDS4.2 Marblehead_WI W1R1H_",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 131,
+          "name": "micagrp_muscovite-low-Al",
+          "label": "Moscovita · 131",
+          "sample": "Muscovite CU93-1 low-Al Phyl W2R4Nb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 132,
+          "name": "micagrp_muscoviteFerich",
+          "label": "Moscovita · 132",
+          "sample": "Muscovite GDS116 Tanzania W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 166,
+          "name": "kaolin.5+muscov.medAl",
+          "label": "Mezcla de biblioteca: Caolinita · 166",
+          "sample": "Kaol.5+MuscCU91-250A AMX13 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 168,
+          "name": "kaolin+musc.intimat",
+          "label": "Mezcla de biblioteca: Caolinita · 168",
+          "sample": "Kaol+Musc_intimate CU93-5C W1R1Ha AREF",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 225,
+          "name": "calcite+0.2Na-mont",
+          "label": "Mezcla de biblioteca: Calcita · 225",
+          "sample": "Calcite.80+Mont_Swy-1 GDS212 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 226,
+          "name": "calcite+0.5Ca-mont",
+          "label": "Mezcla de biblioteca: Calcita · 226",
+          "sample": "Calcite+.50Ca-Mont AMX6 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 227,
+          "name": "carbonate_calcite+0.3muscovite",
+          "label": "Mezcla de biblioteca: Moscovita + Calcita · 227",
+          "sample": "Calcite+.33Muscov AMX5 Ruby W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 234,
+          "name": "palygorskite",
+          "label": "Paligorskita · 234",
+          "sample": "Palygorskite PFL-1 Attapulg W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 256,
+          "name": "micagrp_lepidolite",
+          "label": "micagrp_lepidolite · 256",
+          "sample": "Lepidolite NMNH88526-1 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "125": 0.007518796992481203,
+        "126": 0.0012531328320802004,
+        "129": 0.18859649122807018,
+        "130": 0.05952380952380952,
+        "131": 0.7142857142857143,
+        "132": 0.011904761904761904,
+        "166": 0.005012531328320802,
+        "168": 0.009398496240601503,
+        "225": 0.0018796992481203006,
+        "234": 0.0006265664160401002
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 1596,
+        "unique_glt_samples": 2061,
+        "measured_unique_samples": 2061,
+        "no_match_unique": 0,
+        "library_entropy_bits": 1.3093947676660285,
+        "family_entropy_bits": 0.9475789060455311
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 2,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 125,
+          "name": "micagrp_muscovite-med-Al",
+          "label": "Moscovita · 125",
+          "sample": "Muscovite CU91-250A med Al W2R4NbS",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 126,
+          "name": "calcite.33+kaol.33+mus-AMXr2",
+          "label": "Mezcla de biblioteca: Calcita · 126",
+          "sample": "Calcite.33+Kaol.33+Mus AMXr2 W1R1Ba",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 129,
+          "name": "micagrp_illite",
+          "label": "Illita · 129",
+          "sample": "Illite IMt-1.b <2um W1R1BaS",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 130,
+          "name": "micagrp_illite.gds4",
+          "label": "Illita · 130",
+          "sample": "Illite GDS4.2 Marblehead_WI W1R1H_",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 131,
+          "name": "micagrp_muscovite-low-Al",
+          "label": "Moscovita · 131",
+          "sample": "Muscovite CU93-1 low-Al Phyl W2R4Nb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 132,
+          "name": "micagrp_muscoviteFerich",
+          "label": "Moscovita · 132",
+          "sample": "Muscovite GDS116 Tanzania W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 166,
+          "name": "kaolin.5+muscov.medAl",
+          "label": "Mezcla de biblioteca: Caolinita · 166",
+          "sample": "Kaol.5+MuscCU91-250A AMX13 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 168,
+          "name": "kaolin+musc.intimat",
+          "label": "Mezcla de biblioteca: Caolinita · 168",
+          "sample": "Kaol+Musc_intimate CU93-5C W1R1Ha AREF",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 225,
+          "name": "calcite+0.2Na-mont",
+          "label": "Mezcla de biblioteca: Calcita · 225",
+          "sample": "Calcite.80+Mont_Swy-1 GDS212 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 226,
+          "name": "calcite+0.5Ca-mont",
+          "label": "Mezcla de biblioteca: Calcita · 226",
+          "sample": "Calcite+.50Ca-Mont AMX6 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 227,
+          "name": "carbonate_calcite+0.3muscovite",
+          "label": "Mezcla de biblioteca: Moscovita + Calcita · 227",
+          "sample": "Calcite+.33Muscov AMX5 Ruby W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 234,
+          "name": "palygorskite",
+          "label": "Paligorskita · 234",
+          "sample": "Palygorskite PFL-1 Attapulg W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 256,
+          "name": "micagrp_lepidolite",
+          "label": "micagrp_lepidolite · 256",
+          "sample": "Lepidolite NMNH88526-1 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "Moscovita": 0.7338355304456999,
+        "Mezcla de biblioteca: Calcita": 0.003138731952291274,
+        "Illita": 0.24858757062146894,
+        "Mezcla de biblioteca: Caolinita": 0.014438166980539862
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 1593,
+        "unique_glt_samples": 2061,
+        "measured_unique_samples": 2061,
+        "no_match_unique": 0,
+        "library_entropy_bits": 1.303667164682012,
+        "family_entropy_bits": 0.9412185560433388
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 2,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 125,
+          "name": "micagrp_muscovite-med-Al",
+          "label": "Moscovita · 125",
+          "sample": "Muscovite CU91-250A med Al W2R4NbS",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 126,
+          "name": "calcite.33+kaol.33+mus-AMXr2",
+          "label": "Mezcla de biblioteca: Calcita · 126",
+          "sample": "Calcite.33+Kaol.33+Mus AMXr2 W1R1Ba",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 129,
+          "name": "micagrp_illite",
+          "label": "Illita · 129",
+          "sample": "Illite IMt-1.b <2um W1R1BaS",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 130,
+          "name": "micagrp_illite.gds4",
+          "label": "Illita · 130",
+          "sample": "Illite GDS4.2 Marblehead_WI W1R1H_",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 131,
+          "name": "micagrp_muscovite-low-Al",
+          "label": "Moscovita · 131",
+          "sample": "Muscovite CU93-1 low-Al Phyl W2R4Nb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 132,
+          "name": "micagrp_muscoviteFerich",
+          "label": "Moscovita · 132",
+          "sample": "Muscovite GDS116 Tanzania W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 166,
+          "name": "kaolin.5+muscov.medAl",
+          "label": "Mezcla de biblioteca: Caolinita · 166",
+          "sample": "Kaol.5+MuscCU91-250A AMX13 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 168,
+          "name": "kaolin+musc.intimat",
+          "label": "Mezcla de biblioteca: Caolinita · 168",
+          "sample": "Kaol+Musc_intimate CU93-5C W1R1Ha AREF",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 225,
+          "name": "calcite+0.2Na-mont",
+          "label": "Mezcla de biblioteca: Calcita · 225",
+          "sample": "Calcite.80+Mont_Swy-1 GDS212 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 226,
+          "name": "calcite+0.5Ca-mont",
+          "label": "Mezcla de biblioteca: Calcita · 226",
+          "sample": "Calcite+.50Ca-Mont AMX6 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 227,
+          "name": "carbonate_calcite+0.3muscovite",
+          "label": "Mezcla de biblioteca: Moscovita + Calcita · 227",
+          "sample": "Calcite+.33Muscov AMX5 Ruby W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 234,
+          "name": "palygorskite",
+          "label": "Paligorskita · 234",
+          "sample": "Palygorskite PFL-1 Attapulg W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 256,
+          "name": "micagrp_lepidolite",
+          "label": "micagrp_lepidolite · 256",
+          "sample": "Lepidolite NMNH88526-1 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "desierto",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "125": 0.007532956685499058,
+        "126": 0.0012554927809165098,
+        "129": 0.18895166352793472,
+        "130": 0.05963590709353421,
+        "131": 0.714375392341494,
+        "132": 0.011927181418706842,
+        "166": 0.005021971123666039,
+        "168": 0.009416195856873822,
+        "225": 0.0018832391713747645
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 1593,
+        "unique_glt_samples": 2061,
+        "measured_unique_samples": 2061,
+        "no_match_unique": 0,
+        "library_entropy_bits": 1.303667164682012,
+        "family_entropy_bits": 0.9412185560433388
+      },
+      "scene": "EMIT_L2B_MIN_002_20230609T171110",
+      "date": "2023-06-09T17:11:10+0000",
+      "spectral_group": 2,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 125,
+          "name": "micagrp_muscovite-med-Al",
+          "label": "Moscovita · 125",
+          "sample": "Muscovite CU91-250A med Al W2R4NbS",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 126,
+          "name": "calcite.33+kaol.33+mus-AMXr2",
+          "label": "Mezcla de biblioteca: Calcita · 126",
+          "sample": "Calcite.33+Kaol.33+Mus AMXr2 W1R1Ba",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 129,
+          "name": "micagrp_illite",
+          "label": "Illita · 129",
+          "sample": "Illite IMt-1.b <2um W1R1BaS",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 130,
+          "name": "micagrp_illite.gds4",
+          "label": "Illita · 130",
+          "sample": "Illite GDS4.2 Marblehead_WI W1R1H_",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 131,
+          "name": "micagrp_muscovite-low-Al",
+          "label": "Moscovita · 131",
+          "sample": "Muscovite CU93-1 low-Al Phyl W2R4Nb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 132,
+          "name": "micagrp_muscoviteFerich",
+          "label": "Moscovita · 132",
+          "sample": "Muscovite GDS116 Tanzania W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 166,
+          "name": "kaolin.5+muscov.medAl",
+          "label": "Mezcla de biblioteca: Caolinita · 166",
+          "sample": "Kaol.5+MuscCU91-250A AMX13 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 168,
+          "name": "kaolin+musc.intimat",
+          "label": "Mezcla de biblioteca: Caolinita · 168",
+          "sample": "Kaol+Musc_intimate CU93-5C W1R1Ha AREF",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 225,
+          "name": "calcite+0.2Na-mont",
+          "label": "Mezcla de biblioteca: Calcita · 225",
+          "sample": "Calcite.80+Mont_Swy-1 GDS212 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 226,
+          "name": "calcite+0.5Ca-mont",
+          "label": "Mezcla de biblioteca: Calcita · 226",
+          "sample": "Calcite+.50Ca-Mont AMX6 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 227,
+          "name": "carbonate_calcite+0.3muscovite",
+          "label": "Mezcla de biblioteca: Moscovita + Calcita · 227",
+          "sample": "Calcite+.33Muscov AMX5 Ruby W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 234,
+          "name": "palygorskite",
+          "label": "Paligorskita · 234",
+          "sample": "Palygorskite PFL-1 Attapulg W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 256,
+          "name": "micagrp_lepidolite",
+          "label": "micagrp_lepidolite · 256",
+          "sample": "Lepidolite NMNH88526-1 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "Hematita": 1.0
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 703,
+        "unique_glt_samples": 726,
+        "measured_unique_samples": 726,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.015503626364424799,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 1,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 45,
+          "name": "fe3+_hematite.nano.BR34b2",
+          "label": "Hematita · 45",
+          "sample": "Nanohematite BR93-34B2 W1R1BbS",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "45": 0.001422475106685633,
+        "47": 0.9985775248933144
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 703,
+        "unique_glt_samples": 726,
+        "measured_unique_samples": 726,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.015503626364424799,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 1,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 45,
+          "name": "fe3+_hematite.nano.BR34b2",
+          "label": "Hematita · 45",
+          "sample": "Nanohematite BR93-34B2 W1R1BbS",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "Hematita": 1.0
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 382,
+        "unique_glt_samples": 726,
+        "measured_unique_samples": 726,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.02622574312748767,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 1,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 45,
+          "name": "fe3+_hematite.nano.BR34b2",
+          "label": "Hematita · 45",
+          "sample": "Nanohematite BR93-34B2 W1R1BbS",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "45": 0.002617801047120419,
+        "47": 0.9973821989528796
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 382,
+        "unique_glt_samples": 726,
+        "measured_unique_samples": 726,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.02622574312748767,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 1,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 45,
+          "name": "fe3+_hematite.nano.BR34b2",
+          "label": "Hematita · 45",
+          "sample": "Nanohematite BR93-34B2 W1R1BbS",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "Orgánico o sintético": 0.6454388984509466,
+        "Montmorillonita": 0.09122203098106713,
+        "Sílice o vidrio hidratado": 0.13253012048192772,
+        "Esmectita": 0.0017211703958691911,
+        "Dolomita": 0.0051635111876075735,
+        "Aragonito": 0.12220309810671257,
+        "Mezcla de biblioteca: Calcita + Dolomita": 0.0017211703958691911
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 581,
+        "unique_glt_samples": 726,
+        "measured_unique_samples": 726,
+        "no_match_unique": 45,
+        "library_entropy_bits": 2.0253538227546684,
+        "family_entropy_bits": 1.5506571326970093
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 2,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 96,
+          "name": "organic_vegetation-dry-grass-long",
+          "label": "organic_vegetation-dry-grass-long · 96",
+          "sample": "Dry_Long_Grass AV87-2 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 97,
+          "name": "organic_vegetation-dry-grass-golden",
+          "label": "organic_vegetation-dry-grass-golden · 97",
+          "sample": "Grass_Golden_Dry GDS480 W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 98,
+          "name": "organic_vegetation-dry-wood",
+          "label": "organic_vegetation-dry-wood · 98",
+          "sample": "Plywood GDS365 Fresh Pine W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 100,
+          "name": "organic_plastic-vinyl",
+          "label": "organic_plastic-vinyl · 100",
+          "sample": "Plastic_Vinyl GDS372 White W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 134,
+          "name": "kaolgrp_kaolinite_pxl",
+          "label": "Caolinita · 134",
+          "sample": "Kaolinite KGa-2 (pxl) W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 141,
+          "name": "smectite_montmorillonite_na_highswelling",
+          "label": "Montmorillonita · 141",
+          "sample": "Montmorillonite SWy-1 W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 144,
+          "name": "sioh_hydrated_basaltic_glass",
+          "label": "sioh_hydrated_basaltic_glass · 144",
+          "sample": "HyBasaltGlassMLUT03-9CMarP&T",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 150,
+          "name": "smectite_beidellite_gds123",
+          "label": "smectite_beidellite_gds123 · 150",
+          "sample": "Beidellite+Montmor GDS123",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 152,
+          "name": "sioh_chalcedony",
+          "label": "sioh_chalcedony · 152",
+          "sample": "Chalcedony CU91-6A W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 184,
+          "name": "carbonate_dolomite",
+          "label": "Dolomita · 184",
+          "sample": "Dolomite HS102.3B W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 194,
+          "name": "carbonate_aragonite",
+          "label": "carbonate_aragonite · 194",
+          "sample": "Aragonite GDS898 Moracco",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 205,
+          "name": "sulfate_jarosite-K",
+          "label": "Jarosita · 205",
+          "sample": "Jarosite GDS99 K 200C Syn W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 206,
+          "name": "sulfate_jarosite-lowT",
+          "label": "Jarosita · 206",
+          "sample": "Jarosite SJ-1 H3O,10-20% W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 215,
+          "name": "carbonate_calcite",
+          "label": "Calcita · 215",
+          "sample": "Calcite WS272 W1R1Ha",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 216,
+          "name": "carbonate_calcite+dolomite.5",
+          "label": "Mezcla de biblioteca: Calcita + Dolomita · 216",
+          "sample": "Calcite+Dolomite.5 AMX8 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 257,
+          "name": "micagrp_margarite",
+          "label": "micagrp_margarite · 257",
+          "sample": "Margarite GDS106 W1R1Bc",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "96": 0.022375215146299483,
+        "97": 0.0017211703958691911,
+        "98": 0.03270223752151463,
+        "100": 0.5886402753872634,
+        "141": 0.09122203098106713,
+        "144": 0.06712564543889846,
+        "150": 0.0017211703958691911,
+        "152": 0.06540447504302926,
+        "184": 0.0051635111876075735,
+        "194": 0.12220309810671257,
+        "216": 0.0017211703958691911
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 581,
+        "unique_glt_samples": 726,
+        "measured_unique_samples": 726,
+        "no_match_unique": 45,
+        "library_entropy_bits": 2.0253538227546684,
+        "family_entropy_bits": 1.5506571326970093
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 2,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 96,
+          "name": "organic_vegetation-dry-grass-long",
+          "label": "organic_vegetation-dry-grass-long · 96",
+          "sample": "Dry_Long_Grass AV87-2 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 97,
+          "name": "organic_vegetation-dry-grass-golden",
+          "label": "organic_vegetation-dry-grass-golden · 97",
+          "sample": "Grass_Golden_Dry GDS480 W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 98,
+          "name": "organic_vegetation-dry-wood",
+          "label": "organic_vegetation-dry-wood · 98",
+          "sample": "Plywood GDS365 Fresh Pine W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 100,
+          "name": "organic_plastic-vinyl",
+          "label": "organic_plastic-vinyl · 100",
+          "sample": "Plastic_Vinyl GDS372 White W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 134,
+          "name": "kaolgrp_kaolinite_pxl",
+          "label": "Caolinita · 134",
+          "sample": "Kaolinite KGa-2 (pxl) W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 141,
+          "name": "smectite_montmorillonite_na_highswelling",
+          "label": "Montmorillonita · 141",
+          "sample": "Montmorillonite SWy-1 W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 144,
+          "name": "sioh_hydrated_basaltic_glass",
+          "label": "sioh_hydrated_basaltic_glass · 144",
+          "sample": "HyBasaltGlassMLUT03-9CMarP&T",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 150,
+          "name": "smectite_beidellite_gds123",
+          "label": "smectite_beidellite_gds123 · 150",
+          "sample": "Beidellite+Montmor GDS123",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 152,
+          "name": "sioh_chalcedony",
+          "label": "sioh_chalcedony · 152",
+          "sample": "Chalcedony CU91-6A W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 184,
+          "name": "carbonate_dolomite",
+          "label": "Dolomita · 184",
+          "sample": "Dolomite HS102.3B W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 194,
+          "name": "carbonate_aragonite",
+          "label": "carbonate_aragonite · 194",
+          "sample": "Aragonite GDS898 Moracco",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 205,
+          "name": "sulfate_jarosite-K",
+          "label": "Jarosita · 205",
+          "sample": "Jarosite GDS99 K 200C Syn W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 206,
+          "name": "sulfate_jarosite-lowT",
+          "label": "Jarosita · 206",
+          "sample": "Jarosite SJ-1 H3O,10-20% W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 215,
+          "name": "carbonate_calcite",
+          "label": "Calcita · 215",
+          "sample": "Calcite WS272 W1R1Ha",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 216,
+          "name": "carbonate_calcite+dolomite.5",
+          "label": "Mezcla de biblioteca: Calcita + Dolomita · 216",
+          "sample": "Calcite+Dolomite.5 AMX8 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 257,
+          "name": "micagrp_margarite",
+          "label": "micagrp_margarite · 257",
+          "sample": "Margarite GDS106 W1R1Bc",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "Orgánico o sintético": 0.28187919463087246,
+        "Montmorillonita": 0.3221476510067114,
+        "Sílice o vidrio hidratado": 0.3959731543624161
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 149,
+        "unique_glt_samples": 726,
+        "measured_unique_samples": 726,
+        "no_match_unique": 45,
+        "library_entropy_bits": 2.32404980968066,
+        "family_entropy_bits": 1.5706351533234229
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 2,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 96,
+          "name": "organic_vegetation-dry-grass-long",
+          "label": "organic_vegetation-dry-grass-long · 96",
+          "sample": "Dry_Long_Grass AV87-2 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 97,
+          "name": "organic_vegetation-dry-grass-golden",
+          "label": "organic_vegetation-dry-grass-golden · 97",
+          "sample": "Grass_Golden_Dry GDS480 W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 98,
+          "name": "organic_vegetation-dry-wood",
+          "label": "organic_vegetation-dry-wood · 98",
+          "sample": "Plywood GDS365 Fresh Pine W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 100,
+          "name": "organic_plastic-vinyl",
+          "label": "organic_plastic-vinyl · 100",
+          "sample": "Plastic_Vinyl GDS372 White W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 134,
+          "name": "kaolgrp_kaolinite_pxl",
+          "label": "Caolinita · 134",
+          "sample": "Kaolinite KGa-2 (pxl) W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 141,
+          "name": "smectite_montmorillonite_na_highswelling",
+          "label": "Montmorillonita · 141",
+          "sample": "Montmorillonite SWy-1 W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 144,
+          "name": "sioh_hydrated_basaltic_glass",
+          "label": "sioh_hydrated_basaltic_glass · 144",
+          "sample": "HyBasaltGlassMLUT03-9CMarP&T",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 150,
+          "name": "smectite_beidellite_gds123",
+          "label": "smectite_beidellite_gds123 · 150",
+          "sample": "Beidellite+Montmor GDS123",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 152,
+          "name": "sioh_chalcedony",
+          "label": "sioh_chalcedony · 152",
+          "sample": "Chalcedony CU91-6A W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 184,
+          "name": "carbonate_dolomite",
+          "label": "Dolomita · 184",
+          "sample": "Dolomite HS102.3B W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 194,
+          "name": "carbonate_aragonite",
+          "label": "carbonate_aragonite · 194",
+          "sample": "Aragonite GDS898 Moracco",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 205,
+          "name": "sulfate_jarosite-K",
+          "label": "Jarosita · 205",
+          "sample": "Jarosite GDS99 K 200C Syn W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 206,
+          "name": "sulfate_jarosite-lowT",
+          "label": "Jarosita · 206",
+          "sample": "Jarosite SJ-1 H3O,10-20% W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 215,
+          "name": "carbonate_calcite",
+          "label": "Calcita · 215",
+          "sample": "Calcite WS272 W1R1Ha",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 216,
+          "name": "carbonate_calcite+dolomite.5",
+          "label": "Mezcla de biblioteca: Calcita + Dolomita · 216",
+          "sample": "Calcite+Dolomite.5 AMX8 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 257,
+          "name": "micagrp_margarite",
+          "label": "micagrp_margarite · 257",
+          "sample": "Margarite GDS106 W1R1Bc",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 1800,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "96": 0.026845637583892617,
+        "97": 0.006711409395973154,
+        "98": 0.06040268456375839,
+        "100": 0.18791946308724833,
+        "141": 0.3221476510067114,
+        "144": 0.24161073825503357,
+        "152": 0.15436241610738255
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 149,
+        "unique_glt_samples": 726,
+        "measured_unique_samples": 726,
+        "no_match_unique": 45,
+        "library_entropy_bits": 2.32404980968066,
+        "family_entropy_bits": 1.5706351533234229
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 2,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 96,
+          "name": "organic_vegetation-dry-grass-long",
+          "label": "organic_vegetation-dry-grass-long · 96",
+          "sample": "Dry_Long_Grass AV87-2 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 97,
+          "name": "organic_vegetation-dry-grass-golden",
+          "label": "organic_vegetation-dry-grass-golden · 97",
+          "sample": "Grass_Golden_Dry GDS480 W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 98,
+          "name": "organic_vegetation-dry-wood",
+          "label": "organic_vegetation-dry-wood · 98",
+          "sample": "Plywood GDS365 Fresh Pine W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 100,
+          "name": "organic_plastic-vinyl",
+          "label": "organic_plastic-vinyl · 100",
+          "sample": "Plastic_Vinyl GDS372 White W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 134,
+          "name": "kaolgrp_kaolinite_pxl",
+          "label": "Caolinita · 134",
+          "sample": "Kaolinite KGa-2 (pxl) W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 141,
+          "name": "smectite_montmorillonite_na_highswelling",
+          "label": "Montmorillonita · 141",
+          "sample": "Montmorillonite SWy-1 W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 144,
+          "name": "sioh_hydrated_basaltic_glass",
+          "label": "sioh_hydrated_basaltic_glass · 144",
+          "sample": "HyBasaltGlassMLUT03-9CMarP&T",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 150,
+          "name": "smectite_beidellite_gds123",
+          "label": "smectite_beidellite_gds123 · 150",
+          "sample": "Beidellite+Montmor GDS123",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 152,
+          "name": "sioh_chalcedony",
+          "label": "sioh_chalcedony · 152",
+          "sample": "Chalcedony CU91-6A W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 184,
+          "name": "carbonate_dolomite",
+          "label": "Dolomita · 184",
+          "sample": "Dolomite HS102.3B W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 194,
+          "name": "carbonate_aragonite",
+          "label": "carbonate_aragonite · 194",
+          "sample": "Aragonite GDS898 Moracco",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 205,
+          "name": "sulfate_jarosite-K",
+          "label": "Jarosita · 205",
+          "sample": "Jarosite GDS99 K 200C Syn W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 206,
+          "name": "sulfate_jarosite-lowT",
+          "label": "Jarosita · 206",
+          "sample": "Jarosite SJ-1 H3O,10-20% W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 215,
+          "name": "carbonate_calcite",
+          "label": "Calcita · 215",
+          "sample": "Calcite WS272 W1R1Ha",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 216,
+          "name": "carbonate_calcite+dolomite.5",
+          "label": "Mezcla de biblioteca: Calcita + Dolomita · 216",
+          "sample": "Calcite+Dolomite.5 AMX8 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 257,
+          "name": "micagrp_margarite",
+          "label": "micagrp_margarite · 257",
+          "sample": "Margarite GDS106 W1R1Bc",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "Hematita": 1.0
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 1928,
+        "unique_glt_samples": 2022,
+        "measured_unique_samples": 2022,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.034657287839981926,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 1,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 45,
+          "name": "fe3+_hematite.nano.BR34b2",
+          "label": "Hematita · 45",
+          "sample": "Nanohematite BR93-34B2 W1R1BbS",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "45": 0.0036307053941908715,
+        "47": 0.9963692946058091
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 1928,
+        "unique_glt_samples": 2022,
+        "measured_unique_samples": 2022,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.034657287839981926,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 1,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 45,
+          "name": "fe3+_hematite.nano.BR34b2",
+          "label": "Hematita · 45",
+          "sample": "Nanohematite BR93-34B2 W1R1BbS",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "Hematita": 1.0
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 993,
+        "unique_glt_samples": 2022,
+        "measured_unique_samples": 2022,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.06052492553137083,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 1,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 45,
+          "name": "fe3+_hematite.nano.BR34b2",
+          "label": "Hematita · 45",
+          "sample": "Nanohematite BR93-34B2 W1R1BbS",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "45": 0.007049345417925478,
+        "47": 0.9929506545820745
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 993,
+        "unique_glt_samples": 2022,
+        "measured_unique_samples": 2022,
+        "no_match_unique": 0,
+        "library_entropy_bits": 0.06052492553137083,
+        "family_entropy_bits": -0.0
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 1,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 45,
+          "name": "fe3+_hematite.nano.BR34b2",
+          "label": "Hematita · 45",
+          "sample": "Nanohematite BR93-34B2 W1R1BbS",
+          "group": 1,
+          "library": "splib06"
+        },
+        {
+          "id": 47,
+          "name": "fe3+_hematite.nano.BR34b2b",
+          "label": "Hematita · 47",
+          "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+          "group": 1,
+          "library": "sprlb06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "Orgánico o sintético": 0.5491071428571429,
+        "Caolinita": 0.0006377551020408163,
+        "Mezcla de biblioteca: Caolinita": 0.008290816326530613,
+        "Montmorillonita": 0.1256377551020408,
+        "Sílice o vidrio hidratado": 0.11224489795918367,
+        "Esmectita": 0.008290816326530613,
+        "Dolomita": 0.001913265306122449,
+        "Aragonito": 0.18431122448979592,
+        "Jarosita": 0.0012755102040816326,
+        "Mezcla de biblioteca: Calcita + Dolomita": 0.008290816326530613
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 1568,
+        "unique_glt_samples": 2022,
+        "measured_unique_samples": 2022,
+        "no_match_unique": 178,
+        "library_entropy_bits": 2.3916015834461035,
+        "family_entropy_bits": 1.8630087541572264
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 2,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 96,
+          "name": "organic_vegetation-dry-grass-long",
+          "label": "organic_vegetation-dry-grass-long · 96",
+          "sample": "Dry_Long_Grass AV87-2 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 97,
+          "name": "organic_vegetation-dry-grass-golden",
+          "label": "organic_vegetation-dry-grass-golden · 97",
+          "sample": "Grass_Golden_Dry GDS480 W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 98,
+          "name": "organic_vegetation-dry-wood",
+          "label": "organic_vegetation-dry-wood · 98",
+          "sample": "Plywood GDS365 Fresh Pine W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 100,
+          "name": "organic_plastic-vinyl",
+          "label": "organic_plastic-vinyl · 100",
+          "sample": "Plastic_Vinyl GDS372 White W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 134,
+          "name": "kaolgrp_kaolinite_pxl",
+          "label": "Caolinita · 134",
+          "sample": "Kaolinite KGa-2 (pxl) W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 136,
+          "name": "kaolgrp_nacrite",
+          "label": "kaolgrp_nacrite · 136",
+          "sample": "Nacrite GDS88",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 139,
+          "name": "kaolin.5+smect.5",
+          "label": "Mezcla de biblioteca: Caolinita · 139",
+          "sample": "Kaolin_Smect H89-FR-2 .5Kaol W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 141,
+          "name": "smectite_montmorillonite_na_highswelling",
+          "label": "Montmorillonita · 141",
+          "sample": "Montmorillonite SWy-1 W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 144,
+          "name": "sioh_hydrated_basaltic_glass",
+          "label": "sioh_hydrated_basaltic_glass · 144",
+          "sample": "HyBasaltGlassMLUT03-9CMarP&T",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 150,
+          "name": "smectite_beidellite_gds123",
+          "label": "smectite_beidellite_gds123 · 150",
+          "sample": "Beidellite+Montmor GDS123",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 152,
+          "name": "sioh_chalcedony",
+          "label": "sioh_chalcedony · 152",
+          "sample": "Chalcedony CU91-6A W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 167,
+          "name": "kaolin.5+muscov.medhighAl",
+          "label": "Mezcla de biblioteca: Caolinita · 167",
+          "sample": "Kaol_Wxl+0.5Musc_Ruby AMX12 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 168,
+          "name": "kaolin+musc.intimat",
+          "label": "Mezcla de biblioteca: Caolinita · 168",
+          "sample": "Kaol+Musc_intimate CU93-5C W1R1Ha AREF",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 184,
+          "name": "carbonate_dolomite",
+          "label": "Dolomita · 184",
+          "sample": "Dolomite HS102.3B W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 194,
+          "name": "carbonate_aragonite",
+          "label": "carbonate_aragonite · 194",
+          "sample": "Aragonite GDS898 Moracco",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 205,
+          "name": "sulfate_jarosite-K",
+          "label": "Jarosita · 205",
+          "sample": "Jarosite GDS99 K 200C Syn W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 206,
+          "name": "sulfate_jarosite-lowT",
+          "label": "Jarosita · 206",
+          "sample": "Jarosite SJ-1 H3O,10-20% W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 215,
+          "name": "carbonate_calcite",
+          "label": "Calcita · 215",
+          "sample": "Calcite WS272 W1R1Ha",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 216,
+          "name": "carbonate_calcite+dolomite.5",
+          "label": "Mezcla de biblioteca: Calcita + Dolomita · 216",
+          "sample": "Calcite+Dolomite.5 AMX8 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 257,
+          "name": "micagrp_margarite",
+          "label": "micagrp_margarite · 257",
+          "sample": "Margarite GDS106 W1R1Bc",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "96": 0.03316326530612245,
+        "97": 0.006377551020408163,
+        "98": 0.03316326530612245,
+        "100": 0.4764030612244898,
+        "136": 0.0006377551020408163,
+        "139": 0.005739795918367347,
+        "141": 0.1256377551020408,
+        "144": 0.06505102040816327,
+        "150": 0.008290816326530613,
+        "152": 0.047193877551020405,
+        "167": 0.0012755102040816326,
+        "168": 0.0012755102040816326,
+        "184": 0.001913265306122449,
+        "194": 0.18431122448979592,
+        "205": 0.0006377551020408163,
+        "206": 0.0006377551020408163,
+        "216": 0.008290816326530613
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 1568,
+        "unique_glt_samples": 2022,
+        "measured_unique_samples": 2022,
+        "no_match_unique": 178,
+        "library_entropy_bits": 2.3916015834461035,
+        "family_entropy_bits": 1.8630087541572264
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 2,
+      "fit_min": 0.8,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 96,
+          "name": "organic_vegetation-dry-grass-long",
+          "label": "organic_vegetation-dry-grass-long · 96",
+          "sample": "Dry_Long_Grass AV87-2 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 97,
+          "name": "organic_vegetation-dry-grass-golden",
+          "label": "organic_vegetation-dry-grass-golden · 97",
+          "sample": "Grass_Golden_Dry GDS480 W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 98,
+          "name": "organic_vegetation-dry-wood",
+          "label": "organic_vegetation-dry-wood · 98",
+          "sample": "Plywood GDS365 Fresh Pine W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 100,
+          "name": "organic_plastic-vinyl",
+          "label": "organic_plastic-vinyl · 100",
+          "sample": "Plastic_Vinyl GDS372 White W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 134,
+          "name": "kaolgrp_kaolinite_pxl",
+          "label": "Caolinita · 134",
+          "sample": "Kaolinite KGa-2 (pxl) W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 136,
+          "name": "kaolgrp_nacrite",
+          "label": "kaolgrp_nacrite · 136",
+          "sample": "Nacrite GDS88",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 139,
+          "name": "kaolin.5+smect.5",
+          "label": "Mezcla de biblioteca: Caolinita · 139",
+          "sample": "Kaolin_Smect H89-FR-2 .5Kaol W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 141,
+          "name": "smectite_montmorillonite_na_highswelling",
+          "label": "Montmorillonita · 141",
+          "sample": "Montmorillonite SWy-1 W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 144,
+          "name": "sioh_hydrated_basaltic_glass",
+          "label": "sioh_hydrated_basaltic_glass · 144",
+          "sample": "HyBasaltGlassMLUT03-9CMarP&T",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 150,
+          "name": "smectite_beidellite_gds123",
+          "label": "smectite_beidellite_gds123 · 150",
+          "sample": "Beidellite+Montmor GDS123",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 152,
+          "name": "sioh_chalcedony",
+          "label": "sioh_chalcedony · 152",
+          "sample": "Chalcedony CU91-6A W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 167,
+          "name": "kaolin.5+muscov.medhighAl",
+          "label": "Mezcla de biblioteca: Caolinita · 167",
+          "sample": "Kaol_Wxl+0.5Musc_Ruby AMX12 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 168,
+          "name": "kaolin+musc.intimat",
+          "label": "Mezcla de biblioteca: Caolinita · 168",
+          "sample": "Kaol+Musc_intimate CU93-5C W1R1Ha AREF",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 184,
+          "name": "carbonate_dolomite",
+          "label": "Dolomita · 184",
+          "sample": "Dolomite HS102.3B W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 194,
+          "name": "carbonate_aragonite",
+          "label": "carbonate_aragonite · 194",
+          "sample": "Aragonite GDS898 Moracco",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 205,
+          "name": "sulfate_jarosite-K",
+          "label": "Jarosita · 205",
+          "sample": "Jarosite GDS99 K 200C Syn W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 206,
+          "name": "sulfate_jarosite-lowT",
+          "label": "Jarosita · 206",
+          "sample": "Jarosite SJ-1 H3O,10-20% W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 215,
+          "name": "carbonate_calcite",
+          "label": "Calcita · 215",
+          "sample": "Calcite WS272 W1R1Ha",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 216,
+          "name": "carbonate_calcite+dolomite.5",
+          "label": "Mezcla de biblioteca: Calcita + Dolomita · 216",
+          "sample": "Calcite+Dolomite.5 AMX8 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 257,
+          "name": "micagrp_margarite",
+          "label": "micagrp_margarite · 257",
+          "sample": "Margarite GDS106 W1R1Bc",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_mineral_family_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "Orgánico o sintético": 0.3425,
+        "Mezcla de biblioteca: Caolinita": 0.0275,
+        "Montmorillonita": 0.2975,
+        "Sílice o vidrio hidratado": 0.3325
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 400,
+        "unique_glt_samples": 2022,
+        "measured_unique_samples": 2022,
+        "no_match_unique": 178,
+        "library_entropy_bits": 2.543837387246993,
+        "family_entropy_bits": 1.7205561374599598
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 2,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 96,
+          "name": "organic_vegetation-dry-grass-long",
+          "label": "organic_vegetation-dry-grass-long · 96",
+          "sample": "Dry_Long_Grass AV87-2 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 97,
+          "name": "organic_vegetation-dry-grass-golden",
+          "label": "organic_vegetation-dry-grass-golden · 97",
+          "sample": "Grass_Golden_Dry GDS480 W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 98,
+          "name": "organic_vegetation-dry-wood",
+          "label": "organic_vegetation-dry-wood · 98",
+          "sample": "Plywood GDS365 Fresh Pine W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 100,
+          "name": "organic_plastic-vinyl",
+          "label": "organic_plastic-vinyl · 100",
+          "sample": "Plastic_Vinyl GDS372 White W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 134,
+          "name": "kaolgrp_kaolinite_pxl",
+          "label": "Caolinita · 134",
+          "sample": "Kaolinite KGa-2 (pxl) W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 136,
+          "name": "kaolgrp_nacrite",
+          "label": "kaolgrp_nacrite · 136",
+          "sample": "Nacrite GDS88",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 139,
+          "name": "kaolin.5+smect.5",
+          "label": "Mezcla de biblioteca: Caolinita · 139",
+          "sample": "Kaolin_Smect H89-FR-2 .5Kaol W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 141,
+          "name": "smectite_montmorillonite_na_highswelling",
+          "label": "Montmorillonita · 141",
+          "sample": "Montmorillonite SWy-1 W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 144,
+          "name": "sioh_hydrated_basaltic_glass",
+          "label": "sioh_hydrated_basaltic_glass · 144",
+          "sample": "HyBasaltGlassMLUT03-9CMarP&T",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 150,
+          "name": "smectite_beidellite_gds123",
+          "label": "smectite_beidellite_gds123 · 150",
+          "sample": "Beidellite+Montmor GDS123",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 152,
+          "name": "sioh_chalcedony",
+          "label": "sioh_chalcedony · 152",
+          "sample": "Chalcedony CU91-6A W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 167,
+          "name": "kaolin.5+muscov.medhighAl",
+          "label": "Mezcla de biblioteca: Caolinita · 167",
+          "sample": "Kaol_Wxl+0.5Musc_Ruby AMX12 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 168,
+          "name": "kaolin+musc.intimat",
+          "label": "Mezcla de biblioteca: Caolinita · 168",
+          "sample": "Kaol+Musc_intimate CU93-5C W1R1Ha AREF",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 184,
+          "name": "carbonate_dolomite",
+          "label": "Dolomita · 184",
+          "sample": "Dolomite HS102.3B W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 194,
+          "name": "carbonate_aragonite",
+          "label": "carbonate_aragonite · 194",
+          "sample": "Aragonite GDS898 Moracco",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 205,
+          "name": "sulfate_jarosite-K",
+          "label": "Jarosita · 205",
+          "sample": "Jarosite GDS99 K 200C Syn W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 206,
+          "name": "sulfate_jarosite-lowT",
+          "label": "Jarosita · 206",
+          "sample": "Jarosite SJ-1 H3O,10-20% W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 215,
+          "name": "carbonate_calcite",
+          "label": "Calcita · 215",
+          "sample": "Calcite WS272 W1R1Ha",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 216,
+          "name": "carbonate_calcite+dolomite.5",
+          "label": "Mezcla de biblioteca: Calcita + Dolomita · 216",
+          "sample": "Calcite+Dolomite.5 AMX8 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 257,
+          "name": "micagrp_margarite",
+          "label": "micagrp_margarite · 257",
+          "sample": "Margarite GDS106 W1R1Bc",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    },
+    {
+      "site": "atacama-materiales",
+      "window_m": 3000,
+      "body": "Earth",
+      "feature_id": "emit_library_match_fraction",
+      "unit": "fraction",
+      "role": "spectral_evidence",
+      "source": "emit",
+      "value": {
+        "96": 0.05,
+        "97": 0.01,
+        "98": 0.065,
+        "100": 0.2175,
+        "139": 0.0175,
+        "141": 0.2975,
+        "144": 0.2275,
+        "152": 0.105,
+        "167": 0.005,
+        "168": 0.005
+      },
+      "status": "measured",
+      "support": {
+        "qualified_unique_samples": 400,
+        "unique_glt_samples": 2022,
+        "measured_unique_samples": 2022,
+        "no_match_unique": 178,
+        "library_entropy_bits": 2.543837387246993,
+        "family_entropy_bits": 1.7205561374599598
+      },
+      "scene": "EMIT_L2B_MIN_002_20230130T135427",
+      "date": "2023-01-30T13:54:27+0000",
+      "spectral_group": 2,
+      "fit_min": 0.9,
+      "minimum_depth_to_uncertainty": 2,
+      "classes": [
+        {
+          "id": 96,
+          "name": "organic_vegetation-dry-grass-long",
+          "label": "organic_vegetation-dry-grass-long · 96",
+          "sample": "Dry_Long_Grass AV87-2 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 97,
+          "name": "organic_vegetation-dry-grass-golden",
+          "label": "organic_vegetation-dry-grass-golden · 97",
+          "sample": "Grass_Golden_Dry GDS480 W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 98,
+          "name": "organic_vegetation-dry-wood",
+          "label": "organic_vegetation-dry-wood · 98",
+          "sample": "Plywood GDS365 Fresh Pine W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 100,
+          "name": "organic_plastic-vinyl",
+          "label": "organic_plastic-vinyl · 100",
+          "sample": "Plastic_Vinyl GDS372 White W1R1Fa",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 134,
+          "name": "kaolgrp_kaolinite_pxl",
+          "label": "Caolinita · 134",
+          "sample": "Kaolinite KGa-2 (pxl) W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 136,
+          "name": "kaolgrp_nacrite",
+          "label": "kaolgrp_nacrite · 136",
+          "sample": "Nacrite GDS88",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 139,
+          "name": "kaolin.5+smect.5",
+          "label": "Mezcla de biblioteca: Caolinita · 139",
+          "sample": "Kaolin_Smect H89-FR-2 .5Kaol W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 141,
+          "name": "smectite_montmorillonite_na_highswelling",
+          "label": "Montmorillonita · 141",
+          "sample": "Montmorillonite SWy-1 W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 144,
+          "name": "sioh_hydrated_basaltic_glass",
+          "label": "sioh_hydrated_basaltic_glass · 144",
+          "sample": "HyBasaltGlassMLUT03-9CMarP&T",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 150,
+          "name": "smectite_beidellite_gds123",
+          "label": "smectite_beidellite_gds123 · 150",
+          "sample": "Beidellite+Montmor GDS123",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 152,
+          "name": "sioh_chalcedony",
+          "label": "sioh_chalcedony · 152",
+          "sample": "Chalcedony CU91-6A W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 167,
+          "name": "kaolin.5+muscov.medhighAl",
+          "label": "Mezcla de biblioteca: Caolinita · 167",
+          "sample": "Kaol_Wxl+0.5Musc_Ruby AMX12 W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 168,
+          "name": "kaolin+musc.intimat",
+          "label": "Mezcla de biblioteca: Caolinita · 168",
+          "sample": "Kaol+Musc_intimate CU93-5C W1R1Ha AREF",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 184,
+          "name": "carbonate_dolomite",
+          "label": "Dolomita · 184",
+          "sample": "Dolomite HS102.3B W1R1Hb",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 194,
+          "name": "carbonate_aragonite",
+          "label": "carbonate_aragonite · 194",
+          "sample": "Aragonite GDS898 Moracco",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 205,
+          "name": "sulfate_jarosite-K",
+          "label": "Jarosita · 205",
+          "sample": "Jarosite GDS99 K 200C Syn W1R1Ba",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 206,
+          "name": "sulfate_jarosite-lowT",
+          "label": "Jarosita · 206",
+          "sample": "Jarosite SJ-1 H3O,10-20% W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 215,
+          "name": "carbonate_calcite",
+          "label": "Calcita · 215",
+          "sample": "Calcite WS272 W1R1Ha",
+          "group": 2,
+          "library": "sprlb06"
+        },
+        {
+          "id": 216,
+          "name": "carbonate_calcite+dolomite.5",
+          "label": "Mezcla de biblioteca: Calcita + Dolomita · 216",
+          "sample": "Calcite+Dolomite.5 AMX8 W1R1Bb",
+          "group": 2,
+          "library": "splib06"
+        },
+        {
+          "id": 257,
+          "name": "micagrp_margarite",
+          "label": "micagrp_margarite · 257",
+          "sample": "Margarite GDS106 W1R1Bc",
+          "group": 2,
+          "library": "splib06"
+        }
+      ],
+      "paths": [
+        "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      ],
+      "source_nominal_m": 60
+    }
+  ]
+}

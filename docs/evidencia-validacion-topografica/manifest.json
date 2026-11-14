@@ -1,0 +1,44 @@
+{
+  "files": [
+    {
+      "path": "specs/analysis/validacion-armonizacion-topografica.json",
+      "sha256": "dc974ecc7176decd9efe74e20cec70b872eb9ab1f1b0d30a440540f256021b76"
+    },
+    {
+      "path": "docs/evidencia-armonizacion-utah/resultados.json",
+      "sha256": "cbe50c0d06aed1f7479cb102cc2590e74293c1e68ddbb456dfe694c5ee461fd3"
+    },
+    {
+      "path": "scripts/validar_armonizacion_topografica.py",
+      "sha256": "29f603946c810932cb2409beb8d155066e4f47fa2d689f0d5377ac4b8edaa9a8"
+    },
+    {
+      "path": "scripts/contrastar_topografia_utah.py",
+      "sha256": "a97dddf288ca8e74e2579c7bd5c84e9ebe352f544a35be2c50d686d5a9793b51"
+    },
+    {
+      "path": "scripts/analizar_primer_caso.py",
+      "sha256": "fea9f43e5972ee14f748703bc4724b3a50885214700cbca19bd423bd545a4fcc"
+    },
+    {
+      "path": "scripts/analizar_dimensiones.py",
+      "sha256": "789b2bf050fc880b41c3c60e2cda2ca1c0797c888c654609b4ed2df57b841c8c"
+    },
+    {
+      "path": "scripts/explorar_fuentes_atlas.py",
+      "sha256": "558d797f1d0ed6b158168c288135dffc3e2255884ad496aee6210c595390d226"
+    },
+    {
+      "path": "docs/evidencia-validacion-topografica/resultados.json",
+      "sha256": "a6207eb1b47eb76c609cdd0dbb9c66c4bb7253ba4947c06ffded0896239bf558"
+    },
+    {
+      "path": "docs/evidencia-validacion-topografica/diferencias-por-ambiente.png",
+      "sha256": "4a391f7cf41904707c0e92dbd509991226a39de4b8472984fe5a9bcb1b6dfa57"
+    },
+    {
+      "path": "docs/evidencia-validacion-topografica/soporte-costero.png",
+      "sha256": "6af954af04193462ef3fd0c6696cf0b23c44c4b3d4501235ea99ad718e52adc6"
+    }
+  ]
+}

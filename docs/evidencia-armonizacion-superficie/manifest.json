@@ -1,0 +1,64 @@
+{
+  "files": [
+    {
+      "path": "scripts/armonizar_dimensiones_superficie.py",
+      "sha256": "1fede0626d82a2873a32faa96507d2679d0e1a17ff57b042aa7496f20e22c973"
+    },
+    {
+      "path": "specs/analysis/validacion-armonizacion-topografica.json",
+      "sha256": "dc974ecc7176decd9efe74e20cec70b872eb9ab1f1b0d30a440540f256021b76"
+    },
+    {
+      "path": "specs/sources/jrc-costa-carolina-v1.json",
+      "sha256": "b5aed0727cc269f99a1151128e472608942c8b70e51da45b6f8b05e3c2abdade"
+    },
+    {
+      "path": "specs/analysis/minerales-emit-v1.json",
+      "sha256": "1057a533478d129f0330a01a2cd315b027d66df3b3ac90ea838b50e1abc9b890"
+    },
+    {
+      "path": "specs/analysis/primer-caso-fase2.json",
+      "sha256": "6d6ff28182c0be852f4490ad5cadd18cbb95ee5700803a08989cc060350337a1"
+    },
+    {
+      "path": "docs/exploracion-fuentes-v1/identidades-entradas.json",
+      "sha256": "8f86bc9ab0c7e4a1bd7c9076bdd1a6ba41eb1da5194803b4cc19daa5442d0771"
+    },
+    {
+      "path": "docs/exploracion-fuentes-v1/perfiles-espaciales.json",
+      "sha256": "e6d3f5e1ebc05012c552d7ebc1e00b9c26d4b1d93f5dfc66a5d84e0732d027e7"
+    },
+    {
+      "path": "docs/exploracion-fuentes-v1/perfiles-temporales.json",
+      "sha256": "cd4024c36740a0babc9f995b7749096455ec81589d74b08be11065f0b186a647"
+    },
+    {
+      "path": "scripts/explorar_fuentes_atlas.py",
+      "sha256": "558d797f1d0ed6b158168c288135dffc3e2255884ad496aee6210c595390d226"
+    },
+    {
+      "path": "scripts/analizar_primer_caso.py",
+      "sha256": "fea9f43e5972ee14f748703bc4724b3a50885214700cbca19bd423bd545a4fcc"
+    },
+    {
+      "path": "scripts/analizar_minerales.py",
+      "sha256": "d382c913b035050d824c1a5f2f968e07626d73fb66c84692a10e7397ecb1e219"
+    },
+    {
+      "path": "docs/evidencia-armonizacion-superficie/mediciones.json",
+      "sha256": "e0a0dfd045e4090a490e17044df373026851a35053cdfd8d20947373905dbbf1"
+    },
+    {
+      "path": "docs/evidencia-armonizacion-superficie/entradas.json",
+      "sha256": "0f3a51116a097267d33cf8f139d6b6902c43db98fa3f0d0f009a670cce7efa0d"
+    },
+    {
+      "path": "docs/evidencia-armonizacion-superficie/features-piloto.json",
+      "sha256": "e66a1ee95553ee1aa287104438f9e6763229d20118036dad93a26f871b24e89c"
+    },
+    {
+      "path": "docs/evidencia-armonizacion-superficie/soporte-optico-termico.png",
+      "sha256": "3420c73a22c791a666df0725e3df730cbadf4111067c867f4f07eb7c93b4a733"
+    }
+  ]
+}

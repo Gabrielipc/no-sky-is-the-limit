@@ -1,0 +1,241 @@
+{
+  "generated_at_utc": "2026-11-07T05:58:20.476885+00:00",
+  "scope": "local identity; excludes manifest itself; relative paths resolved from this directory",
+  "files": [
+    {
+      "file": "../../Makefile",
+      "bytes": 902,
+      "sha256": "2377ed8b88afd33a612ce342d9e91943a46bca5cb56ae3b1ba7f07e7ce4c5636"
+    },
+    {
+      "file": "../Primer analisis reproducible - Jezero y candidatas terrestres.md",
+      "bytes": 13384,
+      "sha256": "f889d5118fbfd1ff86f796dc58d4c23463f3eda3fb470c33efaf93a7ef6ca0b9"
+    },
+    {
+      "file": "README.md",
+      "bytes": 1997,
+      "sha256": "38116ffa9ddfdf14651dbb5c82654ad98efe439e3ee6652cdc7cedce1afa5b2d"
+    },
+    {
+      "file": "areas-marte.json",
+      "bytes": 7446,
+      "sha256": "6640e247f6572e1687cbb07bead4962569d6e77eaf9681ea92b5a82070f2ed7c"
+    },
+    {
+      "file": "areas-tierra.geojson",
+      "bytes": 14959,
+      "sha256": "ab84ca69f53bcd43cf7d72c74f57bfcbd5987e08beffd71569132ed2c3259b84"
+    },
+    {
+      "file": "distribuciones-pendiente.png",
+      "bytes": 88438,
+      "sha256": "d73f28484242b28522482fba043cc623365222011ca9f1f2c2bf890407bd3139"
+    },
+    {
+      "file": "earth-atacama-120m-elevation.tif",
+      "bytes": 2262,
+      "sha256": "85805189763093ea220ca63bf1b28dbdc0473ea37ae54a2e9ff5ab201d505b97"
+    },
+    {
+      "file": "earth-atacama-120m-slope.tif",
+      "bytes": 2320,
+      "sha256": "8497edb589dd4bf0a08d764dd630091bdc2d7d17c99ae0faa1ea777128dae804"
+    },
+    {
+      "file": "earth-atacama-120m-support.tif",
+      "bytes": 606,
+      "sha256": "c6afaea9d503bae5faf31a3be9bfd996a4738fdbb84109309268946acebc3ebc"
+    },
+    {
+      "file": "earth-atacama-120m.png",
+      "bytes": 57689,
+      "sha256": "5b51cd16bceaa7d31db84b1cc7a11bf52a4da1805d7f6787756ff421156a3539"
+    },
+    {
+      "file": "earth-atacama-60m-elevation.tif",
+      "bytes": 7094,
+      "sha256": "af3c88ed0ffac739a2289f30462ceb82307b7df02fbf0435e80352aad37d5e74"
+    },
+    {
+      "file": "earth-atacama-60m-slope.tif",
+      "bytes": 7379,
+      "sha256": "eb1b69c3281fcebceacdbadf0f82e1929beeee09c48ed292f54a92a7ebd20533"
+    },
+    {
+      "file": "earth-atacama-60m-support.tif",
+      "bytes": 616,
+      "sha256": "d1119e6557e6188aa02914bd94a1d7918c5bce30d315724a9369a924bda333b1"
+    },
+    {
+      "file": "earth-atacama-60m.png",
+      "bytes": 62092,
+      "sha256": "f4994d32836dc2df2b4e3dfa7b7a3ea51250761b594ac5b1ac8436ba6ce03718"
+    },
+    {
+      "file": "earth-atacama-native-crop.tif",
+      "bytes": 9718,
+      "sha256": "f8f601d17d265a3cdec80a6f789cd11788989147f6fd9c5f79b3460ca0da725b"
+    },
+    {
+      "file": "earth-atacama-qa.png",
+      "bytes": 81505,
+      "sha256": "ad99b09bb29d1c4f3df7c0c3cf4a5c0f88ee1384ee991b1937aa053a0a9b9fe4"
+    },
+    {
+      "file": "earth-utah-120m-elevation.tif",
+      "bytes": 2224,
+      "sha256": "1c5d65c8ccdc5df2bae3d7ff1ff00e0b8f4320b9be8aaf64e9ff31caecb4a973"
+    },
+    {
+      "file": "earth-utah-120m-slope.tif",
+      "bytes": 2348,
+      "sha256": "1739b6d79461074150b35dce3693c962afbab2c602ce01d46adc43d02cb13656"
+    },
+    {
+      "file": "earth-utah-120m-support.tif",
+      "bytes": 606,
+      "sha256": "0a5ab1f6401a73ce1147b2285547ae83225a71b6e657a78e811192909f30f08e"
+    },
+    {
+      "file": "earth-utah-120m.png",
+      "bytes": 53639,
+      "sha256": "aa0c931666e73319d0dc636ff87edc32e83b2963680d0cbe40630583bd8d465d"
+    },
+    {
+      "file": "earth-utah-60m-elevation.tif",
+      "bytes": 6835,
+      "sha256": "1cd4aa09a169b92572bd76bd25c89e2420cff709e96627b27e5f623b3e7556f7"
+    },
+    {
+      "file": "earth-utah-60m-slope.tif",
+      "bytes": 7497,
+      "sha256": "d5c21cd6fb0350068031c6ccbf5ff27ff276a33863f62503a3c03a0f24a53512"
+    },
+    {
+      "file": "earth-utah-60m-support.tif",
+      "bytes": 616,
+      "sha256": "86de2cb1a0df97a0d3358ead07930029128033744f2b71c54b7f56956dc32215"
+    },
+    {
+      "file": "earth-utah-60m.png",
+      "bytes": 60693,
+      "sha256": "7c7f61648e706e6181dd6d26acd44c9556e5f12a80866d12bcb400085e5da6e8"
+    },
+    {
+      "file": "earth-utah-native-crop.tif",
+      "bytes": 6694,
+      "sha256": "e54d21a64773e79af9c434ebca635d6b3532eede87e4c3d1cf73b3cb9c09556b"
+    },
+    {
+      "file": "earth-utah-qa.png",
+      "bytes": 77192,
+      "sha256": "9c3e04fccca8a09da154bdb9106d10b32a890bf4bb6d5da05b0d9904ed8ca21c"
+    },
+    {
+      "file": "fuentes-y-conflictos.json",
+      "bytes": 4113,
+      "sha256": "2a1a1de5165630c060396c81ce384e20e89cce406078b5ebee4868e77bb2ec1c"
+    },
+    {
+      "file": "jezero-ortoimagen-qa.png",
+      "bytes": 859361,
+      "sha256": "7d15dd03693ff78b82296c2593168c0c55eff8b1c16d50ccdf6942ba6fd03c13"
+    },
+    {
+      "file": "mars-jezero-fan-120m-elevation.tif",
+      "bytes": 2268,
+      "sha256": "c5326729ee24631108fe685695e7f3f910cfecaf8c909e14352020710421a3de"
+    },
+    {
+      "file": "mars-jezero-fan-120m-slope.tif",
+      "bytes": 2380,
+      "sha256": "6b620b2235a73bfa5f6f35294e8cd092c979a8d7c6b77ca412bb5915b2f12e41"
+    },
+    {
+      "file": "mars-jezero-fan-120m-support.tif",
+      "bytes": 640,
+      "sha256": "c4c23736dc5b1bbd50242904949574ac103ef68eb047bc576dcd5c03e4dc8c8d"
+    },
+    {
+      "file": "mars-jezero-fan-120m.png",
+      "bytes": 56066,
+      "sha256": "f2d27628343f99454660edb20bd0846a08bea89698a4f5dd0d68b53830d8990d"
+    },
+    {
+      "file": "mars-jezero-fan-60m-elevation.tif",
+      "bytes": 6895,
+      "sha256": "8d84a2a3622df7db918dcea2ed3520dbeadf84b7340c6b6ead5e33be44d15b29"
+    },
+    {
+      "file": "mars-jezero-fan-60m-slope.tif",
+      "bytes": 7512,
+      "sha256": "f5afa9546e919043572c2590cbff9b43a4973fda2d5f0d694a7d0fa72e692d0e"
+    },
+    {
+      "file": "mars-jezero-fan-60m-support.tif",
+      "bytes": 650,
+      "sha256": "4e8e66cd2594836583e1292c620ed46df60ddb089a676ba901be2f0a7a5c5423"
+    },
+    {
+      "file": "mars-jezero-fan-60m.png",
+      "bytes": 61466,
+      "sha256": "af231ef1e1eaa3b8af8339b80c64be211cdf0d8f003dee5cd90620ddab2e22dc"
+    },
+    {
+      "file": "mars-jezero-fan-native-crop.tif",
+      "bytes": 13509280,
+      "sha256": "baeaf1165a29495586c2f456c98684c0f23ea0ccf48b2e453a325b11d546d258"
+    },
+    {
+      "file": "mars-jezero-fan-qa.png",
+      "bytes": 401829,
+      "sha256": "19ff824bbb4dd9532931689eaf5078ba254c68c1bfab12f03fb622a3d0ffa38d"
+    },
+    {
+      "file": "ortoimagen-qa.json",
+      "bytes": 777,
+      "sha256": "89465fcf79cedc5e423d10be18604f56fb119635dcf86fad292e8ac9cbb58dac"
+    },
+    {
+      "file": "procesamiento.json",
+      "bytes": 9718,
+      "sha256": "1a1c4e7cbd83c631de2e7d95a00d79c26d5fb22faafa59fa2b5c2294e56f53c9"
+    },
+    {
+      "file": "resultados.json",
+      "bytes": 6894,
+      "sha256": "2f5a1ee60094fd854e89ce2f8d07508813eade1ef3aa25073a2ae5fd173f12e0"
+    },
+    {
+      "file": "verificacion.json",
+      "bytes": 1506,
+      "sha256": "414419388b5096aba3482463523c6c8b1d33f0cb89fd94d6182d0d1c32d5f853"
+    },
+    {
+      "file": "../../pixi.lock",
+      "bytes": 404411,
+      "sha256": "3b719d3cf85b24e4431b9494b6eb1cf0915e7bdab2449e8ccf113154323f3e3f"
+    },
+    {
+      "file": "../../pixi.toml",
+      "bytes": 1060,
+      "sha256": "535593f2b98738e010d9f25b052200ba3e9757e6bff6df89701016ab650ef1be"
+    },
+    {
+      "file": "../../scripts/analizar_primer_caso.py",
+      "bytes": 20477,
+      "sha256": "fea9f43e5972ee14f748703bc4724b3a50885214700cbca19bd423bd545a4fcc"
+    },
+    {
+      "file": "../../specs/analysis/primer-caso-fase2.json",
+      "bytes": 3653,
+      "sha256": "6d6ff28182c0be852f4490ad5cadd18cbb95ee5700803a08989cc060350337a1"
+    },
+    {
+      "file": "../../tests/test_analizar_primer_caso.py",
+      "bytes": 3930,
+      "sha256": "a5260b44a539036398c63ef3c6be09b8101b6c04e7461d9716c936745ba2c442"
+    }
+  ]
+}

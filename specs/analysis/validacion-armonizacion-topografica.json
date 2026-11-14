@@ -1,0 +1,193 @@
+{
+  "experiment": "controlled DEM sensitivity across desert, forest and coast",
+  "selection": "Confirmed land cover before computing terrain descriptors. Three new sites with common 3DEP, GLO-30 and SRTM.",
+  "sites": {
+    "bosque-oregon": {
+      "label": "Oregón · bosque",
+      "environment": "forest",
+      "center_lon_lat": [
+        -123.55,
+        45.55
+      ],
+      "primary_policy": "sin_mascara",
+      "assets": {
+        "3DEP": {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n46w124/USGS_13_n46w124.tif",
+          "source_extent_pixels": [
+            4550,
+            4644,
+            632,
+            444
+          ],
+          "sha256": "9c9c58649060e1aeeba00dc9aa3cc1a7b27fdc74abb6dc735e443fd3186313cd",
+          "path": "data/raw/validacion-topografica/USGS_13_n46w124-recorte-nativo.tif",
+          "bytes": 979821
+        },
+        "GLO-30": {
+          "url": "https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_N45_00_W124_00_DEM/Copernicus_DSM_COG_10_N45_00_W124_00_DEM.tif",
+          "source_extent_pixels": [
+            1515,
+            1546,
+            211,
+            149
+          ],
+          "sha256": "8641a92c1e45d73e88da044440d54d945731e70e0f99df6d8466f751f9f38272",
+          "path": "data/raw/validacion-topografica/Copernicus_DSM_COG_10_N45_00_W124_00_DEM-recorte-nativo.tif",
+          "bytes": 110822
+        },
+        "SRTM": {
+          "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N45W124.tif",
+          "sha256": "4fd078637fd7ddc57c22f5eadd8e3fe4b0fd9d7f72bb1d78585c9ea09157df13",
+          "path": "data/raw/validacion-topografica/N45W124.tif",
+          "bytes": 16023133
+        },
+        "WorldCover": {
+          "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N45W126_Map.tif",
+          "sha256": "329f47d119e12c49ecaa86729695ced339a9cc92eb6318f92cfcdc0c08a8940b",
+          "path": "data/raw/validacion-topografica/ESA_WorldCover_10m_2021_v200_N45W126_Map.tif",
+          "bytes": 18472488
+        }
+      }
+    },
+    "bosque-carolina": {
+      "label": "Carolina · bosque",
+      "environment": "forest",
+      "center_lon_lat": [
+        -82.81,
+        35.37
+      ],
+      "primary_policy": "sin_mascara",
+      "assets": {
+        "3DEP": {
+          "path": "data/raw/validacion-topografica/USGS_1M_17_x33y392_NC_Phase5_2018_A18-recorte-nativo.tif",
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NC_Phase5_2018_A18/TIFF/USGS_1M_17_x33y392_NC_Phase5_2018_A18.tif",
+          "bytes": 39181950,
+          "sha256": "d820a57fc7828ee7b49fd90dccb1857cd6217d3c27448528bec5b63fd332a45b",
+          "source_extent_pixels": [
+            3257,
+            2105,
+            4643,
+            4643
+          ],
+          "source_size_catalog_bytes": 313595248,
+          "source_title": "USGS 1 Meter 17 x33y392 NC_Phase5_2018_A18"
+        },
+        "GLO-30": {
+          "url": "https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_N35_00_W083_00_DEM/Copernicus_DSM_COG_10_N35_00_W083_00_DEM.tif",
+          "source_extent_pixels": [
+            594,
+            2194,
+            181,
+            149
+          ],
+          "sha256": "51498e65af441320aac940742ea748acdf0487fc548156f882a7258a64dba745",
+          "path": "data/raw/validacion-topografica/Copernicus_DSM_COG_10_N35_00_W083_00_DEM-recorte-nativo.tif",
+          "bytes": 91718
+        },
+        "SRTM": {
+          "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N35W083.tif",
+          "sha256": "3d41053feb56f2941c7820f9cd1b24011c59998c9dff23799eada053c346db4a",
+          "path": "data/raw/validacion-topografica/N35W083.tif",
+          "bytes": 17780548
+        },
+        "WorldCover": {
+          "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33W084_Map.tif",
+          "source_extent_pixels": [
+            13978,
+            7313,
+            604,
+            494
+          ],
+          "sha256": "2e51f08da53f7d7e08ccabe82e146d7cfc2a0d32ddca2e57fd28b5754a2bf5f1",
+          "path": "data/raw/validacion-topografica/ESA_WorldCover_10m_2021_v200_N33W084_Map-recorte-nativo.tif",
+          "bytes": 4344
+        },
+        "3DEP_13": {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n36w083/USGS_13_n36w083.tif",
+          "source_extent_pixels": [
+            1786,
+            6588,
+            544,
+            444
+          ],
+          "sha256": "21a20e4c32dd79d46c1104ebff992597655d6c87d188ca957adfcce8a44e2335",
+          "path": "data/raw/validacion-topografica/USGS_13_n36w083-recorte-nativo.tif",
+          "bytes": 814622
+        }
+      }
+    },
+    "costa-carolina": {
+      "label": "Carolina · costa",
+      "environment": "coast",
+      "center_lon_lat": [
+        -77.889,
+        34.067
+      ],
+      "primary_policy": "tierra_95",
+      "assets": {
+        "3DEP": {
+          "path": "data/raw/validacion-topografica/USGS_1M_18_x23y378_NC_HurricaneFlorence_2020_D20-costa-v2-nativo.tif",
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/NC_HurricaneFlorence_2020_D20/TIFF/USGS_1M_18_x23y378_NC_HurricaneFlorence_2020_D20.tif",
+          "bytes": 37671611,
+          "sha256": "c45de2af36cce379105097706a39e05a4b6ea998aff5a8a5927a1f271dae39e6",
+          "source_extent_pixels": [
+            1035,
+            4308,
+            4690,
+            4691
+          ],
+          "source_size_catalog_bytes": 212574398,
+          "source_title": "USGS 1 Meter 18 x23y378 NC_HurricaneFlorence_2020_D20"
+        },
+        "GLO-30": {
+          "url": "https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_N34_00_W078_00_DEM/Copernicus_DSM_COG_10_N34_00_W078_00_DEM.tif",
+          "source_extent_pixels": [
+            311,
+            3285,
+            179,
+            149
+          ],
+          "sha256": "754644b084a98e056d6d47ebd539a2825efaed1688807ac028cb538ab8b5b166",
+          "path": "data/raw/validacion-topografica/Copernicus_DSM_COG_10_N34_00_W078_00_DEM-costa-v2-nativo.tif",
+          "bytes": 62591
+        },
+        "SRTM": {
+          "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N34W078.tif",
+          "source_extent_pixels": [
+            311,
+            3285,
+            179,
+            149
+          ],
+          "sha256": "cbb34756dd1fcc082b46bbb68b5c729d2a1046d7dd98d9f4fed2690c6e050964",
+          "path": "data/raw/validacion-topografica/N34W078-costa-v2-nativo.tif",
+          "bytes": 9750
+        },
+        "WorldCover": {
+          "url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_N33W078_Map.tif",
+          "source_extent_pixels": [
+            1035,
+            22949,
+            594,
+            494
+          ],
+          "sha256": "573e088b0989d103e19bcadcaa4d1443e40874a3168961d2a2b5bd4dd3d3438e",
+          "path": "data/raw/validacion-topografica/ESA_WorldCover_10m_2021_v200_N33W078_Map-costa-v2-nativo.tif",
+          "bytes": 24432
+        },
+        "3DEP_13": {
+          "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/13/TIFF/current/n35w078/USGS_13_n35w078.tif",
+          "source_extent_pixels": [
+            937,
+            9860,
+            535,
+            445
+          ],
+          "sha256": "1528ec0b489ee329be324d060523757d6ff94c02750af16bd9127c1198536593",
+          "path": "data/raw/validacion-topografica/USGS_13_n35w078-recorte-nativo.tif",
+          "bytes": 588588
+        }
+      }
+    }
+  }
+}

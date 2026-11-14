@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-08",
+  "tests": {
+    "scientific_and_acquisition": 56,
+    "backend": 32,
+    "frontend": 11,
+    "total": 99,
+    "production_build": "passed"
+  },
+  "repeat_generation": "identical SHA-256 for results, processing and manifest",
+  "prior_evidence_files_unchanged": 126,
+  "browser": {
+    "production_preview": "passed",
+    "sites": [
+      "earth-utah",
+      "earth-atacama"
+    ],
+    "spectral_groups": [
+      1,
+      2
+    ],
+    "features": [
+      "cell pointer and keyboard inspection",
+      "library selection and highlighting",
+      "minimum fit empty state and reset",
+      "slope filter",
+      "uncertainty legend",
+      "URL reload and history",
+      "geometry and thermal navigation"
+    ],
+    "responsive_widths_without_horizontal_overflow": [
+      320,
+      390,
+      1440
+    ],
+    "console_warnings_and_errors": 0
+  },
+  "screenshots": [
+    "mapa-utah.jpg",
+    "mapa-utah-completa.jpg",
+    "mapa-atacama-movil.jpg"
+  ],
+  "mars": "metadata and public one-byte access verified; no binary cube downloaded or mineral comparison published"
+}
