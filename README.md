@@ -63,3 +63,7 @@ El análisis reproducible de fase 2 sigue separado del catálogo histórico. Sus
 `pixi.toml` describe el entorno y `pixi.lock` fija las versiones resueltas para las plataformas compatibles. Comparte ambos archivos junto con `frontend/package-lock.json`; el script utiliza el lock de Pixi cuando está presente. Si aún no existe, la primera instalación lo crea y debe compartirse para reproducir esa resolución. Las plataformas previstas son macOS Intel y Apple Silicon y Linux x86-64; en Windows se necesita WSL.
 
 Se han reservado `specs/`, `packages/analogos_core/`, `pipelines/`, `ml/` y `releases/` para la arquitectura propuesta. Los derivados locales pertenecen a `data/normalized/`, `data/features/` y `data/visual/`; estas carpetas, los datos crudos y los releases generados están excluidos de Git. Los datos y archivos del prototipo siguen en sus ubicaciones actuales. Los contratos científicos y el pipeline siguen pendientes de revisión e implementación.
+
+## Despliegue en Azure
+
+La [guía de CI/CD con Docker para una VM de Azure](docs/guia-ci-cd-azure-docker.md) describe la validación en pull requests y el despliegue automático a producción únicamente desde `main`, sin Nginx.
