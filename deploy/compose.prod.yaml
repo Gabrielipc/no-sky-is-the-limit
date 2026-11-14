@@ -1,0 +1,26 @@
+services:
+  app:
+    image: ${IMAGE:?Set IMAGE in the deployment .env file}
+    init: true
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    volumes:
+      - "${ATLAS_RELEASES_PATH:?Set ATLAS_RELEASES_PATH in the deployment .env file}:/workspace/releases/atlas30"
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/openapi.json', timeout=3)"
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
