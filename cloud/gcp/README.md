@@ -7,6 +7,13 @@ Esta carpeta contiene la configuración mínima para ejecutar los pipelines de r
 - `Dockerfile`: imagen reproducible basada en `pixi.toml` + `requirements-minerales.txt` (`h5py`, instalado mediante `scripts/preparar_minerales.sh` y ejecutado con `scripts/ejecutar_minerales.sh`) con verificación de CRS planetarios (`IAU_2015:49900` y `IAU_2015:30100`). Útil si luego quieres usar **Cloud Run Jobs** o **Azure Container Apps**.
 - `run-etl-spot.sh`: script que corre dentro de la VM, instala `pixi` y `.tools/minerales` (`h5py`), restaura `feature_store_v1`, `releases/` y `docs/evidencia-puentes-laser-radar/` desde GCS, ejecuta `ETL_SCRIPT` (por defecto `scripts/etl_pipeline.py`) usando caché temporal en `/tmp/atlas30_cache`, sube los resultados a GCS y **auto-elimina la VM** al finalizar (`AUTO_DELETE=1`).
 - `launch-spot.sh`: script para lanzar la VM Spot desde tu Mac usando `gcloud`.
+- `sync-outputs.sh`: sube a GCS el Feature Store, `releases/` y `docs/evidencia-*`. Se ejecuta cada `SYNC_INTERVAL_S` segundos (600 por defecto; `0` lo desactiva), desde el `shutdown-script` de la VM cuando Google la interrumpe (≈30 s de aviso) y una última vez al terminar. Excluye los directorios temporales `tmp*` donde el almacén prepara cada delta antes de moverlo, así que en GCS solo quedan lotes completos y la VM siguiente retoma con `completed_batch_ids` o `--skip-measured`.
+
+## Seguridad y reproducibilidad
+
+- **Token de Earthdata en Secret Manager.** `launch-spot.sh` nunca escribe el token en los metadatos de la VM. Si `EARTHDATA_TOKEN` está definido en tu Mac, lo guarda (o agrega una versión nueva) en el secreto `EARTHDATA_SECRET` (`earthdata-token` por defecto), da a la cuenta de servicio de la VM el rol `roles/secretmanager.secretAccessor` sobre ese secreto y pasa a la VM solo el nombre. La VM lo lee al arrancar con `gcloud secrets versions access`.
+- **Entorno bloqueado.** La VM ejecuta `pixi install --locked`, así que usa exactamente las versiones de `pixi.lock` probadas en local, y registra en el log el commit que ejecuta.
+- **Sube los commits antes de lanzar.** La VM clona `REPO_BRANCH` desde `REPO_URL`; lo que no esté en GitHub no se ejecuta.
 
 ## Prerrequisitos
 
@@ -22,7 +29,7 @@ export GCS_BUCKET="gs://tu-bucket-analogos"
 export REPO_URL="https://github.com/tu-usuario/tu-repo.git"
 
 # Opcional: si usas fuentes NASA Earthdata (EMIT / HLS / ICESat-2)
-# export EARTHDATA_TOKEN="tu_token_aqui"
+# export EARTHDATA_TOKEN="tu_token_aqui"   # se guarda en Secret Manager, no en la VM
 
 # Prueba rápida con 5 lotes piloto
 ETL_ARGS="stream --scope pilot --stride 10000 --max-batches 5 --workers 8 --io-workers 16 --max-temp-gb 8" \
