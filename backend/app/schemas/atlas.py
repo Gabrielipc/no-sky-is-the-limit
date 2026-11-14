@@ -12,3 +12,4 @@ class AtlasSearchCriteria(BaseModel):
     water_max: Optional[float] = Field(None, ge=0, le=100, description='Porcentaje máximo de presencia de agua')
     limit: int = Field(25, ge=1, le=100, description='Límite de resultados')
     offset: int = Field(0, ge=0, description='Desplazamiento')
+

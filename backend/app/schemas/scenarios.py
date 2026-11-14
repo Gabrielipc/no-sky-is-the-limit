@@ -7,3 +7,4 @@ class ScenarioComparisonQuery(BaseModel):
     reference_id: str = Field('mars-jezero-fan', description='Referencia marciana')
     cell_m: int = Field(60, description='Escala en metros')
     candidate_id: str = Field('earth-utah', description='Candidata terrestre')
+

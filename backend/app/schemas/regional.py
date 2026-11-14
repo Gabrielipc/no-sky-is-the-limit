@@ -19,3 +19,4 @@ class RegionalExportQuery(BaseModel):
     cell_m: int = Field(300, description='Tamaño de celda en metros')
     profile: RegionalProfile = Field('baseline', description='Perfil de filtros de similitud')
     include_excluded: bool = Field(False, description='Incluir candidatas que no superan los filtros')
+
