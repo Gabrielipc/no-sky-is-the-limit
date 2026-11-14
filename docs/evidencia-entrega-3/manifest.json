@@ -4,13 +4,18 @@
   "files": [
     {
       "path": "specs/analysis/contrato-comun-entrega3.json",
-      "bytes": 8244,
-      "sha256": "ff1260a80df0277fabb8980ea8a3d506aa1a8712acf13370a9f490cab0ae4302"
+      "bytes": 12707,
+      "sha256": "afdfbcb3211b407327bd412e72f159d6adec03caf9ce535b73ef51e400d0434f"
+    },
+    {
+      "path": "specs/sources/dimensiones-superficie-oficiales-v1.json",
+      "bytes": 9862,
+      "sha256": "efe3bc1a1dff184e17673d2aa62c05945930db3567524084bb94aa647ca70504"
     },
     {
       "path": "scripts/contrato_comun_y_seleccion.py",
-      "bytes": 67153,
-      "sha256": "c10ef8393c6278a76fcfeaf77206c58d60ee864d4cfb25bf1f2dea62f38bfa95"
+      "bytes": 78341,
+      "sha256": "99a0502f6edd10df28fc37ca8439444d78ac797caf8dd380f47f87855944b5d4"
     },
     {
       "path": "docs/evidencia-armonizacion-superficie/mediciones.json",
@@ -34,13 +39,18 @@
     },
     {
       "path": "docs/evidencia-entrega-3/contrato-features.json",
-      "bytes": 189443,
-      "sha256": "9f4ba9d74fe0bca55d19e06ad90395332264e56a16e4ad4e7808c643b9b777a4"
+      "bytes": 216988,
+      "sha256": "5d20080890cbc87520ea5ab3732831c505187c7f090def3d56827cbaf20b06af"
     },
     {
       "path": "docs/evidencia-entrega-3/seleccion-y-redundancia.json",
-      "bytes": 17657,
-      "sha256": "b4313026026605ff19ffd38d75f98482245d9cf74af9172fe2bf3599071f9257"
+      "bytes": 29274,
+      "sha256": "e115616a946b415d85e0958546b6f4e20d6022c55797501f828d929a3a13d732"
+    },
+    {
+      "path": "docs/evidencia-entrega-3/revision-ciegas-worldview.json",
+      "bytes": 15368,
+      "sha256": "853b744a1caeac3b232791ac49323d73b57af4208557e086b83522e610aed255"
     },
     {
       "path": "docs/evidencia-entrega-3/comparabilidad-e-instrumentos.png",

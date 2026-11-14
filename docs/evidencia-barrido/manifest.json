@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "path": "scripts/benchmark_barrido.py",
+      "bytes": 9284,
+      "sha256": "573c12d5ffa51d528180de598a2ffa305f272df951c06e59f61e57ee266fe3ba"
+    },
+    {
+      "path": "pipelines/etl_cover.py",
+      "bytes": 10229,
+      "sha256": "5653c91800fcb3241bb127774a9eb2edbc5dccca7b34238f177d40cf72f4e8f4"
+    },
+    {
+      "path": "pipelines/etl_stream.py",
+      "bytes": 15149,
+      "sha256": "897332e704704d049c8774acea05fe5184e1ac07f27257b47502e1c5f7d3f59b"
+    },
+    {
+      "path": "docs/evidencia-barrido/benchmark.json",
+      "bytes": 3576,
+      "sha256": "7a76bc78be5ddab6837d95f224bd0d32ab11e75b4c4332e14bd92cfe9872e03b"
+    }
+  ]
+}

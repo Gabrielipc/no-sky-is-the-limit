@@ -59,7 +59,21 @@ class TestETLPipeline(unittest.TestCase):
         )
         self.assertEqual(
             extractors.classify_eligibility(0.95, 0.99, 0.90, 0.0, 0.05, 0.0, 0.0),
-            'excluded_urban_or_ice',
+            'excluded_built',
+        )
+        self.assertEqual(
+            extractors.classify_eligibility(0.95, 0.99, 0.90, 0.0, 0.0, 0.08, 0.0),
+            'excluded_snow_ice',
+        )
+        # Grassland/steppe with no trees is no longer mislabelled as dense canopy.
+        self.assertEqual(
+            extractors.classify_eligibility(0.95, 0.99, 0.40, 0.01, 0.0, 0.0, 0.0),
+            'excluded_vegetated_non_tree',
+        )
+        # A single water pixel no longer excludes an otherwise bare window.
+        self.assertEqual(
+            extractors.classify_eligibility(0.95, 0.99, 0.95, 0.0, 0.0, 0.0, 0.01),
+            'eligible_arid_exposed',
         )
         self.assertEqual(
             extractors.classify_eligibility(0.60, 0.99, 0.99, 0.0, 0.0, 0.0, 0.0),
@@ -94,12 +108,18 @@ class TestETLPipeline(unittest.TestCase):
                 'slope_240m_p90_deg': s90,
                 'roughness_360m_p50_m': 5.0 if elig == 'eligible_arid_exposed' else None,
                 'analog_surface_eligibility': elig,
+                'eligibility_profile': 'arid_mars_surface_v2',
+                'cover_status': 'measured',
+                'cover_valid_fraction': 1.0,
                 'bare_or_sparse_fraction': 0.96 if elig == 'eligible_arid_exposed' else 0.05,
                 'trees_fraction': 0.0 if elig == 'eligible_arid_exposed' else 0.90,
                 'built_fraction': 0.0,
                 'permanent_water_fraction': 0.0,
+                'snow_ice_fraction': 0.0,
+                'moss_lichen_fraction': 0.0,
                 'water_occurrence_mean_pct': 0.0,
                 'water_extent_gt0_fraction': 0.0,
+                'water_occurrence_ge50_fraction': 0.0,
                 'qa_status': 'rankable',
                 'source_manifest_id': 'man-01',
                 'updated_at': now,

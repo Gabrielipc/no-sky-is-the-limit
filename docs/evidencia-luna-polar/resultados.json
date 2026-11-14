@@ -1,0 +1,710 @@
+{
+  "spec_id": "luna-polar-sur-v1",
+  "measured_at": "2026-11-14T18:04:31.221216+00:00",
+  "sites": [
+    {
+      "site": {
+        "id": "de-gerlache-cresta",
+        "name": "Cresta de de Gerlache — punto C de Bussey et al. (2010)",
+        "longitude": -68.7,
+        "latitude": -88.71,
+        "dem_source": "lola_ldem_80s_20mpp",
+        "rationale": "Punto muy iluminado del borde de de Gerlache (85 % de iluminación anual en un punto, mínimo 64 % por día lunar): referencia del escenario de base permanente, frente al fondo en sombra de Haworth.",
+        "coordinate_source": {
+          "citation": "Bussey, D. B. J. et al. (2010), Icarus 208(2), 558-564, doi:10.1016/j.icarus.2010.03.028, tabla de puntos (punto C)",
+          "read_from": "Tabla reproducida en https://en.wikipedia.org/wiki/Peak_of_eternal_light (consultada el 2026-11-14); el artículo original no pudo leerse.",
+          "reported_illumination_point": 0.85,
+          "convention": "Latitud sur negativa, longitud oeste negativa"
+        },
+        "limitations": [
+          "Coordenadas de 2010 con dos decimales (0,01° de latitud ≈ 300 m) sobre una topografía anterior al DEM ajustado de 2023",
+          "La iluminación publicada es de un punto, no la media de la huella de 3 km; no se usa como valor de illumination_mean_fraction"
+        ]
+      },
+      "base_window": {
+        "region_id": "moon-aeqd-v1:de-gerlache-cresta",
+        "grid_version": "moon-aeqd-v1",
+        "body": "Moon",
+        "utm_zone_band": "MOON_SPS",
+        "batch_id": "moon-de-gerlache-cresta",
+        "longitude": -68.7,
+        "latitude": -88.71,
+        "window_m": 3000,
+        "cell_m": 30,
+        "slope_base_m": 240,
+        "roughness_radius_m": 360,
+        "land_fraction": 1.0,
+        "topo_valid_fraction": 1.0,
+        "roughness_coverage": 1.0,
+        "relief_p95_p05_m": 465.6161242011974,
+        "slope_240m_p50_deg": 13.079709050776044,
+        "slope_240m_p90_deg": 22.402039434408447,
+        "roughness_360m_p50_m": 6.270159661968486,
+        "hypsometric_integral": 0.5882813236767034,
+        "elevation_skew_p95_p05": -0.2647147428248568,
+        "aspect_240m_resultant_length": 0.3811895456364036,
+        "slope_240m_gt15_fraction": 0.3644,
+        "slope_240m_gt25_fraction": 0.0059,
+        "analog_surface_eligibility": "moon_reference_surface",
+        "eligibility_profile": "moon_reference",
+        "cover_status": "not_requested",
+        "cover_valid_fraction": null,
+        "bare_or_sparse_fraction": null,
+        "trees_fraction": null,
+        "built_fraction": null,
+        "permanent_water_fraction": null,
+        "snow_ice_fraction": null,
+        "moss_lichen_fraction": null,
+        "water_occurrence_mean_pct": null,
+        "water_extent_gt0_fraction": null,
+        "water_occurrence_ge50_fraction": null,
+        "qa_status": "rankable",
+        "source_manifest_id": "7b23a534bceaca8e",
+        "updated_at": "2026-11-14T18:04:31.221216+00:00"
+      },
+      "lunar_dimensions": {
+        "region_id": "moon-aeqd-v1:de-gerlache-cresta",
+        "illumination_mean_fraction": null,
+        "illumination_p10_fraction": null,
+        "illumination_valid_fraction": null,
+        "illumination_status": "on_demand_fetchable",
+        "psr_fraction": 0.002984321555150432,
+        "psr_valid_fraction": 1.0,
+        "psr_status": "measured",
+        "diviner_tmax_p50_k": null,
+        "diviner_tmin_p50_k": null,
+        "diviner_tamp_p50_k": null,
+        "diviner_temperature_valid_fraction": null,
+        "diviner_temperature_status": "on_demand_fetchable",
+        "diviner_rock_abundance_p50": null,
+        "diviner_h_parameter_p50_m": null,
+        "diviner_regolith_valid_fraction": null,
+        "diviner_regolith_status": "on_demand_fetchable",
+        "minirf_cpr_p50": null,
+        "minirf_cpr_p90": null,
+        "minirf_s1_p50_db": null,
+        "minirf_valid_fraction": null,
+        "minirf_status": "on_demand_fetchable",
+        "lunar_site_profile": "lunar_polar_base_v1",
+        "lunar_site_status": "excluded_steep",
+        "source_manifest_id": "34c3390797527dc5",
+        "updated_at": "2026-11-14T18:04:31.221216+00:00"
+      },
+      "diagnostics": {
+        "base": {
+          "support_mean": 1.0,
+          "crs_wkt": "PROJCS[\"Moon (2015) - Sphere / Ocentric / South Polar\",GEOGCS[\"Moon (2015) - Sphere / Ocentric\",DATUM[\"Moon (2015) - Sphere\",SPHEROID[\"Moon (2015) - Sphere\",1737400,0,AUTHORITY[\"IAU\",\"30100\"]],AUTHORITY[\"IAU\",\"30100\"]],PRIMEM[\"Reference Meridian\",0,AUTHORITY[\"IAU\",\"30100\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"IAU\",\"30100\"]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH],AUTHORITY[\"IAU\",\"30135\"]]",
+          "native_resolution_m": 20.0,
+          "source_window": [
+            13231,
+            14343,
+            293,
+            293
+          ],
+          "crop_valid_fraction": 1.0
+        },
+        "dimensions": {
+          "illumination": {
+            "configured": false,
+            "sources": [
+              "lola_illumination_avg"
+            ]
+          },
+          "psr": {
+            "configured": true,
+            "sources": [
+              "lola_lpsr_80s_20mpp"
+            ]
+          },
+          "diviner_temperature": {
+            "configured": false,
+            "sources": [
+              "diviner_tmax_south",
+              "diviner_tmin_south"
+            ]
+          },
+          "diviner_regolith": {
+            "configured": false,
+            "sources": [
+              "diviner_h_parameter",
+              "diviner_rock_abundance"
+            ]
+          },
+          "minirf": {
+            "configured": false,
+            "sources": [
+              "minirf_cpr",
+              "minirf_s1"
+            ]
+          }
+        },
+        "site_position_check": {
+          "centre_elevation_m": 1765.4314128093652,
+          "centre_elevation_percentile_in_core": 0.8732,
+          "distance_to_local_max_m": 340.073521462639,
+          "local_search_half_side_m": 300,
+          "psr_at_centre": 0.0,
+          "psr_core_fraction": 0.002984321555150432
+        }
+      }
+    },
+    {
+      "site": {
+        "id": "haworth-fondo",
+        "name": "Haworth — fondo del cráter",
+        "longitude": -5.0,
+        "latitude": -87.45,
+        "dem_source": "lola_ldem_80s_20mpp",
+        "rationale": "Región candidata de Artemis III y trampa fría con sombra permanente: referencia de volátiles para el escenario polar. Centro aproximado del fondo, comprobado con LOLA (ventana de 3 km a ~-3,3 km de altura y 100 % en el mapa PSR).",
+        "limitations": [
+          "Coordenadas aproximadas del fondo, no un sitio de aterrizaje publicado",
+          "El fondo está en sombra permanente: el DEM ahí depende solo de altimetría láser, sin sombreado fotométrico"
+        ]
+      },
+      "base_window": {
+        "region_id": "moon-aeqd-v1:haworth-fondo",
+        "grid_version": "moon-aeqd-v1",
+        "body": "Moon",
+        "utm_zone_band": "MOON_SPS",
+        "batch_id": "moon-haworth-fondo",
+        "longitude": -5.0,
+        "latitude": -87.45,
+        "window_m": 3000,
+        "cell_m": 30,
+        "slope_base_m": 240,
+        "roughness_radius_m": 360,
+        "land_fraction": 1.0,
+        "topo_valid_fraction": 1.0,
+        "roughness_coverage": 1.0,
+        "relief_p95_p05_m": 146.89178108966644,
+        "slope_240m_p50_deg": 3.426206679418142,
+        "slope_240m_p90_deg": 5.685737359247751,
+        "roughness_360m_p50_m": 3.4607639163926356,
+        "hypsometric_integral": 0.44282339233398776,
+        "elevation_skew_p95_p05": 0.26183621737052387,
+        "aspect_240m_resultant_length": 0.6681885152057763,
+        "slope_240m_gt15_fraction": 0.0001,
+        "slope_240m_gt25_fraction": 0.0,
+        "analog_surface_eligibility": "moon_reference_surface",
+        "eligibility_profile": "moon_reference",
+        "cover_status": "not_requested",
+        "cover_valid_fraction": null,
+        "bare_or_sparse_fraction": null,
+        "trees_fraction": null,
+        "built_fraction": null,
+        "permanent_water_fraction": null,
+        "snow_ice_fraction": null,
+        "moss_lichen_fraction": null,
+        "water_occurrence_mean_pct": null,
+        "water_extent_gt0_fraction": null,
+        "water_occurrence_ge50_fraction": null,
+        "qa_status": "rankable",
+        "source_manifest_id": "7b23a534bceaca8e",
+        "updated_at": "2026-11-14T18:04:31.221216+00:00"
+      },
+      "lunar_dimensions": {
+        "region_id": "moon-aeqd-v1:haworth-fondo",
+        "illumination_mean_fraction": null,
+        "illumination_p10_fraction": null,
+        "illumination_valid_fraction": null,
+        "illumination_status": "on_demand_fetchable",
+        "psr_fraction": 1.0,
+        "psr_valid_fraction": 1.0,
+        "psr_status": "measured",
+        "diviner_tmax_p50_k": null,
+        "diviner_tmin_p50_k": null,
+        "diviner_tamp_p50_k": null,
+        "diviner_temperature_valid_fraction": null,
+        "diviner_temperature_status": "on_demand_fetchable",
+        "diviner_rock_abundance_p50": null,
+        "diviner_h_parameter_p50_m": null,
+        "diviner_regolith_valid_fraction": null,
+        "diviner_regolith_status": "on_demand_fetchable",
+        "minirf_cpr_p50": null,
+        "minirf_cpr_p90": null,
+        "minirf_s1_p50_db": null,
+        "minirf_valid_fraction": null,
+        "minirf_status": "on_demand_fetchable",
+        "lunar_site_profile": "lunar_polar_base_v1",
+        "lunar_site_status": "volatile_target_psr",
+        "source_manifest_id": "34c3390797527dc5",
+        "updated_at": "2026-11-14T18:04:31.221216+00:00"
+      },
+      "diagnostics": {
+        "base": {
+          "support_mean": 1.0,
+          "crs_wkt": "PROJCS[\"Moon (2015) - Sphere / Ocentric / South Polar\",GEOGCS[\"Moon (2015) - Sphere / Ocentric\",DATUM[\"Moon (2015) - Sphere\",SPHEROID[\"Moon (2015) - Sphere\",1737400,0,AUTHORITY[\"IAU\",\"30100\"]],AUTHORITY[\"IAU\",\"30100\"]],PRIMEM[\"Reference Meridian\",0,AUTHORITY[\"IAU\",\"30100\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"IAU\",\"30100\"]],PROJECTION[\"Polar_Stereographic\"],PARAMETER[\"latitude_of_origin\",-90],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",NORTH],AXIS[\"Northing\",NORTH],AUTHORITY[\"IAU\",\"30135\"]]",
+          "native_resolution_m": 20.0,
+          "source_window": [
+            14740,
+            11225,
+            246,
+            246
+          ],
+          "crop_valid_fraction": 1.0
+        },
+        "dimensions": {
+          "illumination": {
+            "configured": false,
+            "sources": [
+              "lola_illumination_avg"
+            ]
+          },
+          "psr": {
+            "configured": true,
+            "sources": [
+              "lola_lpsr_80s_20mpp"
+            ]
+          },
+          "diviner_temperature": {
+            "configured": false,
+            "sources": [
+              "diviner_tmax_south",
+              "diviner_tmin_south"
+            ]
+          },
+          "diviner_regolith": {
+            "configured": false,
+            "sources": [
+              "diviner_h_parameter",
+              "diviner_rock_abundance"
+            ]
+          },
+          "minirf": {
+            "configured": false,
+            "sources": [
+              "minirf_cpr",
+              "minirf_s1"
+            ]
+          }
+        },
+        "site_position_check": {
+          "centre_elevation_m": -3315.561772823675,
+          "centre_elevation_percentile_in_core": 0.6427,
+          "distance_to_local_max_m": 403.0508652763321,
+          "local_search_half_side_m": 300,
+          "psr_at_centre": 1.0,
+          "psr_core_fraction": 1.0
+        }
+      }
+    }
+  ],
+  "earth_ranking": {
+    "profile": "polar_cold_v1",
+    "note": "Almacén con 1 461 704 ventanas pendientes de cobertura y 12 elegibles en polar_cold_v1 a la fecha de medición; la lista sin compuerta muestra la cercanía topográfica, no la elegibilidad.",
+    "by_site": {
+      "de-gerlache-cresta": {
+        "eligible_only": [
+          {
+            "region_id": "utm-ups-v1-10000-32635-776-46",
+            "latitude": 69.94426095136099,
+            "longitude": 25.95483775456948,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 128.62295532226562,
+            "slope_240m_p50_deg": 3.087597131729126,
+            "slope_240m_p90_deg": 9.4201021194458,
+            "distance_score": 0.9788074163241567
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32618-894-45",
+            "latitude": 80.51286227317506,
+            "longitude": -77.71820120670404,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 123.50738525390625,
+            "slope_240m_p50_deg": 3.068281412124634,
+            "slope_240m_p90_deg": 9.434420585632324,
+            "distance_score": 0.985067951557516
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32733-690-75",
+            "latitude": -28.001738278786444,
+            "longitude": 17.542223382858975,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 129.07603454589844,
+            "slope_240m_p50_deg": 3.0743019580841064,
+            "slope_240m_p90_deg": 9.045417785644531,
+            "distance_score": 0.9858280744320445
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32642-358-70",
+            "latitude": 32.33902840671573,
+            "longitude": 71.12505000325328,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 122.63076782226562,
+            "slope_240m_p50_deg": 3.1445748805999756,
+            "slope_240m_p90_deg": 9.282875061035156,
+            "distance_score": 0.9862799776792972
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32719-747-39",
+            "latitude": -22.874254150839914,
+            "longitude": -70.07232943125818,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 124.55247497558594,
+            "slope_240m_p50_deg": 2.9804890155792236,
+            "slope_240m_p90_deg": 9.435169219970703,
+            "distance_score": 0.9869112801802916
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32637-306-73",
+            "latitude": 27.644548176809252,
+            "longitude": 41.331265148886246,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 121.12421417236328,
+            "slope_240m_p50_deg": 3.0752856731414795,
+            "slope_240m_p90_deg": 9.336311340332031,
+            "distance_score": 0.9894068360529213
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32632-251-74",
+            "latitude": 22.680146936046384,
+            "longitude": 11.335958877189617,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 124.02912902832031,
+            "slope_240m_p50_deg": 3.025240421295166,
+            "slope_240m_p90_deg": 9.200282096862793,
+            "distance_score": 0.990390245686498
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32631-323-71",
+            "latitude": 29.181276634326103,
+            "longitude": 5.1595679968054835,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 118.32318115234375,
+            "slope_240m_p50_deg": 3.0460798740386963,
+            "slope_240m_p90_deg": 9.168600082397461,
+            "distance_score": 0.9967987476053329
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32719-723-61",
+            "latitude": -25.041625686625206,
+            "longitude": -67.90959146549004,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 116.9974365234375,
+            "slope_240m_p50_deg": 3.0448527336120605,
+            "slope_240m_p90_deg": 9.198319435119629,
+            "distance_score": 0.997798504294591
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32718-841-39",
+            "latitude": -14.380033162907047,
+            "longitude": -76.02025691059805,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 114.35114288330078,
+            "slope_240m_p50_deg": 3.051121234893799,
+            "slope_240m_p90_deg": 9.149744987487793,
+            "distance_score": 1.001528735393717
+          }
+        ],
+        "without_gate": [
+          {
+            "region_id": "utm-ups-v1-10000-32719-531-27",
+            "latitude": -42.32827792141497,
+            "longitude": -71.79147609250988,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 466.25677490234375,
+            "slope_240m_p50_deg": 13.0767822265625,
+            "slope_240m_p90_deg": 22.049150466918945,
+            "distance_score": 0.004790121975919806
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32735-674-75",
+            "latitude": -29.444505584060437,
+            "longitude": 29.57739069081458,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 464.92523193359375,
+            "slope_240m_p50_deg": 13.119147300720215,
+            "slope_240m_p90_deg": 23.044334411621094,
+            "distance_score": 0.009242367646212692
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32612-509-36",
+            "latitude": 45.94929253579651,
+            "longitude": -112.80639079112356,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 463.6966857910156,
+            "slope_240m_p50_deg": 12.929118156433105,
+            "slope_240m_p90_deg": 22.767717361450195,
+            "distance_score": 0.01015795703214571
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32610-569-56",
+            "latitude": 51.35809446930864,
+            "longitude": -122.13827170020178,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 470.4763488769531,
+            "slope_240m_p50_deg": 12.981621742248535,
+            "slope_240m_p90_deg": 22.68416404724121,
+            "distance_score": 0.01032488130973144
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32644-379-29",
+            "latitude": 34.22991471602957,
+            "longitude": 78.72005005212092,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 464.7445068359375,
+            "slope_240m_p50_deg": 13.259299278259277,
+            "slope_240m_p90_deg": 22.855979919433594,
+            "distance_score": 0.0110699558758071
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32611-452-45",
+            "latitude": 40.829505435856035,
+            "longitude": -117.59299252976335,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 467.8109130859375,
+            "slope_240m_p50_deg": 13.265242576599121,
+            "slope_240m_p90_deg": 22.75398826599121,
+            "distance_score": 0.011207389221648954
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32751-965-42",
+            "latitude": -3.1662762474269157,
+            "longitude": 122.27998733472346,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 460.12896728515625,
+            "slope_240m_p50_deg": 13.053794860839844,
+            "slope_240m_p90_deg": 21.903005599975586,
+            "distance_score": 0.011428133364093885
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32652-636-34",
+            "latitude": 57.35471495268514,
+            "longitude": 126.3404126231135,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 467.95013427734375,
+            "slope_240m_p50_deg": 12.863627433776855,
+            "slope_240m_p90_deg": 22.099597930908203,
+            "distance_score": 0.011594779797991448
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32754-975-17",
+            "latitude": -2.2587682909638302,
+            "longitude": 138.0334138772639,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 461.849609375,
+            "slope_240m_p50_deg": 12.851048469543457,
+            "slope_240m_p90_deg": 22.567955017089844,
+            "distance_score": 0.011607163526090047
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32630-468-53",
+            "latitude": 42.27163204799556,
+            "longitude": -2.6362072185643917,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 468.8995666503906,
+            "slope_240m_p50_deg": 12.961054801940918,
+            "slope_240m_p90_deg": 22.899003982543945,
+            "distance_score": 0.01202157543691307
+          }
+        ]
+      },
+      "haworth-fondo": {
+        "eligible_only": [
+          {
+            "region_id": "utm-ups-v1-10000-32733-690-75",
+            "latitude": -28.001738278786444,
+            "longitude": 17.542223382858975,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 129.07603454589844,
+            "slope_240m_p50_deg": 3.0743019580841064,
+            "slope_240m_p90_deg": 9.045417785644531,
+            "distance_score": 0.7652858200322807
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32635-776-46",
+            "latitude": 69.94426095136099,
+            "longitude": 25.95483775456948,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 128.62295532226562,
+            "slope_240m_p50_deg": 3.087597131729126,
+            "slope_240m_p90_deg": 9.4201021194458,
+            "distance_score": 0.7852867680714379
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32642-358-70",
+            "latitude": 32.33902840671573,
+            "longitude": 71.12505000325328,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 122.63076782226562,
+            "slope_240m_p50_deg": 3.1445748805999756,
+            "slope_240m_p90_deg": 9.282875061035156,
+            "distance_score": 0.8054010931571317
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32618-894-45",
+            "latitude": 80.51286227317506,
+            "longitude": -77.71820120670404,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 123.50738525390625,
+            "slope_240m_p50_deg": 3.068281412124634,
+            "slope_240m_p90_deg": 9.434420585632324,
+            "distance_score": 0.8699338677166806
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32632-251-74",
+            "latitude": 22.680146936046384,
+            "longitude": 11.335958877189617,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 124.02912902832031,
+            "slope_240m_p50_deg": 3.025240421295166,
+            "slope_240m_p90_deg": 9.200282096862793,
+            "distance_score": 0.8842192775728849
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32637-306-73",
+            "latitude": 27.644548176809252,
+            "longitude": 41.331265148886246,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 121.12421417236328,
+            "slope_240m_p50_deg": 3.0752856731414795,
+            "slope_240m_p90_deg": 9.336311340332031,
+            "distance_score": 0.8884523402863189
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32719-747-39",
+            "latitude": -22.874254150839914,
+            "longitude": -70.07232943125818,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 124.55247497558594,
+            "slope_240m_p50_deg": 2.9804890155792236,
+            "slope_240m_p90_deg": 9.435169219970703,
+            "distance_score": 0.9318933781874708
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32631-323-71",
+            "latitude": 29.181276634326103,
+            "longitude": 5.1595679968054835,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 118.32318115234375,
+            "slope_240m_p50_deg": 3.0460798740386963,
+            "slope_240m_p90_deg": 9.168600082397461,
+            "distance_score": 0.9388904486616231
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32719-723-61",
+            "latitude": -25.041625686625206,
+            "longitude": -67.90959146549004,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 116.9974365234375,
+            "slope_240m_p50_deg": 3.0448527336120605,
+            "slope_240m_p90_deg": 9.198319435119629,
+            "distance_score": 0.9593443535932394
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32718-841-39",
+            "latitude": -14.380033162907047,
+            "longitude": -76.02025691059805,
+            "scenario_eligibility": "eligible_polar_cold_exposed",
+            "relief_p95_p05_m": 114.35114288330078,
+            "slope_240m_p50_deg": 3.051121234893799,
+            "slope_240m_p90_deg": 9.149744987487793,
+            "distance_score": 0.9853174891578704
+          }
+        ],
+        "without_gate": [
+          {
+            "region_id": "utm-ups-v1-10000-32646-778-39",
+            "latitude": 70.1032230637118,
+            "longitude": 90.10297423283959,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 148.3474884033203,
+            "slope_240m_p50_deg": 3.464393377304077,
+            "slope_240m_p90_deg": 5.679566383361816,
+            "distance_score": 0.008564267922809086
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32645-722-59",
+            "latitude": 65.09135051684066,
+            "longitude": 88.91530468840776,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 147.05197143554688,
+            "slope_240m_p50_deg": 3.5164859294891357,
+            "slope_240m_p90_deg": 5.726251602172852,
+            "distance_score": 0.012038451232738261
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32646-677-38",
+            "latitude": 61.04646960124403,
+            "longitude": 90.77776190378219,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 145.5565185546875,
+            "slope_240m_p50_deg": 3.4692771434783936,
+            "slope_240m_p90_deg": 5.593017101287842,
+            "distance_score": 0.012704218958549209
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32618-493-61",
+            "latitude": 44.514937892744875,
+            "longitude": -73.6159621098339,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 145.09434509277344,
+            "slope_240m_p50_deg": 3.3752803802490234,
+            "slope_240m_p90_deg": 5.752475261688232,
+            "distance_score": 0.013685459968340615
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32646-745-60",
+            "latitude": 67.15037363784653,
+            "longitude": 95.30814798215995,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 145.97071838378906,
+            "slope_240m_p50_deg": 3.3393821716308594,
+            "slope_240m_p90_deg": 5.642905235290527,
+            "distance_score": 0.01395064415050529
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32649-654-58",
+            "latitude": 58.99205098471887,
+            "longitude": 112.39220263237765,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 150.03021240234375,
+            "slope_240m_p50_deg": 3.4534430503845215,
+            "slope_240m_p90_deg": 5.628922939300537,
+            "distance_score": 0.014518518600527323
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32654-745-52",
+            "latitude": 67.16636054223923,
+            "longitude": 141.46185141742353,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 147.0595703125,
+            "slope_240m_p50_deg": 3.465712070465088,
+            "slope_240m_p90_deg": 5.468693733215332,
+            "distance_score": 0.014663859617788409
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32647-775-52",
+            "latitude": 69.85689644613214,
+            "longitude": 99.52039324991094,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 149.5261993408203,
+            "slope_240m_p50_deg": 3.3758931159973145,
+            "slope_240m_p90_deg": 5.725289821624756,
+            "distance_score": 0.014772336893098207
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32645-746-56",
+            "latitude": 67.25070583812773,
+            "longitude": 88.39049721481473,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 147.8226776123047,
+            "slope_240m_p50_deg": 3.441441059112549,
+            "slope_240m_p90_deg": 5.418089866638184,
+            "distance_score": 0.016548209939047077
+          },
+          {
+            "region_id": "utm-ups-v1-10000-32733-708-51",
+            "latitude": -26.40012253053433,
+            "longitude": 15.100264457414308,
+            "scenario_eligibility": "pending_on_demand_cover_check",
+            "relief_p95_p05_m": 147.10511779785156,
+            "slope_240m_p50_deg": 3.2997562885284424,
+            "slope_240m_p90_deg": 5.737433433532715,
+            "distance_score": 0.016599138546576846
+          }
+        ]
+      }
+    }
+  }
+}

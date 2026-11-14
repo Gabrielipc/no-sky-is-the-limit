@@ -1,0 +1,86 @@
+{
+  "bridge_id": "puente-espectral-v1",
+  "description": "Puente espectral con un solo operador en tres cuerpos (auditoría del 14 de noviembre de 2026, §1.2, prioridad 6). CRISM MTRDR (Marte), EMIT L2A (Tierra) y M3 L2 (Luna) pasan por los mismos parámetros de resumen CRISM (pipelines/spectral_params.py), el mismo umbral fijo por indicador y el mismo denominador: celdas válidas de la huella.",
+  "operator": {
+    "source": "CRISM Summary Parameter Calculation Reference, PDS Geosciences Node (J. Christian, julio de 2026), https://pds-geosciences.wustl.edu/missions/mro/crism_summary_parameter_reference.pdf; formulación hiperespectral",
+    "kernel_mode": {"CRISM_MTRDR": "channels", "EMIT_L2A": "nm", "M3_L2": "nm"},
+    "kernel_note": "En modo nm se usa la misma ventana física que en CRISM: bandas con centro a ±k·6,55/2 nm de la banda más cercana."
+  },
+  "footprint": {
+    "shape": "Cuadrado en una proyección azimutal equidistante local del cuerpo, centrado en el sitio",
+    "sides_m": [1800, 3000],
+    "min_valid_fraction": 0.8,
+    "min_valid_cells": 30
+  },
+  "complexes": {
+    "abs_fe3_oxide_0p53_0p90um": {"indicators": [
+      {"parameter": "BD530_2", "floor": 0.05, "floor_origin": "contrato (crism_adapter.positive_floor)"}]},
+    "abs_al_oh_2p20um": {"indicators": [
+      {"parameter": "D2200", "floor": 0.005, "floor_origin": "contrato"},
+      {"parameter": "BD2210_2", "floor": 0.005, "floor_origin": "inicial: mismo umbral que D2200"}]},
+    "abs_fe_mg_oh_2p30um": {"indicators": [
+      {"parameter": "D2300", "floor": 0.008, "floor_origin": "contrato"},
+      {"parameter": "BD2290", "floor": 0.005, "floor_origin": "inicial: mismo umbral que las profundidades simples de 2,2 µm"}]},
+    "abs_carbonate_2p30_2p50um": {"indicators": [
+      {"parameter": "MIN2295_2480", "floor": 0.0, "floor_origin": "contrato"}]},
+    "abs_hydrated_sioh_so4_1p9_2p26um": {"indicators": [
+      {"parameter": "BD1900R2", "floor": 0.005, "floor_origin": "contrato"},
+      {"parameter": "BD2265", "floor": 0.005, "floor_origin": "inicial: mismo umbral del complejo"}]},
+    "abs_mafic_fe2_1p0um": {"indicators": [
+      {"parameter": "OLINDEX3", "floor": 0.13, "floor_origin": "contrato"},
+      {"parameter": "LCPINDEX2", "floor": 0.0, "floor_origin": "inicial: índice positivo = banda de piroxeno bajo en Ca sobre el continuo"},
+      {"parameter": "BD920_2", "floor": 0.01, "floor_origin": "inicial: profundidad de banda de 0,92 µm del 1 %"}]}
+  },
+  "pairing_rule": "Para cada par de cuerpos y cada complejo se compara el primer indicador que ambos instrumentos miden (estado measured o measured_absent). Si ninguno, el complejo no tiene puente para ese par.",
+  "sites": [
+    {"id": "mars-jezero-fan", "body": "Mars", "longitude": 77.41, "latitude": 18.49, "instrument": "CRISM_MTRDR",
+     "product": {"product_id": "FRT000047A3_07_IF166J_MTR3",
+                 "url": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/mtrdr/2007/2007_057/frt000047a3/frt000047a3_07_if166j_mtr3.img",
+                 "header": "docs/investigacion-marte/frt000047a3_07_if166j_mtr3.hdr",
+                 "mask": "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img",
+                 "cache": "data/raw/crism/frt000047a3/if_cache"}},
+    {"id": "earth-utah", "body": "Earth", "longitude": -110.6, "latitude": 38.6, "instrument": "EMIT_L2A",
+     "product": {"product_id": "EMIT_L2A_RFL_002_20230609T171110",
+                 "rfl_url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2ARFL.002/EMIT_L2A_RFL_002_20230609T171110/EMIT_L2A_RFL_002_20230609T171110.nc",
+                 "mask_url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2AMASK.002/EMIT_L2A_MASK_002_20230609T171110_2316011_012/EMIT_L2A_MASK_002_20230609T171110_2316011_012.nc",
+                 "l2b_counterpart": "EMIT_L2B_MIN_002_20230609T171110"}},
+    {"id": "earth-atacama", "body": "Earth", "longitude": -67.9, "latitude": -23.8, "instrument": "EMIT_L2A",
+     "product": {"product_id": "EMIT_L2A_RFL_002_20220909T131332",
+                 "rfl_url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2ARFL.002/EMIT_L2A_RFL_002_20220909T131332/EMIT_L2A_RFL_002_20220909T131332.nc",
+                 "mask_url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2AMASK.002/EMIT_L2A_MASK_002_20220909T131332_2225208_013/EMIT_L2A_MASK_002_20220909T131332_2225208_013.nc",
+                 "l2b_counterpart": "EMIT_L2B_MIN_002_20220909T131332"}},
+    {"id": "earth-atacama-2023", "body": "Earth", "longitude": -67.9, "latitude": -23.8, "instrument": "EMIT_L2A",
+     "product": {"product_id": "EMIT_L2A_RFL_002_20230130T135427",
+                 "rfl_url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2ARFL.002/EMIT_L2A_RFL_002_20230130T135427/EMIT_L2A_RFL_002_20230130T135427.nc",
+                 "mask_url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2AMASK.002/EMIT_L2A_MASK_002_20230130T135427_2303009_055/EMIT_L2A_MASK_002_20230130T135427_2303009_055.nc",
+                 "l2b_counterpart": "EMIT_L2B_MIN_002_20230130T135427"}},
+    {"id": "moon-haworth-fondo", "body": "Moon", "longitude": -5.0, "latitude": -87.45, "instrument": "M3_L2",
+     "role": "Referencia polar lunar en sombra permanente (trampa fría; confirmación negativa de cobertura óptica M3)",
+     "product": {"cache": "data/raw/m3/cache",
+                 "candidate_strips": [
+                   {"product_id": "M3G20090416T195741_V01_RFL", "period": "20090209_20090427", "month": "200904",
+                    "loc_cache": "data/raw/m3/cache/M3G20090416T195741_V03_LOC.npy"},
+                   {"product_id": "M3G20090417T193320_V01_RFL", "period": "20090209_20090427", "month": "200904",
+                    "loc_cache": "data/raw/m3/cache/M3G20090417T193320_V03_LOC.npy"}
+                 ]}},
+    {"id": "moon-de-gerlache-cresta", "body": "Moon", "longitude": -68.7, "latitude": -88.71, "instrument": "M3_L2",
+     "role": "Referencia polar lunar iluminada (punto C de Bussey et al., 2010); 12 tiras más cercanas para cribado en GCP",
+     "product": {"cache": "data/raw/m3/cache",
+                 "screening_target_strips": 12,
+                 "candidate_strips": [
+                   {"product_id": "M3G20090426T155845_V01_RFL", "period": "20090209_20090427", "month": "200904",
+                    "loc_cache": "data/raw/m3/cache/M3G20090426T155845_V03_LOC.npy"},
+                   {"product_id": "M3G20090623T135841_V01_RFL", "period": "20090513_20090816", "month": "200906",
+                    "loc_cache": "data/raw/m3/cache/M3G20090623T135841_V03_LOC.npy"}
+                 ]}},
+    {"id": "moon-apollo-15", "body": "Moon", "longitude": 3.63, "latitude": 26.13, "instrument": "M3_L2",
+     "role": "Control lunar iluminado de basalto de mare en Hadley-Apennine (confirmado en NSSDC)",
+     "product": {"cache": "data/raw/m3/cache",
+                 "candidate_strips": [
+                   {"product_id": "M3G20090206T124851_V01_RFL", "period": null, "month": "200902"},
+                   {"product_id": "M3G20090206T143952_V01_RFL", "period": null, "month": "200902"},
+                   {"product_id": "M3G20090610T104352_V01_RFL", "period": "20090513_20090816", "month": "200906"},
+                   {"product_id": "M3G20090610T122814_V01_RFL", "period": "20090513_20090816", "month": "200906"}
+                 ]}}
+  ]
+}

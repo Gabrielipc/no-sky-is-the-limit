@@ -20,11 +20,17 @@ from pipelines.etl_store import FeatureStore
 
 
 class StreamRasters(topo.Rasters):
-    """Rasters reader that checks ephemeral stream files before permanent local cache."""
+    """Reader that prefers ephemeral stream files, then the verified cache, then HTTP range reads.
 
-    def __init__(self, stack: ExitStack, local_overrides: dict[str, Path]) -> None:
-        super().__init__(stack, mode='cache')
+    The range fallback gives a tile whose full download failed a second, independent
+    chance; if that also fails, the cause stays in `failures` and the batch is incomplete.
+    """
+
+    def __init__(self, stack: ExitStack, local_overrides: dict[str, Path],
+                 download_failures: dict[str, str] | None = None) -> None:
+        super().__init__(stack, mode='auto')
         self.local_overrides = local_overrides
+        self.download_failures = download_failures or {}
 
     def get(self, entry: dict):
         key = entry['id']
@@ -35,7 +41,13 @@ class StreamRasters(topo.Rasters):
             self.opened[key] = self.stack.enter_context(rasterio.open(str(override)))
             self.identities[key] = {'id': key, 'status': 'stream_temp', 'bytes': override.stat().st_size}
             return self.opened[key]
-        return super().get(entry)
+        ds = super().get(entry)
+        if ds is None and key in self.download_failures:
+            range_cause = self.failures.get(key)
+            # A tile absent at the provider stays a catalogue gap, not an access failure.
+            if range_cause not in extractors.MISSING_TILE_CAUSES:
+                self.failures[key] = f'{self.download_failures[key]}; range: {range_cause}'
+        return ds
 
 
 _WORKER_LAND: topo.Land | None = None
@@ -48,36 +60,63 @@ def _init_worker() -> None:
     _WORKER_INVENTORY = sources.glo_inventory()
 
 
+RETRYABLE_HTTP = {408, 425, 429, 500, 502, 503, 504}
+
+
 def download_tile_to_temp(
     entry: dict,
     tmp_dir: Path,
     timeout_s: float = 60.0,
     client: httpx.Client | None = None,
-) -> tuple[str, Path | None, int]:
-    """Download a single remote tile atomically into ephemeral tmp_dir."""
+    attempts: int = 3,
+    backoff_s: float = 2.0,
+    sleep: Callable[[float], None] = time.sleep,
+) -> tuple[str, Path | None, int, str | None]:
+    """Download one remote tile atomically into tmp_dir, retrying transient failures.
+
+    Returns (asset id, path or None, bytes, cause). The cause is None on success,
+    'http_404'/'http_403' for a tile absent at the provider (not retried), and
+    'http_<code>' or 'network_error: <type>' after the last failed attempt.
+    """
     target = tmp_dir / entry['id']
     if target.is_file():
-        return entry['id'], target, target.stat().st_size
+        return entry['id'], target, target.stat().st_size, None
     part = tmp_dir / f'.{entry["id"]}.part'
-    try:
-        ctx = (
-            client.stream('GET', entry['url'], follow_redirects=True, timeout=timeout_s)
-            if client is not None
-            else httpx.stream('GET', entry['url'], follow_redirects=True, timeout=timeout_s)
-        )
-        with ctx as resp:
-            if resp.status_code != 200:
-                return entry['id'], None, 0
-            written = 0
-            with part.open('wb') as fh:
-                for chunk in resp.iter_bytes(chunk_size=1024 * 256):
-                    fh.write(chunk)
-                    written += len(chunk)
-        part.replace(target)
-        return entry['id'], target, written
-    except (httpx.HTTPError, OSError):
-        part.unlink(missing_ok=True)
-        return entry['id'], None, 0
+    cause = None
+    for attempt in range(attempts):
+        try:
+            ctx = (
+                client.stream('GET', entry['url'], follow_redirects=True, timeout=timeout_s)
+                if client is not None
+                else httpx.stream('GET', entry['url'], follow_redirects=True, timeout=timeout_s)
+            )
+            with ctx as resp:
+                if resp.status_code != 200:
+                    cause = f'http_{resp.status_code}'
+                    if resp.status_code not in RETRYABLE_HTTP:
+                        return entry['id'], None, 0, cause
+                else:
+                    written = 0
+                    with part.open('wb') as fh:
+                        for chunk in resp.iter_bytes(chunk_size=1024 * 256):
+                            fh.write(chunk)
+                            written += len(chunk)
+                    part.replace(target)
+                    return entry['id'], target, written, None
+        except (httpx.HTTPError, OSError) as exc:
+            part.unlink(missing_ok=True)
+            cause = f'network_error: {type(exc).__name__}'
+        if attempt + 1 < attempts:
+            sleep(backoff_s * (2 ** attempt))
+    return entry['id'], None, 0, cause
+
+
+def _unpack_download(result: tuple) -> tuple[str, Path | None, int, str | None]:
+    """Accept legacy 3-tuples from injected downloaders (no cause reported)."""
+    if len(result) == 3:
+        aid, path, nbytes = result
+        return aid, path, nbytes, None if path is not None else 'download_failed'
+    return result
 
 
 def _process_stream_batch(
@@ -88,7 +127,8 @@ def _process_stream_batch(
     memory_limit: str,
     threads: int,
     local_overrides: dict[str, str],
-) -> tuple[str, str, int, int, float]:
+    download_failures: dict[str, str] | None = None,
+) -> tuple[str, str, int, int, float, str]:
     started = time.perf_counter()
     land = _WORKER_LAND if _WORKER_LAND is not None else topo.Land()
     inventory = _WORKER_INVENTORY if _WORKER_INVENTORY is not None else sources.glo_inventory()
@@ -101,7 +141,7 @@ def _process_stream_batch(
             GDAL_DISABLE_READDIR_ON_OPEN='EMPTY_DIR',
             GDAL_CACHEMAX=256 * 1024 ** 2,
         ))
-        rasters = StreamRasters(stack, override_paths)
+        rasters = StreamRasters(stack, override_paths, download_failures)
         for site in topo.windows(batch, stride):
             row, m_rows = extractors.extract_base_window(
                 site, land, rasters, inventory, include_cover=include_cover
@@ -109,15 +149,17 @@ def _process_stream_batch(
             rows.append(row)
             manifests.extend(m_rows)
     written = store.write_base_batch(batch.id, rows, manifests)
+    outcome = extractors.batch_outcome(rows, rasters, extractors.run_identity(stride))
     store.mark_batch_completed(batch.id, {
         'batch_id': batch.id,
         'label': batch.label,
-        'windows': len(rows),
+        **outcome,
         'partitions': len(written),
         'mode': 'stream',
+        'include_cover': include_cover,
         'completed_at': datetime.now(timezone.utc).isoformat(),
     })
-    return batch.label, batch.id, len(rows), len(written), time.perf_counter() - started
+    return batch.label, batch.id, len(rows), len(written), time.perf_counter() - started, outcome['status']
 
 
 def _dir_bytes(path: Path) -> int:
@@ -162,6 +204,8 @@ def run_stream(
 
     download_futures: dict[str, Future] = {}
     local_paths: dict[str, Path | None] = {}
+    download_failures: dict[str, str] = {}
+    incomplete_batches: list[str] = []
     cpu_futures: dict[Future, tuple[topo.Batch, list[str]]] = {}
     pending_download: list[tuple[topo.Batch, list[dict]]] = []
 
@@ -202,11 +246,13 @@ def run_stream(
                 done_aids = [aid for aid, fut in download_futures.items() if fut.done()]
                 for aid in done_aids:
                     fut = download_futures.pop(aid)
-                    _, path, nbytes = fut.result()
+                    _, path, nbytes, cause = _unpack_download(fut.result())
                     local_paths[aid] = path
                     if path is not None:
                         downloaded_tiles += 1
                         downloaded_bytes += nbytes
+                    elif cause is not None:
+                        download_failures[aid] = cause
 
                 # 3. Promote ready batches to CPU worker pool.
                 still_waiting: list[tuple[topo.Batch, list[dict]]] = []
@@ -217,10 +263,12 @@ def run_stream(
                             for e in needed
                             if local_paths[e['id']] is not None
                         }
+                        failures = {e['id']: download_failures[e['id']]
+                                    for e in needed if e['id'] in download_failures}
                         cpu_fut = cpu_pool.submit(
                             _process_stream_batch,
                             batch, stride, include_cover, str(store_dir),
-                            memory_limit, threads, overrides,
+                            memory_limit, threads, overrides, failures,
                         )
                         cpu_futures[cpu_fut] = (batch, [e['id'] for e in needed])
                     else:
@@ -262,8 +310,10 @@ def run_stream(
                 for fut in done:
                     if fut in cpu_futures:
                         batch, used_ids = cpu_futures.pop(fut)
-                        label, bid, n_rows, n_parts, elapsed = fut.result()
+                        label, bid, n_rows, n_parts, elapsed, status = fut.result()
                         processed_batches += 1
+                        if status != 'complete':
+                            incomplete_batches.append(bid)
                         for aid in used_ids:
                             ref_counts[aid] -= 1
                             if ref_counts[aid] <= 0:
@@ -272,7 +322,8 @@ def run_stream(
                                     path.unlink(missing_ok=True)
                                     deleted_tiles += 1
                         print(
-                            f'[stream] {label} {bid}: {n_rows} ventanas -> {n_parts} part ({elapsed:.2f} s) | '
+                            f'[stream] {label} {bid}: {n_rows} ventanas -> {n_parts} part ({elapsed:.2f} s) '
+                            f'{status} | '
                             f'tmp={_dir_bytes(tmp_dir) / (1024**2):.1f} MB',
                             flush=True,
                         )
@@ -287,4 +338,6 @@ def run_stream(
         'downloaded_tiles': downloaded_tiles,
         'downloaded_bytes': downloaded_bytes,
         'deleted_tiles': deleted_tiles,
+        'download_failures': dict(sorted(download_failures.items())),
+        'incomplete_batches': sorted(incomplete_batches),
     }

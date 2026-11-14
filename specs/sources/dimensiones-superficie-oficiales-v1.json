@@ -1,0 +1,217 @@
+{
+  "spec_id": "dimensiones-superficie-oficiales-v1",
+  "schema_version": "1.0.0",
+  "description": "Especificación declarativa de las seis dimensiones de superficie pendientes con fuentes oficiales del NASA Space Apps Challenge 2026 y agencias asociadas (auditoría 2026-11-14, sección 3).",
+  "checked_on": "2026-11-14",
+  "min_valid_fraction": 0.8,
+  "body": "Earth",
+  "cross_body_policy": "Las dimensiones planetarias (aridez, humedad del suelo, persistencia de nieve y permafrost) actúan como restricciones propias de Tierra (planet_specific_constraint); emisividad térmica IR de silicatos y retrodispersión SAR en banda C actúan como puentes funcionales (functional_contract_bridge) hacia Diviner/THEMIS y Mini-RF respectivamente.",
+  "dimensions": {
+    "aridity": {
+      "label": "Aridez e hidrología climática superficial",
+      "comparability_tier": "planet_specific_constraint",
+      "min_valid_fraction": 0.8,
+      "dry_month_threshold_mm": 5.0,
+      "sources": {
+        "primary": {
+          "product_id": "GPM_3IMERGDF.07",
+          "product_name": "GPM IMERG Final Precipitation L3 Daily 0.1° x 0.1° v07B",
+          "provider": "NASA GES DISC",
+          "doi": "10.5067/GPM/IMERGDF/DAY/07",
+          "product_version": "07",
+          "native_resolution_m": 11132.0,
+          "url": "https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGDF_07/summary",
+          "access_mode": "cmr_on_demand"
+        },
+        "cross_check": {
+          "product_id": "GSMaP_MVK_v8",
+          "product_name": "JAXA Global Satellite Mapping of Precipitation v8",
+          "provider": "JAXA G-Portal",
+          "doi": "10.57746/EO.01gs73b3w3r6p8h5f3n9n6c5b3",
+          "product_version": "8",
+          "native_resolution_m": 11132.0,
+          "url": "https://sharaku.eorc.jaxa.jp/GSMaP/",
+          "access_mode": "gportal_on_demand"
+        }
+      },
+      "metrics": {
+        "precip_mean_annual_mm": {
+          "units": "mm/yr",
+          "valid_range": [0.0, 15000.0],
+          "description": "Precipitación media anualizada en la huella a partir de acumulados mensuales válidos."
+        },
+        "dry_months_fraction": {
+          "units": "fraction",
+          "valid_range": [0.0, 1.0],
+          "description": "Fracción de meses válidos con precipitación media en la huella < 5 mm/mes."
+        }
+      }
+    },
+    "soil_moisture": {
+      "label": "Humedad superficial volumétrica del suelo (banda L radiométrica)",
+      "comparability_tier": "planet_specific_constraint",
+      "min_valid_fraction": 0.8,
+      "sources": {
+        "primary": {
+          "product_id": "SPL3SMP_E.006",
+          "product_name": "SMAP Enhanced L3 Radiometer Global and Polar Grid Daily 9 km EASE-Grid Soil Moisture v006",
+          "provider": "NASA NSIDC DAAC",
+          "doi": "10.5067/4DQ54OUIJ9DL",
+          "product_version": "006",
+          "native_resolution_m": 9000.0,
+          "url": "https://nsidc.org/data/spl3smp_e/versions/6",
+          "qa_policy": "Solo píxeles con retrieval_qual_flag bit 0 == 0 (calidad recomendada) y contenido volumétrico finito en [0, 0.65] m³/m³.",
+          "access_mode": "cmr_on_demand"
+        }
+      },
+      "metrics": {
+        "smap_sm_p50_m3m3": {
+          "units": "m^3/m^3",
+          "valid_range": [0.0, 0.65],
+          "description": "Mediana estacional/multi-observación de humedad volumétrica superficial."
+        },
+        "smap_sm_p90_m3m3": {
+          "units": "m^3/m^3",
+          "valid_range": [0.0, 0.65],
+          "description": "Percentil 90 de humedad volumétrica superficial para detectar episodios húmedos."
+        }
+      }
+    },
+    "snow_persistence": {
+      "label": "Persistencia diaria de nieve superficial",
+      "comparability_tier": "planet_specific_constraint",
+      "min_valid_fraction": 0.8,
+      "sources": {
+        "primary": {
+          "product_id": "MOD10A1.061",
+          "product_name": "MODIS/Terra Snow Cover Daily L3 Global 500m SIN Grid v061",
+          "provider": "NASA NSIDC DAAC",
+          "doi": "10.5067/MODIS/MOD10A1.061",
+          "product_version": "061",
+          "native_resolution_m": 500.0,
+          "url": "https://nsidc.org/data/mod10a1/versions/61",
+          "qa_policy": "Solo observaciones despejadas con NDSI_Snow_Cover en [0, 100] y NDSI_Snow_Cover_Basic_QA en {0, 1}.",
+          "access_mode": "cmr_on_demand"
+        },
+        "cross_check": {
+          "product_id": "JAXA_SGLI_SICE_250M",
+          "product_name": "GCOM-C SGLI Level-2 Snow and Ice Extent (SICE) 250 m",
+          "provider": "JAXA G-Portal",
+          "doi": null,
+          "product_version": "v3",
+          "native_resolution_m": 250.0,
+          "url": "https://eolp.jaxa.jp/GCOM-C_SGLI_L2_SICE_250m.html",
+          "access_mode": "gportal_on_demand"
+        }
+      },
+      "metrics": {
+        "mod10a1_snow_days_fraction": {
+          "units": "fraction",
+          "valid_range": [0.0, 1.0],
+          "description": "Fracción de observaciones despejadas válidas con NDSI_Snow_Cover en [1, 100]."
+        },
+        "mod10a1_clear_days_fraction": {
+          "units": "fraction",
+          "valid_range": [0.0, 1.0],
+          "description": "Fracción de observaciones totales en la serie que superan la máscara de nubes y QA."
+        }
+      }
+    },
+    "permafrost": {
+      "label": "Probabilidad de permafrost y espesor de capa activa",
+      "comparability_tier": "planet_specific_constraint",
+      "min_valid_fraction": 0.8,
+      "sources": {
+        "primary": {
+          "product_id": "ESA_CCI_PERMAFROST_v5.0",
+          "product_name": "ESA Permafrost Climate Change Initiative (Permafrost_cci) v5.0 (1997-2023)",
+          "provider": "ESA Open Science Catalog / CEDA",
+          "doi": "10.5285/6ef1a60b678f4048a20b5c8d94d665c9",
+          "product_version": "5.0",
+          "native_resolution_m": 1000.0,
+          "url": "https://climate.esa.int/en/projects/permafrost/",
+          "access_mode": "osc_ceda_on_demand"
+        }
+      },
+      "metrics": {
+        "cci_permafrost_probability": {
+          "units": "fraction",
+          "valid_range": [0.0, 1.0],
+          "description": "Fracción/probabilidad media de permafrost en la huella (normalizada desde PFR 0-100 %)."
+        },
+        "cci_active_layer_thickness_m": {
+          "units": "m",
+          "valid_range": [0.0, 20.0],
+          "description": "Espesor máximo anual de deshielo / capa activa mediano (ALT) sobre celdas con permafrost."
+        }
+      }
+    },
+    "thermal_emissivity": {
+      "label": "Emisividad térmica infrarroja de silicatos (puente hacia Diviner CF y THEMIS IR)",
+      "comparability_tier": "functional_contract_bridge",
+      "min_valid_fraction": 0.8,
+      "earth_to_planetary_bridge": "Conecta las bandas 10-14 (8.3-11.3 µm) de ASTER GED v3 con el rasgo de Christiansen (~8 µm) de LRO Diviner y el espectro infrarrojo térmico de Mars Odyssey THEMIS; comparar mediante rangos composicionales y posición estimada de CF, nunca como equivalencia espectral directa.",
+      "sources": {
+        "primary": {
+          "product_id": "AG100.003",
+          "product_name": "ASTER Global Emissivity Dataset 100m v003",
+          "provider": "NASA LP DAAC",
+          "doi": "10.5067/Community/ASTER_GED/AG100.003",
+          "product_version": "003",
+          "native_resolution_m": 100.0,
+          "url": "https://lpdaac.usgs.gov/products/ag100v003/",
+          "bands_um": [8.29, 8.63, 9.08, 10.66, 11.32],
+          "access_mode": "cmr_on_demand"
+        }
+      },
+      "metrics": {
+        "aster_emissivity_mafic_index": {
+          "units": "ratio",
+          "valid_range": [0.5, 1.5],
+          "description": "Cociente (ε10 + ε11) / (ε12 + ε13): < 1 en silicatos félsicos ricos en cuarzo y > 1 en silicatos máficos."
+        },
+        "aster_christiansen_wb_um": {
+          "units": "um",
+          "valid_range": [7.5, 9.5],
+          "description": "Longitud de onda estimada del rasgo de Christiansen en la ventana 7.5-9.5 µm."
+        }
+      }
+    },
+    "sar_backscatter": {
+      "label": "Retrodispersión SAR decimétrica corregida por terreno (puente hacia Mini-RF)",
+      "comparability_tier": "functional_contract_bridge",
+      "min_valid_fraction": 0.8,
+      "earth_to_planetary_bridge": "Complementa el CPR polarimétrico compacto de RCM con retrodispersión calibrada σ⁰ VV/VH de Sentinel-1 RTC (banda C, 5.6 cm) para comparación intra-cuerpo por percentiles hacia Mini-RF lunar (banda S/X).",
+      "sources": {
+        "primary": {
+          "product_id": "OPERA_L2_RTC-S1_V1",
+          "product_name": "OPERA Sentinel-1 Radiometric Terrain Corrected Backscatter / CDSE Sentinel-1 RTC",
+          "provider": "NASA ASF DAAC / ESA CDSE",
+          "doi": "10.5067/SNWG/OPERA_L2_RTC-S1_V1",
+          "product_version": "V1",
+          "native_resolution_m": 20.0,
+          "url": "https://documentation.dataspace.copernicus.eu/Data/Sentinel1.html",
+          "qa_policy": "Excluye píxeles marcados con máscara de layover o sombra geométrica y valores no positivos.",
+          "access_mode": "cdse_or_asf_on_demand"
+        }
+      },
+      "metrics": {
+        "s1_rtc_vv_p50_db": {
+          "units": "dB",
+          "valid_range": [-35.0, 10.0],
+          "description": "Mediana espacial de σ⁰ VV corregida por relieve sobre píxeles válidos sin sombra ni layover."
+        },
+        "s1_rtc_vh_p50_db": {
+          "units": "dB",
+          "valid_range": [-40.0, 5.0],
+          "description": "Mediana espacial de σ⁰ VH corregida por relieve sobre píxeles válidos."
+        },
+        "s1_rtc_vh_vv_ratio_db": {
+          "units": "dB",
+          "valid_range": [-25.0, 10.0],
+          "description": "Mediana de la razón de polarización cruzada 10·log10(σ⁰_VH / σ⁰_VV)."
+        }
+      }
+    }
+  }
+}

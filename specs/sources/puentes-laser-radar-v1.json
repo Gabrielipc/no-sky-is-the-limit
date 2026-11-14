@@ -1,0 +1,96 @@
+{
+  "spec_id": "puentes-laser-radar-v1",
+  "description": "Puentes láser (ICESat-2) y de radar polarimétrico (RCM compacto) de la auditoría del 14 de noviembre de 2026, sección 3, prioridad 7. Ambos se miden en el núcleo de 3 km de la ventana, en la rejilla UTM/UPS de 30 m del barrido.",
+  "checked_on": "2026-11-14",
+  "products": {
+    "icesat2_atl08": {
+      "product_id": "NSIDC ATL08.007",
+      "collection_concept_id": "C3565574177-NSIDC_CPRD",
+      "portal": "Earthdata Search / CMR (búsqueda pública); lectura por rangos HTTP desde data.nsidc.earthdatacloud.nasa.gov con EARTHDATA_TOKEN del entorno",
+      "citation": "Neuenschwander, A. et al. ATLAS/ICESat-2 L3A Land and Vegetation Height, Version 7. NSIDC DAAC.",
+      "variables": {
+        "height": "gtx/land_segments/terrain/h_te_best_fit (m, elipsoide WGS84 / ITRF2014, segmentos de 100 m)",
+        "height_20m": "gtx/land_segments/terrain/h_te_best_fit_20m con latitude_20m/longitude_20m",
+        "quality": "layer_flag = 0, segment_watermask = 0, te_quality_score en [60, 100], n_te_photons >= 20; subset_te_flag = 1 para 20 m",
+        "snow": "segment_snowcover >= 2 (nieve o hielo de ATL09); se reporta la fracción, no se excluye"
+      },
+      "not_used": {
+        "h_te_uncertainty": "Incluye términos sistemáticos y alcanza 20-300 m sobre desierto desnudo en granulos de Atacama de 2026; no sirve como filtro por segmento."
+      },
+      "metrics": {
+        "laser_slope_20m / laser_slope_100m": "Pendiente a lo largo de traza entre subsegmentos (20 m) o segmentos (100 m) consecutivos; P50 y P90 en grados. Es direccional (|grad h| |cos θ|).",
+        "laser_diff_slope_200m / _600m": "Pendiente diferencial de Kreslavsky y Head (2000): dh(L)/L - dh(2L)/(2L) centrada en un punto; mediana en grados. 600 m es la base que también resuelven MOLA y LOLA.",
+        "dem_*": "Las mismas métricas con GLO-30 muestreado (bilineal) en los mismos segmentos y pares.",
+        "dem_minus_laser": "GLO-30 llevado al elipsoide con EGM2008 (PROJ us_nga_egm08_25) menos h_te_best_fit; mediana y NMAD."
+      }
+    },
+    "rcm_ard": {
+      "product_id": "NRCan rcm-ard (CEOS-ARD NRB-POL, MLC, gamma-0)",
+      "stac": "https://eodms-sgdot.nrcan-rncan.gc.ca/search/collections/rcm-ard",
+      "storage": "s3://rcm-ceos-ard (ca-central-1), lectura pública por rangos",
+      "registry": "https://registry.opendata.aws/rcm-ceos-ard/",
+      "license": "RCM_EULA_PUBLIC_v1-0 (incluida en cada producto)",
+      "assets": {
+        "rr": "γ⁰ RR, potencia lineal (product.xml: BackscatterConvention = linear power)",
+        "rl": "γ⁰ RL, potencia lineal",
+        "rrrl": "RR·RL* complejo (CovMat)",
+        "local_inc_angle": "ángulo de incidencia local (grados)",
+        "data_mask": "1 = válido; 0 sin dato, 2 inválido, 5 layover, 7 sombra, 9 layover+sombra, 50/60 saturado"
+      },
+      "processing_of_product": "Filtro Sigma Lee 7×7, corrección radiométrica de terreno (Gamma mk_geo_radcal2) con GLO-30, 20 m de paso, 30 m de resolución",
+      "metrics": {
+        "rcm_cpr": "RR/RL por celda de 30 m (transmisión circular derecha: RR = mismo sentido, RL = sentido opuesto), mediana entre escenas; P50 y P90 de la huella",
+        "rcm_s1_db": "10 log10(RR + RL)",
+        "rcm_dop": "sqrt((RL - RR)² + 4|RR·RL*|²) / (RR + RL)",
+        "masks": "Píxeles con data_mask != 1 y celdas con ocurrencia JRC >= 50 % quedan fuera; una celda necesita soporte completo",
+        "season": "Julio-septiembre: la nieve cambia la retrodispersión en banda C"
+      },
+      "coverage_checked": {
+        "rcm_ard_max_latitude_deg": 69.9,
+        "method": "Búsqueda STAC por franjas de latitud entre 141° O y 55° O el 14 de noviembre de 2026: 0 escenas al norte de 70° N.",
+        "RCMImageProducts": "El catálogo público EODMS de productos RCM (no ARD) tampoco devuelve escenas entre 74° y 77° N, 95° y 85° O."
+      }
+    }
+  },
+  "control_sites": [
+    {
+      "id": "haughton-devon",
+      "region_id": "control-v1:haughton-devon",
+      "name": "Cráter Haughton, isla Devon (Nunavut)",
+      "longitude": -89.683,
+      "latitude": 75.367,
+      "role": "Control lunar y marciano conocido (Haughton-Mars Project, NASA)",
+      "reference": "https://ntrs.nasa.gov/citations/20110008151",
+      "coordinates_source": "Centro del cráter (75°22′ N, 89°41′ O). Agua JRC >= 50 % en el núcleo: 0 %.",
+      "icesat2": true,
+      "rcm": true
+    },
+    {
+      "id": "mistastin-sur",
+      "region_id": "control-v1:mistastin-sur",
+      "name": "Cráter Mistastin (Kamestastin), Labrador: anillo sur",
+      "longitude": -63.2995,
+      "latitude": 55.8156,
+      "role": "Análogo lunar canadiense (anortosita y fundido de impacto)",
+      "coordinates_source": "Núcleo de 3 km más cercano al centro (55,883° N, 63,300° O) con agua JRC >= 50 % <= 5 %, en una retícula de 1,5 km hasta 12 km; queda a 7,5 km al sur del centro con 3,9 % de agua.",
+      "icesat2": true,
+      "rcm": true
+    },
+    {
+      "id": "manicouagan-centro",
+      "region_id": "control-v1:manicouagan-centro",
+      "name": "Estructura de impacto de Manicouagan, Quebec: levantamiento central",
+      "longitude": -68.70,
+      "latitude": 51.38,
+      "role": "Control de impacto canadiense dentro de la cobertura RCM-ARD; contexto boreal, no polar",
+      "coordinates_source": "Centro aproximado de la isla René-Levasseur; agua JRC >= 50 % en el núcleo: 1,8 %.",
+      "icesat2": true,
+      "rcm": true
+    }
+  ],
+  "candidates": {
+    "rule": "Unión de las candidatas elegibles del ranking topográfico frente a Jezero (perfil arid_mars_surface_v2) y frente al fondo de Haworth (perfil polar_cold_v1), como en etl_pipeline.py rank y etl_luna.py rank.",
+    "arid_limit": 8,
+    "polar_limit": 12
+  }
+}

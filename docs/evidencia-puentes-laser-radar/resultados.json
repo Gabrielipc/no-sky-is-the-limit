@@ -1,0 +1,561 @@
+{
+  "rcm": [
+    {
+      "site": {
+        "id": "haughton-devon",
+        "region_id": "control-v1:haughton-devon",
+        "name": "Cráter Haughton, isla Devon (Nunavut)",
+        "longitude": -89.683,
+        "latitude": 75.367,
+        "role": "Control lunar y marciano conocido (Haughton-Mars Project, NASA)",
+        "reference": "https://ntrs.nasa.gov/citations/20110008151",
+        "coordinates_source": "Centro del cráter (75°22′ N, 89°41′ O). Agua JRC >= 50 % en el núcleo: 0 %.",
+        "icesat2": true,
+        "rcm": true,
+        "kind": "control"
+      },
+      "record": {
+        "region_id": "control-v1:haughton-devon",
+        "instrument": "RCM/SAR-C compact polarimetry",
+        "product_id": "NRCan rcm-ard (CEOS-ARD NRB-POL, MLC, gamma-0)",
+        "observation_period": null,
+        "scenes_found": 0,
+        "n_scenes": 0,
+        "rcm_cpr_p50": null,
+        "rcm_cpr_p90": null,
+        "rcm_s1_p50_db": null,
+        "rcm_dop_p50": null,
+        "rcm_local_incidence_p50_deg": null,
+        "rcm_valid_fraction": 0.0,
+        "radar_status": "no_swath_coverage",
+        "source_manifest_id": "none",
+        "updated_at": "2026-11-14T18:44:29.236715+00:00"
+      },
+      "diagnostics": {
+        "scenes_at_point": 0,
+        "scenes_selected": 0,
+        "months": [
+          7,
+          8,
+          9
+        ],
+        "min_scenes_per_cell": 1,
+        "water_mask": "jrc_occurrence_ge50",
+        "water_fraction": 0.0001,
+        "scenes_failed": [],
+        "scenes_used": []
+      }
+    },
+    {
+      "site": {
+        "id": "manicouagan-centro",
+        "region_id": "control-v1:manicouagan-centro",
+        "name": "Estructura de impacto de Manicouagan, Quebec: levantamiento central",
+        "longitude": -68.7,
+        "latitude": 51.38,
+        "role": "Control de impacto canadiense dentro de la cobertura RCM-ARD; contexto boreal, no polar",
+        "coordinates_source": "Centro aproximado de la isla René-Levasseur; agua JRC >= 50 % en el núcleo: 1,8 %.",
+        "icesat2": true,
+        "rcm": true,
+        "kind": "control"
+      },
+      "record": {
+        "region_id": "control-v1:manicouagan-centro",
+        "instrument": "RCM/SAR-C compact polarimetry",
+        "product_id": "NRCan rcm-ard (CEOS-ARD NRB-POL, MLC, gamma-0)",
+        "observation_period": "2025-07-04/2026-09-01",
+        "scenes_found": 60,
+        "n_scenes": 12,
+        "rcm_cpr_p50": 0.6219753851541984,
+        "rcm_cpr_p90": 0.6926738247652421,
+        "rcm_s1_p50_db": -6.416739827499801,
+        "rcm_dop_p50": 0.2537696643719192,
+        "rcm_local_incidence_p50_deg": 29.2554323798592,
+        "rcm_valid_fraction": 0.9823,
+        "radar_status": "measured",
+        "source_manifest_id": "4796df7c6befce5d",
+        "updated_at": "2026-11-14T18:44:35.351003+00:00"
+      },
+      "diagnostics": {
+        "scenes_at_point": 60,
+        "scenes_selected": 12,
+        "months": [
+          7,
+          8,
+          9
+        ],
+        "min_scenes_per_cell": 1,
+        "water_mask": "jrc_occurrence_ge50",
+        "water_fraction": 0.0177,
+        "scenes_failed": [],
+        "scenes_used": [
+          {
+            "id": "RCM3_OK3556292_PK3685340_1_SC30MCPD_20250704_104611_CH_CV_MLC",
+            "datetime": "2025-07-04T10:46:46.425678",
+            "orbit_state": "Descending",
+            "mask_valid_fraction": 1.0
+          },
+          {
+            "id": "RCM3_OK3556292_PK3701842_1_SC30MCPD_20250716_104612_CH_CV_MLC",
+            "datetime": "2025-07-16T10:46:47.774407",
+            "orbit_state": "Descending",
+            "mask_valid_fraction": 1.0
+          },
+          {
+            "id": "RCM2_OK3556292_PK3715871_3_SC30MCPA_20250726_110149_CH_CV_MLC",
+            "datetime": "2025-07-26T11:02:44.038147",
+            "orbit_state": "Descending",
+            "mask_valid_fraction": 0.9996253902185224
+          },
+          {
+            "id": "RCM3_OK3556292_PK3721245_1_SC30MCPB_20250729_105433_CH_CV_MLC",
+            "datetime": "2025-07-29T10:54:33.598617",
+            "orbit_state": "Descending",
+            "mask_valid_fraction": 1.0
+          },
+          {
+            "id": "RCM3_OK3556292_PK3760326_1_SC30MCPC_20250821_104650_CH_CV_MLC",
+            "datetime": "2025-08-21T10:46:50.086538",
+            "orbit_state": "Descending",
+            "mask_valid_fraction": 1.0
+          },
+          {
+            "id": "RCM3_OK3556292_PK3805327_1_SC30MCPD_20250914_104651_CH_CV_MLC",
+            "datetime": "2025-09-14T10:46:50.844568",
+            "orbit_state": "Descending",
+            "mask_valid_fraction": 1.0
+          },
+          {
+            "id": "RCM3_OK4114697_PK4242330_4_SC30MCPA_20260701_110119_CH_CV_MLC",
+            "datetime": "2026-07-01T11:02:41.768531",
+            "orbit_state": "Descending",
+            "mask_valid_fraction": 0.9994172736732571
+          },
+          {
+            "id": "RCM3_OK4114697_PK4265416_1_SC30MCPB_20260715_221356_CH_CV_MLC",
+            "datetime": "2026-07-15T22:13:55.665836",
+            "orbit_state": "Ascending",
+            "mask_valid_fraction": 1.0
+          },
+          {
+            "id": "RCM3_OK4114697_PK4284218_1_SC30MCPB_20260727_221356_CH_CV_MLC",
+            "datetime": "2026-07-27T22:13:56.673166",
+            "orbit_state": "Ascending",
+            "mask_valid_fraction": 1.0
+          },
+          {
+            "id": "RCM3_OK4114697_PK4301507_3_SC30MCPA_20260806_110206_CH_CV_MLC",
+            "datetime": "2026-08-06T11:03:01.817437",
+            "orbit_state": "Descending",
+            "mask_valid_fraction": 0.9997086368366285
+          },
+          {
+            "id": "RCM3_OK4114697_PK4322262_4_SC30MCPA_20260818_110122_CH_CV_MLC",
+            "datetime": "2026-08-18T11:02:44.742119",
+            "orbit_state": "Descending",
+            "mask_valid_fraction": 0.9995421436004163
+          },
+          {
+            "id": "RCM3_OK4114697_PK4348595_1_SC30MCPB_20260901_221358_CH_CV_MLC",
+            "datetime": "2026-09-01T22:13:58.524291",
+            "orbit_state": "Ascending",
+            "mask_valid_fraction": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "site": {
+        "id": "mistastin-sur",
+        "region_id": "control-v1:mistastin-sur",
+        "name": "Cráter Mistastin (Kamestastin), Labrador: anillo sur",
+        "longitude": -63.2995,
+        "latitude": 55.8156,
+        "role": "Análogo lunar canadiense (anortosita y fundido de impacto)",
+        "coordinates_source": "Núcleo de 3 km más cercano al centro (55,883° N, 63,300° O) con agua JRC >= 50 % <= 5 %, en una retícula de 1,5 km hasta 12 km; queda a 7,5 km al sur del centro con 3,9 % de agua.",
+        "icesat2": true,
+        "rcm": true,
+        "kind": "control"
+      },
+      "record": {
+        "region_id": "control-v1:mistastin-sur",
+        "instrument": "RCM/SAR-C compact polarimetry",
+        "product_id": "NRCan rcm-ard (CEOS-ARD NRB-POL, MLC, gamma-0)",
+        "observation_period": null,
+        "scenes_found": 0,
+        "n_scenes": 0,
+        "rcm_cpr_p50": null,
+        "rcm_cpr_p90": null,
+        "rcm_s1_p50_db": null,
+        "rcm_dop_p50": null,
+        "rcm_local_incidence_p50_deg": null,
+        "rcm_valid_fraction": 0.0,
+        "radar_status": "no_swath_coverage",
+        "source_manifest_id": "none",
+        "updated_at": "2026-11-14T18:44:32.227394+00:00"
+      },
+      "diagnostics": {
+        "scenes_at_point": 0,
+        "scenes_selected": 0,
+        "months": [
+          7,
+          8,
+          9
+        ],
+        "min_scenes_per_cell": 1,
+        "water_mask": "jrc_occurrence_ge50",
+        "water_fraction": 0.0387,
+        "scenes_failed": [],
+        "scenes_used": []
+      }
+    }
+  ],
+  "spec_id": "puentes-laser-radar-v1",
+  "updated_at": "2026-11-14T20:32:41.186648+00:00",
+  "icesat2": [
+    {
+      "site": {
+        "id": "haughton-devon",
+        "region_id": "control-v1:haughton-devon",
+        "name": "Cráter Haughton, isla Devon (Nunavut)",
+        "longitude": -89.683,
+        "latitude": 75.367,
+        "role": "Control lunar y marciano conocido (Haughton-Mars Project, NASA)",
+        "reference": "https://ntrs.nasa.gov/citations/20110008151",
+        "coordinates_source": "Centro del cráter (75°22′ N, 89°41′ O). Agua JRC >= 50 % en el núcleo: 0 %.",
+        "icesat2": true,
+        "rcm": true,
+        "kind": "control"
+      },
+      "record": {
+        "region_id": "control-v1:haughton-devon",
+        "instrument": "ICESat-2/ATLAS ATL08",
+        "product_id": "NSIDC ATL08.007",
+        "observation_period": null,
+        "granules_found": 6,
+        "granules_with_data": 0,
+        "n_tracks": 0,
+        "n_segments": 0,
+        "n_pairs_20m": 0,
+        "n_pairs_100m": 0,
+        "n_diff_200m": 0,
+        "n_diff_600m": 0,
+        "laser_slope_20m_p50_deg": null,
+        "laser_slope_20m_p90_deg": null,
+        "laser_slope_100m_p50_deg": null,
+        "laser_slope_100m_p90_deg": null,
+        "laser_diff_slope_200m_p50_deg": null,
+        "laser_diff_slope_600m_p50_deg": null,
+        "dem_slope_100m_p50_deg": null,
+        "dem_slope_100m_p90_deg": null,
+        "dem_diff_slope_200m_p50_deg": null,
+        "dem_diff_slope_600m_p50_deg": null,
+        "dem_minus_laser_median_m": null,
+        "dem_minus_laser_nmad_m": null,
+        "snow_flag_fraction": null,
+        "altimetry_status": "no_swath_coverage",
+        "source_manifest_id": "none",
+        "updated_at": "2026-11-14T18:44:29.247899+00:00"
+      },
+      "diagnostics": {
+        "reconstructed_from_store": true,
+        "granules_found": 6,
+        "granules_with_data": 0,
+        "granules_used": []
+      }
+    },
+    {
+      "site": {
+        "id": "manicouagan-centro",
+        "region_id": "control-v1:manicouagan-centro",
+        "name": "Estructura de impacto de Manicouagan, Quebec: levantamiento central",
+        "longitude": -68.7,
+        "latitude": 51.38,
+        "role": "Control de impacto canadiense dentro de la cobertura RCM-ARD; contexto boreal, no polar",
+        "coordinates_source": "Centro aproximado de la isla René-Levasseur; agua JRC >= 50 % en el núcleo: 1,8 %.",
+        "icesat2": true,
+        "rcm": true,
+        "kind": "control"
+      },
+      "record": {
+        "region_id": "control-v1:manicouagan-centro",
+        "instrument": "ICESat-2/ATLAS ATL08",
+        "product_id": "NSIDC ATL08.007",
+        "observation_period": "2020-03-15/2026-04-02",
+        "granules_found": 43,
+        "granules_with_data": 7,
+        "n_tracks": 13,
+        "n_segments": 311,
+        "n_pairs_20m": 1519,
+        "n_pairs_100m": 291,
+        "n_diff_200m": 238,
+        "n_diff_600m": 147,
+        "laser_slope_20m_p50_deg": 1.3902645111083984,
+        "laser_slope_20m_p90_deg": 5.631723880767822,
+        "laser_slope_100m_p50_deg": 1.1227021217346191,
+        "laser_slope_100m_p90_deg": 3.5214881896972656,
+        "laser_diff_slope_200m_p50_deg": 0.565366268157959,
+        "laser_diff_slope_600m_p50_deg": 0.28613609075546265,
+        "dem_slope_100m_p50_deg": 1.2547683715820312,
+        "dem_slope_100m_p90_deg": 3.3159079551696777,
+        "dem_diff_slope_200m_p50_deg": 0.5982025265693665,
+        "dem_diff_slope_600m_p50_deg": 0.32665637135505676,
+        "dem_minus_laser_median_m": 1.887313961982727,
+        "dem_minus_laser_nmad_m": 1.5030754804611206,
+        "snow_flag_fraction": 0.8971061110496521,
+        "altimetry_status": "measured",
+        "source_manifest_id": "2a5a037ad13a3c08",
+        "updated_at": "2026-11-14T19:02:11.587068+00:00"
+      },
+      "diagnostics": {
+        "reconstructed_from_store": true,
+        "granules_found": 43,
+        "granules_with_data": 7,
+        "granules_used": [
+          {
+            "id": "ATL08_20200315190804_12230602_007_01.h5",
+            "date": "2020-03-15",
+            "etag": "c4c8ab5958ad7e74516080c65ef320d4-2",
+            "access_mode": "harmony_subset_range"
+          },
+          {
+            "id": "ATL08_20211211124703_12231302_007_01.h5",
+            "date": "2021-12-11",
+            "etag": "95c6dfdb1d59081ddbfee5357092a50f-2",
+            "access_mode": "harmony_subset_range"
+          },
+          {
+            "id": "ATL08_20211226002933_00571406_007_01.h5",
+            "date": "2021-12-26",
+            "etag": "3fdac7206bbce6c3878ac685c33808de-2",
+            "access_mode": "harmony_subset_range"
+          },
+          {
+            "id": "ATL08_20220625154921_00571606_007_01.h5",
+            "date": "2022-06-25",
+            "etag": "9a2ecca872f1ac46f06c80011ed5f780-2",
+            "access_mode": "harmony_subset_range"
+          },
+          {
+            "id": "ATL08_20221209192620_12231702_007_01.h5",
+            "date": "2022-12-09",
+            "etag": "51a2a443c9d519791e97e557b25a8a53-2",
+            "access_mode": "harmony_subset_range"
+          },
+          {
+            "id": "ATL08_20260318224325_00573106_007_01.h5",
+            "date": "2026-03-18",
+            "etag": "ef2fffafad893fe8c54705cc9d4f409b-2",
+            "access_mode": "harmony_subset_range"
+          },
+          {
+            "id": "ATL08_20260402093659_02783102_007_01.h5",
+            "date": "2026-04-02",
+            "etag": "50d5f43e7bcb65821c8de4162c263079-2",
+            "access_mode": "harmony_subset_range"
+          }
+        ]
+      }
+    }
+  ],
+  "cmr_inventory_and_pilot": {
+    "status": "pending_full_sweep_on_gcp_spot",
+    "reason": "La conexión local (~0.14 MB/s) impide completar el barrido Harmony sobre 12 candidatas + 3 controles (1263 gránulos CMR ATL08 v007); la ejecución completa se traslada a Spot VM en GCP (us-west1-a) mediante cloud/gcp/.",
+    "cmr_collection_concept_id": "C3565574177-NSIDC_CPRD",
+    "total_sites": 15,
+    "total_granules": 1263,
+    "candidates_total_granules": 1040,
+    "controls_total_granules": 223,
+    "sites": [
+      {
+        "region_id": "utm-ups-v1-10000-32637-306-73",
+        "kind": "candidate",
+        "latitude": 27.644548176809252,
+        "longitude": 41.331265148886246,
+        "cmr_granules": 45,
+        "rankings": {
+          "jezero_rank": 1,
+          "haworth_rank": 6
+        }
+      },
+      {
+        "region_id": "utm-ups-v1-10000-32631-323-71",
+        "kind": "candidate",
+        "latitude": 29.181276634326103,
+        "longitude": 5.1595679968054835,
+        "cmr_granules": 47,
+        "rankings": {
+          "jezero_rank": 2,
+          "haworth_rank": 8
+        }
+      },
+      {
+        "region_id": "utm-ups-v1-10000-32642-358-70",
+        "kind": "candidate",
+        "latitude": 32.33902840671573,
+        "longitude": 71.12505000325328,
+        "cmr_granules": 27,
+        "rankings": {
+          "jezero_rank": 3,
+          "haworth_rank": 3
+        }
+      },
+      {
+        "region_id": "utm-ups-v1-10000-32719-723-61",
+        "kind": "candidate",
+        "latitude": -25.041625686625206,
+        "longitude": -67.90959146549004,
+        "cmr_granules": 35,
+        "rankings": {
+          "jezero_rank": 4,
+          "haworth_rank": 9
+        },
+        "note": "Atacama"
+      },
+      {
+        "region_id": "utm-ups-v1-10000-32632-251-74",
+        "kind": "candidate",
+        "latitude": 22.680146936046384,
+        "longitude": 11.335958877189617,
+        "cmr_granules": 44,
+        "rankings": {
+          "jezero_rank": 5,
+          "haworth_rank": 5
+        }
+      },
+      {
+        "region_id": "utm-ups-v1-10000-32718-841-39",
+        "kind": "candidate",
+        "latitude": -14.380033162907047,
+        "longitude": -76.02025691059805,
+        "cmr_granules": 34,
+        "rankings": {
+          "jezero_rank": 6,
+          "haworth_rank": 10
+        }
+      },
+      {
+        "region_id": "utm-ups-v1-10000-32719-747-39",
+        "kind": "candidate",
+        "latitude": -22.874254150839914,
+        "longitude": -70.07232943125818,
+        "cmr_granules": 29,
+        "rankings": {
+          "jezero_rank": 7,
+          "haworth_rank": 7
+        }
+      },
+      {
+        "region_id": "utm-ups-v1-10000-32733-690-75",
+        "kind": "candidate",
+        "latitude": -28.001738278786444,
+        "longitude": 17.542223382858975,
+        "cmr_granules": 45,
+        "rankings": {
+          "jezero_rank": 8,
+          "haworth_rank": 1
+        }
+      },
+      {
+        "region_id": "utm-ups-v1-10000-32635-776-46",
+        "kind": "candidate",
+        "latitude": 69.94426095136099,
+        "longitude": 25.95483775456948,
+        "cmr_granules": 118,
+        "rankings": {
+          "haworth_rank": 2
+        }
+      },
+      {
+        "region_id": "utm-ups-v1-10000-32618-894-45",
+        "kind": "candidate",
+        "latitude": 80.51286227317506,
+        "longitude": -77.71820120670404,
+        "cmr_granules": 228,
+        "rankings": {
+          "haworth_rank": 4
+        }
+      },
+      {
+        "region_id": "utm-ups-v1-10000-32617-794-45",
+        "kind": "candidate",
+        "latitude": 71.55604160238174,
+        "longitude": -82.41609037130452,
+        "cmr_granules": 114,
+        "rankings": {
+          "haworth_rank": 11
+        }
+      },
+      {
+        "region_id": "utm-ups-v1-10000-32626-915-52",
+        "kind": "candidate",
+        "latitude": 82.40255471145332,
+        "longitude": -25.644913167249232,
+        "cmr_granules": 274,
+        "rankings": {
+          "haworth_rank": 12
+        }
+      },
+      {
+        "region_id": "control-v1:haughton-devon",
+        "kind": "control",
+        "latitude": 75.367,
+        "longitude": -89.683,
+        "cmr_granules": 120,
+        "note": "El registro almacenado hasta ahora en enrichment/altimetry corresponde a una prueba parcial con max_granules=6; falta la corrida completa de los 120 gránulos en GCP."
+      },
+      {
+        "region_id": "control-v1:mistastin-sur",
+        "kind": "control",
+        "latitude": 55.8156,
+        "longitude": -63.2995,
+        "cmr_granules": 60
+      },
+      {
+        "region_id": "control-v1:manicouagan-centro",
+        "kind": "control",
+        "latitude": 51.38,
+        "longitude": -68.7,
+        "cmr_granules": 43
+      }
+    ],
+    "pre_stop_pilots": {
+      "atacama_candidate_pre_quota_pilot": {
+        "region_id": "utm-ups-v1-10000-32719-723-61",
+        "persisted_in_feature_store": false,
+        "source": "Resultado reportado en el relevo previo al corte de cuota y log Harmony hj2_status.json; pendiente de repetición persistida en data/feature_store_v1 durante el barrido en GCP.",
+        "cmr_granules": 35,
+        "harmony_original_data_size": "3.41 GiB",
+        "harmony_output_data_size": "400.00 MiB",
+        "harmony_size_reduction_pct": 88.53,
+        "dem_minus_laser_median_m": 0.26,
+        "dem_minus_laser_nmad_m": 0.34,
+        "laser_slope_100m_p50_deg": 1.16,
+        "dem_slope_100m_p50_deg": 1.15
+      }
+    }
+  },
+  "summary": {
+    "n_measured": 1,
+    "n_sites": 2,
+    "laser_vs_dem": {
+      "slope_100m_p50": {
+        "n": 1
+      },
+      "slope_100m_p90": {
+        "n": 1
+      },
+      "diff_slope_200m": {
+        "n": 1
+      },
+      "diff_slope_600m": {
+        "n": 1
+      }
+    },
+    "height": {
+      "median_of_window_medians_m": 1.887313961982727,
+      "max_abs_window_median_m": 1.887313961982727,
+      "median_of_window_nmad_m": 1.5030754804611206
+    }
+  }
+}

@@ -176,21 +176,34 @@ class Rasters:
         self.opened = {}
         self.identities = {}
         self.unavailable = set()
+        # Cause per unavailable asset: 'not_cached', 'http_404', 'network_error: ...', 'open_error: ...'.
+        self.failures = {}
         self.read_bytes = 0
 
     def get(self, entry):
         key = entry['id']
         if key not in self.opened and key not in self.unavailable:
             identity = sources.local_identity(entry) if self.mode != 'range' else None
+            cause = 'not_cached' if identity is None else None
             if identity is None and self.mode != 'cache':
-                identity = sources.remote_identity(entry)
-                if identity['status'] != 'available':
-                    identity = None
+                try:
+                    identity = sources.remote_identity(entry)
+                except OSError as exc:  # URLError, timeouts and unexpected HTTP codes
+                    identity, cause = None, f'network_error: {type(exc).__name__}'
+                else:
+                    if identity['status'] != 'available':
+                        identity, cause = None, identity['status']
             if identity is None:
                 self.unavailable.add(key)
+                self.failures[key] = cause
                 return None
             path = str(sources.cached(entry)) if identity['status'] == 'verified_local' else '/vsicurl/' + entry['url']
-            self.opened[key] = self.stack.enter_context(rasterio.open(path))
+            try:
+                self.opened[key] = self.stack.enter_context(rasterio.open(path))
+            except rasterio.errors.RasterioIOError as exc:
+                self.unavailable.add(key)
+                self.failures[key] = f'open_error: {str(exc)[:120]}'
+                return None
             self.identities[key] = identity
         return self.opened.get(key)
 
@@ -212,7 +225,12 @@ class Rasters:
             col, row = max(0, math.floor(raw.col_off) - 2), max(0, math.floor(raw.row_off) - 2)
             window = Window(col, row, min(ds.width, math.ceil(raw.col_off + raw.width) + 2) - col,
                             min(ds.height, math.ceil(raw.row_off + raw.height) + 2) - row)
-            src = ds.read(1, window=window, masked=True).astype('float64')
+            try:
+                src = ds.read(1, window=window, masked=True).astype('float64')
+            except rasterio.errors.RasterioIOError as exc:
+                # A failed block read (e.g. remote range request) invalidates this asset for the run.
+                self.failures[entry['id']] = f'read_error: {str(exc)[:120]}'
+                return []
             self.read_bytes += src.size * np.dtype(ds.dtypes[0]).itemsize
             data = src.filled(np.nan)
             valid = np.isfinite(data)

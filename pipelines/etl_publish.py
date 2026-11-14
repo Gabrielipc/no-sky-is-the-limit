@@ -1,0 +1,184 @@
+"""Publish the ETL feature store as an Atlas 30 m release read by the API and the map.
+
+The release keeps the layout of `releases/atlas30/<version>/` (manifest.json, windows/*.parquet,
+batches.json, sources.json) and the column names the API and the frontend use. Differences
+from the `atlas30.py` releases are declared in the manifest:
+
+- `ranking_method = 'etl-quantiles-v1'`: the store keeps slope P50/P90 at a 240 m base, not a
+  slope histogram, so `slope_distance_deg` is the mean of |ΔP50| and |ΔP90|, a two-point
+  quadrature of the same L1 distance between slope distributions the histogram method uses.
+- `search_eligibility`: the API searches only windows with that status under the published
+  eligibility profile; every window stays in the release for the coverage map.
+
+Writes go to a staging directory renamed at the end; an existing version is never overwritten.
+"""
+from __future__ import annotations
+
+from datetime import datetime, timezone
+import json
+from pathlib import Path
+import shutil
+
+from pipelines import atlas_sources as sources
+from pipelines import etl_eligibility as eligibility
+from pipelines import etl_extractors as ex
+from pipelines.etl_store import FeatureStore, eligibility_expression
+
+RELEASES = Path(__file__).resolve().parents[1] / 'releases/atlas30'
+RANKING_METHOD = 'etl-quantiles-v1'
+# Jezero HiRISE DTM with the ETL contract (docs/evidencia-descriptores-forma/resultados.json).
+JEZERO_PROFILE = {
+    'profile_id': 'jezero-etl-240m', 'site': 'Jezero — abanico sedimentario', 'body': 'Mars',
+    'product': 'DTEEC_002387_1985_003798_1985_A01', 'cell_m': ex.CELL_M, 'window_m': ex.WINDOW_M,
+    'slope_baseline_m': ex.SLOPE_BASE_M, 'roughness_radius_m': ex.ROUGHNESS_RADIUS_M,
+    'relief_m': 120.2728, 'slope_p50_deg': 3.0744, 'slope_p90_deg': 9.2393, 'roughness_m': 7.5705,
+    'hypsometric_integral': 0.613,
+    'land_fraction': 1.0, 'valid_elevation': 1.0, 'valid_slope': 1.0, 'valid_roughness': 1.0,
+}
+FLOORS = {'slope_distance_deg': 0.25, 'relief_difference_m': 5.0, 'roughness_difference_m': 0.1}
+
+
+def _distances_sql(profile: dict) -> str:
+    return (
+        f"(abs(slope_p50_deg - {profile['slope_p50_deg']!r}) + abs(slope_p90_deg - {profile['slope_p90_deg']!r})) / 2"
+        f" AS slope_distance_deg, abs(relief_m - {profile['relief_m']!r}) AS relief_difference_m,"
+        f" abs(roughness_m - {profile['roughness_m']!r}) AS roughness_difference_m"
+    )
+
+
+def publish_release(store: FeatureStore, version: str, profile_id: str = eligibility.DEFAULT_PROFILE,
+                    reference: dict = JEZERO_PROFILE, root: Path = RELEASES, set_current: bool = False) -> dict:
+    from backend.app.atlas_store import TOKEN  # same version rule as the API
+
+    if not TOKEN.fullmatch(version):
+        raise ValueError('Versión inválida: letras, números, guion y guion bajo')
+    target = root / version
+    if target.exists():
+        raise FileExistsError(f'La versión {version} ya existe; publica con otro nombre')
+    p = eligibility.get_profile(profile_id)
+    staging = root / f'.staging-{version}'
+    shutil.rmtree(staging, ignore_errors=True)
+    (staging / 'windows').mkdir(parents=True)
+    elig = eligibility_expression(profile_id)
+
+    with store._connect() as conn:
+        conn.execute(f"""
+            CREATE TEMP VIEW release_windows AS
+            WITH m AS (
+                SELECT source_manifest_id,
+                       list(DISTINCT asset_id) FILTER (WHERE product_id = 'copernicus-glo30') AS dem,
+                       list(DISTINCT asset_id) FILTER (WHERE product_id = 'esa-worldcover-2021') AS wc,
+                       list(DISTINCT asset_id) FILTER (WHERE product_id = 'jrc-gsw-v1_5') AS jrc
+                FROM read_parquet('{str(store.root / 'manifests' / '*.parquet').replace("'", "''")}',
+                                  union_by_name = true)
+                GROUP BY 1
+            ), w AS (
+                SELECT f.*, c.source_manifest_id AS cover_manifest_id,
+                       string_split(f.region_id, '-') AS parts
+                FROM features_unified f LEFT JOIN enrichment_cover_latest c USING (region_id)
+                WHERE f.body = 'Earth'
+            )
+            SELECT
+                w.region_id, w.batch_id AS batch, 'mundial' AS area,
+                TRY_CAST(parts[5] AS INTEGER) AS zone,
+                TRY_CAST(parts[7] AS INTEGER) * TRY_CAST(parts[4] AS INTEGER) AS x,
+                TRY_CAST(parts[6] AS INTEGER) * TRY_CAST(parts[4] AS INTEGER) AS y,
+                w.longitude, w.latitude, w.cell_m, w.qa_status AS status,
+                COALESCE(mb.dem, []) AS asset_ids,
+                list_distinct(COALESCE(mb.wc, []) || COALESCE(mc.wc, [])) AS worldcover_assets,
+                list_distinct(COALESCE(mb.jrc, []) || COALESCE(mc.jrc, [])) AS water_assets,
+                w.land_fraction, w.topo_valid_fraction AS valid_elevation, w.topo_valid_fraction AS valid_slope,
+                w.roughness_coverage AS valid_roughness,
+                CAST(w.relief_p95_p05_m AS DOUBLE) AS relief_m, CAST(w.roughness_360m_p50_m AS DOUBLE) AS roughness_m,
+                CAST(w.slope_240m_p50_deg AS DOUBLE) AS slope_p50_deg,
+                CAST(w.slope_240m_p90_deg AS DOUBLE) AS slope_p90_deg,
+                CAST(NULL AS INTEGER[]) AS slope_histogram, CAST(NULL AS DOUBLE[]) AS slope_cdf,
+                w.bare_or_sparse_fraction AS bare_fraction, w.trees_fraction AS vegetation_fraction,
+                w.built_fraction AS urban_fraction, w.snow_ice_fraction AS ice_fraction,
+                w.permanent_water_fraction AS worldcover_water_fraction,
+                w.cover_valid_fraction AS worldcover_valid_fraction,
+                w.water_occurrence_mean_pct AS water_occurrence_pct,
+                CAST(NULL AS FLOAT) AS water_valid_fraction,
+                w.cover_status, ({elig}) AS eligibility, '{profile_id}' AS eligibility_profile,
+                w.hypsometric_integral, w.aspect_240m_resultant_length,
+                w.framing_status, w.hi_center, w.hi_best, w.best_offset_east_m, w.best_offset_north_m
+            FROM w
+            LEFT JOIN m mb ON mb.source_manifest_id = w.source_manifest_id
+            LEFT JOIN m mc ON mc.source_manifest_id = w.cover_manifest_id
+        """)
+        out = str(staging / 'windows' / 'windows.parquet').replace("'", "''")
+        conn.execute(f"COPY (SELECT * FROM release_windows ORDER BY region_id) TO '{out}' "
+                     "(FORMAT PARQUET, COMPRESSION ZSTD, ROW_GROUP_SIZE 100000)")
+        counts = dict(conn.execute('SELECT status, count(*) FROM release_windows GROUP BY 1').fetchall())
+        eligibility_counts = dict(conn.execute(
+            "SELECT eligibility, count(*) FROM release_windows WHERE status = 'rankable' GROUP BY 1").fetchall())
+        cover_counts = dict(conn.execute(
+            "SELECT coalesce(cover_status, 'unknown'), count(*) FROM release_windows "
+            "WHERE status = 'rankable' GROUP BY 1").fetchall())
+        quantiles = conn.execute(f"""
+            SELECT quantile_cont(slope_distance_deg, .75), quantile_cont(relief_difference_m, .75),
+                   quantile_cont(roughness_difference_m, .75)
+            FROM (SELECT {_distances_sql(reference)} FROM release_windows
+                  WHERE status = 'rankable' AND eligibility = ?)
+        """, [p.eligible_status]).fetchone()
+        stride = conn.execute(
+            "SELECT any_value(TRY_CAST(string_split(region_id, '-')[4] AS INTEGER)) FROM release_windows").fetchone()[0]
+        manifest_pattern = str(store.root / 'manifests' / '*.parquet').replace("'", "''")
+        manifest_cols = {
+            r[0] for r in conn.execute(
+                f"DESCRIBE SELECT * FROM read_parquet('{manifest_pattern}', union_by_name = true)"
+            ).fetchall()
+        }
+        doi_expr = 'any_value(doi)' if 'doi' in manifest_cols else 'CAST(NULL AS VARCHAR)'
+        ver_expr = 'any_value(product_version)' if 'product_version' in manifest_cols else 'CAST(NULL AS VARCHAR)'
+        assets = conn.execute(f"""
+            SELECT asset_id, any_value(product_id), any_value(access_mode), any_value(sha256_or_etag),
+                   any_value(native_resolution_m), any_value(observation_period),
+                   {doi_expr}, {ver_expr}
+            FROM read_parquet('{manifest_pattern}', union_by_name = true)
+            GROUP BY 1
+        """).fetchall()
+
+    normalization = {k: max(v or 0.0, FLOORS[k]) for k, v in zip(FLOORS, quantiles)}
+    pending_cover = sum(v for k, v in cover_counts.items() if k in ('unknown', 'not_requested', 'cover_fetch_failed'))
+    batches = store.batch_records()
+    manifest = {
+        'version': version,
+        'scope': 'world',
+        'coverage_status': 'partial' if pending_cover or counts.get('dem_fetch_failed') else 'complete',
+        'window_m': ex.WINDOW_M,
+        'cell_m': ex.CELL_M,
+        'stride_m': stride,
+        'grid_version': 'utm-ups-v1',
+        'min_land_fraction': eligibility.MIN_LAND_FRACTION,
+        'min_valid_fraction': ex.MIN_VALID_TOPO,
+        'ranking_method': RANKING_METHOD,
+        'ranking_note': 'slope_distance_deg = (|ΔP50| + |ΔP90|) / 2 de la pendiente a base de 240 m.',
+        'search_eligibility': p.eligible_status,
+        'eligibility_profile': profile_id,
+        'profile': reference,
+        'counts': counts,
+        'eligibility_counts': eligibility_counts,
+        'cover_counts': cover_counts,
+        'batch_count': len(batches),
+        'incomplete_batches': sum(1 for m in batches.values() if m.get('status', 'complete') != 'complete'),
+        'normalization': normalization,
+        'normalization_method': 'Percentil 75 de cada distancia entre las ventanas elegibles del release, '
+                                'con mínimos de 0.25°, 5 m y 0.1 m.',
+        'source_catalog': sources.CATALOG,
+        'feature_store': str(store.root),
+        'created_at': datetime.now(timezone.utc).isoformat(),
+    }
+    (staging / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n')
+    (staging / 'batches.json').write_text(json.dumps(
+        [{'batch_id': b, **{k: m.get(k) for k in ('status', 'windows', 'mode', 'completed_at')}}
+         for b, m in sorted(batches.items())], ensure_ascii=False) + '\n')
+    (staging / 'sources.json').write_text(json.dumps(
+        {a: {'id': a, 'product': prod, 'status': mode, 'sha256_or_etag': ident, 'native_resolution_m': res,
+             'observation_period': period, 'doi': doi, 'product_version': ver}
+         for a, prod, mode, ident, res, period, doi, ver in assets},
+        ensure_ascii=False) + '\n')
+    staging.rename(target)
+    if set_current:
+        (root / 'current').write_text(version + '\n')
+    return manifest
