@@ -6,7 +6,7 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 EVIDENCE = ROOT / 'docs/evidencia-minerales'
 JEZERO_EVIDENCE = ROOT / 'docs/evidencia-crism'
 CONFIG = ROOT / 'specs/analysis/minerales-emit-v1.json'

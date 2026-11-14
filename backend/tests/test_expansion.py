@@ -7,7 +7,8 @@ from unittest.mock import patch
 
 from fastapi.testclient import TestClient
 from app.main import app
-from app import expansion, regional
+from app.routers import expansion_router as expansion
+from app.routers import regional_router as regional
 
 
 class ExpansionTests(unittest.TestCase):

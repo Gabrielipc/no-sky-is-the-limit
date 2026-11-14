@@ -6,9 +6,9 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 
-from app import regional
+from app.routers import regional_router as regional
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 EVIDENCE = ROOT/'docs/evidencia-fase-5'
 CONFIG = ROOT/'specs/scenarios/estabilidad-topografica-v1.json'
 SCENARIO = {
