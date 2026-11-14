@@ -111,6 +111,11 @@ if [[ "$SYNC_INTERVAL_S" -gt 0 ]]; then
     SYNC_PID=$!
 fi
 
+if [[ "$ETL_SCRIPT" == *"etl_pipeline.py"* || "$ETL_SCRIPT" == *"atlas30.py"* ]]; then
+    log "Ensuring atlas30 inventory (land mask + GLO-30 tile list)..."
+    pixi run python "$WORKDIR/scripts/atlas30.py" inventory
+fi
+
 log "Running ETL: ${ETL_SCRIPT} ${ETL_ARGS}"
 # shellcheck disable=SC2086
 bash "$WORKDIR/scripts/ejecutar_minerales.sh" "$ETL_SCRIPT" $ETL_ARGS
