@@ -8,3 +8,4 @@ DATA = ROOT / 'data' / 'regions.json'
 
 def load_regions() -> list[dict]:
     return json.loads(DATA.read_text(encoding='utf-8'))
+

@@ -62,3 +62,4 @@ def search(request: Search, regions_fn: Callable[[], list[dict]] | None = None) 
         'results': results,
         'method': 'Similitud = máx(0, 1 − diferencia absoluta / escala); media ponderada de dimensiones disponibles. Comparaciones incompletas al final.',
     }
+

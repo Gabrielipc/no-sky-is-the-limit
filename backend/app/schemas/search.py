@@ -10,3 +10,4 @@ class Weights(BaseModel):
 class Search(BaseModel):
     reference_id: str
     weights: Weights
+
