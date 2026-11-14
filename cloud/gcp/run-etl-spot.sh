@@ -18,6 +18,7 @@ AUTO_DELETE="${AUTO_DELETE:-1}"
 SYNC_INTERVAL_S="${SYNC_INTERVAL_S:-600}"
 EARTHDATA_SECRET="${EARTHDATA_SECRET:-}"
 
+export HOME="${HOME:-/root}"
 export PATH="$HOME/.pixi/bin:$PATH"
 export ATLAS_CACHE_DIR="$SCRATCH_DIR"
 export ANALOGOS_FEATURE_STORE_DIR="$WORKDIR/data/feature_store_v1"
@@ -56,7 +57,8 @@ mkdir -p "$SCRATCH_DIR" "$WORKDIR"
 if ! command -v pixi >/dev/null 2>&1; then
     log "Installing pixi..."
     curl -fsSL https://pixi.sh/install.sh | bash
-    export PATH="$HOME/.pixi/bin:$PATH"
+    export HOME="${HOME:-/root}"
+export PATH="$HOME/.pixi/bin:$PATH"
 fi
 
 if [[ ! -d "$WORKDIR/.git" ]]; then
