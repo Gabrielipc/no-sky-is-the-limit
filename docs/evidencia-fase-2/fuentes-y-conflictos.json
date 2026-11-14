@@ -1,0 +1,78 @@
+{
+  "recorded_at_utc": "2026-11-07T05:57:35.760464+00:00",
+  "sources": [
+    {
+      "id": "srtm-units-datum",
+      "url": "https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm",
+      "title": "USGS EROS Archive — SRTM",
+      "access": "Read successfully via web research; direct curl returned HTTP 403, so no HTML snapshot retained",
+      "verified_claim": "Product specifications list geographic WGS84, vertical EGM96 and meters. Assignment to local copies depends on their recorded provenance.",
+      "limitation": "Does not prove exact tile version, local fill source or physical accuracy."
+    },
+    {
+      "id": "srtm-version-fill",
+      "url": "https://data.nasa.gov/dataset/nasa-shuttle-radar-topography-mission-global-1-arc-second-v003-e47e1",
+      "doi": "10.5067/MEASURES/SRTM/SRTMGL1.003",
+      "access": "Read successfully via web research",
+      "verified_claim": "Version 3 is void-filled; per-pixel provenance is carried in the companion SRTMGL1N product.",
+      "limitation": "Companion NUM data not acquired; no observation-vs-fill mask is claimed for this analysis."
+    },
+    {
+      "id": "hirise-product",
+      "url": "https://www.uahirise.org/dtm/PSP_002387_1985",
+      "access": "Phase-1 snapshots, complete IMG and C orthoimage acquired in phase 2",
+      "verified_claim": "Specific source product identity and grid established by embedded DTM and detached image labels.",
+      "local_evidence": "specs/analysis/primer-caso-fase2.json; procesamiento.json; ortoimagen-qa.json"
+    },
+    {
+      "id": "hirise-quality",
+      "url": "https://www.uahirise.org/dtm/about.php",
+      "access": "Phase-1 snapshot docs/evidencia-fase-1/hirise-dtm-metodo.html",
+      "verified_claim": "Stereo DTM is a derived product with potential processing artifacts; grid spacing does not establish local accuracy."
+    },
+    {
+      "id": "atacama-regional-context",
+      "url": "https://www.nasa.gov/image-article/tire-tracks-mars-atacama-rover-astrobiology-drilling-studies/",
+      "access": "Phase-1 snapshot docs/evidencia-fase-1/atacama-arads.html",
+      "verified_claim": "Atacama has rover research context, but this project polygon was not identified as an ARADS footprint."
+    }
+  ],
+  "conflicts": [
+    {
+      "issue": "MOLA counts headers vs PDS labels",
+      "resolution": "MOLA excluded from the phase-2 data flow; originals preserved",
+      "status": "isolated_not_repaired_not_used"
+    },
+    {
+      "issue": "Provisional phase-1 polygons vs exact metric analysis square",
+      "resolution": "Final geometry generated from local AEQD per body, saved with dense boundaries",
+      "status": "resolved_for_this_analysis"
+    },
+    {
+      "issue": "Image resolution vs DTM resolution",
+      "resolution": "Separate product labels and data paths; image used for visual QA only",
+      "status": "resolved"
+    },
+    {
+      "issue": "Available DEM pixels vs independent direct observations",
+      "resolution": "Separate validity/support masks; no direct-observation fraction is inferred",
+      "status": "resolved_in_output_semantics_original_support_unknown"
+    },
+    {
+      "issue": "SRTM units and vertical reference not embedded",
+      "resolution": "Documentary assignment from official SRTM specifications; no vertical correction or absolute cross-body elevation comparison",
+      "status": "documented_assumption_tile_version_unconfirmed"
+    },
+    {
+      "issue": "GDAL JP2OpenJPEG unavailable",
+      "resolution": "Use existing Pillow JPEG2000 decoder; verify detached label geometry before inspection",
+      "status": "resolved_without_dependency_changes"
+    },
+    {
+      "issue": "No exact positive analogue ground-truth label",
+      "resolution": "Atacama used as regional contextual contrast only; synthetic physical controls test methods; expert relevance remains future work",
+      "status": "explicit_validation_limit"
+    }
+  ],
+  "scope": "No API/UI or prototype catalog change; no ML; no scientific mobility threshold; other dimensions remain unevaluated."
+}

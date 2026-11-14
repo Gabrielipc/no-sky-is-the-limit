@@ -1,0 +1,125 @@
+{
+  "scope": "Complementary delivery identities; scientific publication remains in manifest-local.json",
+  "files": [
+    {
+      "file": "../../README.md",
+      "bytes": 6590,
+      "sha256": "31a785631b70b29b8131e27c584366a80fc02874715f2a5d73649af60ed97151"
+    },
+    {
+      "file": "../../backend/app/expansion.py",
+      "bytes": 3403,
+      "sha256": "eb8b9915749f6b9073a7899517e8fdc8a2f1d3e284bbbc4fffadff48f8631b79"
+    },
+    {
+      "file": "../../backend/app/main.py",
+      "bytes": 3328,
+      "sha256": "619372d31547913ac92febb0a3b73d08ff4055056728199e775b2f8fe7cba7c5"
+    },
+    {
+      "file": "../../backend/app/scenarios.py",
+      "bytes": 9181,
+      "sha256": "85d00935171ebb40c376a3201d79faa1c106aaee8586bef6749ab90cf4eeaf14"
+    },
+    {
+      "file": "../../backend/tests/test_expansion.py",
+      "bytes": 4494,
+      "sha256": "fda31dfb5b7dadb7eb929c96ad6d6853f9b3427bf1a08b60720b0a95ce96aeca"
+    },
+    {
+      "file": "../../backend/tests/test_scenarios.py",
+      "bytes": 5362,
+      "sha256": "0aa747725cfe9b99e5d6592343cb7d83c40db00b27aeb22454ad8946ac641602"
+    },
+    {
+      "file": "../Fase 5 - expansion condicionada.md",
+      "bytes": 11868,
+      "sha256": "2d1f80e50cb1a7baa59eb738a459b20ea6013afcfd7c6956ad90a42bb3116adf"
+    },
+    {
+      "file": "../Plan de implementacion orientado a escenarios.md",
+      "bytes": 12809,
+      "sha256": "2fac991cdf0d48d03c478f533fd88db28e4b8cff4f6fd9190e3cd0e200268141"
+    },
+    {
+      "file": "README.md",
+      "bytes": 1502,
+      "sha256": "2fa496f2ba4647b1c4fe01dcdab15248e0180248843d95bf4041400dcf057dd4"
+    },
+    {
+      "file": "detalle.png",
+      "bytes": 57938,
+      "sha256": "32d65d8c590a21e3150b8e369d6527f38f0276ca3451c8f2984cc9e59e4936ac"
+    },
+    {
+      "file": "manifest-local.json",
+      "bytes": 1278,
+      "sha256": "ff4b5d66778ce9da3bc54d746b6ff5469636f9871b96867314c3ae721977953d"
+    },
+    {
+      "file": "pendiente.png",
+      "bytes": 234738,
+      "sha256": "4f4681867470813de367248eb571ffd030eb961f9b5332694c414d2eec9f4d7c"
+    },
+    {
+      "file": "procesamiento.json",
+      "bytes": 4944,
+      "sha256": "a85eeeabf1ba35b1a32ffbc7be104238ec3795f04678e3d5ad5b287b4d447860"
+    },
+    {
+      "file": "recorrido.png",
+      "bytes": 285072,
+      "sha256": "ce96aeefd099b2c1de4117655eda7b39fa9d3eff901f6418d9ee5f73f1dcdcb0"
+    },
+    {
+      "file": "repeticion.json",
+      "bytes": 7395,
+      "sha256": "3af3af95369d9fbfe608586d5e86543420613ead5ed11dbf71735afbc93545a5"
+    },
+    {
+      "file": "resultados.json",
+      "bytes": 166497,
+      "sha256": "eb4d5e338787a93de422c03e504a9bd923f07f65bf9701f32adb1ec791b418fd"
+    },
+    {
+      "file": "verificacion.json",
+      "bytes": 2815,
+      "sha256": "82e9b969e1e5e990f324ccdf5e815fe591636e0a51ae3ba6c3fc832048cf5276"
+    },
+    {
+      "file": "../../frontend/src/App.tsx",
+      "bytes": 18491,
+      "sha256": "efb2f582e590c7d849319565e4c38c776ce778534d9f456df57328e22b65c74f"
+    },
+    {
+      "file": "../../frontend/src/Expansion.tsx",
+      "bytes": 9582,
+      "sha256": "ce5157dd2a57e65c6ddacac363b2e70b0062d671476d813e2d4a53b4458ff6ab"
+    },
+    {
+      "file": "../../frontend/src/style.css",
+      "bytes": 13174,
+      "sha256": "9f7573d0951b0fe572620a33e17c023561004ab5cacbaf1586d90ca333155e5c"
+    },
+    {
+      "file": "../../scripts/evaluar_expansion.py",
+      "bytes": 16640,
+      "sha256": "7c7da87579b99701d5975f3343835aac3a9fcbe45494f78b54409c8f88ede343"
+    },
+    {
+      "file": "../../specs/scenarios/README.md",
+      "bytes": 652,
+      "sha256": "7832664fc966363a4fae7bcf146adae5056f315d115dbc650bf0f3235ac1d224"
+    },
+    {
+      "file": "../../specs/scenarios/estabilidad-topografica-v1.json",
+      "bytes": 917,
+      "sha256": "69c703831dbc9436db5e7e4872201fa972dc08a331bf0f6d14abbc934d066959"
+    },
+    {
+      "file": "../../tests/test_evaluar_expansion.py",
+      "bytes": 5673,
+      "sha256": "f01b50a6a31ae7385873b7f9538e5ddb4d79f0e6569b7a6b7d085a144ac9a1c7"
+    }
+  ]
+}

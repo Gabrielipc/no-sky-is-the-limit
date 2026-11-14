@@ -1,0 +1,163 @@
+{
+  "candidate_id": "utah-010-007",
+  "evaluation_status": "locally_evaluated_exploratory",
+  "window_m": 3000,
+  "reference_metrics": [
+    {
+      "cells": 2500,
+      "valid_elevation_cells": 2500,
+      "valid_slope_cells": 2500,
+      "elevation_coverage": 1.0,
+      "slope_coverage": 1.0,
+      "relief_p95_p5_m": 120.1477065746999,
+      "slope_quantiles_deg": {
+        "p10": 1.2323837975063958,
+        "p50": 3.4238283522132162,
+        "p90": 10.692251142757856
+      },
+      "slope_histogram_counts": [
+        180,
+        398,
+        1095,
+        548,
+        158,
+        89,
+        32,
+        0,
+        0
+      ],
+      "status": "available_exploratory",
+      "cell_m": 60,
+      "slope_baseline_m": 120,
+      "window_m": 3000
+    },
+    {
+      "cells": 625,
+      "valid_elevation_cells": 625,
+      "valid_slope_cells": 625,
+      "elevation_coverage": 1.0,
+      "slope_coverage": 1.0,
+      "relief_p95_p5_m": 118.27539061322659,
+      "slope_quantiles_deg": {
+        "p10": 1.2330464935130974,
+        "p50": 2.9100310930048217,
+        "p90": 8.733960587023603
+      },
+      "slope_histogram_counts": [
+        33,
+        149,
+        291,
+        103,
+        38,
+        11,
+        0,
+        0,
+        0
+      ],
+      "status": "available_exploratory",
+      "cell_m": 120,
+      "slope_baseline_m": 240,
+      "window_m": 3000
+    }
+  ],
+  "metrics": [
+    {
+      "cells": 2500,
+      "valid_elevation_cells": 2500,
+      "valid_slope_cells": 2500,
+      "elevation_coverage": 1.0,
+      "slope_coverage": 1.0,
+      "relief_p95_p5_m": 116.04600429109723,
+      "slope_quantiles_deg": {
+        "p10": 1.5241582177028787,
+        "p50": 4.130562685528981,
+        "p90": 14.000593893278177
+      },
+      "slope_histogram_counts": [
+        120,
+        297,
+        1056,
+        585,
+        228,
+        180,
+        34,
+        0,
+        0
+      ],
+      "status": "available_exploratory",
+      "cell_m": 60,
+      "slope_baseline_m": 120,
+      "window_m": 3000,
+      "slope_wasserstein_deg": 1.0153911105075224,
+      "candidate_minus_reference_relief_m": -4.101702283602663
+    },
+    {
+      "cells": 625,
+      "valid_elevation_cells": 625,
+      "valid_slope_cells": 625,
+      "elevation_coverage": 1.0,
+      "slope_coverage": 1.0,
+      "relief_p95_p5_m": 114.08235728238992,
+      "slope_quantiles_deg": {
+        "p10": 1.3718887969355593,
+        "p50": 3.612800853336212,
+        "p90": 10.509280465025943
+      },
+      "slope_histogram_counts": [
+        29,
+        120,
+        274,
+        126,
+        63,
+        13,
+        0,
+        0,
+        0
+      ],
+      "status": "available_exploratory",
+      "cell_m": 120,
+      "slope_baseline_m": 240,
+      "window_m": 3000,
+      "slope_wasserstein_deg": 0.7415107663722866,
+      "candidate_minus_reference_relief_m": -4.19303333083667
+    }
+  ],
+  "plan": {
+    "candidate_id": "utah-010-007",
+    "tiles": [
+      {
+        "filename": "N38W111.tif",
+        "local_file": "data/raw/srtm/N38W111.tif",
+        "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N38W111.tif"
+      }
+    ],
+    "bbox": [
+      -110.70838722791315,
+      38.89854499407347,
+      -110.66825429364886,
+      38.929894158654534
+    ],
+    "window_m": 3000,
+    "scales_m": [
+      60,
+      120
+    ],
+    "status": "pending_acquisition_and_validation",
+    "note": "SRTM is a proposed detail source for these nonpolar areas; file coverage and units require checks. No implicit download in API."
+  },
+  "inputs": [
+    {
+      "file": "data/raw/srtm/N38W111.tif",
+      "sha256": "73520c1f4d04871db3a999fb2570c4eef723fb18d5a507cc60ba5c22ccac828c",
+      "bytes": 14938692
+    }
+  ],
+  "source_catalog_sha256": "3786f3de7b69b5813f70bcad6b13e01f6d8a27675af8e5c28c9d426b820a0d21",
+  "source_config_sha256": "479d0e989b9cbb2d7e5ac6d5e6c6acba07decd5cde718cd671465488a210953b",
+  "code_sha256": "988a6c1bca1afec19bd8423ebc5961fd893dbf3c6c5d1012c205627cb1fd2a99",
+  "limitations": [
+    "SRTM metres/EGM96 assigned by documented provenance; TIFF lacks vertical CRS and fill provenance.",
+    "Exploratory local terrain descriptors, no validated analogue or mobility determination.",
+    "3 km window; does not replace 1.8 km phase-2 measurements."
+  ]
+}

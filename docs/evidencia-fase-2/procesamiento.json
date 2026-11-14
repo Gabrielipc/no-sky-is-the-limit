@@ -1,0 +1,213 @@
+{
+  "config": "specs/analysis/primer-caso-fase2.json",
+  "config_sha256": "6d6ff28182c0be852f4490ad5cadd18cbb95ee5700803a08989cc060350337a1",
+  "code_sha256": "fea9f43e5972ee14f748703bc4724b3a50885214700cbca19bd423bd545a4fcc",
+  "versions": {
+    "python": "3.11.18",
+    "numpy": "1.26.4",
+    "rasterio": "1.4.4",
+    "gdal": "3.12.3",
+    "pyproj": "3.7.2",
+    "scipy": "1.17.1",
+    "matplotlib": "3.11.2",
+    "pillow": "13.0.0"
+  },
+  "method": "Average elevation and independent valid-support raster; complete support only; central differences after aggregation; linear quantiles; no vertical datum transformation, no cross-body reprojection",
+  "inputs": [
+    {
+      "input": "data/raw/hirise/DTEEC_002387_1985_003798_1985_A01.IMG",
+      "sha256": "268bd5912f0aa0e0b0be8db9004085c2ace78f559377acad0a47b32878c7ccea",
+      "bytes": 320045704,
+      "product_id": "DTEEC_002387_1985_003798_1985_A01",
+      "source_url": "https://www.uahirise.org/PDS/DTM/PSP/ORB_002300_002399/PSP_002387_1985_PSP_003798_1985/DTEEC_002387_1985_003798_1985_A01.IMG",
+      "source_crs_wkt": "PROJCS[\"EQUIRECTANGULAR MARS\",GEOGCS[\"GCS_MARS\",DATUM[\"D_MARS\",SPHEROID[\"MARS_localRadius\",3394839.8133163,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",15],PARAMETER[\"central_meridian\",77.41],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+      "source_transform": [
+        1.0096476466229,
+        0.0,
+        -3782.1400842493836,
+        0.0,
+        -1.0096476466229,
+        1101405.434395636,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "source_shape": [
+        11538,
+        6934
+      ],
+      "source_nodata": -3.4028226550889045e+38,
+      "source_window": [
+        2593,
+        4664,
+        2306,
+        2264
+      ],
+      "crop_transform": [
+        1.0096476466229,
+        0.0,
+        -1164.1237365562038,
+        0.0,
+        -1.0096476466229,
+        1096696.4377717867,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "crop_cells": 5220784,
+      "crop_valid_cells": 5220784,
+      "crop_valid_fraction": 1.0,
+      "source_step_units": [
+        1.0096476466229,
+        1.0096476466229
+      ],
+      "target_crs_wkt": "PROJCRS[\"unknown\",BASEGEOGCRS[\"unknown\",DATUM[\"unknown\",ELLIPSOID[\"unknown\",3394839.8133163,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]],CONVERSION[\"unknown\",METHOD[\"Azimuthal Equidistant\",ID[\"EPSG\",1125]],PARAMETER[\"Latitude of natural origin\",18.49,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",77.41,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"(E)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"(N)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]]",
+      "vertical_reference": "Mars 2000 equipotential surface, label",
+      "source_limitations": [
+        "DTM estéreo, resolución efectiva y precisión local no cuantificadas",
+        "Posibles interpolaciones, facetas y costuras",
+        "La escala de imagen no es la escala del DTM"
+      ],
+      "independent_binary_controls": [
+        {
+          "row": 5796,
+          "column": 3746,
+          "elevation_m": -2435.239990234375
+        },
+        {
+          "row": 4669,
+          "column": 2598,
+          "elevation_m": -2425.642578125
+        },
+        {
+          "row": 6922,
+          "column": 4893,
+          "elevation_m": -2543.083251953125
+        }
+      ],
+      "label_geotransform_origin_check": "passed; PDS offsets interpreted independently at raster outer edge",
+      "native_step_at_center_m": [
+        0.9913065997631977,
+        1.009647646747531
+      ]
+    },
+    {
+      "input": "data/raw/srtm/N38W111.tif",
+      "sha256": "73520c1f4d04871db3a999fb2570c4eef723fb18d5a507cc60ba5c22ccac828c",
+      "bytes": 14938692,
+      "product_id": "N38W111.tif",
+      "source_url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N38W111.tif",
+      "source_crs_wkt": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+      "source_transform": [
+        0.0002777777777777778,
+        0.0,
+        -111.00013888888888,
+        0.0,
+        -0.0002777777777777778,
+        39.00013888888889,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "source_shape": [
+        3601,
+        3601
+      ],
+      "source_nodata": -32768.0,
+      "source_window": [
+        1391,
+        1401,
+        99,
+        79
+      ],
+      "crop_transform": [
+        0.0002777777777777778,
+        0.0,
+        -110.61375,
+        0.0,
+        -0.0002777777777777778,
+        38.61097222222222,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "crop_cells": 7821,
+      "crop_valid_cells": 7821,
+      "crop_valid_fraction": 1.0,
+      "source_step_units": [
+        0.0002777777777777778,
+        0.0002777777777777778
+      ],
+      "target_crs_wkt": "PROJCRS[\"unknown\",BASEGEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]]],CONVERSION[\"unknown\",METHOD[\"Azimuthal Equidistant\",ID[\"EPSG\",1125]],PARAMETER[\"Latitude of natural origin\",38.6,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-110.6,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"(E)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"(N)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]]",
+      "vertical_reference": "Metros EGM96 según documentación SRTM; asignación por procedencia, sin transformación vertical",
+      "source_limitations": [
+        "Modelo radar de superficie; vegetación y estructuras no descartadas",
+        "Máscara de rellenos y precisión local no disponibles",
+        "No es un sitio de ensayo de rover validado"
+      ],
+      "native_step_at_center_m": [
+        24.197784916673335,
+        30.83551750303764
+      ]
+    },
+    {
+      "input": "data/raw/srtm/S24W068.tif",
+      "sha256": "4f64ff3421208d6f1c95cd94e1df9d9c686a877e3905b53fd940ab9cf194db4a",
+      "bytes": 16464310,
+      "product_id": "S24W068.tif",
+      "source_url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/S24W068.tif",
+      "source_crs_wkt": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+      "source_transform": [
+        0.0002777777777777778,
+        0.0,
+        -68.00013888888888,
+        0.0,
+        -0.0002777777777777778,
+        -22.999861111111112,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "source_shape": [
+        3601,
+        3601
+      ],
+      "source_nodata": -32768.0,
+      "source_window": [
+        318,
+        2841,
+        85,
+        79
+      ],
+      "crop_transform": [
+        0.0002777777777777778,
+        0.0,
+        -67.91180555555555,
+        0.0,
+        -0.0002777777777777778,
+        -23.78902777777778,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "crop_cells": 6715,
+      "crop_valid_cells": 6715,
+      "crop_valid_fraction": 1.0,
+      "source_step_units": [
+        0.0002777777777777778,
+        0.0002777777777777778
+      ],
+      "target_crs_wkt": "PROJCRS[\"unknown\",BASEGEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]]],CONVERSION[\"unknown\",METHOD[\"Azimuthal Equidistant\",ID[\"EPSG\",1125]],PARAMETER[\"Latitude of natural origin\",-23.8,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-67.9,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"(E)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"(N)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]]",
+      "vertical_reference": "Metros EGM96 según documentación SRTM; asignación por procedencia, sin transformación vertical",
+      "source_limitations": [
+        "Modelo radar de superficie, posibles rellenos",
+        "El polígono no se identificó con una huella ARADS",
+        "Precisión local no cuantificada"
+      ],
+      "native_step_at_center_m": [
+        28.307891196302535,
+        30.765371661201833
+      ]
+    }
+  ]
+}

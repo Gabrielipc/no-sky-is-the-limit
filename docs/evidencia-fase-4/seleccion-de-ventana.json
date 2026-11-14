@@ -1,0 +1,373 @@
+{
+  "selected_window_m": 3000,
+  "minimum_coverage": 0.95,
+  "selection": "Largest tested window with full elevation and slope coverage at both 300 and 600 m. This is a measured experiment choice, not a universal optimum.",
+  "trials": [
+    {
+      "window_m": 1800,
+      "results": [
+        {
+          "cells": 36,
+          "valid_elevation_cells": 36,
+          "valid_slope_cells": 36,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 50.65871545734535,
+          "slope_quantiles_deg": {
+            "p10": 1.429098505965951,
+            "p50": 2.1617022575901013,
+            "p90": 3.343778764758592
+          },
+          "slope_histogram_counts": [
+            2,
+            12,
+            21,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 1800
+        },
+        {
+          "cells": 9,
+          "valid_elevation_cells": 9,
+          "valid_slope_cells": 9,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 43.066470012148784,
+          "slope_quantiles_deg": {
+            "p10": 1.415264126968129,
+            "p50": 1.966048510889619,
+            "p90": 2.6964059791139743
+          },
+          "slope_histogram_counts": [
+            0,
+            5,
+            4,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 1800
+        }
+      ]
+    },
+    {
+      "window_m": 2400,
+      "results": [
+        {
+          "cells": 64,
+          "valid_elevation_cells": 64,
+          "valid_slope_cells": 64,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 70.49977563442553,
+          "slope_quantiles_deg": {
+            "p10": 1.2448383817958046,
+            "p50": 2.2582763462444797,
+            "p90": 4.482324913503945
+          },
+          "slope_histogram_counts": [
+            5,
+            18,
+            35,
+            6,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 2400
+        },
+        {
+          "cells": 16,
+          "valid_elevation_cells": 16,
+          "valid_slope_cells": 16,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 68.19602587145528,
+          "slope_quantiles_deg": {
+            "p10": 1.4332271289991698,
+            "p50": 1.978599192303304,
+            "p90": 3.6704738612510015
+          },
+          "slope_histogram_counts": [
+            1,
+            7,
+            8,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 2400
+        }
+      ]
+    },
+    {
+      "window_m": 3000,
+      "results": [
+        {
+          "cells": 100,
+          "valid_elevation_cells": 100,
+          "valid_slope_cells": 100,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 111.30265321397201,
+          "slope_quantiles_deg": {
+            "p10": 1.2111986701739024,
+            "p50": 2.350975628117199,
+            "p90": 5.712048848766614
+          },
+          "slope_histogram_counts": [
+            9,
+            26,
+            52,
+            13,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3000
+        },
+        {
+          "cells": 25,
+          "valid_elevation_cells": 25,
+          "valid_slope_cells": 25,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 97.28383340168557,
+          "slope_quantiles_deg": {
+            "p10": 1.2775760254464346,
+            "p50": 2.012450708478698,
+            "p90": 3.770598666054797
+          },
+          "slope_histogram_counts": [
+            1,
+            9,
+            15,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3000
+        }
+      ]
+    },
+    {
+      "window_m": 3600,
+      "results": [
+        {
+          "cells": 144,
+          "valid_elevation_cells": 144,
+          "valid_slope_cells": 144,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 1.0,
+          "relief_p95_p5_m": 131.0222791534925,
+          "slope_quantiles_deg": {
+            "p10": 1.085025193985566,
+            "p50": 2.568691141576299,
+            "p90": 5.92302883146565
+          },
+          "slope_histogram_counts": [
+            12,
+            37,
+            73,
+            22,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 3600
+        },
+        {
+          "cells": 36,
+          "valid_elevation_cells": 36,
+          "valid_slope_cells": 34,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 0.9444444444444444,
+          "relief_p95_p5_m": 122.37553872148465,
+          "slope_quantiles_deg": {
+            "p10": 1.393015311174286,
+            "p50": 2.1341710736342954,
+            "p90": 3.8375883638712636
+          },
+          "slope_histogram_counts": [
+            3,
+            10,
+            21,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 3600
+        }
+      ]
+    },
+    {
+      "window_m": 4200,
+      "results": [
+        {
+          "cells": 196,
+          "valid_elevation_cells": 196,
+          "valid_slope_cells": 192,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 0.9795918367346939,
+          "relief_p95_p5_m": 137.68405750221973,
+          "slope_quantiles_deg": {
+            "p10": 0.9489386157677024,
+            "p50": 2.3810066845321507,
+            "p90": 6.049517288803892
+          },
+          "slope_histogram_counts": [
+            21,
+            51,
+            89,
+            31,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 4200
+        },
+        {
+          "cells": 49,
+          "valid_elevation_cells": 49,
+          "valid_slope_cells": 43,
+          "elevation_coverage": 1.0,
+          "slope_coverage": 0.8775510204081632,
+          "relief_p95_p5_m": 133.4555737950227,
+          "slope_quantiles_deg": {
+            "p10": 0.9880512240573686,
+            "p50": 2.0097917578503015,
+            "p90": 3.7471888219679106
+          },
+          "slope_histogram_counts": [
+            5,
+            15,
+            23,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 4200
+        }
+      ]
+    },
+    {
+      "window_m": 4800,
+      "results": [
+        {
+          "cells": 256,
+          "valid_elevation_cells": 251,
+          "valid_slope_cells": 238,
+          "elevation_coverage": 0.98046875,
+          "slope_coverage": 0.9296875,
+          "relief_p95_p5_m": 148.39069157900667,
+          "slope_quantiles_deg": {
+            "p10": 0.8569622819164975,
+            "p50": 2.349415903700492,
+            "p90": 5.712879227735522
+          },
+          "slope_histogram_counts": [
+            30,
+            67,
+            108,
+            33,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 300,
+          "slope_baseline_m": 600,
+          "window_m": 4800
+        },
+        {
+          "cells": 64,
+          "valid_elevation_cells": 61,
+          "valid_slope_cells": 50,
+          "elevation_coverage": 0.953125,
+          "slope_coverage": 0.78125,
+          "relief_p95_p5_m": 139.5693023417325,
+          "slope_quantiles_deg": {
+            "p10": 0.8755342594714851,
+            "p50": 2.0260583791541404,
+            "p90": 3.6255772942759914
+          },
+          "slope_histogram_counts": [
+            6,
+            16,
+            28,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "status": "available_exploratory",
+          "cell_m": 600,
+          "slope_baseline_m": 1200,
+          "window_m": 4800
+        }
+      ]
+    }
+  ]
+}

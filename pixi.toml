@@ -1,0 +1,39 @@
+[workspace]
+name = "analogos-planetarios"
+version = "0.1.0"
+channels = ["conda-forge"]
+platforms = ["osx-arm64", "osx-64", "linux-64"]
+
+[dependencies]
+python = "3.11.*"
+gdal = ">=3.8"
+proj = ">=9.3"
+proj-data = "*"
+rasterio = ">=1.3"
+rioxarray = "*"
+xarray = "*"
+geopandas = ">=1.0"
+pyproj = ">=3.6"
+numpy = ">=1.26,<2.0"
+scipy = "*"
+duckdb = ">=1.1"
+pyarrow = "*"
+pandera = "*"
+pydantic = ">=2.7"
+pyyaml = "*"
+fastapi = "*"
+uvicorn = "*"
+httpx = "*"
+pytest = "*"
+matplotlib = "*"
+pillow = "*"
+nodejs = ">=22.17,<23"
+
+[tasks]
+check-env = "python -c \"from pyproj import CRS; print(CRS.from_string('IAU_2015:49900').name); print(CRS.from_string('IAU_2015:30100').name)\""
+backend = { cmd = "uvicorn app.main:app --reload", cwd = "backend" }
+frontend = { cmd = "npm run dev", cwd = "frontend" }
+test = { cmd = "python -m unittest discover -s tests", cwd = "backend" }
+build = { cmd = "npm run build", cwd = "frontend" }
+analysis = "python scripts/analizar_primer_caso.py"
+test-analysis = "python -m unittest discover -s tests -p test_analizar_primer_caso.py -v"

@@ -1,0 +1,94 @@
+{
+  "date": "2026-11-07",
+  "status": "passed",
+  "case_id": "jezero-relieve-regional-v1",
+  "automated": {
+    "backend_tests_passed": 10,
+    "new_scenario_tests": 7,
+    "scientific_analysis_tests_passed": 7,
+    "retrieval_tests_passed": 9,
+    "total_tests_passed": 26,
+    "typescript_vite_build": "passed",
+    "planetary_crs_environment_check": "passed",
+    "commands": [
+      "make check",
+      ".pixi/envs/default/bin/python -m unittest discover -s tests -v"
+    ],
+    "phase2_manifest_entries_verified": 47,
+    "phase2_manifest_mismatches": [],
+    "local_markdown_links_verified": 11
+  },
+  "browser": {
+    "url": "http://127.0.0.1:5173/",
+    "checked": [
+      "Initial Jezero/Utah at 60 m",
+      "Switch to 120 m; slope baseline 240 m",
+      "Select Atacama; differences and tables update",
+      "Native crop view",
+      "Source metadata and 225/225 coverage per variable",
+      "Earth contextual globe and 1800 m analysis polygon",
+      "Return to Utah at 60 m"
+    ],
+    "observed_console_errors_or_warnings": [],
+    "screenshot": "recorrido.jpg"
+  },
+  "limitations": [
+    "Exploratory regional comparison, no scientific revalidation or mobility assessment",
+    "Only one scenario and one Mars reference implemented",
+    "No exhaustive cross-browser or device testing",
+    "Phase-2 manifest is a local identity control, not a signed authenticity certificate",
+    "Original rasters and historical prototype catalog preserved"
+  ],
+  "files": [
+    {
+      "file": "backend/app/main.py",
+      "bytes": 3151,
+      "sha256": "b5bc4427d5b92cf050bd8d1af38a7e809a095629d4077c2bbc94c5dd70d33ca2"
+    },
+    {
+      "file": "backend/app/scenarios.py",
+      "bytes": 8764,
+      "sha256": "1cf6c3fa796f99a91476b1d24c0d29e3c6d3b4c614c7cefdfb5d5c00bf134f6c"
+    },
+    {
+      "file": "backend/tests/test_scenarios.py",
+      "bytes": 5257,
+      "sha256": "6b891f704f7fad23ef6eddf3d238e7b123fd5d93b523a7334e89b36db1d05cde"
+    },
+    {
+      "file": "frontend/src/main.tsx",
+      "bytes": 17824,
+      "sha256": "e3e8608cfdb5da09a0f8c893037ea47c5b7ecdf42620efffde26fa71ba89ba58"
+    },
+    {
+      "file": "frontend/src/ContextGlobe.tsx",
+      "bytes": 3538,
+      "sha256": "34db7538a27f2dac04fd750bda2588e96a25e28bded7516383bf696efd166172"
+    },
+    {
+      "file": "frontend/src/style.css",
+      "bytes": 10182,
+      "sha256": "104fd36801cfa9326de837b49d4ac29b81fade3a31f39f987f76428462b05a02"
+    },
+    {
+      "file": "README.md",
+      "bytes": 4690,
+      "sha256": "f9979f67ecdd1f22f9133764a75c3b94fdc6468fdd6f74a777d507d51825f9ed"
+    },
+    {
+      "file": "docs/Fase 3 - recorrido minimo en la aplicacion.md",
+      "bytes": 7249,
+      "sha256": "1048dac368c28a27e6b9893c970e891154511ba0c8705deb0739426ba8584729"
+    },
+    {
+      "file": "docs/evidencia-fase-3/README.md",
+      "bytes": 528,
+      "sha256": "1a2d5c380a2dc3e45bbcad5c503a848772e04b41c25c9368c1f1e2a3dd6778b1"
+    },
+    {
+      "file": "docs/evidencia-fase-3/recorrido.jpg",
+      "bytes": 73789,
+      "sha256": "91571035b94a8bde2dc9b4b80ac250e17d2035eaee7e9218551b44c80384ee12"
+    }
+  ]
+}

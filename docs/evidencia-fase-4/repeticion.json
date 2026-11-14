@@ -1,0 +1,7 @@
+{
+  "candidates_sha256_before": "3786f3de7b69b5813f70bcad6b13e01f6d8a27675af8e5c28c9d426b820a0d21",
+  "candidates_sha256_after": "3786f3de7b69b5813f70bcad6b13e01f6d8a27675af8e5c28c9d426b820a0d21",
+  "identical": true,
+  "detail_status": "locally_evaluated_exploratory",
+  "scope": "Candidate metrics, geometries, profile decisions and controls. Processing elapsed time is intentionally variable."
+}

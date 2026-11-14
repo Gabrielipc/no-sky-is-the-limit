@@ -1,0 +1,38 @@
+{
+  "checked_at_utc": "2026-11-07T05:58:20.476054+00:00",
+  "status": "passed",
+  "checks": [
+    "Two consecutive final-code runs produced identical SHA-256 for 37 generated JSON/GeoJSON/GeoTIFF/PNG artifacts.",
+    "Seven prototype/catalog/API/UI file hashes unchanged.",
+    "All 49 entries of the phase-1 evidence manifest preserved.",
+    "Six site-scale results, complete-support counts, histogram totals and independent relief recomputation match stored rasters.",
+    "Final analysis polygons are valid and kept in separate planetary/terrestrial files.",
+    "16 relative Markdown references resolve."
+  ],
+  "tests": {
+    "scientific_analysis": 7,
+    "existing_retrieval": 9,
+    "existing_backend": 3,
+    "total_passed": 19,
+    "commands": [
+      "make test-analysis",
+      "python -m unittest discover -s tests -v (Pixi environment)",
+      "make test",
+      "make analysis (twice, final code)"
+    ]
+  },
+  "inspected_figures": [
+    "mars-jezero-fan-qa.png",
+    "jezero-ortoimagen-qa.png",
+    "earth-utah-qa.png",
+    "earth-atacama-qa.png",
+    "distribuciones-pendiente.png",
+    "mars-jezero-fan-60m.png"
+  ],
+  "limitations": [
+    "No independent field accuracy controls or expert analogue labels.",
+    "SRTM version/fill provenance not authenticated for each local pixel; EGM96 assignment is documentary.",
+    "MOLA inconsistency remains isolated; no MOLA data used.",
+    "Regional exploratory results; no navigation safety or whole-environment equivalence inference."
+  ]
+}

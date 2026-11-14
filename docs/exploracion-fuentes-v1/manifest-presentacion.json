@@ -1,0 +1,49 @@
+{
+  "files": [
+    {
+      "path": "scripts/presentar_exploracion_atlas.py",
+      "sha256": "8a530a77eec1227f06a6ff45c3afa5ddc85c07fcd4e0a3c00ec7122efa8a16c6",
+      "bytes": 13066
+    },
+    {
+      "path": "docs/exploracion-fuentes-v1/cobertura-pilotos.png",
+      "sha256": "00bb93d1e81a3aa062807a7378fd528266516b3e30ab59129bfbfb3e705e0a1c",
+      "bytes": 79241
+    },
+    {
+      "path": "docs/exploracion-fuentes-v1/disponibilidad-local.png",
+      "sha256": "4a8a8412d54578f2770d93a732fbb183625f1ee8c91f4e1ffe17195b54a9caf4",
+      "bytes": 331057
+    },
+    {
+      "path": "docs/exploracion-fuentes-v1/soporte-por-escena.png",
+      "sha256": "56eb5e138b7f99bdd95058ab11e1fd8891edaf6527324a1e954aad267ed2ec6f",
+      "bytes": 216518
+    },
+    {
+      "path": "docs/exploracion-fuentes-v1/cobertura-pilotos.svg",
+      "sha256": "f7d8e7064630f34aed949bd7244e8641412a995e8561efaf79923763dd75d4ae",
+      "bytes": 74962
+    },
+    {
+      "path": "docs/exploracion-fuentes-v1/disponibilidad-local.svg",
+      "sha256": "96e3d4c735b14830a92e50feff3bfa43819b4833ea3a25a3f44ab8caf29804f1",
+      "bytes": 2321221
+    },
+    {
+      "path": "docs/exploracion-fuentes-v1/soporte-por-escena.svg",
+      "sha256": "c8e55531f71dd77cde981079aac7a4438563f3634e7f7522815bf297193d1009",
+      "bytes": 136144
+    },
+    {
+      "path": "docs/exploracion-fuentes-v1/tablas-resultados.md",
+      "sha256": "6f48686825dad8a29cf15ee40b7486335866ebdd3c037c7ca88d7ee0ff3afb11",
+      "bytes": 8937
+    },
+    {
+      "path": "docs/exploracion-fuentes-v1/diccionario-observado.md",
+      "sha256": "b37342f18bc32f89481d551ba619ff65d4378f9a08d4d79a7ad42e9edc8fc6bc",
+      "bytes": 10028
+    }
+  ]
+}

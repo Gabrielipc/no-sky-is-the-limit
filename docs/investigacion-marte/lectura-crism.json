@@ -1,0 +1,33 @@
+{
+  "sr": {
+    "file": "data/raw/crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+    "driver": "ENVI",
+    "width": 847,
+    "height": 808,
+    "bands": 60,
+    "dtype": "float32",
+    "nodata": 65535.0,
+    "pixel_step_m": [
+      18.0,
+      18.0
+    ],
+    "crs_wkt": "PROJCS[\"MRO Mars Equirectangular [IAU 2000] [15.00N; 0.00E]\",GEOGCS[\"GCS_Mars_2000_IAU_IAG_custom_sphere_lat15\",DATUM[\"D_Mars_2000_IAU_IAG_custom_sphere_lat15\",SPHEROID[\"Mars_2000_IAU_IAG_custom_sphere_lat15\",3394839.81331631,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",15],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+    "single_pixel_read_succeeded": true
+  },
+  "in": {
+    "file": "data/raw/crism/frt000047a3/frt000047a3_07_in166j_mtr3.img",
+    "driver": "ENVI",
+    "width": 847,
+    "height": 808,
+    "bands": 9,
+    "dtype": "float32",
+    "nodata": 65535.0,
+    "pixel_step_m": [
+      18.0,
+      18.0
+    ],
+    "crs_wkt": "PROJCS[\"MRO Mars Equirectangular [IAU 2000] [15.00N; 0.00E]\",GEOGCS[\"GCS_Mars_2000_IAU_IAG_custom_sphere_lat15\",DATUM[\"D_Mars_2000_IAU_IAG_custom_sphere_lat15\",SPHEROID[\"Mars_2000_IAU_IAG_custom_sphere_lat15\",3394839.81331631,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",15],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+    "single_pixel_read_succeeded": true
+  },
+  "scope": "Structural read only. Valid-pixel coverage inside the Jezero polygon and mineral interpretation remain unevaluated."
+}

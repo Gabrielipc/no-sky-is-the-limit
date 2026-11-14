@@ -1,0 +1,15 @@
+{
+  "path": "data/raw/validacion-topografica/occurrence_80W_40N_v1_5_2024-carolina-recorte-nativo.tif",
+  "url": "https://s3.waw4-1.cloudferro.com/swift/v1/global-surface-water/download2024/Aggregated/VER1-5/occurrence/occurrence_80W_40N_v1_5_2024.tif",
+  "bytes": 4905,
+  "sha256": "25377ecc6b59e510e5e0e9856fc04e70fb2dc6dcddc8355277f41db8dc9d5d54",
+  "source_extent_pixels": [
+    8373,
+    23673,
+    142,
+    118
+  ],
+  "snapshot_date_local": "2026-11-11",
+  "edition": "1.5",
+  "period": "1984–2024"
+}

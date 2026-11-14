@@ -1,0 +1,76 @@
+[
+  {
+    "site_id": "earth-utah",
+    "prefix_file": "utah-1m-prefix.tif",
+    "shape": [
+      10012,
+      10012
+    ],
+    "crs_wkt": "PROJCS[\"NAD83 / UTM zone 12N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-111],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH],AUTHORITY[\"EPSG\",\"26912\"]]",
+    "transform": [
+      1.0,
+      0.0,
+      529993.9999795754,
+      0.0,
+      -1.0,
+      4280006.000049457,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "bounds": [
+      529993.9999795754,
+      4269994.000049457,
+      540005.9999795754,
+      4280006.000049457
+    ],
+    "resolution": [
+      1.0,
+      1.0
+    ],
+    "nodata": -999999.0,
+    "dtype": [
+      "float32"
+    ],
+    "corners_inside_actual_raster_rectangle": true,
+    "valid_pixel_coverage": null,
+    "note": "metadata from first 65536 bytes, not a complete TIFF; no pixel data read"
+  },
+  {
+    "site_id": "earth-mojave-silver-lake",
+    "prefix_file": "mojave-1m-prefix.tif",
+    "shape": [
+      10012,
+      10012
+    ],
+    "crs_wkt": "PROJCS[\"NAD83 / UTM zone 11N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-117],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH],AUTHORITY[\"EPSG\",\"26911\"]]",
+    "transform": [
+      1.0,
+      0.0,
+      579993.9996609391,
+      0.0,
+      -1.0,
+      3920006.000022837,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "bounds": [
+      579993.9996609391,
+      3909994.000022837,
+      590005.9996609391,
+      3920006.000022837
+    ],
+    "resolution": [
+      1.0,
+      1.0
+    ],
+    "nodata": -999999.0,
+    "dtype": [
+      "float32"
+    ],
+    "corners_inside_actual_raster_rectangle": true,
+    "valid_pixel_coverage": null,
+    "note": "metadata from first 65536 bytes, not a complete TIFF; no pixel data read"
+  }
+]

@@ -1,0 +1,25 @@
+.venv/
+__pycache__/
+*.pyc
+frontend/node_modules/
+frontend/dist/
+frontend/*.tsbuildinfo
+.DS_Store
+
+# Descargas geoespaciales locales
+data/raw/
+
+# Credenciales y productos locales generados
+.env
+.env.*
+!.env.example
+.pixi/
+data/normalized/
+data/features/
+data/visual/
+releases/*
+!releases/README.md
+.tools/
+data/manifests/
+*.parquet
+

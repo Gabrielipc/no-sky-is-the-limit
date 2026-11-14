@@ -1,0 +1,14 @@
+{
+  "checked_date_local": "2026-11-07",
+  "product": "THEMIS-derived Thermal Inertia of Jezero Crater, Mars",
+  "doi": "10.5281/zenodo.4931348",
+  "path": "data/raw/themis/Jezero_Thermal_Inertia_v1.tiff",
+  "url": "https://zenodo.org/api/records/4931348/files/Jezero_Thermal_Inertia_v1.tiff/content",
+  "bytes": 1721889,
+  "provider_checksum": "md5:53fec7c990a90629e98c871a7a0da474",
+  "sha256": "84401e7717d43ae80cbd80213b91bd141ee48197eb8648293197447c43c2829c",
+  "license": {
+    "id": "cc-by-4.0"
+  },
+  "scope": "Downloaded original only; not integrated into metrics or API."
+}

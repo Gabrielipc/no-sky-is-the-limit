@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "contract_id": "contrato-comun-superficie-v1",
+  "files": [
+    {
+      "path": "specs/analysis/contrato-comun-entrega3.json",
+      "bytes": 8244,
+      "sha256": "ff1260a80df0277fabb8980ea8a3d506aa1a8712acf13370a9f490cab0ae4302"
+    },
+    {
+      "path": "scripts/contrato_comun_y_seleccion.py",
+      "bytes": 67153,
+      "sha256": "c10ef8393c6278a76fcfeaf77206c58d60ee864d4cfb25bf1f2dea62f38bfa95"
+    },
+    {
+      "path": "docs/evidencia-armonizacion-superficie/mediciones.json",
+      "bytes": 292895,
+      "sha256": "e0a0dfd045e4090a490e17044df373026851a35053cdfd8d20947373905dbbf1"
+    },
+    {
+      "path": "docs/evidencia-armonizacion-superficie/features-piloto.json",
+      "bytes": 178061,
+      "sha256": "e66a1ee95553ee1aa287104438f9e6763229d20118036dad93a26f871b24e89c"
+    },
+    {
+      "path": "docs/evidencia-validacion-topografica/resultados.json",
+      "bytes": 245438,
+      "sha256": "a6207eb1b47eb76c609cdd0dbb9c66c4bb7253ba4947c06ffded0896239bf558"
+    },
+    {
+      "path": "docs/evidencia-fase-4/candidatas.json",
+      "bytes": 11239545,
+      "sha256": "3786f3de7b69b5813f70bcad6b13e01f6d8a27675af8e5c28c9d426b820a0d21"
+    },
+    {
+      "path": "docs/evidencia-entrega-3/contrato-features.json",
+      "bytes": 189443,
+      "sha256": "9f4ba9d74fe0bca55d19e06ad90395332264e56a16e4ad4e7808c643b9b777a4"
+    },
+    {
+      "path": "docs/evidencia-entrega-3/seleccion-y-redundancia.json",
+      "bytes": 17657,
+      "sha256": "b4313026026605ff19ffd38d75f98482245d9cf74af9172fe2bf3599071f9257"
+    },
+    {
+      "path": "docs/evidencia-entrega-3/comparabilidad-e-instrumentos.png",
+      "bytes": 198161,
+      "sha256": "1d14342fa58f31812a6bbd31358bcc908d1cfef0385a4bc4924f688e91023e35"
+    }
+  ]
+}

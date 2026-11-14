@@ -1,0 +1,26 @@
+{
+  "checked_date_local": "2026-11-07",
+  "checks": [
+    {
+      "id": "utah-3dep-1m",
+      "url": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/UT_FEMA_FS_FlamingGorge_2020_B20/TIFF/USGS_1M_12_x53y428_UT_FEMA_FS_FlamingGorge_2020_B20.tif",
+      "status": 200,
+      "content_length": "272131915",
+      "last_modified": "Sat, 14 Feb 2026 09:34:18 GMT",
+      "etag": "\"d0a23c80490e5215ddc31d32f9bc313e-52\""
+    },
+    {
+      "id": "jezero-geology-gis",
+      "url": "https://pubs.usgs.gov/sim/3464/sim3464_database.zip",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "id": "jezero-hirise-ortho-a",
+      "url": "https://www.uahirise.org/PDS/DTM/PSP/ORB_002300_002399/PSP_002387_1985_PSP_003798_1985/PSP_002387_1985_RED_A_01_ORTHO.JP2",
+      "status": 200,
+      "content_length": "386772481",
+      "last_modified": "Wed, 12 Jun 2013 00:23:39 GMT",
+      "etag": "\"51b7bf8b-170dae01\""
+    }
+  ]
+}

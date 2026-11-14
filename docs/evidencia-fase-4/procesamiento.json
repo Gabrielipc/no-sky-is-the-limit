@@ -1,0 +1,239 @@
+{
+  "config_sha256": "479d0e989b9cbb2d7e5ac6d5e6c6acba07decd5cde718cd671465488a210953b",
+  "code_sha256": "988a6c1bca1afec19bd8423ebc5961fd893dbf3c6c5d1012c205627cb1fd2a99",
+  "terrain_code_sha256": "fea9f43e5972ee14f748703bc4724b3a50885214700cbca19bd423bd545a4fcc",
+  "reference_input": {
+    "file": "data/raw/hirise/DTEEC_002387_1985_003798_1985_A01.IMG",
+    "sha256": "268bd5912f0aa0e0b0be8db9004085c2ace78f559377acad0a47b32878c7ccea",
+    "crop": {
+      "input": "data/raw/hirise/DTEEC_002387_1985_003798_1985_A01.IMG",
+      "sha256": "268bd5912f0aa0e0b0be8db9004085c2ace78f559377acad0a47b32878c7ccea",
+      "bytes": 320045704,
+      "product_id": "DTEEC_002387_1985_003798_1985_A01",
+      "source_url": "https://www.uahirise.org/PDS/DTM/PSP/ORB_002300_002399/PSP_002387_1985_PSP_003798_1985/DTEEC_002387_1985_003798_1985_A01.IMG",
+      "source_crs_wkt": "PROJCS[\"EQUIRECTANGULAR MARS\",GEOGCS[\"GCS_MARS\",DATUM[\"D_MARS\",SPHEROID[\"MARS_localRadius\",3394839.8133163,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",15],PARAMETER[\"central_meridian\",77.41],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+      "source_transform": [
+        1.0096476466229,
+        0.0,
+        -3782.1400842493836,
+        0.0,
+        -1.0096476466229,
+        1101405.434395636,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "source_shape": [
+        11538,
+        6934
+      ],
+      "source_nodata": -3.4028226550889045e+38,
+      "source_window": [
+        1625,
+        3714,
+        4242,
+        4165
+      ],
+      "crop_transform": [
+        1.0096476466229,
+        0.0,
+        -2141.462658487171,
+        0.0,
+        -1.0096476466229,
+        1097655.6030360786,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "crop_cells": 17667930,
+      "crop_valid_cells": 17667930,
+      "crop_valid_fraction": 1.0,
+      "source_step_units": [
+        1.0096476466229,
+        1.0096476466229
+      ],
+      "target_crs_wkt": "PROJCRS[\"unknown\",BASEGEOGCRS[\"unknown\",DATUM[\"unknown\",ELLIPSOID[\"unknown\",3394839.8133163,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]],CONVERSION[\"unknown\",METHOD[\"Azimuthal Equidistant\",ID[\"EPSG\",1125]],PARAMETER[\"Latitude of natural origin\",18.49,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",77.41,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"(E)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"(N)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]]",
+      "vertical_reference": "Mars 2000 equipotential surface, label",
+      "source_limitations": [
+        "DTM estéreo, resolución efectiva y precisión local no cuantificadas",
+        "Posibles interpolaciones, facetas y costuras",
+        "La escala de imagen no es la escala del DTM"
+      ],
+      "independent_binary_controls": [
+        {
+          "row": 5796,
+          "column": 3746,
+          "elevation_m": -2435.239990234375
+        },
+        {
+          "row": 3719,
+          "column": 1630,
+          "elevation_m": -2427.6875
+        },
+        {
+          "row": 7873,
+          "column": 5861,
+          "elevation_m": -2565.969970703125
+        }
+      ],
+      "label_geotransform_origin_check": "passed; PDS offsets interpreted independently at raster outer edge",
+      "native_step_at_center_m": [
+        0.9913065997631977,
+        1.009647646747531
+      ]
+    }
+  },
+  "source_hashes": {
+    "mn75_grd": "eab22d18b46a34b2e21bbd019ec7a16f2c0b5d3b983d9bd27bd56d68c791c0cf",
+    "mn30_grd": "dfd0d6c6486f4da22109be6107c93a70ef9917a5b6f954cd82d87cf8b920149d"
+  },
+  "regional_crops": [
+    {
+      "area_id": "utah",
+      "file": "data/normalized/fase4/utah-gmted75.tif",
+      "sha256": "ae06e733c1837526a2e9cf858ea82ea155482b7cba6a3641e9f56687ba2c0eeb",
+      "metadata": {
+        "driver": "GTiff",
+        "shape": [
+          749,
+          989
+        ],
+        "crs_wkt": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+        "transform": [
+          0.002083333333333335,
+          0.0,
+          -111.53138888888887,
+          0.0,
+          -0.002083333333333335,
+          39.531111111111166,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "bounds": [
+          -111.53138888888887,
+          37.9706944444445,
+          -109.4709722222222,
+          39.531111111111166
+        ],
+        "step_degrees": [
+          0.002083333333333335,
+          0.002083333333333335
+        ],
+        "nodata": null,
+        "nodata_encoding": "NaN",
+        "dtype": "float64",
+        "band_units": null,
+        "units_assignment": "Meters (USGS FGDC); vertical datum varies by input source, not verified per pixel. No absolute elevation comparison."
+      },
+      "crop_cells": 740761,
+      "crop_valid_numeric_cells": 740761,
+      "crop_zero_cells": 0,
+      "scope": "Native pixel crop with 0.03-degree margin, not a land or observation mask."
+    },
+    {
+      "area_id": "mojave",
+      "file": "data/normalized/fase4/mojave-gmted75.tif",
+      "sha256": "f3973d6c6a6e9d20ba4d9c4991577e7e90bb270d2e20c53e31bdae556ca0fa09",
+      "metadata": {
+        "driver": "GTiff",
+        "shape": [
+          749,
+          989
+        ],
+        "crs_wkt": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+        "transform": [
+          0.002083333333333335,
+          0.0,
+          -117.53138888888887,
+          0.0,
+          -0.002083333333333335,
+          36.03111111111116,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "bounds": [
+          -117.53138888888887,
+          34.47069444444449,
+          -115.4709722222222,
+          36.03111111111116
+        ],
+        "step_degrees": [
+          0.002083333333333335,
+          0.002083333333333335
+        ],
+        "nodata": null,
+        "nodata_encoding": "NaN",
+        "dtype": "float64",
+        "band_units": null,
+        "units_assignment": "Meters (USGS FGDC); vertical datum varies by input source, not verified per pixel. No absolute elevation comparison."
+      },
+      "crop_cells": 740761,
+      "crop_valid_numeric_cells": 740761,
+      "crop_zero_cells": 237,
+      "scope": "Native pixel crop with 0.03-degree margin, not a land or observation mask."
+    },
+    {
+      "area_id": "atacama",
+      "file": "data/normalized/fase4/atacama-gmted75.tif",
+      "sha256": "13be3ec9f9690498975ebd21e10dd59c7dde237bce9602af8aab2b3812fe6c34",
+      "metadata": {
+        "driver": "GTiff",
+        "shape": [
+          989,
+          989
+        ],
+        "crs_wkt": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+        "transform": [
+          0.002083333333333335,
+          0.0,
+          -69.03138888888884,
+          0.0,
+          -0.002083333333333335,
+          -22.968888888888884,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "bounds": [
+          -69.03138888888884,
+          -25.029305555555553,
+          -66.97097222222217,
+          -22.968888888888884
+        ],
+        "step_degrees": [
+          0.002083333333333335,
+          0.002083333333333335
+        ],
+        "nodata": null,
+        "nodata_encoding": "NaN",
+        "dtype": "float64",
+        "band_units": null,
+        "units_assignment": "Meters (USGS FGDC); vertical datum varies by input source, not verified per pixel. No absolute elevation comparison."
+      },
+      "crop_cells": 978121,
+      "crop_valid_numeric_cells": 978121,
+      "crop_zero_cells": 0,
+      "scope": "Native pixel crop with 0.03-degree margin, not a land or observation mask."
+    }
+  ],
+  "audit_sha256": "4bd69b5464b6d102d2c6b84ef31aac3e19b8725794b0d95e0b1aa66935808ada",
+  "versions": {
+    "python": "3.11.18",
+    "numpy": "1.26.4",
+    "rasterio": "1.4.4",
+    "gdal": "3.12.3",
+    "pyproj": "3.7.2"
+  },
+  "window_count": 970,
+  "control_count": 3,
+  "resources": {
+    "compressed_original_bytes": 3196766805,
+    "regional_crop_bytes": 4182134,
+    "global_raster_extracted": false,
+    "network_requests": 0
+  },
+  "elapsed_seconds": 9.318,
+  "method": "Average elevation and independent complete-support mask; central-difference slope; Wasserstein in degrees and separate relief difference. Local AEQD, no vertical transformation or cross-body reprojection."
+}

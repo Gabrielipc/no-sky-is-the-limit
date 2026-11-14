@@ -1,0 +1,709 @@
+[
+  {
+    "product_id": "EMIT_L2B_MIN_002_20220909T131332",
+    "date": "2022-09-09T13:13:32+0000",
+    "footprint_cells": 2750,
+    "glt_cells": 2750,
+    "unique_raw_samples": 2021,
+    "site": "atacama-materiales",
+    "window_m": 3000,
+    "groups": {
+      "1": {
+        "data_cells": 0,
+        "matched_cells": 0,
+        "no_match_cells": 0,
+        "class_counts": {},
+        "classes": [],
+        "fit_stored": {
+          "n": 0,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null
+        },
+        "fit_times_two": {
+          "n": 0,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null
+        },
+        "band_depth": {
+          "n": 0,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null
+        },
+        "band_depth_uncertainty": {
+          "n": 0,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null
+        },
+        "exploratory_quality_counts": {
+          "0.5": 0,
+          "0.8": 0,
+          "0.9": 0
+        },
+        "fit_scaling_note": "NASA LP DAAC tutorial restores fit by multiplying by 2; raw value retained. Thresholds are exploratory; version/build and masks need harmonization validation.",
+        "fit_scaling_source": "https://nasa.github.io/LPDAAC-Data-Resources/external/Working_with_EMIT_L2B_Mineralogy.html"
+      },
+      "2": {
+        "data_cells": 0,
+        "matched_cells": 0,
+        "no_match_cells": 0,
+        "class_counts": {},
+        "classes": [],
+        "fit_stored": {
+          "n": 0,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null
+        },
+        "fit_times_two": {
+          "n": 0,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null
+        },
+        "band_depth": {
+          "n": 0,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null
+        },
+        "band_depth_uncertainty": {
+          "n": 0,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null
+        },
+        "exploratory_quality_counts": {
+          "0.5": 0,
+          "0.8": 0,
+          "0.9": 0
+        },
+        "fit_scaling_note": "NASA LP DAAC tutorial restores fit by multiplying by 2; raw value retained. Thresholds are exploratory; version/build and masks need harmonization validation.",
+        "fit_scaling_source": "https://nasa.github.io/LPDAAC-Data-Resources/external/Working_with_EMIT_L2B_Mineralogy.html"
+      }
+    }
+  },
+  {
+    "product_id": "EMIT_L2B_MIN_002_20230609T171110",
+    "date": "2023-06-09T17:11:10+0000",
+    "footprint_cells": 3200,
+    "glt_cells": 3200,
+    "unique_raw_samples": 2061,
+    "site": "desierto",
+    "window_m": 3000,
+    "groups": {
+      "1": {
+        "data_cells": 3200,
+        "matched_cells": 3200,
+        "no_match_cells": 0,
+        "class_counts": {
+          "2": 360,
+          "31": 2798,
+          "47": 42
+        },
+        "classes": [
+          {
+            "id": 2,
+            "name": "fe3+_hematite.fine.gr.gds76",
+            "label": "Hematita · 2",
+            "sample": "Hematite.02+Quartz.98 GDS76 W1R1Ha",
+            "group": 1,
+            "library": "sprlb06"
+          },
+          {
+            "id": 31,
+            "name": "fe3+_hematite.thincoat",
+            "label": "Hematita · 31",
+            "sample": "Hematite_Thin_Film GDS27 W1R1Ba",
+            "group": 1,
+            "library": "splib06"
+          },
+          {
+            "id": 47,
+            "name": "fe3+_hematite.nano.BR34b2b",
+            "label": "Hematita · 47",
+            "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+            "group": 1,
+            "library": "sprlb06"
+          }
+        ],
+        "fit_stored": {
+          "n": 3200,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.3803921639919281,
+          "p05": 0.40784314274787903,
+          "p50": 0.4176470637321472,
+          "p95": 0.4333333373069763,
+          "max": 0.47058823704719543
+        },
+        "fit_times_two": {
+          "n": 3200,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.7607843279838562,
+          "p05": 0.8156862854957581,
+          "p50": 0.8352941274642944,
+          "p95": 0.8666666746139526,
+          "max": 0.9411764740943909
+        },
+        "band_depth": {
+          "n": 3200,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.10000000149011612,
+          "p05": 0.12941177189350128,
+          "p50": 0.1411764770746231,
+          "p95": 0.16274510324001312,
+          "max": 0.17843137681484222
+        },
+        "band_depth_uncertainty": {
+          "n": 3200,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.002293755766004324,
+          "p05": 0.0023877293686382474,
+          "p50": 0.0024084728211164474,
+          "p95": 0.00493767810985446,
+          "max": 0.006318496540188789
+        },
+        "exploratory_quality_counts": {
+          "0.5": 3200,
+          "0.8": 3193,
+          "0.9": 16
+        },
+        "fit_scaling_note": "NASA LP DAAC tutorial restores fit by multiplying by 2; raw value retained. Thresholds are exploratory; version/build and masks need harmonization validation.",
+        "fit_scaling_source": "https://nasa.github.io/LPDAAC-Data-Resources/external/Working_with_EMIT_L2B_Mineralogy.html"
+      },
+      "2": {
+        "data_cells": 3200,
+        "matched_cells": 3200,
+        "no_match_cells": 0,
+        "class_counts": {
+          "125": 22,
+          "126": 8,
+          "129": 504,
+          "130": 158,
+          "131": 2427,
+          "132": 34,
+          "166": 13,
+          "168": 25,
+          "225": 4,
+          "226": 1,
+          "227": 1,
+          "234": 2,
+          "256": 1
+        },
+        "classes": [
+          {
+            "id": 125,
+            "name": "micagrp_muscovite-med-Al",
+            "label": "Moscovita · 125",
+            "sample": "Muscovite CU91-250A med Al W2R4NbS",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 126,
+            "name": "calcite.33+kaol.33+mus-AMXr2",
+            "label": "Mezcla de biblioteca: Calcita · 126",
+            "sample": "Calcite.33+Kaol.33+Mus AMXr2 W1R1Ba",
+            "group": 2,
+            "library": "sprlb06"
+          },
+          {
+            "id": 129,
+            "name": "micagrp_illite",
+            "label": "Illita · 129",
+            "sample": "Illite IMt-1.b <2um W1R1BaS",
+            "group": 2,
+            "library": "sprlb06"
+          },
+          {
+            "id": 130,
+            "name": "micagrp_illite.gds4",
+            "label": "Illita · 130",
+            "sample": "Illite GDS4.2 Marblehead_WI W1R1H_",
+            "group": 2,
+            "library": "sprlb06"
+          },
+          {
+            "id": 131,
+            "name": "micagrp_muscovite-low-Al",
+            "label": "Moscovita · 131",
+            "sample": "Muscovite CU93-1 low-Al Phyl W2R4Nb",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 132,
+            "name": "micagrp_muscoviteFerich",
+            "label": "Moscovita · 132",
+            "sample": "Muscovite GDS116 Tanzania W1R1Ba",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 166,
+            "name": "kaolin.5+muscov.medAl",
+            "label": "Mezcla de biblioteca: Caolinita · 166",
+            "sample": "Kaol.5+MuscCU91-250A AMX13 W1R1Bb",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 168,
+            "name": "kaolin+musc.intimat",
+            "label": "Mezcla de biblioteca: Caolinita · 168",
+            "sample": "Kaol+Musc_intimate CU93-5C W1R1Ha AREF",
+            "group": 2,
+            "library": "sprlb06"
+          },
+          {
+            "id": 225,
+            "name": "calcite+0.2Na-mont",
+            "label": "Mezcla de biblioteca: Calcita · 225",
+            "sample": "Calcite.80+Mont_Swy-1 GDS212 W1R1Ba",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 226,
+            "name": "calcite+0.5Ca-mont",
+            "label": "Mezcla de biblioteca: Calcita · 226",
+            "sample": "Calcite+.50Ca-Mont AMX6 W1R1Bb",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 227,
+            "name": "carbonate_calcite+0.3muscovite",
+            "label": "Mezcla de biblioteca: Moscovita + Calcita · 227",
+            "sample": "Calcite+.33Muscov AMX5 Ruby W1R1Ba",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 234,
+            "name": "palygorskite",
+            "label": "Paligorskita · 234",
+            "sample": "Palygorskite PFL-1 Attapulg W1R1Bb",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 256,
+            "name": "micagrp_lepidolite",
+            "label": "micagrp_lepidolite · 256",
+            "sample": "Lepidolite NMNH88526-1 W1R1Ba",
+            "group": 2,
+            "library": "splib06"
+          }
+        ],
+        "fit_stored": {
+          "n": 3200,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.4176470637321472,
+          "p05": 0.46078431606292725,
+          "p50": 0.4735294133424759,
+          "p95": 0.4803921580314636,
+          "max": 0.4882352948188782
+        },
+        "fit_times_two": {
+          "n": 3200,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.8352941274642944,
+          "p05": 0.9215686321258545,
+          "p50": 0.9470588266849518,
+          "p95": 0.9607843160629272,
+          "max": 0.9764705896377563
+        },
+        "band_depth": {
+          "n": 3200,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.01568627543747425,
+          "p05": 0.02549019642174244,
+          "p50": 0.03333333507180214,
+          "p95": 0.04313725605607033,
+          "max": 0.08431372791528702
+        },
+        "band_depth_uncertainty": {
+          "n": 3200,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.012886851094663143,
+          "p05": 0.014324491517618299,
+          "p50": 0.015396717935800552,
+          "p95": 0.015520945051684975,
+          "max": 0.01625051163136959
+        },
+        "exploratory_quality_counts": {
+          "0.5": 2480,
+          "0.8": 2480,
+          "0.9": 2474
+        },
+        "fit_scaling_note": "NASA LP DAAC tutorial restores fit by multiplying by 2; raw value retained. Thresholds are exploratory; version/build and masks need harmonization validation.",
+        "fit_scaling_source": "https://nasa.github.io/LPDAAC-Data-Resources/external/Working_with_EMIT_L2B_Mineralogy.html"
+      }
+    }
+  },
+  {
+    "product_id": "EMIT_L2B_MIN_002_20230130T135427",
+    "date": "2023-01-30T13:54:27+0000",
+    "footprint_cells": 2750,
+    "glt_cells": 2750,
+    "unique_raw_samples": 2022,
+    "site": "atacama-materiales",
+    "window_m": 3000,
+    "groups": {
+      "1": {
+        "data_cells": 2750,
+        "matched_cells": 2750,
+        "no_match_cells": 0,
+        "class_counts": {
+          "45": 9,
+          "47": 2741
+        },
+        "classes": [
+          {
+            "id": 45,
+            "name": "fe3+_hematite.nano.BR34b2",
+            "label": "Hematita · 45",
+            "sample": "Nanohematite BR93-34B2 W1R1BbS",
+            "group": 1,
+            "library": "splib06"
+          },
+          {
+            "id": 47,
+            "name": "fe3+_hematite.nano.BR34b2b",
+            "label": "Hematita · 47",
+            "sample": "Nanohematite FBR93-34B2b ed1 W1R1Hb",
+            "group": 1,
+            "library": "sprlb06"
+          }
+        ],
+        "fit_stored": {
+          "n": 2750,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.37843137979507446,
+          "p05": 0.4000000059604645,
+          "p50": 0.4490196108818054,
+          "p95": 0.4803921580314636,
+          "max": 0.48235294222831726
+        },
+        "fit_times_two": {
+          "n": 2750,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.7568627595901489,
+          "p05": 0.800000011920929,
+          "p50": 0.8980392217636108,
+          "p95": 0.9607843160629272,
+          "max": 0.9647058844566345
+        },
+        "band_depth": {
+          "n": 2750,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.06862745434045792,
+          "p05": 0.08235294371843338,
+          "p50": 0.10588235408067703,
+          "p95": 0.14705882966518402,
+          "max": 0.16470588743686676
+        },
+        "band_depth_uncertainty": {
+          "n": 2750,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.008365157060325146,
+          "p05": 0.008398566069081426,
+          "p50": 0.008414100855588913,
+          "p95": 0.008426656201481818,
+          "max": 0.008443675935268402
+        },
+        "exploratory_quality_counts": {
+          "0.5": 2750,
+          "0.8": 2623,
+          "0.9": 1356
+        },
+        "fit_scaling_note": "NASA LP DAAC tutorial restores fit by multiplying by 2; raw value retained. Thresholds are exploratory; version/build and masks need harmonization validation.",
+        "fit_scaling_source": "https://nasa.github.io/LPDAAC-Data-Resources/external/Working_with_EMIT_L2B_Mineralogy.html"
+      },
+      "2": {
+        "data_cells": 2750,
+        "matched_cells": 2504,
+        "no_match_cells": 246,
+        "class_counts": {
+          "96": 69,
+          "97": 15,
+          "98": 73,
+          "100": 1067,
+          "134": 5,
+          "136": 2,
+          "139": 11,
+          "141": 335,
+          "144": 145,
+          "150": 86,
+          "152": 227,
+          "167": 3,
+          "168": 2,
+          "184": 6,
+          "194": 398,
+          "205": 10,
+          "206": 25,
+          "215": 1,
+          "216": 18,
+          "257": 6
+        },
+        "classes": [
+          {
+            "id": 96,
+            "name": "organic_vegetation-dry-grass-long",
+            "label": "organic_vegetation-dry-grass-long · 96",
+            "sample": "Dry_Long_Grass AV87-2 W1R1Ba",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 97,
+            "name": "organic_vegetation-dry-grass-golden",
+            "label": "organic_vegetation-dry-grass-golden · 97",
+            "sample": "Grass_Golden_Dry GDS480 W1R1Fa",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 98,
+            "name": "organic_vegetation-dry-wood",
+            "label": "organic_vegetation-dry-wood · 98",
+            "sample": "Plywood GDS365 Fresh Pine W1R1Fa",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 100,
+            "name": "organic_plastic-vinyl",
+            "label": "organic_plastic-vinyl · 100",
+            "sample": "Plastic_Vinyl GDS372 White W1R1Fa",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 134,
+            "name": "kaolgrp_kaolinite_pxl",
+            "label": "Caolinita · 134",
+            "sample": "Kaolinite KGa-2 (pxl) W1R1Hb",
+            "group": 2,
+            "library": "sprlb06"
+          },
+          {
+            "id": 136,
+            "name": "kaolgrp_nacrite",
+            "label": "kaolgrp_nacrite · 136",
+            "sample": "Nacrite GDS88",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 139,
+            "name": "kaolin.5+smect.5",
+            "label": "Mezcla de biblioteca: Caolinita · 139",
+            "sample": "Kaolin_Smect H89-FR-2 .5Kaol W1R1Bb",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 141,
+            "name": "smectite_montmorillonite_na_highswelling",
+            "label": "Montmorillonita · 141",
+            "sample": "Montmorillonite SWy-1 W1R1Hb",
+            "group": 2,
+            "library": "sprlb06"
+          },
+          {
+            "id": 144,
+            "name": "sioh_hydrated_basaltic_glass",
+            "label": "sioh_hydrated_basaltic_glass · 144",
+            "sample": "HyBasaltGlassMLUT03-9CMarP&T",
+            "group": 2,
+            "library": "sprlb06"
+          },
+          {
+            "id": 150,
+            "name": "smectite_beidellite_gds123",
+            "label": "smectite_beidellite_gds123 · 150",
+            "sample": "Beidellite+Montmor GDS123",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 152,
+            "name": "sioh_chalcedony",
+            "label": "sioh_chalcedony · 152",
+            "sample": "Chalcedony CU91-6A W1R1Ba",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 167,
+            "name": "kaolin.5+muscov.medhighAl",
+            "label": "Mezcla de biblioteca: Caolinita · 167",
+            "sample": "Kaol_Wxl+0.5Musc_Ruby AMX12 W1R1Ba",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 168,
+            "name": "kaolin+musc.intimat",
+            "label": "Mezcla de biblioteca: Caolinita · 168",
+            "sample": "Kaol+Musc_intimate CU93-5C W1R1Ha AREF",
+            "group": 2,
+            "library": "sprlb06"
+          },
+          {
+            "id": 184,
+            "name": "carbonate_dolomite",
+            "label": "Dolomita · 184",
+            "sample": "Dolomite HS102.3B W1R1Hb",
+            "group": 2,
+            "library": "sprlb06"
+          },
+          {
+            "id": 194,
+            "name": "carbonate_aragonite",
+            "label": "carbonate_aragonite · 194",
+            "sample": "Aragonite GDS898 Moracco",
+            "group": 2,
+            "library": "sprlb06"
+          },
+          {
+            "id": 205,
+            "name": "sulfate_jarosite-K",
+            "label": "Jarosita · 205",
+            "sample": "Jarosite GDS99 K 200C Syn W1R1Ba",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 206,
+            "name": "sulfate_jarosite-lowT",
+            "label": "Jarosita · 206",
+            "sample": "Jarosite SJ-1 H3O,10-20% W1R1Bb",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 215,
+            "name": "carbonate_calcite",
+            "label": "Calcita · 215",
+            "sample": "Calcite WS272 W1R1Ha",
+            "group": 2,
+            "library": "sprlb06"
+          },
+          {
+            "id": 216,
+            "name": "carbonate_calcite+dolomite.5",
+            "label": "Mezcla de biblioteca: Calcita + Dolomita · 216",
+            "sample": "Calcite+Dolomite.5 AMX8 W1R1Bb",
+            "group": 2,
+            "library": "splib06"
+          },
+          {
+            "id": 257,
+            "name": "micagrp_margarite",
+            "label": "micagrp_margarite · 257",
+            "sample": "Margarite GDS106 W1R1Bc",
+            "group": 2,
+            "library": "splib06"
+          }
+        ],
+        "fit_stored": {
+          "n": 2504,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.2647058963775635,
+          "p05": 0.37843137979507446,
+          "p50": 0.4372549057006836,
+          "p95": 0.47421568781137446,
+          "max": 0.49215686321258545
+        },
+        "fit_times_two": {
+          "n": 2504,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.529411792755127,
+          "p05": 0.7568627595901489,
+          "p50": 0.8745098114013672,
+          "p95": 0.9484313756227489,
+          "max": 0.9843137264251709
+        },
+        "band_depth": {
+          "n": 2504,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.0019607844296842813,
+          "p05": 0.019607843831181526,
+          "p50": 0.03333333507180214,
+          "p95": 0.0470588244497776,
+          "max": 0.07647059112787247
+        },
+        "band_depth_uncertainty": {
+          "n": 2504,
+          "denominator": null,
+          "valid_fraction": null,
+          "min": 0.006142581347376108,
+          "p05": 0.008608290366828442,
+          "p50": 0.009495679289102554,
+          "p95": 0.014045954775065183,
+          "max": 0.016134923323988914
+        },
+        "exploratory_quality_counts": {
+          "0.5": 2142,
+          "0.8": 2125,
+          "0.9": 542
+        },
+        "fit_scaling_note": "NASA LP DAAC tutorial restores fit by multiplying by 2; raw value retained. Thresholds are exploratory; version/build and masks need harmonization validation.",
+        "fit_scaling_source": "https://nasa.github.io/LPDAAC-Data-Resources/external/Working_with_EMIT_L2B_Mineralogy.html"
+      }
+    }
+  }
+]

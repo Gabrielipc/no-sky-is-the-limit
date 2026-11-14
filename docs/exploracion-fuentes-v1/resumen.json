@@ -1,0 +1,167 @@
+{
+  "families": {
+    "3dep": {
+      "files": 1,
+      "bytes": 272131915,
+      "statuses": {
+        "header_read": 1
+      }
+    },
+    "arcticdem_v4_1": {
+      "files": 1,
+      "bytes": 692307546,
+      "statuses": {
+        "archive_headers_and_patches_read": 1
+      }
+    },
+    "atlas30": {
+      "files": 1,
+      "bytes": 0,
+      "statuses": {
+        "operational_or_incomplete_excluded": 1
+      }
+    },
+    "crism": {
+      "files": 7,
+      "bytes": 188972526,
+      "statuses": {
+        "sidecar_or_uninterpreted": 5,
+        "header_read": 2
+      }
+    },
+    "emit": {
+      "files": 6,
+      "bytes": 287271188,
+      "statuses": {
+        "variables_read": 6
+      }
+    },
+    "glo30": {
+      "files": 1212,
+      "bytes": 30607724751,
+      "statuses": {
+        "header_read": 1209,
+        "operational_or_incomplete_excluded": 2,
+        "sidecar_or_uninterpreted": 1
+      }
+    },
+    "gmted2010": {
+      "files": 2,
+      "bytes": 3196766805,
+      "statuses": {
+        "archive_header_read": 2
+      }
+    },
+    "hirise": {
+      "files": 2,
+      "bytes": 350986790,
+      "statuses": {
+        "header_read": 1,
+        "image_header_and_patches_read": 1
+      }
+    },
+    "hls": {
+      "files": 80,
+      "bytes": 1537909330,
+      "statuses": {
+        "header_read": 80
+      }
+    },
+    "jrc": {
+      "files": 5,
+      "bytes": 158693286,
+      "statuses": {
+        "header_read": 5
+      }
+    },
+    "land": {
+      "files": 1,
+      "bytes": 3269070,
+      "statuses": {
+        "vector_read": 1
+      }
+    },
+    "landsat": {
+      "files": 24,
+      "bytes": 812103131,
+      "statuses": {
+        "header_read": 24
+      }
+    },
+    "lola_gdr": {
+      "files": 3,
+      "bytes": 1061700259,
+      "statuses": {
+        "header_read": 1,
+        "sidecar_or_uninterpreted": 2
+      }
+    },
+    "mola": {
+      "files": 8,
+      "bytes": 194681258,
+      "statuses": {
+        "sidecar_or_uninterpreted": 6,
+        "header_read": 2
+      }
+    },
+    "mola_meg128": {
+      "files": 128,
+      "bytes": 3114900020,
+      "statuses": {
+        "sidecar_or_uninterpreted": 96,
+        "header_read": 32
+      }
+    },
+    "mola_polar": {
+      "files": 16,
+      "bytes": 629216630,
+      "statuses": {
+        "sidecar_or_uninterpreted": 12,
+        "header_read": 4
+      }
+    },
+    "rema_v2_0": {
+      "files": 1,
+      "bytes": 298723479,
+      "statuses": {
+        "archive_headers_and_patches_read": 1
+      }
+    },
+    "srtm": {
+      "files": 2,
+      "bytes": 31403002,
+      "statuses": {
+        "header_read": 2
+      }
+    },
+    "themis": {
+      "files": 1,
+      "bytes": 1721889,
+      "statuses": {
+        "header_read": 1
+      }
+    },
+    "worldcover": {
+      "files": 8,
+      "bytes": 619721840,
+      "statuses": {
+        "header_read": 8
+      }
+    }
+  },
+  "files": 1509,
+  "bytes": 44060204715,
+  "header_errors": [],
+  "spatial_profiles": 17,
+  "temporal_records": 26,
+  "python": "3.11.18",
+  "rasterio": "1.4.4",
+  "h5py": "3.16.0",
+  "numpy": "1.26.4",
+  "sampling": "native pixel centers; no area weighting; no global inference",
+  "inventory_identity": "size and mtime only; no full raw checksum audit",
+  "emit_identity": "MIN/MINUNCERT SHA-256 verified by existing reader",
+  "diagnostic_patches": "five 32x32 native patches per selected asset; selection is lexicographic",
+  "snapshot_date_local": "2026-11-10",
+  "timezone": "America/Managua"
+}

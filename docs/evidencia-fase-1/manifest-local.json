@@ -1,0 +1,251 @@
+{
+  "generated_at_utc": "2026-11-07T05:37:59.639272+00:00",
+  "hash_scope": "local identity only; excludes this manifest; includes main feasibility document by relative path",
+  "files": [
+    {
+      "file": "../Ficha de viabilidad - primer caso.md",
+      "bytes": 25786,
+      "sha256": "2e7cc6c2bed5053cf31a446ba9f856297c734fcaadce48c9da17fe0989ffa677"
+    },
+    {
+      "file": "PSP_002387_1985_RED_A_01_ORTHO.LBL",
+      "bytes": 5386,
+      "sha256": "da705a02e9410dac340a6e1c6a8e2fe4c99a71195b6dfd9688e551a9e4e8e552"
+    },
+    {
+      "file": "PSP_002387_1985_RED_C_01_ORTHO.LBL",
+      "bytes": 5378,
+      "sha256": "8e19ea916399af81af8353f34d546ca74af40d78ed719ab6a4e5b0390421b8b5"
+    },
+    {
+      "file": "README.md",
+      "bytes": 7757,
+      "sha256": "5d7b876b6247f5221e53124c656f89bd1b73a074bf7e7984cc82201ab92e08a7"
+    },
+    {
+      "file": "areas-marte.json",
+      "bytes": 1304,
+      "sha256": "e4b4cfe6ac58352d748a5827be31d0428b945aa08d864ef2587cf1b59c25a959"
+    },
+    {
+      "file": "areas-tierra.geojson",
+      "bytes": 3364,
+      "sha256": "71980ff18d3f3b97f6dc8b83574c344b7a356cd68ef7cb5df418dae57fabbb6e"
+    },
+    {
+      "file": "atacama-arads.html",
+      "bytes": 269447,
+      "sha256": "db054016c309b1e362862477357667dd0c7201a41f53bf2df0896bad3c2adcd0"
+    },
+    {
+      "file": "auditoria-3dep.json",
+      "bytes": 2775,
+      "sha256": "fe4fad4ffc88b5963638fd28ac565c1ac268b1c631efb62dde6c72a412a6408b"
+    },
+    {
+      "file": "auditoria-local.json",
+      "bytes": 5374,
+      "sha256": "5d5010847cbb036ff82e000a6dcbf68b460953ad95d131f75c5b980dabf24b88"
+    },
+    {
+      "file": "consultas-remotas.json",
+      "bytes": 9582,
+      "sha256": "3b87abb4733e1801afb51f00d800a5582a890ac729e36452e8aaa8ce2b7d8dfb"
+    },
+    {
+      "file": "fuentes.json",
+      "bytes": 2932,
+      "sha256": "8c33919ab7abd593265a3a1af1afc3a0e584f2eb5a8ca17ef32daddf055a1968"
+    },
+    {
+      "file": "hirise-dtm-metodo.html",
+      "bytes": 21180,
+      "sha256": "08e51ff823bd0f502d560d2c78e244c236cbd2212d03438c105094d168a45ba7"
+    },
+    {
+      "file": "hirise-dtm.html",
+      "bytes": 15229,
+      "sha256": "97f57f021b70d7b1e031fdbc941bec580f64a9cf66b627e72bfb833557e3f821"
+    },
+    {
+      "file": "hirise-observacion-1.html",
+      "bytes": 23404,
+      "sha256": "98256b788c364caf0c81fe1fe821d700a74879ccab283d612305598d62a8e2bc"
+    },
+    {
+      "file": "hirise-observacion-2.html",
+      "bytes": 23397,
+      "sha256": "ad3ca71a2d966d5a82f0a0ddcaf7965d0ba3d23895aa764c9ba4c9045c818cf7"
+    },
+    {
+      "file": "hirise-uso.html",
+      "bytes": 12159,
+      "sha256": "0e3c46ddfef689f7e5253d891f1e9ad23491af6d8a996f168c9f4449af7e7b38"
+    },
+    {
+      "file": "jezero-dtm-etiqueta.txt",
+      "bytes": 4281,
+      "sha256": "3569808f0538208a4bac4ce1960f165974417b572223c3db3bc0e71e11ea973b"
+    },
+    {
+      "file": "jezero-dtm-prefix.bin",
+      "bytes": 65536,
+      "sha256": "b56cb5b3b688e233f1dcd19c2246167af2a364a7438f64e59ddc7ec9499ce16e"
+    },
+    {
+      "file": "jezero-fila-4904.bin",
+      "bytes": 7264,
+      "sha256": "402470c00b141b027f0802309f486613e49b843b32ab50125275411bff9ad2a1"
+    },
+    {
+      "file": "jezero-fila-5015.bin",
+      "bytes": 7264,
+      "sha256": "616d1e4ac84a785964cf48c7f005a6a7c55e8e3753bf3619ee51598f109ad99a"
+    },
+    {
+      "file": "jezero-fila-5126.bin",
+      "bytes": 7264,
+      "sha256": "7383090b952b43d8f8465071c156b1a289fc9c7e15299f798131e4a96f3921b8"
+    },
+    {
+      "file": "jezero-fila-5238.bin",
+      "bytes": 7264,
+      "sha256": "c87715086572dbe6622058f108ef778b744d598e12aa49b5ae09d52918ddf67f"
+    },
+    {
+      "file": "jezero-fila-5349.bin",
+      "bytes": 7264,
+      "sha256": "55a7afa9acc6e84fee712d83eee65a80f7c0d42d6054d4da6910f7caf65ac51c"
+    },
+    {
+      "file": "jezero-fila-5461.bin",
+      "bytes": 7264,
+      "sha256": "025af017f83171991ca225c23cbb90b60ba3ae0f25b2bcb65d02eb9c0bc77ddf"
+    },
+    {
+      "file": "jezero-fila-5572.bin",
+      "bytes": 7264,
+      "sha256": "d292207f45c1ac01320b5ac1aa58d9846cf451d155809fd75c0d2de9dd85cede"
+    },
+    {
+      "file": "jezero-fila-5684.bin",
+      "bytes": 7264,
+      "sha256": "2a5efe25ab6691673a49d50534c062d0de258ef1b6570a39f294acc70b099af5"
+    },
+    {
+      "file": "jezero-fila-5795.bin",
+      "bytes": 7264,
+      "sha256": "0066357ec0ad1fedb5a1039a156982b2ea7bff3c58c52551f240ae1e716ab458"
+    },
+    {
+      "file": "jezero-fila-5906.bin",
+      "bytes": 7264,
+      "sha256": "8b90f599ba453247f059b24f9837eecf3604e102fb57ee5f3b4fd7a60dd276a1"
+    },
+    {
+      "file": "jezero-fila-6018.bin",
+      "bytes": 7264,
+      "sha256": "a468411ad253457e5dc4e83719258c195e82ec2b156ab06fa0e1876c18723abe"
+    },
+    {
+      "file": "jezero-fila-6129.bin",
+      "bytes": 7264,
+      "sha256": "ccb45431d0d384a5e6755233d37abb388c80f2087628b0f84bc480ab327f96ee"
+    },
+    {
+      "file": "jezero-fila-6241.bin",
+      "bytes": 7264,
+      "sha256": "5e6c4537dca67b1d63df90c1b2cfadd06b706946fb06d0eee5b5b46baf9ba204"
+    },
+    {
+      "file": "jezero-fila-6352.bin",
+      "bytes": 7264,
+      "sha256": "3acc5b4d7652cf12b9b131daa8d49f2de92492a09302fcb342fe5f3f0e5bb028"
+    },
+    {
+      "file": "jezero-fila-6464.bin",
+      "bytes": 7264,
+      "sha256": "57f77e7aa8d0416cd9fb9d3d65b9afe44bfaed49a568a202b9e4b461c1a0f54a"
+    },
+    {
+      "file": "jezero-fila-6575.bin",
+      "bytes": 7264,
+      "sha256": "c81e727a3574f3ba00de8c94873c256796fdbc34797df2db6f32ca9199467a38"
+    },
+    {
+      "file": "jezero-fila-6687.bin",
+      "bytes": 7264,
+      "sha256": "7e98213b27613198b21419205b4e3bc9911792897579556e9a49bce25e1eea6e"
+    },
+    {
+      "file": "jezero-muestreo.json",
+      "bytes": 6989,
+      "sha256": "1fea8b2934b7170bacf1cbb82c0f0705321a0e34310b929b19eaeba09761f3ac"
+    },
+    {
+      "file": "landsat-temperatura.html",
+      "bytes": 149852,
+      "sha256": "9cd0f0f97e229ba48a9ab769149db774b75280f89e4c59b7d030eadfa07232f3"
+    },
+    {
+      "file": "matriz-evidencia.json",
+      "bytes": 48114,
+      "sha256": "fc8ed9782eb3d0ca2c9cf3d40c87a7663e02f0a6246e9893dd1ab3cdad0d4aa0"
+    },
+    {
+      "file": "mojave-1m-prefix.tif",
+      "bytes": 65536,
+      "sha256": "18c8f32845cbba8b92816dd4b61d9e3485d1e166b319c6cb4caf168e1f125c1e"
+    },
+    {
+      "file": "mojave-1m.xml",
+      "bytes": 12193,
+      "sha256": "f718e75dcc466b34e2c3195c25c5b9c5c30b836d09d7a99e86cc449eb3021861"
+    },
+    {
+      "file": "silver-lake-contexto.html",
+      "bytes": 3286,
+      "sha256": "da58454bb27409fad341e59742bc2e0df75a1df80d2f116341e3dab520e7dc83"
+    },
+    {
+      "file": "silver-lake-nasa.html",
+      "bytes": 96520,
+      "sha256": "d16e9c354ead78e0cf4fde3336ba4da4f44e94040dde376b4c76c54a9afc042c"
+    },
+    {
+      "file": "srtm-distribuidor.html",
+      "bytes": 122285,
+      "sha256": "3e708ef32e291afeeb14a25d7ce8da2c74fb2a484a4a4ea62b207545f1e0bc32"
+    },
+    {
+      "file": "themis-productos.html",
+      "bytes": 45728,
+      "sha256": "2af3ffed82560c404c077dfc02be5cecf94da6c558921ca6f0ad258db1018cc5"
+    },
+    {
+      "file": "tnm-mojave-1m.json",
+      "bytes": 30659,
+      "sha256": "605606fbe9e60c3cf5f95c3e9fd6b55ce26cf9959410f9f85aeea4f052b9aae4"
+    },
+    {
+      "file": "tnm-utah-1m.json",
+      "bytes": 4493,
+      "sha256": "19d648da7d1931e825090b58e10cddcbe8f3c57c4ff0e1cf19f5e504f90f5505"
+    },
+    {
+      "file": "utah-1m-prefix.tif",
+      "bytes": 65536,
+      "sha256": "3c4efc21ee902c5befa0fbb35ba9bf7f31830c8c3010cc52a6bd8bb1c7819b4f"
+    },
+    {
+      "file": "utah-1m.xml",
+      "bytes": 12784,
+      "sha256": "9752f6f6b8cb382cf3729284283a4df52faaef9165e8bb5f283d3da45c47c607"
+    },
+    {
+      "file": "verificacion.json",
+      "bytes": 1246,
+      "sha256": "162a75596e6f34e9d02a8e6bf98e96d6f42425342fb0ea9cf1dae4775dbec2e6"
+    }
+  ]
+}

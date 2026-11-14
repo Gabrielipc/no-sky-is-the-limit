@@ -1,0 +1,522 @@
+{
+  "catalog_version": 1,
+  "checked_date_local": "2026-11-07",
+  "timezone": "America/Managua",
+  "purpose": "Research source catalog for extending atlas dimensions; not an executable acquisition manifest.",
+  "area_definition": "Use phase-2 polygons; source availability at site centers does not establish full AOI support.",
+  "default_download_policy": "No automatic downloads from this catalog. Only the small THEMIS pilot was acquired during research.",
+  "sources": [
+    {
+      "id": "local-dems",
+      "name": "DTM HiRISE y SRTM locales",
+      "body": "Mars/Earth",
+      "dimensions": [
+        "terrain_geometry"
+      ],
+      "priority": 0,
+      "status": "local_inputs_available",
+      "urls": [],
+      "authentication": "none",
+      "products": [
+        "data/raw/hirise/DTEEC_002387_1985_003798_1985_A01.IMG",
+        "data/raw/srtm/N38W111.tif",
+        "data/raw/srtm/S24W068.tif"
+      ],
+      "proposed_features": [
+        "local_plane_residual",
+        "topographic_position",
+        "curvature"
+      ],
+      "processing": "Specify formula, physical neighbourhood, cell size, valid-neighbour support and uncertainty. Not implemented.",
+      "limitations": [
+        "Derived features share source information with existing slope and relief.",
+        "No rock scale mobility inference."
+      ]
+    },
+    {
+      "id": "usgs-3dep-utah-1m",
+      "name": "USGS 3DEP Utah, 1 m",
+      "body": "Earth",
+      "dimensions": [
+        "terrain_geometry"
+      ],
+      "priority": 1,
+      "status": "product_identified_head_200",
+      "urls": {
+        "documentation": "https://www.usgs.gov/faqs/there-api-accessing-national-map-data",
+        "catalog_api": "https://tnmaccess.nationalmap.gov/api/v1/products",
+        "download": "https://prd-tnm.s3.amazonaws.com/StagedProducts/Elevation/1m/Projects/UT_FEMA_FS_FlamingGorge_2020_B20/TIFF/USGS_1M_12_x53y428_UT_FEMA_FS_FlamingGorge_2020_B20.tif"
+      },
+      "authentication": "none for identified public object",
+      "format": "GeoTIFF",
+      "nominal_step_m": 1,
+      "bytes": 272131915,
+      "product_id": "USGS_1M_12_x53y428_UT_FEMA_FS_FlamingGorge_2020_B20",
+      "coverage": "Phase-1 rectangle inspection covers Utah initial window; pixel validity not verified.",
+      "local_evidence": [
+        "docs/evidencia-fase-1/tnm-utah-1m.json",
+        "docs/evidencia-fase-1/auditoria-3dep.json",
+        "docs/investigacion-dimensiones/cabeceras-productos.json"
+      ],
+      "processing": "Inspect full raster, vertical datum, masks and sensitivity before comparing with HiRISE.",
+      "limitations": [
+        "Bare-earth DEM is not a complete surface obstacle model."
+      ]
+    },
+    {
+      "id": "hirise-ortho-a",
+      "name": "HiRISE ortoimagen RED_A de Jezero",
+      "body": "Mars",
+      "dimensions": [
+        "surface_morphology",
+        "rocks_and_obstacles",
+        "aeolian_forms"
+      ],
+      "priority": 2,
+      "status": "product_identified_head_200",
+      "urls": {
+        "documentation": "https://www.uahirise.org/dtm/PSP_002387_1985",
+        "download": "https://www.uahirise.org/PDS/DTM/PSP/ORB_002300_002399/PSP_002387_1985_PSP_003798_1985/PSP_002387_1985_RED_A_01_ORTHO.JP2"
+      },
+      "authentication": "none",
+      "format": "JP2 plus PDS label",
+      "nominal_step_m": 0.25241191165571,
+      "bytes": 386772481,
+      "product_id": "PSP_002387_1985_RED_A_01_ORTHO",
+      "local_label": "docs/evidencia-fase-1/PSP_002387_1985_RED_A_01_ORTHO.LBL",
+      "coverage": "Declared extent covers the phase-2 area; full image and valid mask not acquired.",
+      "processing": "Preserve label, masks and illumination metadata; manual labels before automated object measurements.",
+      "limitations": [
+        "Image sampling does not increase DTM resolution.",
+        "Require multiple pixels per detectable object."
+      ]
+    },
+    {
+      "id": "naip",
+      "name": "NAIP ortofotografia",
+      "body": "Earth",
+      "dimensions": [
+        "surface_morphology",
+        "rocks_and_obstacles",
+        "aeolian_forms"
+      ],
+      "priority": 2,
+      "status": "collection_documented_product_selection_pending",
+      "urls": {
+        "utah": "https://gis.utah.gov/products/sgid/aerial-photography/naip/",
+        "catalog": "https://apps.nationalmap.gov/downloader/"
+      },
+      "authentication": "Use provider route; public downloads available",
+      "format": "JP2 or provider raster package",
+      "nominal_step_m": 0.6,
+      "bytes": null,
+      "coverage": "Utah/Mojave products must be selected; no Atacama coverage.",
+      "processing": "Select campaign/tile, evaluate shadows, season and masks; aggregate to comparable physical support.",
+      "limitations": [
+        "Cannot detect all decimetric rocks.",
+        "Campaign resolution and positional accuracy vary."
+      ]
+    },
+    {
+      "id": "crism",
+      "name": "MRO CRISM, MTRDR or targeted calibrated products",
+      "body": "Mars",
+      "dimensions": [
+        "geology_and_materials"
+      ],
+      "priority": 1,
+      "status": "collection_and_literature_candidates_identified",
+      "urls": {
+        "documentation": "https://pds-geosciences.wustl.edu/missions/mro/crism.htm",
+        "mtrdr_archive": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/",
+        "search": "https://ode.rsl.wustl.edu/mars/",
+        "candidate_reference": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8243932/"
+      },
+      "authentication": "none for public PDS objects",
+      "format": "PDS binary, label, geometry and numerical parameters as selected",
+      "candidate_observation_ids": [
+        "FRT000047A3",
+        "FRT00005C5E",
+        "HRL000040FF"
+      ],
+      "bytes": null,
+      "coverage": "Jezero observations documented in primary research; exact phase-2 polygon overlap and valid pixels pending.",
+      "processing": "Prefer an appropriate derived projected product if available; validate atmospheric/photometric treatment and numerical parameters.",
+      "limitations": [
+        "Observation ID is not a fully selected downloadable product.",
+        "Band depth is not automatically mineral abundance.",
+        "Do not equate class codes or uncorrected reflectance with EMIT."
+      ]
+    },
+    {
+      "id": "emit-l2b-min",
+      "name": "EMIT L2B Mineral Identification V002",
+      "body": "Earth",
+      "dimensions": [
+        "geology_and_materials"
+      ],
+      "priority": 1,
+      "status": "cmr_point_queries_verified_pixel_quality_pending",
+      "urls": {
+        "collection": "https://search.earthdata.nasa.gov/search/granules?p=C4079846859-LPCLOUD",
+        "doi": "https://doi.org/10.5067/EMIT/EMITL2BMIN.002",
+        "query_api": "https://cmr.earthdata.nasa.gov/search/granules.json",
+        "documentation": "https://cmr.earthdata.nasa.gov/search/site/docs/search/api.html"
+      },
+      "authentication": "NASA Earthdata Login for protected files; CMR metadata public",
+      "format": "NetCDF4, MIN and MINUNCERT",
+      "version": "002",
+      "collection_concept_id": "C4079846859-LPCLOUD",
+      "nominal_step_m": 60,
+      "processing": "Use GLT/geolocation; apply masks, fit quality and uncertainty. Crosswalk only supported mineral categories with CRISM.",
+      "limitations": [
+        "Point search is not full AOI valid-pixel coverage.",
+        "Spatially raw, non-orthocorrected delivery.",
+        "Not a complete soil mechanics measurement.",
+        "Keep V001/V002 separate."
+      ],
+      "site_queries": [
+        {
+          "site": "utah",
+          "query_url": "https://cmr.earthdata.nasa.gov/search/granules.json?short_name=EMITL2BMIN&version=002&point=-110.6%2C38.6&page_size=2",
+          "cmr_hits": 9,
+          "examples": [
+            {
+              "product_id": "EMIT_L2B_MIN_002_20230609T171110",
+              "granule_concept_id": "G4343803434-LPCLOUD",
+              "reported_granule_size_mb": 124.65797233581544,
+              "data_urls": [
+                "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2BMIN.002/EMIT_L2B_MIN_002_20230609T171110/EMIT_L2B_MIN_002_20230609T171110.nc",
+                "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2BMIN.002/EMIT_L2B_MIN_002_20230609T171110/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+              ],
+              "footprint_cmr_lat_lon": [
+                [
+                  "38.7143094 -110.2475266 39.251455 -110.8756579 38.7822099 -111.602965 38.2496166 -110.9749647 38.7143094 -110.2475266"
+                ]
+              ],
+              "pixel_validity_verified": false
+            },
+            {
+              "product_id": "EMIT_L2B_MIN_002_20230620T193410",
+              "granule_concept_id": "G4343853768-LPCLOUD",
+              "reported_granule_size_mb": 100.53640651702881,
+              "data_urls": [
+                "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2BMIN.002/EMIT_L2B_MIN_002_20230620T193410/EMIT_L2B_MIN_002_20230620T193410.nc",
+                "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2BMIN.002/EMIT_L2B_MIN_002_20230620T193410/EMIT_L2B_MINUNCERT_002_20230620T193410.nc"
+              ],
+              "footprint_cmr_lat_lon": [
+                [
+                  "38.2574233 -110.855731 38.8659707 -110.3367135 39.3321984 -111.0660169 38.7214739 -111.5793814 38.2574233 -110.855731"
+                ]
+              ],
+              "pixel_validity_verified": false
+            }
+          ],
+          "evidence_file": "docs/investigacion-dimensiones/emit-utah-v2.json"
+        },
+        {
+          "site": "atacama",
+          "query_url": "https://cmr.earthdata.nasa.gov/search/granules.json?short_name=EMITL2BMIN&version=002&point=-67.9%2C-23.8&page_size=2",
+          "cmr_hits": 10,
+          "examples": [
+            {
+              "product_id": "EMIT_L2B_MIN_002_20220909T131332",
+              "granule_concept_id": "G4319908427-LPCLOUD",
+              "reported_granule_size_mb": 109.53868007659912,
+              "data_urls": [
+                "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2BMIN.002/EMIT_L2B_MIN_002_20220909T131332/EMIT_L2B_MIN_002_20220909T131332.nc",
+                "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2BMIN.002/EMIT_L2B_MIN_002_20220909T131332/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+              ],
+              "footprint_cmr_lat_lon": [
+                [
+                  "-24.1796848 -68.2056704 -23.6469049 -67.6527505 -23.0791549 -68.1677533 -23.6146122 -68.7199545 -24.1796848 -68.2056704"
+                ]
+              ],
+              "pixel_validity_verified": false
+            },
+            {
+              "product_id": "EMIT_L2B_MIN_002_20230130T135427",
+              "granule_concept_id": "G4320692504-LPCLOUD",
+              "reported_granule_size_mb": 117.30090999603271,
+              "data_urls": [
+                "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2BMIN.002/EMIT_L2B_MIN_002_20230130T135427/EMIT_L2B_MIN_002_20230130T135427.nc",
+                "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2BMIN.002/EMIT_L2B_MIN_002_20230130T135427/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+              ],
+              "footprint_cmr_lat_lon": [
+                [
+                  "-23.2752786 -67.3713152 -22.8224756 -67.9863297 -23.3875848 -68.5007406 -23.8436734 -67.882894 -23.2752786 -67.3713152"
+                ]
+              ],
+              "pixel_validity_verified": false
+            }
+          ],
+          "evidence_file": "docs/investigacion-dimensiones/emit-atacama-v2.json"
+        }
+      ]
+    },
+    {
+      "id": "emit-l2a-rfl",
+      "name": "EMIT L2A Reflectance",
+      "body": "Earth",
+      "dimensions": [
+        "geology_and_materials"
+      ],
+      "priority": 2,
+      "status": "documented_companion_selection_pending",
+      "urls": {
+        "resources": "https://github.com/nasa/EMIT-Data-Resources",
+        "doi_candidate": "https://doi.org/10.5067/EMIT/EMITL2ARFL.002"
+      },
+      "authentication": "NASA Earthdata Login",
+      "format": "NetCDF reflectance, uncertainty and masks",
+      "nominal_step_m": 60,
+      "bytes": null,
+      "coverage": "Select co-temporal compatible granules after L2B quality review.",
+      "processing": "Geolocate and mask spectra, account for instrument bandpass and measurement conditions before comparing spectral descriptors."
+    },
+    {
+      "id": "jezero-geology-sim3464",
+      "name": "USGS mapa geologico de Jezero SIM 3464",
+      "body": "Mars",
+      "dimensions": [
+        "geology_and_materials",
+        "sedimentary_environment"
+      ],
+      "priority": 1,
+      "status": "index_lists_gis_download_head_403",
+      "urls": {
+        "index": "https://pubs.usgs.gov/sim/3464/",
+        "download_candidate": "https://pubs.usgs.gov/sim/3464/sim3464_database.zip",
+        "metadata": "https://pubs.usgs.gov/sim/3464/sim3464_metadata.txt"
+      },
+      "authentication": "Public publication; direct object returned 403 in this investigation",
+      "format": "ZIP GIS database; internal layers not inspected",
+      "bytes": null,
+      "size_index_human": "333M",
+      "processing": "Read legend, map scale, CRS and interpreted unit polygons; validate spatial overlap and derive area fractions.",
+      "limitations": [
+        "Download is listed but byte access not verified.",
+        "Geologic units are interpretations, not pixel chemical measurements."
+      ]
+    },
+    {
+      "id": "utah-geology",
+      "name": "Utah Geological Survey cartografia",
+      "body": "Earth",
+      "dimensions": [
+        "geology_and_materials",
+        "sedimentary_environment"
+      ],
+      "priority": 1,
+      "status": "portal_documented_sheet_selection_pending",
+      "urls": {
+        "portal": "https://geomap.geology.utah.gov/"
+      },
+      "authentication": "Provider download route",
+      "format": "GIS package or GeoJSON export depending on selected map",
+      "bytes": null,
+      "processing": "Select map covering full Utah polygon, inspect legend, scale and provenance; create reviewed cross-body material grouping.",
+      "limitations": [
+        "Portal does not itself establish the best map for this window."
+      ]
+    },
+    {
+      "id": "atacama-geology",
+      "name": "SERNAGEOMIN cartografia de Atacama",
+      "body": "Earth",
+      "dimensions": [
+        "geology_and_materials",
+        "sedimentary_environment"
+      ],
+      "priority": 2,
+      "status": "catalog_documented_sheet_selection_pending",
+      "urls": {
+        "catalog": "https://portalsdnmext.sernageomin.cl/publicacionesgeologicas"
+      },
+      "authentication": "Check selected publication route",
+      "format": "Publication-dependent; GIS availability not confirmed for selected area",
+      "bytes": null,
+      "processing": "Select sheet and digital layers covering phase-2 Atacama polygon; preserve legend and verify reuse conditions."
+    },
+    {
+      "id": "themis-jezero-ti",
+      "name": "THEMIS-derived Thermal Inertia of Jezero Crater",
+      "body": "Mars",
+      "dimensions": [
+        "thermal_properties"
+      ],
+      "priority": 1,
+      "status": "downloaded_checksum_and_nominal_aoi_support_verified",
+      "urls": {
+        "doi": "https://doi.org/10.5281/zenodo.4931348",
+        "record": "https://zenodo.org/api/records/4931348",
+        "download": "https://zenodo.org/api/records/4931348/files/Jezero_Thermal_Inertia_v1.tiff/content",
+        "author_institution": "https://experts.nau.edu/en/datasets/themis-derived-thermal-inertia-of-jezero-crater-mars/"
+      },
+      "authentication": "none",
+      "format": "GeoTIFF Float32",
+      "nominal_step_m": 100,
+      "units": "J m^-2 K^-1 s^-1/2",
+      "nodata": 0,
+      "bytes": 1721889,
+      "sha256": "84401e7717d43ae80cbd80213b91bd141ee48197eb8648293197447c43c2829c",
+      "provider_checksum": "md5:53fec7c990a90629e98c871a7a0da474",
+      "local_path": "data/raw/themis/Jezero_Thermal_Inertia_v1.tiff",
+      "license": "CC-BY-4.0",
+      "authors": [
+        "Christopher S. Edwards",
+        "Jennifer Buz"
+      ],
+      "valid_pixel_centers_inside_nominal_aoi": 342,
+      "aoi_valid_fraction": 1.0,
+      "processing": "Review cross-product Mars coordinate conventions and independent coregistration before analytical overlay.",
+      "limitations": [
+        "Thermal inertia is not temperature.",
+        "AOI QA assumes shared longitude/latitude interpreted on product sphere.",
+        "No Earth thermal-inertia counterpart selected.",
+        "Not integrated into the existing atlas."
+      ]
+    },
+    {
+      "id": "landsat-st",
+      "name": "Landsat 8/9 Collection 2 Level-2 Surface Temperature",
+      "body": "Earth",
+      "dimensions": [
+        "thermal_context"
+      ],
+      "priority": 2,
+      "status": "collection_documented_scene_selection_pending",
+      "urls": {
+        "documentation": "https://www.usgs.gov/landsat-missions/landsat-collection-2-surface-temperature",
+        "access": "https://www.usgs.gov/landsat-missions/landsat-data-access",
+        "search": "https://earthexplorer.usgs.gov/",
+        "resolution": "https://www.usgs.gov/faqs/what-are-band-designations-landsat-satellites"
+      },
+      "authentication": "USGS account for EarthExplorer; route-specific access elsewhere",
+      "format": "GeoTIFF COG and metadata",
+      "native_thermal_step_m": 100,
+      "delivered_grid_m": 30,
+      "units": "Kelvin after published scale and offset",
+      "required_assets": [
+        "ST_B10",
+        "ST_QA",
+        "QA_PIXEL",
+        "metadata"
+      ],
+      "bytes": null,
+      "processing": "Select L2SP scene with valid surface temperature; mask clouds and invalid/uncertain pixels; preserve acquisition time.",
+      "limitations": [
+        "Surface temperature cannot be compared numerically with thermal inertia.",
+        "30 m output is resampled thermal information."
+      ]
+    },
+    {
+      "id": "sentinel2-l2a",
+      "name": "Sentinel-2 L2A",
+      "body": "Earth",
+      "dimensions": [
+        "surface_context",
+        "large_aeolian_forms",
+        "water_context"
+      ],
+      "priority": 2,
+      "status": "collection_documented_scene_selection_pending",
+      "urls": {
+        "catalog": "https://browser.dataspace.copernicus.eu/",
+        "api_documentation": "https://documentation.dataspace.copernicus.eu/APIs/STAC.html",
+        "collection": "https://stac.dataspace.copernicus.eu/v1/collections/sentinel-2-l2a"
+      },
+      "authentication": "Copernicus Data Space account for selected download route",
+      "format": "SAFE/JP2 and metadata; select required bands",
+      "nominal_band_steps_m": [
+        10,
+        20,
+        60
+      ],
+      "bytes": null,
+      "processing": "Choose cloud-free observations and relevant bands, inspect quality and actual tile overlap.",
+      "limitations": [
+        "Not suitable for small rock counting.",
+        "Multispectral indices do not provide CRISM-equivalent mineral identification."
+      ]
+    },
+    {
+      "id": "tes-dust-context",
+      "name": "TES Dust Cover Index ASU visualization",
+      "body": "Mars",
+      "dimensions": [
+        "dust_context"
+      ],
+      "priority": 3,
+      "status": "context_only_not_quantitative_input",
+      "urls": {
+        "documentation": "https://mars.asu.edu/data/tes_ruffdust/"
+      },
+      "authentication": "none",
+      "format": "PNG visualization on inspected page",
+      "nominal_step_m": 3500,
+      "bytes": null,
+      "processing": "Context only; locate original quantitative product and compatible method before numerical use.",
+      "limitations": [
+        "Coarser than 1.8 km analysis window.",
+        "Surface dust index is not atmospheric aerosol optical depth.",
+        "Do not decode a visualization as scientific values."
+      ]
+    },
+    {
+      "id": "jrc-surface-water",
+      "name": "JRC Global Surface Water",
+      "body": "Earth",
+      "dimensions": [
+        "water_context"
+      ],
+      "priority": 3,
+      "status": "download_portal_verified_tile_selection_pending",
+      "urls": {
+        "download": "https://global-surface-water.appspot.com/download"
+      },
+      "authentication": "Public download routes",
+      "format": "Raster tiles; freeze layer and version",
+      "nominal_step_m": 30,
+      "bytes": null,
+      "processing": "Select occurrence/history product, record release, account for collection alignment and valid observation counts.",
+      "limitations": [
+        "Current/historical Earth surface water is not a direct analogue measurement of ancient Mars water.",
+        "2026 update combines collections with documented alignment limitations."
+      ]
+    },
+    {
+      "id": "swim4mim",
+      "name": "SWIM4MIM ice consistency",
+      "body": "Mars",
+      "dimensions": [
+        "water_and_ice_regional"
+      ],
+      "priority": 3,
+      "status": "product_portal_verified_selection_pending",
+      "urls": {
+        "download": "https://swim.psi.edu/SWIM4MIMProducts.php"
+      },
+      "authentication": "Public portal",
+      "format": "GeoTIFF and ancillary data",
+      "nominal_step_m": 3000,
+      "nodata": -30,
+      "bytes": null,
+      "latitude_range_deg": [
+        -60,
+        60
+      ],
+      "depth_intervals_m": [
+        "0-1",
+        "1-5",
+        ">5"
+      ],
+      "processing": "Define an ice-resource scenario and regional AOI; select consistency and support layers.",
+      "limitations": [
+        "Consistency index is not a calibrated probability or per-pixel ice detection.",
+        "Too coarse to resolve the current local window.",
+        "No Earth subsurface ice counterpart selected."
+      ]
+    }
+  ]
+}

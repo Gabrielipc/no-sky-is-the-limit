@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "observation_id": "FRT000047A3",
+  "package": "parameters",
+  "verified_utc": "2026-11-08T16:03:15.932712+00:00",
+  "source_sha256": "1026d342192702b484ee7725a674e4688f50926667a26219e7801ce7c3321e1a",
+  "metadata_sha256": "032a307e89868ffe87f90c3e54dd77c5c5d1c743c5a880422c7988e04b39dc4e",
+  "acquisition_script_sha256": "1de0625a134f0c0dc14fd03935e518c9905012fa165622788955d1d304bc7e2e",
+  "transport_script_sha256": "04ae9e0949b768e440cf9e6d8c97e9ae58c03caa3215a59af03324d2ce7384d0",
+  "complete": true,
+  "verified_bytes": 188972526,
+  "files": [
+    {
+      "path": "crism/frt000047a3/frt000047a3_07_in166j_mtr3.hdr",
+      "url": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/mtrdr/2007/2007_057/frt000047a3/frt000047a3_07_in166j_mtr3.hdr",
+      "bytes": 1479,
+      "sha256": "4696fe835e4e99c00c22242b02738fc712ea367e8f3aa2f7fc794110b259f835",
+      "expected_sha256": "4696fe835e4e99c00c22242b02738fc712ea367e8f3aa2f7fc794110b259f835",
+      "role": "metadata",
+      "verified": true
+    },
+    {
+      "path": "crism/frt000047a3/frt000047a3_07_in166j_mtr3.lbl",
+      "url": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/mtrdr/2007/2007_057/frt000047a3/frt000047a3_07_in166j_mtr3.lbl",
+      "bytes": 6349,
+      "sha256": "c9c3e4121f83359a5b19ab0a7217e176d042068baf656fd97351403efd7939c4",
+      "expected_sha256": "c9c3e4121f83359a5b19ab0a7217e176d042068baf656fd97351403efd7939c4",
+      "role": "metadata",
+      "verified": true
+    },
+    {
+      "path": "crism/frt000047a3/frt000047a3_07_sr166j_mtr3.hdr",
+      "url": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/mtrdr/2007/2007_057/frt000047a3/frt000047a3_07_sr166j_mtr3.hdr",
+      "bytes": 1802,
+      "sha256": "dfb912294226519e500701bd5e215e15dc5b747212c25d4bef2287f4d39a61e4",
+      "expected_sha256": "dfb912294226519e500701bd5e215e15dc5b747212c25d4bef2287f4d39a61e4",
+      "role": "metadata",
+      "verified": true
+    },
+    {
+      "path": "crism/frt000047a3/frt000047a3_07_sr166j_mtr3.lbl",
+      "url": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/mtrdr/2007/2007_057/frt000047a3/frt000047a3_07_sr166j_mtr3.lbl",
+      "bytes": 8394,
+      "sha256": "10ac486d769f8fdc82ed08fb88f42e37dd1f4cb29a0b6db57a39a7e6cb7ac3c9",
+      "expected_sha256": "10ac486d769f8fdc82ed08fb88f42e37dd1f4cb29a0b6db57a39a7e6cb7ac3c9",
+      "role": "metadata",
+      "verified": true
+    },
+    {
+      "path": "crism/frt000047a3/frt000047a3_07_sr166j_mtr3.xml",
+      "url": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/mtrdr/2007/2007_057/frt000047a3/frt000047a3_07_sr166j_mtr3.xml",
+      "bytes": 66726,
+      "sha256": "fc297443c13d362e64285e1c0c93d654d6cd76cd87b056d9d87a50ae12fc1b3c",
+      "expected_sha256": "fc297443c13d362e64285e1c0c93d654d6cd76cd87b056d9d87a50ae12fc1b3c",
+      "role": "metadata",
+      "verified": true
+    },
+    {
+      "path": "crism/frt000047a3/frt000047a3_07_in166j_mtr3.img",
+      "url": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/mtrdr/2007/2007_057/frt000047a3/frt000047a3_07_in166j_mtr3.img",
+      "bytes": 24637536,
+      "sha256": "575a55fd2792ce6e263901949bbc333003dae87e8b00ea488efbe0d6c8cc828b",
+      "expected_sha256": null,
+      "role": "supplemental_information_and_mask",
+      "verified": true
+    },
+    {
+      "path": "crism/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+      "url": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/mtrdr/2007/2007_057/frt000047a3/frt000047a3_07_sr166j_mtr3.img",
+      "bytes": 164250240,
+      "sha256": "10eb37e4dd8f2f95a6c3ebdfda5a0b066bd02c33bb2d1e03558c024f3b16ec2d",
+      "expected_sha256": null,
+      "role": "refined_spectral_summary_parameters",
+      "verified": true
+    }
+  ],
+  "identity_note": "SHA-256 of science images records local identity, not an independent provider checksum. Metadata hashes match the reviewed copies.",
+  "scientific_status": "Acquisition only; valid-pixel coverage, mineral interpretation and Earth/Mars comparison remain unevaluated."
+}

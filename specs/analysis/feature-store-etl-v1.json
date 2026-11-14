@@ -1,0 +1,73 @@
+{
+  "store_id": "analogos-feature-store-v1",
+  "version": 1,
+  "contract_ref": "contrato-comun-superficie-v1",
+  "description": "Contrato de almacenamiento y esquema del Feature Store Parquet (Base + Deltas On-Demand) con procesamiento out-of-core en DuckDB.",
+  "storage_budget": {
+    "max_store_gb": 100,
+    "compression": "ZSTD",
+    "compression_level": 3,
+    "row_group_size": 100000,
+    "partition_key": "utm_zone_band",
+    "compaction_thresholds": {
+      "max_delta_files": 50,
+      "max_delta_mb": 512
+    }
+  },
+  "duckdb_out_of_core": {
+    "memory_limit": "2GB",
+    "threads": 4,
+    "preserve_insertion_order": false,
+    "temp_directory_name": "duckdb_spill"
+  },
+  "enums": {
+    "body": ["Earth", "Mars"],
+    "eligibility_status": [
+      "mars_reference_surface",
+      "eligible_arid_exposed",
+      "excluded_dense_canopy",
+      "excluded_permanent_water",
+      "excluded_urban_or_ice",
+      "excluded_insufficient_land",
+      "pending_on_demand_cover_check"
+    ],
+    "base_qa_status": [
+      "rankable",
+      "insufficient_dem_support",
+      "insufficient_land",
+      "dem_unavailable"
+    ],
+    "feature_status": [
+      "measured",
+      "measured_absent",
+      "insufficient_coverage",
+      "insufficient_complex_sample",
+      "unobserved_by_product",
+      "on_demand_fetchable",
+      "no_swath_coverage"
+    ]
+  },
+  "tables": {
+    "base_windows": {
+      "path_pattern": "base/utm_zone_band=*/part_*.parquet",
+      "primary_key": ["region_id"],
+      "partition_by": ["utm_zone_band"],
+      "description": "Tabla base densa generada en pasada batch: identidad espacial, contrato topográfico (base 240 m, halo 720 m) y contrato de elegibilidad/agua (WorldCover 10 m + JRC)."
+    },
+    "enrichment_spectral": {
+      "path_pattern": "enrichment/spectral/delta_*.parquet",
+      "primary_key": ["region_id", "updated_at"],
+      "description": "Deltas append-only y particiones compactadas para los 6 complejos funcionales de absorción (EMIT L2B/L2A y CRISM MTR3)."
+    },
+    "enrichment_temporal": {
+      "path_pattern": "enrichment/temporal/delta_*.parquet",
+      "primary_key": ["region_id", "updated_at"],
+      "description": "Deltas append-only para contexto óptico (HLS NDVI) y térmico (Landsat ST / THEMIS TI / ATI)."
+    },
+    "source_manifests": {
+      "path_pattern": "manifests/sources_*.parquet",
+      "primary_key": ["source_manifest_id"],
+      "description": "Catálogo normalizado de procedencia (activos, URLs, SHA-256/ETags, resoluciones nativas y fechas) para evitar repetir metadatos largos en las tablas de ventanas."
+    }
+  }
+}

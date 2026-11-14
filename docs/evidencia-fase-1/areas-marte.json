@@ -1,0 +1,46 @@
+{
+  "type": "FeatureCollection",
+  "note": "Planetary geometry; do not interpret as Earth RFC7946 GeoJSON. Coordinate convention in feature properties.",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "site_id": "mars-jezero-fan",
+        "body": "Mars",
+        "center_lon": 77.41,
+        "center_lat": 18.49,
+        "nominal_side_m": 1800,
+        "coordinate_convention": "planetocentric latitude; east longitude; sphere radius 3394839.8133163 m",
+        "purpose": "research candidate, not operationally validated",
+        "geometry_method": "geodesic destinations at bearings 225,135,45,315 degrees and distance sqrt(2)*900 m; equal nominal physical extent"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              77.39398505593493,
+              18.47480974380882
+            ],
+            [
+              77.42601494406506,
+              18.47480974380882
+            ],
+            [
+              77.42601778384737,
+              18.505188909596157
+            ],
+            [
+              77.39398221615262,
+              18.505188909596157
+            ],
+            [
+              77.39398505593493,
+              18.47480974380882
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

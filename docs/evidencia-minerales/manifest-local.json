@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "file": "specs/analysis/minerales-emit-v1.json",
+      "bytes": 3342,
+      "sha256": "1057a533478d129f0330a01a2cd315b027d66df3b3ac90ea838b50e1abc9b890"
+    },
+    {
+      "file": "scripts/analizar_minerales.py",
+      "bytes": 14521,
+      "sha256": "d382c913b035050d824c1a5f2f968e07626d73fb66c84692a10e7397ecb1e219"
+    },
+    {
+      "file": "docs/evidencia-fase-2/areas-tierra.geojson",
+      "bytes": 14959,
+      "sha256": "ab84ca69f53bcd43cf7d72c74f57bfcbd5987e08beffd71569132ed2c3259b84"
+    },
+    {
+      "file": "docs/evidencia-fase-2/resultados.json",
+      "bytes": 6894,
+      "sha256": "2f5a1ee60094fd854e89ce2f8d07508813eade1ef3aa25073a2ae5fd173f12e0"
+    },
+    {
+      "file": "requirements-minerales.txt",
+      "bytes": 90,
+      "sha256": "0c6136c6048bad98d6d0956c8d7e92c7d0c86bbaf9aff6cf1adc475ab4cdd7be"
+    },
+    {
+      "file": "docs/evidencia-fase-2/earth-utah-60m-slope.tif",
+      "bytes": 7497,
+      "sha256": "d5c21cd6fb0350068031c6ccbf5ff27ff276a33863f62503a3c03a0f24a53512"
+    },
+    {
+      "file": "docs/evidencia-fase-2/earth-atacama-60m-slope.tif",
+      "bytes": 7379,
+      "sha256": "eb1b69c3281fcebceacdbadf0f82e1929beeee09c48ed292f54a92a7ebd20533"
+    },
+    {
+      "file": "docs/evidencia-minerales/resultados.json",
+      "bytes": 356670,
+      "sha256": "1c8d2940de822fd84eecc9c52d798e60ce6d9006ba66d601b8c470d6250b3521"
+    },
+    {
+      "file": "docs/evidencia-minerales/procesamiento.json",
+      "bytes": 1216,
+      "sha256": "8cf16c4448c98dffac3a57621831c9ec1cf044f9b7928f108720ce796136467b"
+    }
+  ]
+}

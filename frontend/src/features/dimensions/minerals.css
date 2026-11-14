@@ -1,0 +1,29 @@
+.mineral-controls { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; padding: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 18px; }
+.mineral-layer-tools { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+.mineral-layout { --mineral-filtered: #27312d; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 24px; }
+.mineral-map-panel, .mineral-summary { min-width: 0; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.mineral-map-title { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }.mineral-map-title span { font-size: 11px; color: var(--muted); }
+.mineral-map { display: block; width: min(100%, 450px); height: auto; margin: auto; cursor: crosshair; }.mineral-map rect { shape-rendering: crispEdges; }.mineral-map:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.mineral-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 12px 0; font-size: 11px; }.mineral-legend > span { display: inline-flex; align-items: center; gap: 5px; }
+.mineral-key { width: 11px; height: 11px; display: inline-block; }.mineral-key.missing { background: repeating-linear-gradient(45deg, var(--nodata), var(--nodata) 2px, var(--bg) 2px, var(--bg) 3px); }.mineral-key.no-match { background: var(--surface-raised); border: 1px solid var(--muted); }.mineral-key.filtered { background: #27312d; border: 1px solid var(--line); }
+.mineral-ramp { width: 90px; height: 8px; display: inline-block; background: linear-gradient(90deg, hsl(210 45% 25%), hsl(110 60% 80%)); }.mineral-ramp.uncertainty { background: linear-gradient(90deg, hsl(150 45% 30%), hsl(30 45% 70%)); }
+.mineral-inspection { min-height: 44px; font-size: 12px; color: var(--text); margin: 15px 0; }
+.mineral-summary .select-field { margin: 15px 0; }.mineral-bar-row { display: block; width: 100%; border: 1px solid transparent; background: transparent; text-align: left; padding: 10px 8px; margin-top: 5px; }.mineral-bar-label { display: flex; align-items: center; gap: 7px; font-size: 12px; flex-wrap: wrap; }.mineral-bar-label strong { font-weight: 500; flex: 1; min-width: 115px; }.mineral-bar-label > span { font-variant-numeric: tabular-nums; }.mineral-bar-label i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; flex: none; }
+.mineral-bar-track { height: 7px; background: var(--line); display: block; margin-top: 9px; }.mineral-bar-track > span { display: block; height: 100%; }
+.mineral-counts { display: flex; flex-direction: column; gap: 5px; padding-top: 20px; margin-top: 20px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }.mineral-counts strong { color: var(--accent); font-size: 25px; font-weight: 500; }
+.dimension-section-tabs { margin: 0 0 22px; }
+.mineral-filter-drawer { margin: 10px 0 18px; border-block: 1px solid var(--line); padding: 12px 0; }
+.mineral-filter-drawer summary { font-size: 13px; }
+.mineral-filter-drawer .mineral-controls { margin: 14px 0 0; }
+@media(max-width:900px) { .mineral-controls { grid-template-columns: 1fr 1fr; }.mineral-layout { grid-template-columns: 1fr; }.mineral-map { max-height: none; width: min(100%, 520px); margin: auto; } }
+@media(max-width:560px) { .mineral-controls { grid-template-columns: 1fr; padding: 15px; gap: 20px; }.mineral-layout { gap: 15px; }.mineral-map-panel, .mineral-summary { padding: 15px; }.mineral-layer-tools > button { width: 100%; }.dimension-section-tabs button { flex: 1; font-size: 12px; padding: 8px; }.mineral-layer-tools .segmented { display: grid; grid-template-columns: 1fr 1fr; }}
+
+.mineral-earth { display: grid; min-width: 0; gap: 16px; }
+.mineral-map-title { align-items: baseline; }
+.mineral-map-title h2 { font-size: 19px; }
+.mineral-map-select { margin-bottom: 16px; }
+.crism-map { position: relative; }
+.crism-map canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+.crism-map canvas:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.crism-cursor { position: absolute; outline: 1px solid white; pointer-events: none; }
+.crism-ramp { background: linear-gradient(90deg, #30276f, #249794, #f9db75); }

@@ -1,0 +1,21 @@
+{
+  "file": "data/raw/themis/Jezero_Thermal_Inertia_v1.tiff",
+  "shape": [
+    890,
+    890
+  ],
+  "resolution_m": [
+    100.0,
+    100.0
+  ],
+  "crs_wkt": "PROJCS[\"SimpleCylindrical Mars\",GEOGCS[\"GCS_Mars\",DATUM[\"D_Mars\",SPHEROID[\"Mars\",3396190,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",0],PARAMETER[\"central_meridian\",0],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+  "nodata": 0.0,
+  "dtype": "float32",
+  "aoi": "docs/evidencia-fase-2/areas-marte.json",
+  "aoi_cells_by_pixel_center": 342,
+  "valid_aoi_cells": 342,
+  "valid_fraction": 1.0,
+  "qa_assumption": "Uses AOI longitude and latitude on the thermal product Mars sphere (radius 3396190 m); no independent coregistration accuracy verified. AOI coordinates come from the phase-2 Mars sphere of radius 3394839.8133163 m.",
+  "units_from_publisher": "J m^-2 K^-1 s^-1/2",
+  "scope": "Readability and nominal AOI support only; no cross-body thermal comparison or physical validation."
+}

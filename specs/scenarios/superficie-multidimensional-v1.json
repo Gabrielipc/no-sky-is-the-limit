@@ -1,0 +1,28 @@
+{
+  "scenario_id": "superficie-multidimensional",
+  "name": "Superficie · dimensiones y evidencia",
+  "question": "¿Cómo cambian la irregularidad y las formas del terreno entre Jezero y las candidatas, y qué evidencia existe sobre sus materiales y propiedades térmicas?",
+  "base_case": "specs/analysis/primer-caso-fase2.json",
+  "source_catalog": "docs/investigacion-dimensiones/catalogo-fuentes.json",
+  "reference_id": "mars-jezero-fan",
+  "window_m": 1800,
+  "scales_m": [60, 120],
+  "neighborhood_radius_m": 360,
+  "margin_m": 480,
+  "min_coverage": 0.95,
+  "support_tolerance": 0.000001,
+  "thermal": {
+    "site_id": "mars-jezero-fan",
+    "input": "data/raw/themis/Jezero_Thermal_Inertia_v1.tiff",
+    "product_id": "Jezero_Thermal_Inertia_v1",
+    "bytes": 1721889,
+    "sha256": "84401e7717d43ae80cbd80213b91bd141ee48197eb8648293197447c43c2829c",
+    "url": "https://zenodo.org/records/4931348",
+    "doi": "10.5281/zenodo.4931348",
+    "license": "CC BY 4.0",
+    "units": "J m⁻² K⁻¹ s⁻¹/²",
+    "sphere_radius_m": 3396190,
+    "nodata": 0
+  },
+  "output": "docs/evidencia-dimensiones"
+}

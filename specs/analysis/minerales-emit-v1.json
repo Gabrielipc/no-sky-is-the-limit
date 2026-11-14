@@ -1,0 +1,61 @@
+{
+  "release_id": "emit-minerales-local-v1",
+  "window_m": 1800,
+  "areas": "docs/evidencia-fase-2/areas-tierra.geojson",
+  "base_results": "docs/evidencia-fase-2/resultados.json",
+  "phase2_manifest": "docs/evidencia-fase-2/manifest-local.json",
+  "selection_policy": "Maximize cells with an available mineral classification in either spectral group, before interactive filtering; tie by product ID. Keep all scene audits.",
+  "scenes": [
+    {
+      "site_id": "earth-atacama",
+      "product_id": "EMIT_L2B_MIN_002_20220909T131332",
+      "mineral": {
+        "input": "data/raw/emit/EMIT_L2B_MIN_002_20220909T131332.nc",
+        "bytes": 43145931,
+        "sha256": "0ba00de595ff9c589c64a35b63541b02b848f5bf267838138f8fbb22a9ffb8e5",
+        "url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2BMIN.002/EMIT_L2B_MIN_002_20220909T131332/EMIT_L2B_MIN_002_20220909T131332.nc"
+      },
+      "uncertainty": {
+        "input": "data/raw/emit/EMIT_L2B_MINUNCERT_002_20220909T131332.nc",
+        "bytes": 48585437,
+        "sha256": "92aedf9e30edb13afcc2fcb9f964f09989a3077edd2262fe5d72e5184d12f18f",
+        "url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2BMIN.002/EMIT_L2B_MIN_002_20220909T131332/EMIT_L2B_MINUNCERT_002_20220909T131332.nc"
+      }
+    },
+    {
+      "site_id": "earth-utah",
+      "product_id": "EMIT_L2B_MIN_002_20230609T171110",
+      "mineral": {
+        "input": "data/raw/emit/EMIT_L2B_MIN_002_20230609T171110.nc",
+        "bytes": 45656544,
+        "sha256": "f0aaddc57cb2b6975b1e96207f8d1b66bea40d1328c0ddd860ada54f763e917b",
+        "url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2BMIN.002/EMIT_L2B_MIN_002_20230609T171110/EMIT_L2B_MIN_002_20230609T171110.nc"
+      },
+      "uncertainty": {
+        "input": "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230609T171110.nc",
+        "bytes": 52491460,
+        "sha256": "746440d80c4f01d5d9b8d06e623f0ef8e6e085976e37384e50ecb3fb3990d2a2",
+        "url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2BMIN.002/EMIT_L2B_MIN_002_20230609T171110/EMIT_L2B_MINUNCERT_002_20230609T171110.nc"
+      }
+    },
+    {
+      "site_id": "earth-atacama",
+      "product_id": "EMIT_L2B_MIN_002_20230130T135427",
+      "mineral": {
+        "input": "data/raw/emit/EMIT_L2B_MIN_002_20230130T135427.nc",
+        "bytes": 45076060,
+        "sha256": "172a7a32248e4d8c3225e39645a7faab79e7a0bc7491b45dcb4b21357df5e6b4",
+        "url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2BMIN.002/EMIT_L2B_MIN_002_20230130T135427/EMIT_L2B_MIN_002_20230130T135427.nc"
+      },
+      "uncertainty": {
+        "input": "data/raw/emit/EMIT_L2B_MINUNCERT_002_20230130T135427.nc",
+        "bytes": 52315756,
+        "sha256": "cf817e367698d4b20c67d5cac7881d19103488871cec8becfd69453f00d10e56",
+        "url": "https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-protected/EMITL2BMIN.002/EMIT_L2B_MIN_002_20230130T135427/EMIT_L2B_MINUNCERT_002_20230130T135427.nc"
+      }
+    }
+  ],
+  "output": "docs/evidencia-minerales",
+  "documentation": "https://nasa.github.io/LPDAAC-Data-Resources/external/Working_with_EMIT_L2B_Mineralogy.html",
+  "quality_filter_note": "Minimum R² is an exploratory display threshold, not a calibrated probability or a guarantee of mineral identification."
+}

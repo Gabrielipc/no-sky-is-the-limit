@@ -1,0 +1,192 @@
+[
+  {
+    "site_id": "mars-jezero-fan",
+    "input": "docs/evidencia-fase-1/jezero-dtm-prefix.bin",
+    "driver": "PDS",
+    "shape": [
+      11538,
+      6934
+    ],
+    "crs_wkt": "PROJCS[\"EQUIRECTANGULAR MARS\",GEOGCS[\"GCS_MARS\",DATUM[\"D_MARS\",SPHEROID[\"MARS_localRadius\",3394839.8133163,0]],PRIMEM[\"Reference_Meridian\",0],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]]],PROJECTION[\"Equirectangular\"],PARAMETER[\"standard_parallel_1\",15],PARAMETER[\"central_meridian\",77.41],PARAMETER[\"false_easting\",0],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH]]",
+    "transform": [
+      1.0096476466229,
+      0.0,
+      -3782.1400842493836,
+      0.0,
+      -1.0096476466229,
+      1101405.434395636,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "bounds": [
+      -3782.1400842493836,
+      1089756.119848901,
+      3218.7566974338056,
+      1101405.434395636
+    ],
+    "resolution": [
+      1.0096476466229,
+      1.0096476466229
+    ],
+    "dtype": [
+      "float32"
+    ],
+    "nodata": -3.4028226550889045e+38,
+    "corners_inside_raster_rectangle": true,
+    "projected_corners": [
+      [
+        -916.570464822746,
+        1094653.3967201805
+      ],
+      [
+        916.5704648234743,
+        1094653.3967201805
+      ],
+      [
+        916.7329918100459,
+        1096453.3966920222
+      ],
+      [
+        -916.7329918093176,
+        1096453.3966920222
+      ]
+    ],
+    "input_bytes": 65536,
+    "sha256_local": "b56cb5b3b688e233f1dcd19c2246167af2a364a7438f64e59ddc7ec9499ce16e"
+  },
+  {
+    "site_id": "earth-atacama",
+    "input": "data/raw/srtm/S24W068.tif",
+    "driver": "GTiff",
+    "shape": [
+      3601,
+      3601
+    ],
+    "crs_wkt": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+    "transform": [
+      0.0002777777777777778,
+      0.0,
+      -68.00013888888888,
+      0.0,
+      -0.0002777777777777778,
+      -22.999861111111112,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "bounds": [
+      -68.00013888888888,
+      -24.00013888888889,
+      -66.9998611111111,
+      -22.999861111111112
+    ],
+    "resolution": [
+      0.0002777777777777778,
+      0.0002777777777777778
+    ],
+    "dtype": [
+      "int16"
+    ],
+    "nodata": -32768.0,
+    "corners_inside_raster_rectangle": true,
+    "projected_corners": [
+      [
+        -67.90883200910316,
+        -23.80812576198083
+      ],
+      [
+        -67.89116799089685,
+        -23.80812576198083
+      ],
+      [
+        -67.8911690895602,
+        -23.791873724011854
+      ],
+      [
+        -67.90883091043982,
+        -23.791873724011854
+      ]
+    ],
+    "window": [
+      328,
+      2851,
+      65,
+      59
+    ],
+    "pixel_centers_inside_polygon": 3717,
+    "valid_inside_polygon": 3717,
+    "valid_fraction_inside_polygon": 1.0,
+    "interpretation": "available DEM values, not independent original radar observations; no slope or relief computed",
+    "mask_rule": "pixel center inside polygon; bounding window rounded outward; rasterio.features.geometry_mask all_touched=False",
+    "input_bytes": 16464310,
+    "sha256_local": "4f64ff3421208d6f1c95cd94e1df9d9c686a877e3905b53fd940ab9cf194db4a"
+  },
+  {
+    "site_id": "earth-utah",
+    "input": "data/raw/srtm/N38W111.tif",
+    "driver": "GTiff",
+    "shape": [
+      3601,
+      3601
+    ],
+    "crs_wkt": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+    "transform": [
+      0.0002777777777777778,
+      0.0,
+      -111.00013888888888,
+      0.0,
+      -0.0002777777777777778,
+      39.00013888888889,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "bounds": [
+      -111.00013888888888,
+      37.999861111111116,
+      -109.9998611111111,
+      39.00013888888889
+    ],
+    "resolution": [
+      0.0002777777777777778,
+      0.0002777777777777778
+    ],
+    "dtype": [
+      "int16"
+    ],
+    "nodata": -32768.0,
+    "corners_inside_raster_rectangle": true,
+    "projected_corners": [
+      [
+        -110.6103303620675,
+        38.59189200442798
+      ],
+      [
+        -110.58966963793249,
+        38.59189200442798
+      ],
+      [
+        -110.58966731339294,
+        38.608107072232215
+      ],
+      [
+        -110.61033268660705,
+        38.608107072232215
+      ]
+    ],
+    "window": [
+      1403,
+      1411,
+      75,
+      59
+    ],
+    "pixel_centers_inside_polygon": 4425,
+    "valid_inside_polygon": 4425,
+    "valid_fraction_inside_polygon": 1.0,
+    "interpretation": "available DEM values, not independent original radar observations; no slope or relief computed",
+    "mask_rule": "pixel center inside polygon; bounding window rounded outward; rasterio.features.geometry_mask all_touched=False",
+    "input_bytes": 14938692,
+    "sha256_local": "73520c1f4d04871db3a999fb2570c4eef723fb18d5a507cc60ba5c22ccac828c"
+  }
+]

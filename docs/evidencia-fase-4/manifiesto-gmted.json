@@ -1,0 +1,36 @@
+{
+  "files": [
+    {
+      "source": "gmted",
+      "url": "https://edcintl.cr.usgs.gov/downloads/sciweb1/shared/topo/downloads/GMTED/Grid_ZipFiles/mn75_grd.zip",
+      "path": "gmted2010/mn75_grd.zip",
+      "status": "verified_local",
+      "license": "USGS public data; attribution and modifications described in phase-4 documentation",
+      "expected_sha256": null,
+      "bytes": 2919537239,
+      "etag": "\"ae049a57-4b52788027325\"",
+      "last_modified": "Wed, 28 Dec 2011 14:08:17 GMT",
+      "content_type": "application/zip",
+      "sha256": "eab22d18b46a34b2e21bbd019ec7a16f2c0b5d3b983d9bd27bd56d68c791c0cf",
+      "downloaded_utc": "2026-11-07T01:56:02.424133+00:00",
+      "zip_crc": "passed_all_members",
+      "audit": "docs/evidencia-fase-4/auditoria-gmted.json"
+    },
+    {
+      "source": "gmted",
+      "url": "https://edcintl.cr.usgs.gov/downloads/sciweb1/shared/topo/downloads/GMTED/Grid_ZipFiles/mn30_grd.zip",
+      "path": "gmted2010/mn30_grd.zip",
+      "status": "verified_local",
+      "license": "USGS public data; attribution and modifications described in phase-4 documentation",
+      "expected_sha256": null,
+      "bytes": 277229566,
+      "etag": "\"10862ffe-4b518a61091ba\"",
+      "last_modified": "Tue, 27 Dec 2011 20:22:56 GMT",
+      "content_type": "application/zip",
+      "sha256": "dfd0d6c6486f4da22109be6107c93a70ef9917a5b6f954cd82d87cf8b920149d",
+      "downloaded_utc": "2026-11-06T04:14:09.512894+00:00",
+      "zip_crc": "passed_all_members",
+      "audit": "docs/evidencia-fase-4/auditoria-gmted.json"
+    }
+  ]
+}

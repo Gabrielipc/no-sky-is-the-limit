@@ -1,0 +1,4320 @@
+[
+  {
+    "site": "desierto",
+    "source": "hls",
+    "scene": "HLS.L30.T12SWH.2024080T180233.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.B05.tif",
+      "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.B06.tif",
+      "data/raw/atlas30/hls/HLS.L30.T12SWH.2024080T180233.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "Lasrc; Lasrc",
+      "SENSING_TIME": "2024-03-20T18:02:33.8097740Z; 2024-03-20T18:02:57.6965530Z"
+    },
+    "footprint_centers": 9982,
+    "variables": {
+      "B03": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": -0.0004,
+        "p05": 0.1686,
+        "p50": 0.1978,
+        "p95": 0.2289949999999999,
+        "max": 0.2667
+      },
+      "B04": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": -0.0106,
+        "p05": 0.2626,
+        "p50": 0.3033,
+        "p95": 0.3526,
+        "max": 0.4108
+      },
+      "B05": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": -0.0179,
+        "p05": 0.341405,
+        "p50": 0.3905,
+        "p95": 0.44879499999999994,
+        "max": 0.5134000000000001
+      },
+      "B06": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": -0.0201,
+        "p05": 0.38020000000000004,
+        "p50": 0.44595,
+        "p95": 0.49569499999999994,
+        "max": 0.5545
+      },
+      "Fmask": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 64.0,
+        "p05": 64.0,
+        "p50": 64.0,
+        "p95": 64.0,
+        "max": 192.0
+      }
+    },
+    "qa_counts": {
+      "64": 9907,
+      "96": 28,
+      "128": 41,
+      "160": 2,
+      "192": 4
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.15203426124196998,
+          "p05": 0.11445965939948179,
+          "p50": 0.12629280734407278,
+          "p95": 0.1363414764902861,
+          "max": 0.9340659340659341,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.49999999999999994,
+          "p05": -0.07846037918412431,
+          "p50": -0.06178084422134626,
+          "p95": -0.03733488172821025,
+          "max": 0.3358208955223881,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -3.3396226415094348,
+          "p05": -0.40111639892635764,
+          "p50": -0.38498570925462694,
+          "p95": -0.3559114948562321,
+          "max": 0.036144578313253004,
+          "outside_minus1_plus1": 2
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 9952,
+          "denominator": 9982,
+          "valid_fraction": 0.9969945902624725,
+          "min": 0.08617065994115176,
+          "p05": 0.11479584518164235,
+          "p50": 0.12630275805304525,
+          "p95": 0.13632523238021907,
+          "max": 0.21118721461187215,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9952,
+          "denominator": 9982,
+          "valid_fraction": 0.9969945902624725,
+          "min": -0.14687751273117125,
+          "p05": -0.07832592938975919,
+          "p50": -0.0618184787810528,
+          "p95": -0.03757938769990381,
+          "max": 0.08857509627727853,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9952,
+          "denominator": 9982,
+          "valid_fraction": 0.9969945902624725,
+          "min": -0.5157633722989727,
+          "p05": -0.4011015981666226,
+          "p50": -0.38501128381736793,
+          "p95": -0.3565196928271385,
+          "max": -0.2664347826086957,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 9952,
+          "denominator": 9982,
+          "valid_fraction": 0.9969945902624725,
+          "min": 0.08617065994115176,
+          "p05": 0.11479584518164235,
+          "p50": 0.12630275805304525,
+          "p95": 0.13632523238021907,
+          "max": 0.21118721461187215,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9952,
+          "denominator": 9982,
+          "valid_fraction": 0.9969945902624725,
+          "min": -0.14687751273117125,
+          "p05": -0.07832592938975919,
+          "p50": -0.0618184787810528,
+          "p95": -0.03757938769990381,
+          "max": 0.08857509627727853,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9952,
+          "denominator": 9982,
+          "valid_fraction": 0.9969945902624725,
+          "min": -0.5157633722989727,
+          "p05": -0.4011015981666226,
+          "p50": -0.38501128381736793,
+          "p95": -0.3565196928271385,
+          "max": -0.2664347826086957,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 0,
+      "adjacent": 0,
+      "shadow": 0,
+      "snow": 0,
+      "water": 30
+    },
+    "high_aerosol_clear_centers": 4,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 0,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 0
+      }
+    }
+  },
+  {
+    "site": "desierto",
+    "source": "hls",
+    "scene": "HLS.S30.T12SWH.2024029T180611.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.B8A.tif",
+      "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.B11.tif",
+      "data/raw/atlas30/hls/HLS.S30.T12SWH.2024029T180611.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "LaSRC",
+      "SENSING_TIME": "2024-01-29T18:13:30.966976Z"
+    },
+    "footprint_centers": 9982,
+    "variables": {
+      "B03": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 0.0206,
+        "p05": 0.1438,
+        "p50": 0.16770000000000002,
+        "p95": 0.1983899999999998,
+        "max": 0.2403
+      },
+      "B04": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 0.027600000000000003,
+        "p05": 0.22890500000000003,
+        "p50": 0.265,
+        "p95": 0.31619499999999995,
+        "max": 0.38730000000000003
+      },
+      "B8A": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 0.025900000000000003,
+        "p05": 0.30610000000000004,
+        "p50": 0.3493,
+        "p95": 0.4077949999999999,
+        "max": 0.4824
+      },
+      "B11": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 0.0275,
+        "p05": 0.34771,
+        "p50": 0.4046,
+        "p95": 0.4581,
+        "max": 0.5372
+      },
+      "Fmask": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 64.0,
+        "p05": 64.0,
+        "p50": 64.0,
+        "p95": 64.0,
+        "max": 96.0
+      }
+    },
+    "qa_counts": {
+      "64": 9946,
+      "96": 36
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.05474452554744524,
+          "p05": 0.1187584088460538,
+          "p50": 0.13707263525721672,
+          "p95": 0.15188942331923505,
+          "max": 0.31155378486055774,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.2584573748308525,
+          "p05": -0.08905719149526646,
+          "p50": -0.06997140432928742,
+          "p95": -0.0444051394389746,
+          "max": 0.023289878423905036,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.6057273293214361,
+          "p05": -0.4326513651850737,
+          "p50": -0.41316445483595743,
+          "p95": -0.38161292336839026,
+          "max": -0.10663983903420521,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 9946,
+          "denominator": 9982,
+          "valid_fraction": 0.996393508314967,
+          "min": 0.03636363636363638,
+          "p05": 0.11903485937889899,
+          "p50": 0.13707660565731133,
+          "p95": 0.1518287237973224,
+          "max": 0.2865440464666022,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9946,
+          "denominator": 9982,
+          "valid_fraction": 0.996393508314967,
+          "min": -0.19358321764615144,
+          "p05": -0.08889184563021388,
+          "p50": -0.06993894335484392,
+          "p95": -0.04444675252735078,
+          "max": 0.023289878423905036,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9946,
+          "denominator": 9982,
+          "valid_fraction": 0.996393508314967,
+          "min": -0.6057273293214361,
+          "p05": -0.43252470799640613,
+          "p50": -0.4131875048317786,
+          "p95": -0.382248180798496,
+          "max": -0.2751431844215349,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 9946,
+          "denominator": 9982,
+          "valid_fraction": 0.996393508314967,
+          "min": 0.03636363636363638,
+          "p05": 0.11903485937889899,
+          "p50": 0.13707660565731133,
+          "p95": 0.1518287237973224,
+          "max": 0.2865440464666022,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9946,
+          "denominator": 9982,
+          "valid_fraction": 0.996393508314967,
+          "min": -0.19358321764615144,
+          "p05": -0.08889184563021388,
+          "p50": -0.06993894335484392,
+          "p95": -0.04444675252735078,
+          "max": 0.023289878423905036,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9946,
+          "denominator": 9982,
+          "valid_fraction": 0.996393508314967,
+          "min": -0.6057273293214361,
+          "p05": -0.43252470799640613,
+          "p50": -0.4131875048317786,
+          "p95": -0.382248180798496,
+          "max": -0.2751431844215349,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 0,
+      "adjacent": 0,
+      "shadow": 0,
+      "snow": 0,
+      "water": 36
+    },
+    "high_aerosol_clear_centers": 0,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 0,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 0
+      }
+    }
+  },
+  {
+    "site": "desierto",
+    "source": "hls",
+    "scene": "HLS.L30.T12SWH.2024184T180142.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.L30.T12SWH.2024184T180142.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.L30.T12SWH.2024184T180142.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.L30.T12SWH.2024184T180142.v2.0.B05.tif",
+      "data/raw/atlas30/hls/HLS.L30.T12SWH.2024184T180142.v2.0.B06.tif",
+      "data/raw/atlas30/hls/HLS.L30.T12SWH.2024184T180142.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "Lasrc; Lasrc",
+      "SENSING_TIME": "2024-07-02T18:01:42.3869560Z; 2024-07-02T18:02:06.2779970Z"
+    },
+    "footprint_centers": 9982,
+    "variables": {
+      "B03": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 0.054,
+        "p05": 0.1744,
+        "p50": 0.199,
+        "p95": 0.2255,
+        "max": 0.26580000000000004
+      },
+      "B04": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 0.08,
+        "p05": 0.2726,
+        "p50": 0.30685,
+        "p95": 0.3517949999999999,
+        "max": 0.40650000000000003
+      },
+      "B05": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 0.0946,
+        "p05": 0.374105,
+        "p50": 0.4212,
+        "p95": 0.46880000000000005,
+        "max": 0.5219
+      },
+      "B06": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 0.11670000000000001,
+        "p05": 0.404105,
+        "p50": 0.46280000000000004,
+        "p95": 0.5116949999999999,
+        "max": 0.5635
+      },
+      "Fmask": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 64.0,
+        "p05": 64.0,
+        "p50": 64.0,
+        "p95": 64.0,
+        "max": 128.0
+      }
+    },
+    "qa_counts": {
+      "64": 9955,
+      "128": 27
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": 0.08361970217640322,
+          "p05": 0.13219696403945055,
+          "p50": 0.15606995513581717,
+          "p95": 0.170045319989956,
+          "max": 0.2725978647686833,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.19894299735749335,
+          "p05": -0.06244595888369782,
+          "p50": -0.04648013801186723,
+          "p95": -0.02486972168396152,
+          "max": 0.04973075704783028,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.5148148148148148,
+          "p05": -0.41473514630179087,
+          "p50": -0.3983573244781763,
+          "p95": -0.37403041405430665,
+          "max": -0.2799195440831378,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": 0.08361970217640322,
+          "p05": 0.13219696403945055,
+          "p50": 0.15606995513581717,
+          "p95": 0.170045319989956,
+          "max": 0.2725978647686833,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.19894299735749335,
+          "p05": -0.06244595888369782,
+          "p50": -0.04648013801186723,
+          "p95": -0.02486972168396152,
+          "max": 0.04973075704783028,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.5148148148148148,
+          "p05": -0.41473514630179087,
+          "p50": -0.3983573244781763,
+          "p95": -0.37403041405430665,
+          "max": -0.2799195440831378,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": 0.08361970217640322,
+          "p05": 0.13219696403945055,
+          "p50": 0.15606995513581717,
+          "p95": 0.170045319989956,
+          "max": 0.2725978647686833,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.19894299735749335,
+          "p05": -0.06244595888369782,
+          "p50": -0.04648013801186723,
+          "p95": -0.02486972168396152,
+          "max": 0.04973075704783028,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.5148148148148148,
+          "p05": -0.41473514630179087,
+          "p50": -0.3983573244781763,
+          "p95": -0.37403041405430665,
+          "max": -0.2799195440831378,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 0,
+      "adjacent": 0,
+      "shadow": 0,
+      "snow": 0,
+      "water": 0
+    },
+    "high_aerosol_clear_centers": 0,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 0,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 0
+      }
+    }
+  },
+  {
+    "site": "desierto",
+    "source": "hls",
+    "scene": "HLS.S30.T12SWH.2024184T175919.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.B8A.tif",
+      "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.B11.tif",
+      "data/raw/atlas30/hls/HLS.S30.T12SWH.2024184T175919.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "LaSRC",
+      "SENSING_TIME": "2024-07-02T18:13:39.568773Z"
+    },
+    "footprint_centers": 9982,
+    "variables": {
+      "B03": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 0.09870000000000001,
+        "p05": 0.1752,
+        "p50": 0.1966,
+        "p95": 0.21930000000000002,
+        "max": 0.258
+      },
+      "B04": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 0.1579,
+        "p05": 0.2795,
+        "p50": 0.30770000000000003,
+        "p95": 0.3458,
+        "max": 0.39
+      },
+      "B8A": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 0.2252,
+        "p05": 0.3835,
+        "p50": 0.4212,
+        "p95": 0.4591,
+        "max": 0.4948
+      },
+      "B11": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 0.2553,
+        "p05": 0.417805,
+        "p50": 0.46830000000000005,
+        "p95": 0.5089949999999999,
+        "max": 0.5473
+      },
+      "Fmask": {
+        "n": 9982,
+        "denominator": 9982,
+        "valid_fraction": 1.0,
+        "min": 64.0,
+        "p05": 64.0,
+        "p50": 64.0,
+        "p95": 64.0,
+        "max": 128.0
+      }
+    },
+    "qa_counts": {
+      "64": 9980,
+      "128": 2
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": 0.07201216036481098,
+          "p05": 0.13080916101087114,
+          "p50": 0.15447601439440553,
+          "p95": 0.16867350353796132,
+          "max": 0.25849088171323403,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.11891042430591932,
+          "p05": -0.06700405694551097,
+          "p50": -0.05280112581285874,
+          "p95": -0.033707865168539325,
+          "max": 0.011244569384104236,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.5086378737541529,
+          "p05": -0.4249461183296346,
+          "p50": -0.408934599818033,
+          "p95": -0.38618519464331474,
+          "max": -0.2963627466971131,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": 0.07201216036481098,
+          "p05": 0.13080916101087114,
+          "p50": 0.15447601439440553,
+          "p95": 0.16867350353796132,
+          "max": 0.25849088171323403,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.11891042430591932,
+          "p05": -0.06700405694551097,
+          "p50": -0.05280112581285874,
+          "p95": -0.033707865168539325,
+          "max": 0.011244569384104236,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.5086378737541529,
+          "p05": -0.4249461183296346,
+          "p50": -0.408934599818033,
+          "p95": -0.38618519464331474,
+          "max": -0.2963627466971131,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": 0.07201216036481098,
+          "p05": 0.13080916101087114,
+          "p50": 0.15447601439440553,
+          "p95": 0.16867350353796132,
+          "max": 0.25849088171323403,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.11891042430591932,
+          "p05": -0.06700405694551097,
+          "p50": -0.05280112581285874,
+          "p95": -0.033707865168539325,
+          "max": 0.011244569384104236,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9982,
+          "denominator": 9982,
+          "valid_fraction": 1.0,
+          "min": -0.5086378737541529,
+          "p05": -0.4249461183296346,
+          "p50": -0.408934599818033,
+          "p95": -0.38618519464331474,
+          "max": -0.2963627466971131,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 0,
+      "adjacent": 0,
+      "shadow": 0,
+      "snow": 0,
+      "water": 0
+    },
+    "high_aerosol_clear_centers": 0,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 0,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 0
+      }
+    }
+  },
+  {
+    "site": "desierto",
+    "source": "landsat",
+    "scene": "LC09_L2SP_037033_20240116_20240117_02_T1_ST",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/landsat/LC09_L2SP_037033_20240116_20240117_02_T1_ST_B10.TIF",
+      "data/raw/atlas30/landsat/LC09_L2SP_037033_20240116_20240117_02_T1_QA_PIXEL.TIF",
+      "data/raw/atlas30/landsat/LC09_L2SP_037033_20240116_20240117_02_T1_ST_QA.TIF"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {},
+    "footprint_centers": 10000,
+    "variables": {
+      "ST_B10": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 271.09509242,
+        "p05": 277.78415756,
+        "p50": 278.65917068,
+        "p95": 279.55469192,
+        "max": 281.106473
+      },
+      "QA_PIXEL": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 21824.0,
+        "p05": 21824.0,
+        "p50": 21824.0,
+        "p95": 21824.0,
+        "max": 21952.0
+      },
+      "ST_QA": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 2.07,
+        "p05": 2.09,
+        "p50": 2.18,
+        "p95": 2.2600000000000002,
+        "max": 2.45
+      }
+    },
+    "qa_counts": {
+      "21824": 9963,
+      "21952": 37
+    },
+    "policies": {
+      "legacy": {
+        "temperature_k": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 271.09509242,
+          "p05": 277.78415756,
+          "p50": 278.65917068,
+          "p95": 279.55469192,
+          "max": 281.106473
+        },
+        "uncertainty_k": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 2.07,
+          "p05": 2.09,
+          "p50": 2.18,
+          "p95": 2.2600000000000002,
+          "max": 2.45
+        }
+      },
+      "keep_snow": {
+        "temperature_k": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 271.09509242,
+          "p05": 277.78415756,
+          "p50": 278.65917068,
+          "p95": 279.55469192,
+          "max": 281.106473
+        },
+        "uncertainty_k": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 2.07,
+          "p05": 2.09,
+          "p50": 2.18,
+          "p95": 2.2600000000000002,
+          "max": 2.45
+        }
+      }
+    },
+    "uncertainty_sensitivity": {
+      "1": {
+        "n": 0,
+        "denominator": 10000,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "2": {
+        "n": 0,
+        "denominator": 10000,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "3": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 271.09509242,
+        "p05": 277.78415756,
+        "p50": 278.65917068,
+        "p95": 279.55469192,
+        "max": 281.106473
+      }
+    }
+  },
+  {
+    "site": "desierto",
+    "source": "landsat",
+    "scene": "LC09_L2SP_037033_20240827_20240828_02_T1_ST",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/landsat/LC09_L2SP_037033_20240827_20240828_02_T1_ST_B10.TIF",
+      "data/raw/atlas30/landsat/LC09_L2SP_037033_20240827_20240828_02_T1_QA_PIXEL.TIF",
+      "data/raw/atlas30/landsat/LC09_L2SP_037033_20240827_20240828_02_T1_ST_QA.TIF"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {},
+    "footprint_centers": 10000,
+    "variables": {
+      "ST_B10": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 310.4672648,
+        "p05": 315.433476959,
+        "p50": 316.77692972,
+        "p95": 317.75448344,
+        "max": 318.78672548
+      },
+      "QA_PIXEL": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 21824.0,
+        "p05": 21824.0,
+        "p50": 21824.0,
+        "p95": 21824.0,
+        "max": 21952.0
+      },
+      "ST_QA": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 1.5,
+        "p05": 1.51,
+        "p50": 1.56,
+        "p95": 1.67,
+        "max": 2.0300000000000002
+      }
+    },
+    "qa_counts": {
+      "21824": 9997,
+      "21952": 3
+    },
+    "policies": {
+      "legacy": {
+        "temperature_k": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 310.4672648,
+          "p05": 315.433476959,
+          "p50": 316.77692972,
+          "p95": 317.75448344,
+          "max": 318.78672548
+        },
+        "uncertainty_k": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 1.5,
+          "p05": 1.51,
+          "p50": 1.56,
+          "p95": 1.67,
+          "max": 2.0300000000000002
+        }
+      },
+      "keep_snow": {
+        "temperature_k": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 310.4672648,
+          "p05": 315.433476959,
+          "p50": 316.77692972,
+          "p95": 317.75448344,
+          "max": 318.78672548
+        },
+        "uncertainty_k": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 1.5,
+          "p05": 1.51,
+          "p50": 1.56,
+          "p95": 1.67,
+          "max": 2.0300000000000002
+        }
+      }
+    },
+    "uncertainty_sensitivity": {
+      "1": {
+        "n": 0,
+        "denominator": 10000,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "2": {
+        "n": 9958,
+        "denominator": 10000,
+        "valid_fraction": 0.9958,
+        "min": 310.4672648,
+        "p05": 315.43706588,
+        "p50": 316.77692972,
+        "p95": 317.744742083,
+        "max": 318.78672548
+      },
+      "3": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 310.4672648,
+        "p05": 315.433476959,
+        "p50": 316.77692972,
+        "p95": 317.75448344,
+        "max": 318.78672548
+      }
+    }
+  },
+  {
+    "site": "montana",
+    "source": "hls",
+    "scene": "HLS.L30.T32TPS.2024029T100410.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.B05.tif",
+      "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.B06.tif",
+      "data/raw/atlas30/hls/HLS.L30.T32TPS.2024029T100410.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "Lasrc; Lasrc",
+      "SENSING_TIME": "2024-01-29T10:04:10.8684990Z; 2024-01-29T10:04:34.7553030Z"
+    },
+    "footprint_centers": 10000,
+    "variables": {
+      "B03": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": -0.0039000000000000003,
+        "p05": 0.0049,
+        "p50": 0.0551,
+        "p95": 0.09050499999999993,
+        "max": 0.3694
+      },
+      "B04": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": -0.0106,
+        "p05": -0.0004,
+        "p50": 0.0621,
+        "p95": 0.10900499999999992,
+        "max": 0.4083
+      },
+      "B05": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": -0.024200000000000003,
+        "p05": 0.0117,
+        "p50": 0.17,
+        "p95": 0.27740000000000004,
+        "max": 0.6315000000000001
+      },
+      "B06": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": -0.0165,
+        "p05": 0.0117,
+        "p50": 0.1578,
+        "p95": 0.2793,
+        "max": 0.6533
+      },
+      "Fmask": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 64.0,
+        "p05": 64.0,
+        "p50": 64.0,
+        "p95": 192.0,
+        "max": 224.0
+      }
+    },
+    "qa_counts": {
+      "64": 5738,
+      "80": 6,
+      "96": 458,
+      "128": 2480,
+      "160": 798,
+      "192": 353,
+      "224": 167
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 9998,
+          "denominator": 10000,
+          "valid_fraction": 0.9998,
+          "min": -80.99999999999979,
+          "p05": 0.20000000000000004,
+          "p50": 0.4829246255710358,
+          "p95": 0.8899429917722599,
+          "max": 80.99999999999979,
+          "outside_minus1_plus1": 490
+        },
+        "ndmi": {
+          "n": 9999,
+          "denominator": 10000,
+          "valid_fraction": 0.9999,
+          "min": -4.6000000000000005,
+          "p05": -0.20603847433634306,
+          "p50": 0.04411406288081893,
+          "p95": 0.31729518290209785,
+          "max": 5.137931034482759,
+          "outside_minus1_plus1": 17
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -14.142857142857139,
+          "p05": -0.6174743158468952,
+          "p50": -0.489777743388778,
+          "p95": -0.23076923076923075,
+          "max": 7.9999999999999964,
+          "outside_minus1_plus1": 55
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 8577,
+          "denominator": 10000,
+          "valid_fraction": 0.8577,
+          "min": -0.030231645072634462,
+          "p05": 0.27488515182265766,
+          "p50": 0.47940691927512363,
+          "p95": 0.7245434651733924,
+          "max": 1.2517482517482517,
+          "outside_minus1_plus1": 3
+        },
+        "ndmi": {
+          "n": 8577,
+          "denominator": 10000,
+          "valid_fraction": 0.8577,
+          "min": -0.3414264036418817,
+          "p05": -0.17357738154751987,
+          "p50": 0.05776839883935638,
+          "p95": 0.3104682918160006,
+          "max": 0.953307392996109,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 8577,
+          "denominator": 10000,
+          "valid_fraction": 0.8577,
+          "min": -0.7857878475798145,
+          "p05": -0.5884993985467325,
+          "p50": -0.49088025376685174,
+          "p95": -0.3275383263353189,
+          "max": 0.9466666666666667,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 8571,
+          "denominator": 10000,
+          "valid_fraction": 0.8571,
+          "min": -0.030231645072634462,
+          "p05": 0.2749735604480798,
+          "p50": 0.4794908062234795,
+          "p95": 0.7245907670549562,
+          "max": 1.2517482517482517,
+          "outside_minus1_plus1": 3
+        },
+        "ndmi": {
+          "n": 8571,
+          "denominator": 10000,
+          "valid_fraction": 0.8571,
+          "min": -0.3414264036418817,
+          "p05": -0.17360351052602344,
+          "p50": 0.057710501419110695,
+          "p95": 0.30933091364746035,
+          "max": 0.9281437125748503,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 8571,
+          "denominator": 10000,
+          "valid_fraction": 0.8571,
+          "min": -0.7857878475798145,
+          "p05": -0.5885097161596965,
+          "p50": -0.49093546047860775,
+          "p95": -0.32821577258182205,
+          "max": 0.7142857142857143,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 0,
+      "adjacent": 0,
+      "shadow": 0,
+      "snow": 6,
+      "water": 1423
+    },
+    "high_aerosol_clear_centers": 520,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 3,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 49
+      }
+    }
+  },
+  {
+    "site": "montana",
+    "source": "hls",
+    "scene": "HLS.S30.T32TPS.2024028T101301.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.B8A.tif",
+      "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.B11.tif",
+      "data/raw/atlas30/hls/HLS.S30.T32TPS.2024028T101301.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "LaSRC",
+      "SENSING_TIME": "2024-01-28T10:17:54.170307Z"
+    },
+    "footprint_centers": 10000,
+    "variables": {
+      "B03": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": -0.0158,
+        "p05": 0.008195000000000004,
+        "p50": 0.050100000000000006,
+        "p95": 0.08750499999999993,
+        "max": 0.3099
+      },
+      "B04": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": -0.013800000000000002,
+        "p05": 0.0079,
+        "p50": 0.061200000000000004,
+        "p95": 0.1086,
+        "max": 0.3542
+      },
+      "B8A": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": -0.0023,
+        "p05": 0.03179000000000001,
+        "p50": 0.1779,
+        "p95": 0.2778,
+        "max": 0.5824
+      },
+      "B11": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.0031000000000000003,
+        "p05": 0.02989500000000001,
+        "p50": 0.1718,
+        "p95": 0.2929199999999997,
+        "max": 0.609
+      },
+      "Fmask": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 64.0,
+        "p05": 64.0,
+        "p50": 64.0,
+        "p95": 128.0,
+        "max": 224.0
+      }
+    },
+    "qa_counts": {
+      "64": 7389,
+      "96": 666,
+      "112": 1,
+      "128": 1593,
+      "160": 122,
+      "192": 78,
+      "224": 151
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -190.99999999999784,
+          "p05": 0.27117911922856647,
+          "p50": 0.5019001054047978,
+          "p95": 0.7327637156599005,
+          "max": 169.00000000000105,
+          "outside_minus1_plus1": 172
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -2.769230769230769,
+          "p05": -0.19743632543800155,
+          "p50": 0.02788718819106973,
+          "p95": 0.2582763999318276,
+          "max": 0.5345016429353778,
+          "outside_minus1_plus1": 10
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -131.99999999999966,
+          "p05": -0.6884604801059647,
+          "p50": -0.552361244434882,
+          "p95": -0.3567388843514021,
+          "max": 30.000000000000025,
+          "outside_minus1_plus1": 197
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 9060,
+          "denominator": 10000,
+          "valid_fraction": 0.906,
+          "min": 0.0032608695652174093,
+          "p05": 0.29049550644115524,
+          "p50": 0.5029256840055001,
+          "p95": 0.7105854962310245,
+          "max": 1.1646341463414636,
+          "outside_minus1_plus1": 6
+        },
+        "ndmi": {
+          "n": 9060,
+          "denominator": 10000,
+          "valid_fraction": 0.906,
+          "min": -0.3152263374485596,
+          "p05": -0.18614789703032328,
+          "p50": 0.03468031410183784,
+          "p95": 0.2574626655215289,
+          "max": 0.5345016429353778,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9060,
+          "denominator": 10000,
+          "valid_fraction": 0.906,
+          "min": -1.3864229765013056,
+          "p05": -0.6556305732940834,
+          "p50": -0.5532363310794106,
+          "p95": -0.3875597560286467,
+          "max": -0.027790861987753192,
+          "outside_minus1_plus1": 24
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 9060,
+          "denominator": 10000,
+          "valid_fraction": 0.906,
+          "min": 0.0032608695652174093,
+          "p05": 0.29049550644115524,
+          "p50": 0.5029256840055001,
+          "p95": 0.7105854962310245,
+          "max": 1.1646341463414636,
+          "outside_minus1_plus1": 6
+        },
+        "ndmi": {
+          "n": 9060,
+          "denominator": 10000,
+          "valid_fraction": 0.906,
+          "min": -0.3152263374485596,
+          "p05": -0.18614789703032328,
+          "p50": 0.03468031410183784,
+          "p95": 0.2574626655215289,
+          "max": 0.5345016429353778,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9060,
+          "denominator": 10000,
+          "valid_fraction": 0.906,
+          "min": -1.3864229765013056,
+          "p05": -0.6556305732940834,
+          "p50": -0.5532363310794106,
+          "p95": -0.3875597560286467,
+          "max": -0.027790861987753192,
+          "outside_minus1_plus1": 24
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 0,
+      "adjacent": 0,
+      "shadow": 0,
+      "snow": 1,
+      "water": 940
+    },
+    "high_aerosol_clear_centers": 229,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 6,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 38
+      }
+    }
+  },
+  {
+    "site": "montana",
+    "source": "hls",
+    "scene": "HLS.L30.T32TPS.2024213T100338.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.B05.tif",
+      "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.B06.tif",
+      "data/raw/atlas30/hls/HLS.L30.T32TPS.2024213T100338.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "Lasrc; Lasrc",
+      "SENSING_TIME": "2024-07-31T10:03:38.0373070Z; 2024-07-31T10:04:01.9198509Z"
+    },
+    "footprint_centers": 10000,
+    "variables": {
+      "B03": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.0181,
+        "p05": 0.0342,
+        "p50": 0.049300000000000004,
+        "p95": 0.0902,
+        "max": 0.1738
+      },
+      "B04": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.0115,
+        "p05": 0.022500000000000003,
+        "p50": 0.0347,
+        "p95": 0.08950000000000001,
+        "max": 0.1923
+      },
+      "B05": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.0611,
+        "p05": 0.1819,
+        "p50": 0.26980000000000004,
+        "p95": 0.37010000000000004,
+        "max": 0.5514
+      },
+      "B06": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.0287,
+        "p05": 0.08149500000000001,
+        "p50": 0.14,
+        "p95": 0.216,
+        "max": 0.44260000000000005
+      },
+      "Fmask": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 64.0,
+        "p05": 64.0,
+        "p50": 128.0,
+        "p95": 192.0,
+        "max": 192.0
+      }
+    },
+    "qa_counts": {
+      "64": 1989,
+      "128": 6542,
+      "192": 1469
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.09257561869844178,
+          "p05": 0.44382195791025225,
+          "p50": 0.7767143624134594,
+          "p95": 0.8352038089433045,
+          "max": 0.90468133107727,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.36315228966986157,
+          "p05": 0.13018653078181833,
+          "p50": 0.33551343076900264,
+          "p95": 0.43465534214414675,
+          "max": 0.5736131934032984,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.6176297747306562,
+          "p05": -0.5386432616736014,
+          "p50": -0.4674441388620245,
+          "p95": -0.3249031195093158,
+          "max": 0.5865787896944278,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.09257561869844178,
+          "p05": 0.44382195791025225,
+          "p50": 0.7767143624134594,
+          "p95": 0.8352038089433045,
+          "max": 0.90468133107727,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.36315228966986157,
+          "p05": 0.13018653078181833,
+          "p50": 0.33551343076900264,
+          "p95": 0.43465534214414675,
+          "max": 0.5736131934032984,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.6176297747306562,
+          "p05": -0.5386432616736014,
+          "p50": -0.4674441388620245,
+          "p95": -0.3249031195093158,
+          "max": 0.5865787896944278,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.09257561869844178,
+          "p05": 0.44382195791025225,
+          "p50": 0.7767143624134594,
+          "p95": 0.8352038089433045,
+          "max": 0.90468133107727,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.36315228966986157,
+          "p05": 0.13018653078181833,
+          "p50": 0.33551343076900264,
+          "p95": 0.43465534214414675,
+          "max": 0.5736131934032984,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.6176297747306562,
+          "p05": -0.5386432616736014,
+          "p50": -0.4674441388620245,
+          "p95": -0.3249031195093158,
+          "max": 0.5865787896944278,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 0,
+      "adjacent": 0,
+      "shadow": 0,
+      "snow": 0,
+      "water": 0
+    },
+    "high_aerosol_clear_centers": 1469,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 0,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 0
+      }
+    }
+  },
+  {
+    "site": "montana",
+    "source": "hls",
+    "scene": "HLS.S30.T32TPS.2024223T100559.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.B8A.tif",
+      "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.B11.tif",
+      "data/raw/atlas30/hls/HLS.S30.T32TPS.2024223T100559.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "LaSRC",
+      "SENSING_TIME": "2024-08-10T10:18:03.425278Z"
+    },
+    "footprint_centers": 10000,
+    "variables": {
+      "B03": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.01,
+        "p05": 0.027600000000000003,
+        "p50": 0.0448,
+        "p95": 0.08410000000000001,
+        "max": 0.2016
+      },
+      "B04": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.005200000000000001,
+        "p05": 0.0173,
+        "p50": 0.0284,
+        "p95": 0.08610000000000001,
+        "max": 0.2235
+      },
+      "B8A": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.0439,
+        "p05": 0.18259000000000003,
+        "p50": 0.27535,
+        "p95": 0.38230000000000003,
+        "max": 0.5586
+      },
+      "B11": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.0182,
+        "p05": 0.0854,
+        "p50": 0.15330000000000002,
+        "p95": 0.22830999999999985,
+        "max": 0.37370000000000003
+      },
+      "Fmask": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 64.0,
+        "p05": 64.0,
+        "p50": 64.0,
+        "p95": 128.0,
+        "max": 208.0
+      }
+    },
+    "qa_counts": {
+      "64": 8219,
+      "66": 16,
+      "68": 396,
+      "70": 18,
+      "72": 27,
+      "76": 15,
+      "80": 18,
+      "96": 4,
+      "112": 38,
+      "128": 957,
+      "130": 8,
+      "132": 7,
+      "134": 5,
+      "136": 1,
+      "140": 3,
+      "144": 59,
+      "160": 31,
+      "176": 58,
+      "192": 117,
+      "208": 3
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 9504,
+          "denominator": 10000,
+          "valid_fraction": 0.9504,
+          "min": -0.2158154859967051,
+          "p05": 0.4659945645845307,
+          "p50": 0.8141375028112685,
+          "p95": 0.8759738536088544,
+          "max": 0.9738233073244401,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9504,
+          "denominator": 10000,
+          "valid_fraction": 0.9504,
+          "min": -0.4230965763924374,
+          "p05": 0.11263672200363552,
+          "p50": 0.31308111823568785,
+          "p95": 0.4173100336696505,
+          "max": 0.49341692789968644,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9504,
+          "denominator": 10000,
+          "valid_fraction": 0.9504,
+          "min": -0.7157446808510639,
+          "p05": -0.6141902799329241,
+          "p50": -0.544955951453169,
+          "p95": -0.3756145192822965,
+          "max": 0.5744957709824334,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 9373,
+          "denominator": 10000,
+          "valid_fraction": 0.9373,
+          "min": 0.04766069086139044,
+          "p05": 0.5073054574767295,
+          "p50": 0.8153846153846154,
+          "p95": 0.8762114361793142,
+          "max": 0.9738233073244401,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9373,
+          "denominator": 10000,
+          "valid_fraction": 0.9373,
+          "min": -0.4072727272727273,
+          "p05": 0.11175159764182463,
+          "p50": 0.3125263601855757,
+          "p95": 0.41630554539535025,
+          "max": 0.49341692789968644,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9373,
+          "denominator": 10000,
+          "valid_fraction": 0.9373,
+          "min": -0.7157446808510639,
+          "p05": -0.6145560523265442,
+          "p50": -0.5459057071960297,
+          "p95": -0.4011271186645495,
+          "max": 0.45971563981042657,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 9293,
+          "denominator": 10000,
+          "valid_fraction": 0.9293,
+          "min": 0.04766069086139044,
+          "p05": 0.5189501130347484,
+          "p50": 0.8159886471144749,
+          "p95": 0.876320073819739,
+          "max": 0.9738233073244401,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 9293,
+          "denominator": 10000,
+          "valid_fraction": 0.9293,
+          "min": -0.4072727272727273,
+          "p05": 0.11126872366378095,
+          "p50": 0.31228070175438594,
+          "p95": 0.4160470110475962,
+          "max": 0.49263777871266307,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 9293,
+          "denominator": 10000,
+          "valid_fraction": 0.9293,
+          "min": -0.7157446808510639,
+          "p05": -0.6147232879683151,
+          "p50": -0.5465116279069767,
+          "p95": -0.4139399323338203,
+          "max": -0.10844485463774807,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 47,
+      "adjacent": 444,
+      "shadow": 46,
+      "snow": 176,
+      "water": 131
+    },
+    "high_aerosol_clear_centers": 120,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 0,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 0
+      }
+    }
+  },
+  {
+    "site": "montana",
+    "source": "landsat",
+    "scene": "LC09_L2SP_193028_20240325_20240326_02_T1_ST",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/landsat/LC09_L2SP_193028_20240325_20240326_02_T1_ST_B10.TIF",
+      "data/raw/atlas30/landsat/LC09_L2SP_193028_20240325_20240326_02_T1_QA_PIXEL.TIF",
+      "data/raw/atlas30/landsat/LC09_L2SP_193028_20240325_20240326_02_T1_ST_QA.TIF"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {},
+    "footprint_centers": 9997,
+    "variables": {
+      "ST_B10": {
+        "n": 9997,
+        "denominator": 9997,
+        "valid_fraction": 1.0,
+        "min": 278.24217224,
+        "p05": 281.690270816,
+        "p50": 288.8311982,
+        "p95": 291.480847304,
+        "max": 294.61790606
+      },
+      "QA_PIXEL": {
+        "n": 9997,
+        "denominator": 9997,
+        "valid_fraction": 1.0,
+        "min": 21824.0,
+        "p05": 21824.0,
+        "p50": 21824.0,
+        "p95": 21824.0,
+        "max": 21952.0
+      },
+      "ST_QA": {
+        "n": 9997,
+        "denominator": 9997,
+        "valid_fraction": 1.0,
+        "min": 2.04,
+        "p05": 2.06,
+        "p50": 2.33,
+        "p95": 3.02,
+        "max": 3.43
+      }
+    },
+    "qa_counts": {
+      "21824": 9822,
+      "21952": 175
+    },
+    "policies": {
+      "legacy": {
+        "temperature_k": {
+          "n": 9997,
+          "denominator": 9997,
+          "valid_fraction": 1.0,
+          "min": 278.24217224,
+          "p05": 281.690270816,
+          "p50": 288.8311982,
+          "p95": 291.480847304,
+          "max": 294.61790606
+        },
+        "uncertainty_k": {
+          "n": 9997,
+          "denominator": 9997,
+          "valid_fraction": 1.0,
+          "min": 2.04,
+          "p05": 2.06,
+          "p50": 2.33,
+          "p95": 3.02,
+          "max": 3.43
+        }
+      },
+      "keep_snow": {
+        "temperature_k": {
+          "n": 9997,
+          "denominator": 9997,
+          "valid_fraction": 1.0,
+          "min": 278.24217224,
+          "p05": 281.690270816,
+          "p50": 288.8311982,
+          "p95": 291.480847304,
+          "max": 294.61790606
+        },
+        "uncertainty_k": {
+          "n": 9997,
+          "denominator": 9997,
+          "valid_fraction": 1.0,
+          "min": 2.04,
+          "p05": 2.06,
+          "p50": 2.33,
+          "p95": 3.02,
+          "max": 3.43
+        }
+      }
+    },
+    "uncertainty_sensitivity": {
+      "1": {
+        "n": 0,
+        "denominator": 9997,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "2": {
+        "n": 0,
+        "denominator": 9997,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "3": {
+        "n": 9448,
+        "denominator": 9997,
+        "valid_fraction": 0.9450835250575172,
+        "min": 278.24217224,
+        "p05": 281.85963370699994,
+        "p50": 288.97475504,
+        "p95": 291.53485202,
+        "max": 294.61790606
+      }
+    }
+  },
+  {
+    "site": "montana",
+    "source": "landsat",
+    "scene": "LC09_L2SP_192028_20240825_20240826_02_T1_ST",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/landsat/LC09_L2SP_192028_20240825_20240826_02_T1_ST_B10.TIF",
+      "data/raw/atlas30/landsat/LC09_L2SP_192028_20240825_20240826_02_T1_QA_PIXEL.TIF",
+      "data/raw/atlas30/landsat/LC09_L2SP_192028_20240825_20240826_02_T1_ST_QA.TIF"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {},
+    "footprint_centers": 9997,
+    "variables": {
+      "ST_B10": {
+        "n": 9997,
+        "denominator": 9997,
+        "valid_fraction": 1.0,
+        "min": 268.00178432,
+        "p05": 284.13757313599996,
+        "p50": 300.22004084,
+        "p95": 306.285659132,
+        "max": 311.33544187999996
+      },
+      "QA_PIXEL": {
+        "n": 9997,
+        "denominator": 9997,
+        "valid_fraction": 1.0,
+        "min": 21762.0,
+        "p05": 21824.0,
+        "p50": 21824.0,
+        "p95": 23826.0,
+        "max": 24144.0
+      },
+      "ST_QA": {
+        "n": 9997,
+        "denominator": 9997,
+        "valid_fraction": 1.0,
+        "min": 3.38,
+        "p05": 3.58,
+        "p50": 5.51,
+        "p95": 7.36,
+        "max": 8.03
+      }
+    },
+    "qa_counts": {
+      "21762": 322,
+      "21824": 6197,
+      "22018": 560,
+      "22080": 158,
+      "22280": 2240,
+      "23826": 101,
+      "23888": 228,
+      "24082": 169,
+      "24144": 22
+    },
+    "policies": {
+      "legacy": {
+        "temperature_k": {
+          "n": 6355,
+          "denominator": 9997,
+          "valid_fraction": 0.6356907072121637,
+          "min": 291.5656142,
+          "p05": 298.25126132,
+          "p50": 301.76498588,
+          "p95": 307.09128644599997,
+          "max": 311.33544187999996
+        },
+        "uncertainty_k": {
+          "n": 6355,
+          "denominator": 9997,
+          "valid_fraction": 0.6356907072121637,
+          "min": 3.38,
+          "p05": 3.5300000000000002,
+          "p50": 4.28,
+          "p95": 6.422999999999993,
+          "max": 6.8500000000000005
+        }
+      },
+      "keep_snow": {
+        "temperature_k": {
+          "n": 6355,
+          "denominator": 9997,
+          "valid_fraction": 0.6356907072121637,
+          "min": 291.5656142,
+          "p05": 298.25126132,
+          "p50": 301.76498588,
+          "p95": 307.09128644599997,
+          "max": 311.33544187999996
+        },
+        "uncertainty_k": {
+          "n": 6355,
+          "denominator": 9997,
+          "valid_fraction": 0.6356907072121637,
+          "min": 3.38,
+          "p05": 3.5300000000000002,
+          "p50": 4.28,
+          "p95": 6.422999999999993,
+          "max": 6.8500000000000005
+        }
+      }
+    },
+    "uncertainty_sensitivity": {
+      "1": {
+        "n": 0,
+        "denominator": 9997,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "2": {
+        "n": 0,
+        "denominator": 9997,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "3": {
+        "n": 0,
+        "denominator": 9997,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    }
+  },
+  {
+    "site": "costa",
+    "source": "hls",
+    "scene": "HLS.L30.T19KCP.2024004T143718.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.B05.tif",
+      "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.B06.tif",
+      "data/raw/atlas30/hls/HLS.L30.T19KCP.2024004T143718.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "Lasrc; Lasrc",
+      "SENSING_TIME": "2024-01-04T14:37:18.1008149Z; 2024-01-04T14:37:42.0468980Z"
+    },
+    "footprint_centers": 10000,
+    "variables": {
+      "B03": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.16670000000000001,
+        "p05": 0.2109,
+        "p50": 0.2439,
+        "p95": 0.26880000000000004,
+        "max": 0.2926
+      },
+      "B04": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.21960000000000002,
+        "p05": 0.285295,
+        "p50": 0.3312,
+        "p95": 0.36510000000000004,
+        "max": 0.39790000000000003
+      },
+      "B05": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.2406,
+        "p05": 0.31989500000000004,
+        "p50": 0.3724,
+        "p95": 0.4106,
+        "max": 0.445
+      },
+      "B06": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.24450000000000002,
+        "p05": 0.32739500000000005,
+        "p50": 0.37370000000000003,
+        "p95": 0.4072,
+        "max": 0.4418
+      },
+      "Fmask": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 64.0,
+        "p05": 64.0,
+        "p50": 64.0,
+        "p95": 64.0,
+        "max": 64.0
+      }
+    },
+    "qa_counts": {
+      "64": 10000
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 0.029193109700815963,
+          "p05": 0.050931091819725195,
+          "p50": 0.05827158488119933,
+          "p95": 0.06548986097475243,
+          "max": 0.07790345706547715,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.07440962423882375,
+          "p05": -0.024659513498837774,
+          "p50": -0.001417343502381277,
+          "p95": 0.01404637705840652,
+          "max": 0.03295501162313689,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.2746863943390158,
+          "p05": -0.2339028409401784,
+          "p50": -0.20989364720451886,
+          "p95": -0.18900756993182055,
+          "max": -0.15766907035665564,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 0.029193109700815963,
+          "p05": 0.050931091819725195,
+          "p50": 0.05827158488119933,
+          "p95": 0.06548986097475243,
+          "max": 0.07790345706547715,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.07440962423882375,
+          "p05": -0.024659513498837774,
+          "p50": -0.001417343502381277,
+          "p95": 0.01404637705840652,
+          "max": 0.03295501162313689,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.2746863943390158,
+          "p05": -0.2339028409401784,
+          "p50": -0.20989364720451886,
+          "p95": -0.18900756993182055,
+          "max": -0.15766907035665564,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 0.029193109700815963,
+          "p05": 0.050931091819725195,
+          "p50": 0.05827158488119933,
+          "p95": 0.06548986097475243,
+          "max": 0.07790345706547715,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.07440962423882375,
+          "p05": -0.024659513498837774,
+          "p50": -0.001417343502381277,
+          "p95": 0.01404637705840652,
+          "max": 0.03295501162313689,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.2746863943390158,
+          "p05": -0.2339028409401784,
+          "p50": -0.20989364720451886,
+          "p95": -0.18900756993182055,
+          "max": -0.15766907035665564,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 0,
+      "adjacent": 0,
+      "shadow": 0,
+      "snow": 0,
+      "water": 0
+    },
+    "high_aerosol_clear_centers": 0,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 0,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 0
+      }
+    }
+  },
+  {
+    "site": "costa",
+    "source": "hls",
+    "scene": "HLS.S30.T19KCP.2024061T144729.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.B8A.tif",
+      "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.B11.tif",
+      "data/raw/atlas30/hls/HLS.S30.T19KCP.2024061T144729.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "LaSRC",
+      "SENSING_TIME": "2024-03-01T14:59:32.01336Z"
+    },
+    "footprint_centers": 10000,
+    "variables": {
+      "B03": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.14930000000000002,
+        "p05": 0.199995,
+        "p50": 0.2371,
+        "p95": 0.2662,
+        "max": 0.2912
+      },
+      "B04": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.1988,
+        "p05": 0.2692,
+        "p50": 0.32120000000000004,
+        "p95": 0.36160000000000003,
+        "max": 0.3971
+      },
+      "B8A": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.22210000000000002,
+        "p05": 0.3073,
+        "p50": 0.36225,
+        "p95": 0.4051,
+        "max": 0.4425
+      },
+      "B11": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.2285,
+        "p05": 0.32170000000000004,
+        "p50": 0.36910000000000004,
+        "p95": 0.4077,
+        "max": 0.4455
+      },
+      "Fmask": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 64.0,
+        "p05": 64.0,
+        "p50": 64.0,
+        "p95": 64.0,
+        "max": 64.0
+      }
+    },
+    "qa_counts": {
+      "64": 10000
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 0.025129210479415433,
+          "p05": 0.046496839368976264,
+          "p50": 0.060240963855421666,
+          "p95": 0.07583462601542838,
+          "max": 0.10119555935098205,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.08354260840448686,
+          "p05": -0.03075239409603367,
+          "p50": -0.008831678625594228,
+          "p95": 0.0038407817696707027,
+          "max": 0.01788662630709963,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.304575690385003,
+          "p05": -0.24858853605078937,
+          "p50": -0.21768791676455573,
+          "p95": -0.19452965828787624,
+          "max": -0.16901993355481731,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 0.025129210479415433,
+          "p05": 0.046496839368976264,
+          "p50": 0.060240963855421666,
+          "p95": 0.07583462601542838,
+          "max": 0.10119555935098205,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.08354260840448686,
+          "p05": -0.03075239409603367,
+          "p50": -0.008831678625594228,
+          "p95": 0.0038407817696707027,
+          "max": 0.01788662630709963,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.304575690385003,
+          "p05": -0.24858853605078937,
+          "p50": -0.21768791676455573,
+          "p95": -0.19452965828787624,
+          "max": -0.16901993355481731,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 0.025129210479415433,
+          "p05": 0.046496839368976264,
+          "p50": 0.060240963855421666,
+          "p95": 0.07583462601542838,
+          "max": 0.10119555935098205,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.08354260840448686,
+          "p05": -0.03075239409603367,
+          "p50": -0.008831678625594228,
+          "p95": 0.0038407817696707027,
+          "max": 0.01788662630709963,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.304575690385003,
+          "p05": -0.24858853605078937,
+          "p50": -0.21768791676455573,
+          "p95": -0.19452965828787624,
+          "max": -0.16901993355481731,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 0,
+      "adjacent": 0,
+      "shadow": 0,
+      "snow": 0,
+      "water": 0
+    },
+    "high_aerosol_clear_centers": 0,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 0,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 0
+      }
+    }
+  },
+  {
+    "site": "costa",
+    "source": "hls",
+    "scene": "HLS.L30.T19KCP.2024236T143649.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.B05.tif",
+      "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.B06.tif",
+      "data/raw/atlas30/hls/HLS.L30.T19KCP.2024236T143649.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "Lasrc; Lasrc",
+      "SENSING_TIME": "2024-08-23T14:36:49.3430870Z; 2024-08-23T14:37:13.2934310Z"
+    },
+    "footprint_centers": 10000,
+    "variables": {
+      "B03": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.09430000000000001,
+        "p05": 0.1744,
+        "p50": 0.22255000000000003,
+        "p95": 0.26330000000000003,
+        "max": 0.3093
+      },
+      "B04": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.1218,
+        "p05": 0.234095,
+        "p50": 0.3002,
+        "p95": 0.3552,
+        "max": 0.42250000000000004
+      },
+      "B05": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.1283,
+        "p05": 0.26279500000000006,
+        "p50": 0.337,
+        "p95": 0.3985,
+        "max": 0.4859
+      },
+      "B06": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.1423,
+        "p05": 0.273185,
+        "p50": 0.3398,
+        "p95": 0.39670999999999984,
+        "max": 0.5049
+      },
+      "Fmask": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 64.0,
+        "p05": 64.0,
+        "p50": 64.0,
+        "p95": 64.0,
+        "max": 128.0
+      }
+    },
+    "qa_counts": {
+      "64": 9984,
+      "128": 16
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 0.011257035647279524,
+          "p05": 0.04766186029178664,
+          "p50": 0.057429479847082764,
+          "p95": 0.06890637642575624,
+          "max": 0.08812705791206671,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.11142908245394387,
+          "p05": -0.03704975650205068,
+          "p50": -0.0035455415764474463,
+          "p95": 0.018782575677243615,
+          "max": 0.058123817247904816,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.3101382488479263,
+          "p05": -0.24767936016676578,
+          "p50": -0.2080451635321463,
+          "p95": -0.17716755518590732,
+          "max": -0.11026131293817723,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 0.011257035647279524,
+          "p05": 0.04766186029178664,
+          "p50": 0.057429479847082764,
+          "p95": 0.06890637642575624,
+          "max": 0.08812705791206671,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.11142908245394387,
+          "p05": -0.03704975650205068,
+          "p50": -0.0035455415764474463,
+          "p95": 0.018782575677243615,
+          "max": 0.058123817247904816,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.3101382488479263,
+          "p05": -0.24767936016676578,
+          "p50": -0.2080451635321463,
+          "p95": -0.17716755518590732,
+          "max": -0.11026131293817723,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 0.011257035647279524,
+          "p05": 0.04766186029178664,
+          "p50": 0.057429479847082764,
+          "p95": 0.06890637642575624,
+          "max": 0.08812705791206671,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.11142908245394387,
+          "p05": -0.03704975650205068,
+          "p50": -0.0035455415764474463,
+          "p95": 0.018782575677243615,
+          "max": 0.058123817247904816,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.3101382488479263,
+          "p05": -0.24767936016676578,
+          "p50": -0.2080451635321463,
+          "p95": -0.17716755518590732,
+          "max": -0.11026131293817723,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 0,
+      "adjacent": 0,
+      "shadow": 0,
+      "snow": 0,
+      "water": 0
+    },
+    "high_aerosol_clear_centers": 0,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 0,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 0
+      }
+    }
+  },
+  {
+    "site": "costa",
+    "source": "hls",
+    "scene": "HLS.S30.T19KCP.2024236T144731.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.S30.T19KCP.2024236T144731.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.S30.T19KCP.2024236T144731.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.S30.T19KCP.2024236T144731.v2.0.B8A.tif",
+      "data/raw/atlas30/hls/HLS.S30.T19KCP.2024236T144731.v2.0.B11.tif",
+      "data/raw/atlas30/hls/HLS.S30.T19KCP.2024236T144731.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "LaSRC",
+      "SENSING_TIME": "2024-08-23T14:59:31.956253Z"
+    },
+    "footprint_centers": 10000,
+    "variables": {
+      "B03": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.10840000000000001,
+        "p05": 0.1726,
+        "p50": 0.2199,
+        "p95": 0.2587,
+        "max": 0.299
+      },
+      "B04": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.1434,
+        "p05": 0.2341,
+        "p50": 0.298,
+        "p95": 0.3503,
+        "max": 0.40440000000000004
+      },
+      "B8A": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.1615,
+        "p05": 0.2697,
+        "p50": 0.3362,
+        "p95": 0.3901,
+        "max": 0.44970000000000004
+      },
+      "B11": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.1806,
+        "p05": 0.28750000000000003,
+        "p50": 0.3426,
+        "p95": 0.3876,
+        "max": 0.45430000000000004
+      },
+      "Fmask": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 64.0,
+        "p05": 64.0,
+        "p50": 64.0,
+        "p95": 64.0,
+        "max": 64.0
+      }
+    },
+    "qa_counts": {
+      "64": 10000
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 0.01158154547180557,
+          "p05": 0.04094881759767503,
+          "p50": 0.059652348576751585,
+          "p95": 0.08362308393155717,
+          "max": 0.12994614844298757,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.09286234522942464,
+          "p05": -0.04065700173409323,
+          "p50": -0.00871204404136224,
+          "p95": 0.009513428116981634,
+          "max": 0.025086375244103943,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.34615384615384615,
+          "p05": -0.26617296066284335,
+          "p50": -0.21717395697385344,
+          "p95": -0.18401684838282925,
+          "max": -0.15465511908444174,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 0.01158154547180557,
+          "p05": 0.04094881759767503,
+          "p50": 0.059652348576751585,
+          "p95": 0.08362308393155717,
+          "max": 0.12994614844298757,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.09286234522942464,
+          "p05": -0.04065700173409323,
+          "p50": -0.00871204404136224,
+          "p95": 0.009513428116981634,
+          "max": 0.025086375244103943,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.34615384615384615,
+          "p05": -0.26617296066284335,
+          "p50": -0.21717395697385344,
+          "p95": -0.18401684838282925,
+          "max": -0.15465511908444174,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": 0.01158154547180557,
+          "p05": 0.04094881759767503,
+          "p50": 0.059652348576751585,
+          "p95": 0.08362308393155717,
+          "max": 0.12994614844298757,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.09286234522942464,
+          "p05": -0.04065700173409323,
+          "p50": -0.00871204404136224,
+          "p95": 0.009513428116981634,
+          "max": 0.025086375244103943,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10000,
+          "denominator": 10000,
+          "valid_fraction": 1.0,
+          "min": -0.34615384615384615,
+          "p05": -0.26617296066284335,
+          "p50": -0.21717395697385344,
+          "p95": -0.18401684838282925,
+          "max": -0.15465511908444174,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 0,
+      "adjacent": 0,
+      "shadow": 0,
+      "snow": 0,
+      "water": 0
+    },
+    "high_aerosol_clear_centers": 0,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 0,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 0
+      }
+    }
+  },
+  {
+    "site": "costa",
+    "source": "landsat",
+    "scene": "LC08_L2SP_001076_20240229_20240313_02_T1_ST",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/landsat/LC08_L2SP_001076_20240229_20240313_02_T1_ST_B10.TIF",
+      "data/raw/atlas30/landsat/LC08_L2SP_001076_20240229_20240313_02_T1_QA_PIXEL.TIF",
+      "data/raw/atlas30/landsat/LC08_L2SP_001076_20240229_20240313_02_T1_ST_QA.TIF"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {},
+    "footprint_centers": 9993,
+    "variables": {
+      "ST_B10": {
+        "n": 9993,
+        "denominator": 9993,
+        "valid_fraction": 1.0,
+        "min": 315.92926076000003,
+        "p05": 318.87217598,
+        "p50": 321.75356683999996,
+        "p95": 323.781819908,
+        "max": 325.52706092
+      },
+      "QA_PIXEL": {
+        "n": 9993,
+        "denominator": 9993,
+        "valid_fraction": 1.0,
+        "min": 21824.0,
+        "p05": 21824.0,
+        "p50": 21824.0,
+        "p95": 21824.0,
+        "max": 21824.0
+      },
+      "ST_QA": {
+        "n": 9993,
+        "denominator": 9993,
+        "valid_fraction": 1.0,
+        "min": 1.78,
+        "p05": 1.82,
+        "p50": 1.8900000000000001,
+        "p95": 1.97,
+        "max": 2.07
+      }
+    },
+    "qa_counts": {
+      "21824": 9993
+    },
+    "policies": {
+      "legacy": {
+        "temperature_k": {
+          "n": 9993,
+          "denominator": 9993,
+          "valid_fraction": 1.0,
+          "min": 315.92926076000003,
+          "p05": 318.87217598,
+          "p50": 321.75356683999996,
+          "p95": 323.781819908,
+          "max": 325.52706092
+        },
+        "uncertainty_k": {
+          "n": 9993,
+          "denominator": 9993,
+          "valid_fraction": 1.0,
+          "min": 1.78,
+          "p05": 1.82,
+          "p50": 1.8900000000000001,
+          "p95": 1.97,
+          "max": 2.07
+        }
+      },
+      "keep_snow": {
+        "temperature_k": {
+          "n": 9993,
+          "denominator": 9993,
+          "valid_fraction": 1.0,
+          "min": 315.92926076000003,
+          "p05": 318.87217598,
+          "p50": 321.75356683999996,
+          "p95": 323.781819908,
+          "max": 325.52706092
+        },
+        "uncertainty_k": {
+          "n": 9993,
+          "denominator": 9993,
+          "valid_fraction": 1.0,
+          "min": 1.78,
+          "p05": 1.82,
+          "p50": 1.8900000000000001,
+          "p95": 1.97,
+          "max": 2.07
+        }
+      }
+    },
+    "uncertainty_sensitivity": {
+      "1": {
+        "n": 0,
+        "denominator": 9993,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "2": {
+        "n": 9902,
+        "denominator": 9993,
+        "valid_fraction": 0.9908936255378765,
+        "min": 315.92926076000003,
+        "p05": 318.865510841,
+        "p50": 321.74331278,
+        "p95": 323.787117839,
+        "max": 325.52706092
+      },
+      "3": {
+        "n": 9993,
+        "denominator": 9993,
+        "valid_fraction": 1.0,
+        "min": 315.92926076000003,
+        "p05": 318.87217598,
+        "p50": 321.75356683999996,
+        "p95": 323.781819908,
+        "max": 325.52706092
+      }
+    }
+  },
+  {
+    "site": "costa",
+    "source": "landsat",
+    "scene": "LC08_L2SP_001077_20240823_20240830_02_T1_ST",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/landsat/LC08_L2SP_001077_20240823_20240830_02_T1_ST_B10.TIF",
+      "data/raw/atlas30/landsat/LC08_L2SP_001077_20240823_20240830_02_T1_QA_PIXEL.TIF",
+      "data/raw/atlas30/landsat/LC08_L2SP_001077_20240823_20240830_02_T1_ST_QA.TIF"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {},
+    "footprint_centers": 9993,
+    "variables": {
+      "ST_B10": {
+        "n": 8797,
+        "denominator": 9993,
+        "valid_fraction": 0.8803162213549485,
+        "min": 302.81773604,
+        "p05": 305.288280896,
+        "p50": 306.93303212,
+        "p95": 308.23529773999996,
+        "max": 309.69479228
+      },
+      "QA_PIXEL": {
+        "n": 9993,
+        "denominator": 9993,
+        "valid_fraction": 1.0,
+        "min": 1.0,
+        "p05": 1.0,
+        "p50": 21824.0,
+        "p95": 21824.0,
+        "max": 21824.0
+      },
+      "ST_QA": {
+        "n": 8797,
+        "denominator": 9993,
+        "valid_fraction": 0.8803162213549485,
+        "min": 1.77,
+        "p05": 1.81,
+        "p50": 1.87,
+        "p95": 1.94,
+        "max": 2.0300000000000002
+      }
+    },
+    "qa_counts": {
+      "1": 1196,
+      "21824": 8797
+    },
+    "policies": {
+      "legacy": {
+        "temperature_k": {
+          "n": 8797,
+          "denominator": 9993,
+          "valid_fraction": 0.8803162213549485,
+          "min": 302.81773604,
+          "p05": 305.288280896,
+          "p50": 306.93303212,
+          "p95": 308.23529773999996,
+          "max": 309.69479228
+        },
+        "uncertainty_k": {
+          "n": 8797,
+          "denominator": 9993,
+          "valid_fraction": 0.8803162213549485,
+          "min": 1.77,
+          "p05": 1.81,
+          "p50": 1.87,
+          "p95": 1.94,
+          "max": 2.0300000000000002
+        }
+      },
+      "keep_snow": {
+        "temperature_k": {
+          "n": 8797,
+          "denominator": 9993,
+          "valid_fraction": 0.8803162213549485,
+          "min": 302.81773604,
+          "p05": 305.288280896,
+          "p50": 306.93303212,
+          "p95": 308.23529773999996,
+          "max": 309.69479228
+        },
+        "uncertainty_k": {
+          "n": 8797,
+          "denominator": 9993,
+          "valid_fraction": 0.8803162213549485,
+          "min": 1.77,
+          "p05": 1.81,
+          "p50": 1.87,
+          "p95": 1.94,
+          "max": 2.0300000000000002
+        }
+      }
+    },
+    "uncertainty_sensitivity": {
+      "1": {
+        "n": 0,
+        "denominator": 9993,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "2": {
+        "n": 8785,
+        "denominator": 9993,
+        "valid_fraction": 0.8791153807665366,
+        "min": 302.81773604,
+        "p05": 305.286230084,
+        "p50": 306.9296141,
+        "p95": 308.23529773999996,
+        "max": 309.69479228
+      },
+      "3": {
+        "n": 8797,
+        "denominator": 9993,
+        "valid_fraction": 0.8803162213549485,
+        "min": 302.81773604,
+        "p05": 305.288280896,
+        "p50": 306.93303212,
+        "p95": 308.23529773999996,
+        "max": 309.69479228
+      }
+    }
+  },
+  {
+    "site": "tropico",
+    "source": "hls",
+    "scene": "HLS.L30.T50NKF.2024048T023326.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.B05.tif",
+      "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.B06.tif",
+      "data/raw/atlas30/hls/HLS.L30.T50NKF.2024048T023326.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "Lasrc; Lasrc",
+      "SENSING_TIME": "2024-02-17T02:33:26.4201890Z; 2024-02-17T02:33:50.3366450Z"
+    },
+    "footprint_centers": 10029,
+    "variables": {
+      "B03": {
+        "n": 10029,
+        "denominator": 10029,
+        "valid_fraction": 1.0,
+        "min": -0.009600000000000001,
+        "p05": 0.065,
+        "p50": 0.21830000000000002,
+        "p95": 0.4827,
+        "max": 0.5891000000000001
+      },
+      "B04": {
+        "n": 10029,
+        "denominator": 10029,
+        "valid_fraction": 1.0,
+        "min": -0.005200000000000001,
+        "p05": 0.051840000000000004,
+        "p50": 0.22190000000000001,
+        "p95": 0.4806000000000002,
+        "max": 0.5909
+      },
+      "B05": {
+        "n": 10029,
+        "denominator": 10029,
+        "valid_fraction": 1.0,
+        "min": 0.1494,
+        "p05": 0.232,
+        "p50": 0.38680000000000003,
+        "p95": 0.5679000000000001,
+        "max": 0.6508
+      },
+      "B06": {
+        "n": 10029,
+        "denominator": 10029,
+        "valid_fraction": 1.0,
+        "min": 0.0692,
+        "p05": 0.1535,
+        "p50": 0.2791,
+        "p95": 0.396,
+        "max": 0.44370000000000004
+      },
+      "Fmask": {
+        "n": 10029,
+        "denominator": 10029,
+        "valid_fraction": 1.0,
+        "min": 66.0,
+        "p05": 66.0,
+        "p50": 194.0,
+        "p95": 194.0,
+        "max": 194.0
+      }
+    },
+    "qa_counts": {
+      "66": 527,
+      "130": 918,
+      "194": 8584
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 0,
+          "denominator": 10029,
+          "valid_fraction": 0.0,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 0,
+          "denominator": 10029,
+          "valid_fraction": 0.0,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 0,
+          "denominator": 10029,
+          "valid_fraction": 0.0,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 0,
+          "denominator": 10029,
+          "valid_fraction": 0.0,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 0,
+          "denominator": 10029,
+          "valid_fraction": 0.0,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 0,
+          "denominator": 10029,
+          "valid_fraction": 0.0,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 0,
+          "denominator": 10029,
+          "valid_fraction": 0.0,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 0,
+          "denominator": 10029,
+          "valid_fraction": 0.0,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 0,
+          "denominator": 10029,
+          "valid_fraction": 0.0,
+          "min": null,
+          "p05": null,
+          "p50": null,
+          "p95": null,
+          "max": null,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 10029,
+      "adjacent": 0,
+      "shadow": 0,
+      "snow": 0,
+      "water": 0
+    },
+    "high_aerosol_clear_centers": 0,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 0,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 0
+      }
+    }
+  },
+  {
+    "site": "tropico",
+    "source": "hls",
+    "scene": "HLS.S30.T50NKF.2024045T022819.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.B8A.tif",
+      "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.B11.tif",
+      "data/raw/atlas30/hls/HLS.S30.T50NKF.2024045T022819.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "LaSRC + LaSRC",
+      "SENSING_TIME": "2024-02-14T02:47:50.856177Z + 2024-02-14T02:47:44.176205Z"
+    },
+    "footprint_centers": 10029,
+    "variables": {
+      "B03": {
+        "n": 10029,
+        "denominator": 10029,
+        "valid_fraction": 1.0,
+        "min": 0.0066,
+        "p05": 0.022600000000000002,
+        "p50": 0.031200000000000002,
+        "p95": 0.0375,
+        "max": 0.049300000000000004
+      },
+      "B04": {
+        "n": 10029,
+        "denominator": 10029,
+        "valid_fraction": 1.0,
+        "min": 0.005200000000000001,
+        "p05": 0.0148,
+        "p50": 0.0189,
+        "p95": 0.022000000000000002,
+        "max": 0.0368
+      },
+      "B8A": {
+        "n": 10029,
+        "denominator": 10029,
+        "valid_fraction": 1.0,
+        "min": 0.07970000000000001,
+        "p05": 0.17544,
+        "p50": 0.24810000000000001,
+        "p95": 0.2944,
+        "max": 0.3361
+      },
+      "B11": {
+        "n": 10029,
+        "denominator": 10029,
+        "valid_fraction": 1.0,
+        "min": 0.0341,
+        "p05": 0.07464,
+        "p50": 0.0998,
+        "p95": 0.1187,
+        "max": 0.14200000000000002
+      },
+      "Fmask": {
+        "n": 10029,
+        "denominator": 10029,
+        "valid_fraction": 1.0,
+        "min": 64.0,
+        "p05": 64.0,
+        "p50": 64.0,
+        "p95": 64.0,
+        "max": 64.0
+      }
+    },
+    "qa_counts": {
+      "64": 10029
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 10029,
+          "denominator": 10029,
+          "valid_fraction": 1.0,
+          "min": 0.6456824512534819,
+          "p05": 0.8205856158497523,
+          "p50": 0.8591169531513315,
+          "p95": 0.875825203853417,
+          "max": 0.9012719563900667,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10029,
+          "denominator": 10029,
+          "valid_fraction": 1.0,
+          "min": 0.09670851713607066,
+          "p05": 0.3787435612677796,
+          "p50": 0.4245614035087719,
+          "p95": 0.45769035284918386,
+          "max": 0.5005762581636574,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10029,
+          "denominator": 10029,
+          "valid_fraction": 1.0,
+          "min": -0.7033707865168539,
+          "p05": -0.5621127868909478,
+          "p50": -0.5237302248126561,
+          "p95": -0.4891478916478313,
+          "max": -0.4006079027355624,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 10029,
+          "denominator": 10029,
+          "valid_fraction": 1.0,
+          "min": 0.6456824512534819,
+          "p05": 0.8205856158497523,
+          "p50": 0.8591169531513315,
+          "p95": 0.875825203853417,
+          "max": 0.9012719563900667,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10029,
+          "denominator": 10029,
+          "valid_fraction": 1.0,
+          "min": 0.09670851713607066,
+          "p05": 0.3787435612677796,
+          "p50": 0.4245614035087719,
+          "p95": 0.45769035284918386,
+          "max": 0.5005762581636574,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10029,
+          "denominator": 10029,
+          "valid_fraction": 1.0,
+          "min": -0.7033707865168539,
+          "p05": -0.5621127868909478,
+          "p50": -0.5237302248126561,
+          "p95": -0.4891478916478313,
+          "max": -0.4006079027355624,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 10029,
+          "denominator": 10029,
+          "valid_fraction": 1.0,
+          "min": 0.6456824512534819,
+          "p05": 0.8205856158497523,
+          "p50": 0.8591169531513315,
+          "p95": 0.875825203853417,
+          "max": 0.9012719563900667,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 10029,
+          "denominator": 10029,
+          "valid_fraction": 1.0,
+          "min": 0.09670851713607066,
+          "p05": 0.3787435612677796,
+          "p50": 0.4245614035087719,
+          "p95": 0.45769035284918386,
+          "max": 0.5005762581636574,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 10029,
+          "denominator": 10029,
+          "valid_fraction": 1.0,
+          "min": -0.7033707865168539,
+          "p05": -0.5621127868909478,
+          "p50": -0.5237302248126561,
+          "p95": -0.4891478916478313,
+          "max": -0.4006079027355624,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 0,
+      "adjacent": 0,
+      "shadow": 0,
+      "snow": 0,
+      "water": 0
+    },
+    "high_aerosol_clear_centers": 0,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 0,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 0
+      }
+    }
+  },
+  {
+    "site": "tropico",
+    "source": "hls",
+    "scene": "HLS.L30.T50NKF.2024264T023310.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.B05.tif",
+      "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.B06.tif",
+      "data/raw/atlas30/hls/HLS.L30.T50NKF.2024264T023310.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "Lasrc; Lasrc",
+      "SENSING_TIME": "2024-09-20T02:33:10.4172670Z; 2024-09-20T02:33:34.3421700Z"
+    },
+    "footprint_centers": 10029,
+    "variables": {
+      "B03": {
+        "n": 9909,
+        "denominator": 10029,
+        "valid_fraction": 0.9880346993718218,
+        "min": -0.0714,
+        "p05": 0.0151,
+        "p50": 0.0403,
+        "p95": 0.4704200000000001,
+        "max": 0.6811
+      },
+      "B04": {
+        "n": 9909,
+        "denominator": 10029,
+        "valid_fraction": 0.9880346993718218,
+        "min": -0.0896,
+        "p05": 0.005,
+        "p50": 0.0241,
+        "p95": 0.4732,
+        "max": 0.7022
+      },
+      "B05": {
+        "n": 9909,
+        "denominator": 10029,
+        "valid_fraction": 0.9880346993718218,
+        "min": 0.0292,
+        "p05": 0.0995,
+        "p50": 0.2748,
+        "p95": 0.5544600000000003,
+        "max": 0.7539
+      },
+      "B06": {
+        "n": 9909,
+        "denominator": 10029,
+        "valid_fraction": 0.9880346993718218,
+        "min": 0.0205,
+        "p05": 0.0403,
+        "p50": 0.11170000000000001,
+        "p95": 0.48748000000000014,
+        "max": 0.7110000000000001
+      },
+      "Fmask": {
+        "n": 9909,
+        "denominator": 10029,
+        "valid_fraction": 0.9880346993718218,
+        "min": 66.0,
+        "p05": 192.0,
+        "p50": 194.0,
+        "p95": 202.0,
+        "max": 206.0
+      }
+    },
+    "qa_counts": {
+      "66": 19,
+      "128": 11,
+      "130": 148,
+      "132": 22,
+      "134": 3,
+      "192": 1725,
+      "194": 4397,
+      "196": 1952,
+      "198": 216,
+      "200": 834,
+      "202": 279,
+      "204": 279,
+      "206": 24
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 1736,
+          "denominator": 10029,
+          "valid_fraction": 0.1730980157543125,
+          "min": 0.6573511543134872,
+          "p05": 0.8211289454982066,
+          "p50": 0.8455010628355581,
+          "p95": 0.8646981824519154,
+          "max": 0.8797878609310547,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 1736,
+          "denominator": 10029,
+          "valid_fraction": 0.1730980157543125,
+          "min": 0.1462184873949579,
+          "p05": 0.38776136046835796,
+          "p50": 0.4327570709154882,
+          "p95": 0.46502959971404295,
+          "max": 0.4930985245121371,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 1736,
+          "denominator": 10029,
+          "valid_fraction": 0.1730980157543125,
+          "min": -0.5660893345487694,
+          "p05": -0.4996515598672306,
+          "p50": -0.4731638418079096,
+          "p95": -0.44417703231262545,
+          "max": -0.3584018801410106,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 1736,
+          "denominator": 10029,
+          "valid_fraction": 0.1730980157543125,
+          "min": 0.6573511543134872,
+          "p05": 0.8211289454982066,
+          "p50": 0.8455010628355581,
+          "p95": 0.8646981824519154,
+          "max": 0.8797878609310547,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 1736,
+          "denominator": 10029,
+          "valid_fraction": 0.1730980157543125,
+          "min": 0.1462184873949579,
+          "p05": 0.38776136046835796,
+          "p50": 0.4327570709154882,
+          "p95": 0.46502959971404295,
+          "max": 0.4930985245121371,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 1736,
+          "denominator": 10029,
+          "valid_fraction": 0.1730980157543125,
+          "min": -0.5660893345487694,
+          "p05": -0.4996515598672306,
+          "p50": -0.4731638418079096,
+          "p95": -0.44417703231262545,
+          "max": -0.3584018801410106,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 1736,
+          "denominator": 10029,
+          "valid_fraction": 0.1730980157543125,
+          "min": 0.6573511543134872,
+          "p05": 0.8211289454982066,
+          "p50": 0.8455010628355581,
+          "p95": 0.8646981824519154,
+          "max": 0.8797878609310547,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 1736,
+          "denominator": 10029,
+          "valid_fraction": 0.1730980157543125,
+          "min": 0.1462184873949579,
+          "p05": 0.38776136046835796,
+          "p50": 0.4327570709154882,
+          "p95": 0.46502959971404295,
+          "max": 0.4930985245121371,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 1736,
+          "denominator": 10029,
+          "valid_fraction": 0.1730980157543125,
+          "min": -0.5660893345487694,
+          "p05": -0.4996515598672306,
+          "p50": -0.4731638418079096,
+          "p95": -0.44417703231262545,
+          "max": -0.3584018801410106,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 5086,
+      "adjacent": 2496,
+      "shadow": 1416,
+      "snow": 0,
+      "water": 0
+    },
+    "high_aerosol_clear_centers": 1725,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 0,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 0
+      }
+    }
+  },
+  {
+    "site": "tropico",
+    "source": "hls",
+    "scene": "HLS.S30.T49NHA.2024250T022531.v2.0",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.B03.tif",
+      "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.B04.tif",
+      "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.B8A.tif",
+      "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.B11.tif",
+      "data/raw/atlas30/hls/HLS.S30.T49NHA.2024250T022531.v2.0.Fmask.tif"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {
+      "ACCODE": "LaSRC",
+      "SENSING_TIME": "2024-09-06T02:47:47.957049Z"
+    },
+    "footprint_centers": 10000,
+    "variables": {
+      "B03": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": -0.024,
+        "p05": 0.007200000000000001,
+        "p50": 0.0471,
+        "p95": 0.4748049999999999,
+        "max": 0.666
+      },
+      "B04": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": -0.0212,
+        "p05": 0.0045000000000000005,
+        "p50": 0.0374,
+        "p95": 0.4754099999999999,
+        "max": 0.674
+      },
+      "B8A": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.048600000000000004,
+        "p05": 0.12440000000000001,
+        "p50": 0.3017,
+        "p95": 0.558,
+        "max": 0.7228
+      },
+      "B11": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 0.0167,
+        "p05": 0.055495,
+        "p50": 0.13770000000000002,
+        "p95": 0.4455,
+        "max": 0.5541
+      },
+      "Fmask": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 66.0,
+        "p05": 66.0,
+        "p50": 192.0,
+        "p95": 200.0,
+        "max": 206.0
+      }
+    },
+    "qa_counts": {
+      "66": 1470,
+      "128": 686,
+      "130": 1549,
+      "132": 900,
+      "134": 12,
+      "136": 133,
+      "138": 20,
+      "140": 88,
+      "142": 2,
+      "192": 164,
+      "194": 3078,
+      "196": 592,
+      "198": 136,
+      "200": 702,
+      "202": 326,
+      "204": 124,
+      "206": 18
+    },
+    "policies": {
+      "clear": {
+        "ndvi": {
+          "n": 850,
+          "denominator": 10000,
+          "valid_fraction": 0.085,
+          "min": 0.6154247003647733,
+          "p05": 0.7895249511216542,
+          "p50": 0.8605710813438363,
+          "p95": 0.8858789102012203,
+          "max": 0.913799096280848,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 850,
+          "denominator": 10000,
+          "valid_fraction": 0.085,
+          "min": 0.29328327075511057,
+          "p05": 0.3676784084125794,
+          "p50": 0.4132435681111494,
+          "p95": 0.44927364708066453,
+          "max": 0.4836065573770492,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 850,
+          "denominator": 10000,
+          "valid_fraction": 0.085,
+          "min": -0.6407766990291263,
+          "p05": -0.5791957192084912,
+          "p50": -0.5330072253060627,
+          "p95": -0.4615658348520532,
+          "max": -0.3296703296703296,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "legacy": {
+        "ndvi": {
+          "n": 850,
+          "denominator": 10000,
+          "valid_fraction": 0.085,
+          "min": 0.6154247003647733,
+          "p05": 0.7895249511216542,
+          "p50": 0.8605710813438363,
+          "p95": 0.8858789102012203,
+          "max": 0.913799096280848,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 850,
+          "denominator": 10000,
+          "valid_fraction": 0.085,
+          "min": 0.29328327075511057,
+          "p05": 0.3676784084125794,
+          "p50": 0.4132435681111494,
+          "p95": 0.44927364708066453,
+          "max": 0.4836065573770492,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 850,
+          "denominator": 10000,
+          "valid_fraction": 0.085,
+          "min": -0.6407766990291263,
+          "p05": -0.5791957192084912,
+          "p50": -0.5330072253060627,
+          "p95": -0.4615658348520532,
+          "max": -0.3296703296703296,
+          "outside_minus1_plus1": 0
+        }
+      },
+      "dry_land": {
+        "ndvi": {
+          "n": 850,
+          "denominator": 10000,
+          "valid_fraction": 0.085,
+          "min": 0.6154247003647733,
+          "p05": 0.7895249511216542,
+          "p50": 0.8605710813438363,
+          "p95": 0.8858789102012203,
+          "max": 0.913799096280848,
+          "outside_minus1_plus1": 0
+        },
+        "ndmi": {
+          "n": 850,
+          "denominator": 10000,
+          "valid_fraction": 0.085,
+          "min": 0.29328327075511057,
+          "p05": 0.3676784084125794,
+          "p50": 0.4132435681111494,
+          "p95": 0.44927364708066453,
+          "max": 0.4836065573770492,
+          "outside_minus1_plus1": 0
+        },
+        "ndsi": {
+          "n": 850,
+          "denominator": 10000,
+          "valid_fraction": 0.085,
+          "min": -0.6407766990291263,
+          "p05": -0.5791957192084912,
+          "p50": -0.5330072253060627,
+          "p95": -0.4615658348520532,
+          "max": -0.3296703296703296,
+          "outside_minus1_plus1": 0
+        }
+      }
+    },
+    "qa_flag_counts": {
+      "cloud": 6611,
+      "adjacent": 1872,
+      "shadow": 1413,
+      "snow": 0,
+      "water": 0
+    },
+    "high_aerosol_clear_centers": 164,
+    "ndvi_denominator_diagnostics": {
+      "negative_input_centers": 0,
+      "small_absolute_sum_counts": {
+        "0.0001": 0,
+        "0.001": 0,
+        "0.01": 0,
+        "0.05": 0
+      }
+    }
+  },
+  {
+    "site": "tropico",
+    "source": "landsat",
+    "scene": "LC09_L2SP_118060_20240312_20240313_02_T1_ST",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/landsat/LC09_L2SP_118060_20240312_20240313_02_T1_ST_B10.TIF",
+      "data/raw/atlas30/landsat/LC09_L2SP_118060_20240312_20240313_02_T1_QA_PIXEL.TIF",
+      "data/raw/atlas30/landsat/LC09_L2SP_118060_20240312_20240313_02_T1_ST_QA.TIF"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {},
+    "footprint_centers": 10000,
+    "variables": {
+      "ST_B10": {
+        "n": 8336,
+        "denominator": 10000,
+        "valid_fraction": 0.8336,
+        "min": 275.45648594,
+        "p05": 277.55515022,
+        "p50": 286.08311012,
+        "p95": 293.518158125,
+        "max": 294.96312608
+      },
+      "QA_PIXEL": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 21762.0,
+        "p05": 21824.0,
+        "p50": 22280.0,
+        "p95": 23826.0,
+        "max": 24082.0
+      },
+      "ST_QA": {
+        "n": 8336,
+        "denominator": 10000,
+        "valid_fraction": 0.8336,
+        "min": 4.05,
+        "p05": 4.25,
+        "p50": 7.41,
+        "p95": 7.79,
+        "max": 7.92
+      }
+    },
+    "qa_counts": {
+      "21762": 324,
+      "21824": 3151,
+      "22018": 61,
+      "22080": 38,
+      "22280": 5465,
+      "23826": 554,
+      "23888": 261,
+      "24082": 146
+    },
+    "policies": {
+      "legacy": {
+        "temperature_k": {
+          "n": 2204,
+          "denominator": 10000,
+          "valid_fraction": 0.2204,
+          "min": 290.68034702,
+          "p05": 291.90109286300003,
+          "p50": 293.10201419,
+          "p95": 293.86594166,
+          "max": 294.96312608
+        },
+        "uncertainty_k": {
+          "n": 2204,
+          "denominator": 10000,
+          "valid_fraction": 0.2204,
+          "min": 4.05,
+          "p05": 4.09,
+          "p50": 5.65,
+          "p95": 6.92,
+          "max": 7.0600000000000005
+        }
+      },
+      "keep_snow": {
+        "temperature_k": {
+          "n": 2204,
+          "denominator": 10000,
+          "valid_fraction": 0.2204,
+          "min": 290.68034702,
+          "p05": 291.90109286300003,
+          "p50": 293.10201419,
+          "p95": 293.86594166,
+          "max": 294.96312608
+        },
+        "uncertainty_k": {
+          "n": 2204,
+          "denominator": 10000,
+          "valid_fraction": 0.2204,
+          "min": 4.05,
+          "p05": 4.09,
+          "p50": 5.65,
+          "p95": 6.92,
+          "max": 7.0600000000000005
+        }
+      }
+    },
+    "uncertainty_sensitivity": {
+      "1": {
+        "n": 0,
+        "denominator": 10000,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "2": {
+        "n": 0,
+        "denominator": 10000,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "3": {
+        "n": 0,
+        "denominator": 10000,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    }
+  },
+  {
+    "site": "tropico",
+    "source": "landsat",
+    "scene": "LC09_L2SP_118060_20240920_20240923_02_T1_ST",
+    "window_m": 3000,
+    "paths": [
+      "data/raw/atlas30/landsat/LC09_L2SP_118060_20240920_20240923_02_T1_ST_B10.TIF",
+      "data/raw/atlas30/landsat/LC09_L2SP_118060_20240920_20240923_02_T1_QA_PIXEL.TIF",
+      "data/raw/atlas30/landsat/LC09_L2SP_118060_20240920_20240923_02_T1_ST_QA.TIF"
+    ],
+    "status": "profiled",
+    "denominator": "all native pixel centers in footprint; no land mask",
+    "metadata_selected": {},
+    "footprint_centers": 10000,
+    "variables": {
+      "ST_B10": {
+        "n": 8336,
+        "denominator": 10000,
+        "valid_fraction": 0.8336,
+        "min": 286.16856062,
+        "p05": 289.45413234499995,
+        "p50": 295.43481284,
+        "p95": 297.571929845,
+        "max": 299.14336454
+      },
+      "QA_PIXEL": {
+        "n": 10000,
+        "denominator": 10000,
+        "valid_fraction": 1.0,
+        "min": 21762.0,
+        "p05": 21824.0,
+        "p50": 22280.0,
+        "p95": 23888.0,
+        "max": 24144.0
+      },
+      "ST_QA": {
+        "n": 8336,
+        "denominator": 10000,
+        "valid_fraction": 0.8336,
+        "min": 3.94,
+        "p05": 4.12,
+        "p50": 6.4,
+        "p95": 7.21,
+        "max": 7.32
+      }
+    },
+    "qa_counts": {
+      "21762": 392,
+      "21824": 4484,
+      "22018": 28,
+      "22080": 17,
+      "22280": 2887,
+      "23826": 1069,
+      "23888": 1107,
+      "24082": 15,
+      "24144": 1
+    },
+    "policies": {
+      "legacy": {
+        "temperature_k": {
+          "n": 4372,
+          "denominator": 10000,
+          "valid_fraction": 0.4372,
+          "min": 293.5309757,
+          "p05": 294.58030784,
+          "p50": 296.10987178999994,
+          "p95": 297.805038809,
+          "max": 299.14336454
+        },
+        "uncertainty_k": {
+          "n": 4372,
+          "denominator": 10000,
+          "valid_fraction": 0.4372,
+          "min": 3.94,
+          "p05": 4.0755,
+          "p50": 5.42,
+          "p95": 6.67,
+          "max": 6.92
+        }
+      },
+      "keep_snow": {
+        "temperature_k": {
+          "n": 4372,
+          "denominator": 10000,
+          "valid_fraction": 0.4372,
+          "min": 293.5309757,
+          "p05": 294.58030784,
+          "p50": 296.10987178999994,
+          "p95": 297.805038809,
+          "max": 299.14336454
+        },
+        "uncertainty_k": {
+          "n": 4372,
+          "denominator": 10000,
+          "valid_fraction": 0.4372,
+          "min": 3.94,
+          "p05": 4.0755,
+          "p50": 5.42,
+          "p95": 6.67,
+          "max": 6.92
+        }
+      }
+    },
+    "uncertainty_sensitivity": {
+      "1": {
+        "n": 0,
+        "denominator": 10000,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "2": {
+        "n": 0,
+        "denominator": 10000,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      },
+      "3": {
+        "n": 0,
+        "denominator": 10000,
+        "valid_fraction": 0.0,
+        "min": null,
+        "p05": null,
+        "p50": null,
+        "p95": null,
+        "max": null
+      }
+    }
+  },
+  {
+    "site": "polar",
+    "source": "hls",
+    "status": "no_scene_selected",
+    "scene": null
+  },
+  {
+    "site": "polar",
+    "source": "landsat",
+    "status": "no_scene_selected",
+    "scene": null
+  }
+]

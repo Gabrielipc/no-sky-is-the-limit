@@ -1,0 +1,1285 @@
+{
+  "center_lon_lat": [
+    -110.6,
+    38.6
+  ],
+  "grid_transforms_including_halo": {
+    "30": [
+      30.0,
+      0.0,
+      -2220.0,
+      0.0,
+      -30.0,
+      2220.0
+    ],
+    "60": [
+      60.0,
+      0.0,
+      -2220.0,
+      0.0,
+      -60.0,
+      2220.0
+    ],
+    "120": [
+      120.0,
+      0.0,
+      -2220.0,
+      0.0,
+      -120.0,
+      2220.0
+    ]
+  },
+  "halo_m": 720,
+  "full_support_tolerance": 1e-06,
+  "fixed_slope_base_m": 240,
+  "vertical_conversion": "none",
+  "elevation_resampling": "GDAL average from native grid, one pass per resolution",
+  "inputs": {
+    "3DEP": {
+      "input": "data/raw/3dep/USGS_1M_12_x53y428_UT_FEMA_FS_FlamingGorge_2020_B20.tif",
+      "sha256": "6a73af9bc1d4d21b641112c233c0ad2f4217525d2e3ad58dd3020ef6f60e023d",
+      "bytes": 272131915,
+      "product_id": "USGS_1M_12_x53y428_UT_FEMA_FS_FlamingGorge_2020_B20",
+      "source_url": null,
+      "source_crs_wkt": "PROJCS[\"NAD83 / UTM zone 12N\",GEOGCS[\"NAD83\",DATUM[\"North_American_Datum_1983\",SPHEROID[\"GRS 1980\",6378137,298.257222101,AUTHORITY[\"EPSG\",\"7019\"]],AUTHORITY[\"EPSG\",\"6269\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4269\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",-111],PARAMETER[\"scale_factor\",0.9996],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AXIS[\"Easting\",EAST],AXIS[\"Northing\",NORTH],AUTHORITY[\"EPSG\",\"26912\"]]",
+      "source_transform": [
+        1.0,
+        0.0,
+        529993.9999795754,
+        0.0,
+        -1.0,
+        4280006.000049457,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "source_shape": [
+        10012,
+        10012
+      ],
+      "source_nodata": -999999.0,
+      "source_window": [
+        2606,
+        5309,
+        4462,
+        4463
+      ],
+      "crop_transform": [
+        1.0,
+        0.0,
+        532599.9999795754,
+        0.0,
+        -1.0,
+        4274697.000049457,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "crop_cells": 19913906,
+      "crop_valid_cells": 19913906,
+      "crop_valid_fraction": 1.0,
+      "source_step_units": [
+        1.0,
+        1.0
+      ],
+      "target_crs_wkt": "PROJCRS[\"unknown\",BASEGEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]]],CONVERSION[\"unknown\",METHOD[\"Azimuthal Equidistant\",ID[\"EPSG\",1125]],PARAMETER[\"Latitude of natural origin\",38.6,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-110.6,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"(E)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"(N)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]]",
+      "vertical_reference": "NAVD88",
+      "source_limitations": [],
+      "native_step_at_center_m": [
+        1.0003852093235153,
+        1.0003852097231305
+      ]
+    },
+    "GLO-30": {
+      "input": "data/raw/atlas30/glo30/Copernicus_DSM_COG_10_N38_00_W111_00_DEM.tif",
+      "sha256": "644d3dc1b67afedb3d51f01491cc6488ab8aa2032bc6c811b9793cf7f830d954",
+      "bytes": 39942573,
+      "product_id": "Copernicus_DSM_COG_10_N38_00_W111_00_DEM",
+      "source_url": null,
+      "source_crs_wkt": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+      "source_transform": [
+        0.0002777777777777778,
+        0.0,
+        -111.00013888888888,
+        0.0,
+        -0.0002777777777777778,
+        39.00013888888889,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "source_shape": [
+        3600,
+        3600
+      ],
+      "source_nodata": null,
+      "source_window": [
+        1346,
+        1366,
+        189,
+        149
+      ],
+      "crop_transform": [
+        0.0002777777777777778,
+        0.0,
+        -110.62625,
+        0.0,
+        -0.0002777777777777778,
+        38.620694444444446,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "crop_cells": 28161,
+      "crop_valid_cells": 28161,
+      "crop_valid_fraction": 1.0,
+      "source_step_units": [
+        0.0002777777777777778,
+        0.0002777777777777778
+      ],
+      "target_crs_wkt": "PROJCRS[\"unknown\",BASEGEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]]],CONVERSION[\"unknown\",METHOD[\"Azimuthal Equidistant\",ID[\"EPSG\",1125]],PARAMETER[\"Latitude of natural origin\",38.6,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-110.6,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"(E)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"(N)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]]",
+      "vertical_reference": "EGM2008",
+      "source_limitations": [],
+      "native_step_at_center_m": [
+        24.197784916673335,
+        30.83551750303764
+      ]
+    },
+    "SRTM": {
+      "input": "data/raw/srtm/N38W111.tif",
+      "sha256": "73520c1f4d04871db3a999fb2570c4eef723fb18d5a507cc60ba5c22ccac828c",
+      "bytes": 14938692,
+      "product_id": "N38W111",
+      "source_url": null,
+      "source_crs_wkt": "GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9122\"]],AXIS[\"Latitude\",NORTH],AXIS[\"Longitude\",EAST],AUTHORITY[\"EPSG\",\"4326\"]]",
+      "source_transform": [
+        0.0002777777777777778,
+        0.0,
+        -111.00013888888888,
+        0.0,
+        -0.0002777777777777778,
+        39.00013888888889,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "source_shape": [
+        3601,
+        3601
+      ],
+      "source_nodata": -32768.0,
+      "source_window": [
+        1346,
+        1366,
+        189,
+        149
+      ],
+      "crop_transform": [
+        0.0002777777777777778,
+        0.0,
+        -110.62625,
+        0.0,
+        -0.0002777777777777778,
+        38.620694444444446,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "crop_cells": 28161,
+      "crop_valid_cells": 28161,
+      "crop_valid_fraction": 1.0,
+      "source_step_units": [
+        0.0002777777777777778,
+        0.0002777777777777778
+      ],
+      "target_crs_wkt": "PROJCRS[\"unknown\",BASEGEOGCRS[\"unknown\",DATUM[\"World Geodetic System 1984\",ELLIPSOID[\"WGS 84\",6378137,298.257223563,LENGTHUNIT[\"metre\",1]],ID[\"EPSG\",6326]],PRIMEM[\"Greenwich\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8901]]],CONVERSION[\"unknown\",METHOD[\"Azimuthal Equidistant\",ID[\"EPSG\",1125]],PARAMETER[\"Latitude of natural origin\",38.6,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",-110.6,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"(E)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"(N)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]]",
+      "vertical_reference": "EGM96",
+      "source_limitations": [],
+      "native_step_at_center_m": [
+        24.197784916673335,
+        30.83551750303764
+      ]
+    }
+  },
+  "vertical_offset_check": {
+    "offset_m": 1000,
+    "max_abs_change": {
+      "relief": 4.547473508864641e-13,
+      "slope": 1.5365486660812167e-13,
+      "roughness": 8.79740724712974e-13
+    },
+    "atol": 1e-07
+  },
+  "versions": {
+    "python": "3.11.18",
+    "numpy": "1.26.4",
+    "gdal": "3.12.3",
+    "proj": "9.7.1"
+  },
+  "measurements": [
+    {
+      "window_m": 1800,
+      "cell_m": 30,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "relief",
+      "setting_m": null,
+      "unit": "m",
+      "common_cells": 3600,
+      "total_cells": 3600,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p95_minus_p05": 27.808388549748315
+        },
+        "GLO-30": {
+          "p95_minus_p05": 27.361497939321225
+        },
+        "SRTM": {
+          "p95_minus_p05": 27.44687748462502
+        }
+      },
+      "paired_against_3dep": {}
+    },
+    {
+      "window_m": 1800,
+      "cell_m": 30,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "slope",
+      "setting_m": 60,
+      "unit": "deg",
+      "common_cells": 3600,
+      "total_cells": 3600,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.7194659082975265,
+          "p90": 3.8345618592888675
+        },
+        "GLO-30": {
+          "p50": 1.6916380040788148,
+          "p90": 3.692370962663076
+        },
+        "SRTM": {
+          "p50": 2.3628586010005144,
+          "p90": 4.696967111819216
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.04708179196544526,
+          "median_absolute": 0.19663124002078547,
+          "p90_absolute": 0.555865264331157
+        },
+        "SRTM": {
+          "median_signed": 0.4837622236503041,
+          "median_absolute": 0.9509701570638971,
+          "p90_absolute": 2.626123359065542
+        }
+      }
+    },
+    {
+      "window_m": 1800,
+      "cell_m": 30,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "slope",
+      "setting_m": 240,
+      "unit": "deg",
+      "common_cells": 3600,
+      "total_cells": 3600,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.392033089925663,
+          "p90": 2.977579079534369
+        },
+        "GLO-30": {
+          "p50": 1.3731281551681438,
+          "p90": 2.9103221921564053
+        },
+        "SRTM": {
+          "p50": 1.5327713806968233,
+          "p90": 3.062131545323907
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.009699870886714868,
+          "median_absolute": 0.05170478640480214,
+          "p90_absolute": 0.14939879269003695
+        },
+        "SRTM": {
+          "median_signed": 0.04558139202066469,
+          "median_absolute": 0.33850202239769556,
+          "p90_absolute": 0.9075370473801714
+        }
+      }
+    },
+    {
+      "window_m": 1800,
+      "cell_m": 30,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "roughness",
+      "setting_m": 360,
+      "unit": "m",
+      "common_cells": 3600,
+      "total_cells": 3600,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.9152663779857029,
+          "p90": 6.900335527879039
+        },
+        "GLO-30": {
+          "p50": 1.9025233635942538,
+          "p90": 5.458068645329069
+        },
+        "SRTM": {
+          "p50": 2.1970853979549054,
+          "p90": 6.5287183538117235
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.024996524729542835,
+          "median_absolute": 0.02638422171106014,
+          "p90_absolute": 1.950451028065203
+        },
+        "SRTM": {
+          "median_signed": 0.2522297482379683,
+          "median_absolute": 0.3615055383798206,
+          "p90_absolute": 0.7492108405036556
+        }
+      }
+    },
+    {
+      "window_m": 1800,
+      "cell_m": 30,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "roughness",
+      "setting_m": 720,
+      "unit": "m",
+      "common_cells": 3600,
+      "total_cells": 3600,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 4.6960388125489105,
+          "p90": 8.370433799700743
+        },
+        "GLO-30": {
+          "p50": 4.6782113967607195,
+          "p90": 7.476450073298242
+        },
+        "SRTM": {
+          "p50": 4.749823426841229,
+          "p90": 8.150326705995669
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.023061959263752208,
+          "median_absolute": 0.023061959263752208,
+          "p90_absolute": 0.9381164583368843
+        },
+        "SRTM": {
+          "median_signed": 0.05589835337753768,
+          "median_absolute": 0.22868341656799251,
+          "p90_absolute": 0.5086431741692298
+        }
+      }
+    },
+    {
+      "window_m": 3000,
+      "cell_m": 30,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "relief",
+      "setting_m": null,
+      "unit": "m",
+      "common_cells": 10000,
+      "total_cells": 10000,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p95_minus_p05": 33.928903024308966
+        },
+        "GLO-30": {
+          "p95_minus_p05": 33.648633141980554
+        },
+        "SRTM": {
+          "p95_minus_p05": 33.8878031351087
+        }
+      },
+      "paired_against_3dep": {}
+    },
+    {
+      "window_m": 3000,
+      "cell_m": 30,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "slope",
+      "setting_m": 60,
+      "unit": "deg",
+      "common_cells": 10000,
+      "total_cells": 10000,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.4395977741144856,
+          "p90": 3.4896682783698107
+        },
+        "GLO-30": {
+          "p50": 1.410380887637496,
+          "p90": 3.3885595263071417
+        },
+        "SRTM": {
+          "p50": 2.2200436055357566,
+          "p90": 4.566511499777651
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.04884757320389113,
+          "median_absolute": 0.18839826322027475,
+          "p90_absolute": 0.5469662220249366
+        },
+        "SRTM": {
+          "median_signed": 0.5707668955732161,
+          "median_absolute": 0.9336474805354279,
+          "p90_absolute": 2.6261233590655424
+        }
+      }
+    },
+    {
+      "window_m": 3000,
+      "cell_m": 30,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "slope",
+      "setting_m": 240,
+      "unit": "deg",
+      "common_cells": 10000,
+      "total_cells": 10000,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.1377403425632788,
+          "p90": 2.8849264655308597
+        },
+        "GLO-30": {
+          "p50": 1.1356304210173214,
+          "p90": 2.8118359292909414
+        },
+        "SRTM": {
+          "p50": 1.3214011683923061,
+          "p90": 3.022520253088772
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.007801076292271669,
+          "median_absolute": 0.051194002980065434,
+          "p90_absolute": 0.15369697387762543
+        },
+        "SRTM": {
+          "median_signed": 0.07670347528561461,
+          "median_absolute": 0.32193679334580444,
+          "p90_absolute": 0.8740188664671575
+        }
+      }
+    },
+    {
+      "window_m": 3000,
+      "cell_m": 30,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "roughness",
+      "setting_m": 360,
+      "unit": "m",
+      "common_cells": 10000,
+      "total_cells": 10000,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.699899597443196,
+          "p90": 6.200677472386532
+        },
+        "GLO-30": {
+          "p50": 1.6801718757974689,
+          "p90": 5.33046783911583
+        },
+        "SRTM": {
+          "p50": 2.237920875106025,
+          "p90": 6.057569479579372
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.029664266116493643,
+          "median_absolute": 0.030233792682838267,
+          "p90_absolute": 0.14812035133506019
+        },
+        "SRTM": {
+          "median_signed": 0.4096563961808236,
+          "median_absolute": 0.4543345646527005,
+          "p90_absolute": 0.8558760167329658
+        }
+      }
+    },
+    {
+      "window_m": 3000,
+      "cell_m": 30,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "roughness",
+      "setting_m": 720,
+      "unit": "m",
+      "common_cells": 10000,
+      "total_cells": 10000,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 3.8986583724193538,
+          "p90": 8.667379369568412
+        },
+        "GLO-30": {
+          "p50": 3.8890370860900627,
+          "p90": 7.986473037477701
+        },
+        "SRTM": {
+          "p50": 4.11129580490517,
+          "p90": 8.347591438611659
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.01921292684713094,
+          "median_absolute": 0.01921292684713094,
+          "p90_absolute": 0.8724812147541947
+        },
+        "SRTM": {
+          "median_signed": 0.152024334925434,
+          "median_absolute": 0.3162123744095162,
+          "p90_absolute": 0.5316810357627972
+        }
+      }
+    },
+    {
+      "window_m": 1800,
+      "cell_m": 60,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "relief",
+      "setting_m": null,
+      "unit": "m",
+      "common_cells": 900,
+      "total_cells": 900,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p95_minus_p05": 27.232035592787724
+        },
+        "GLO-30": {
+          "p95_minus_p05": 26.97252226182195
+        },
+        "SRTM": {
+          "p95_minus_p05": 27.377323845599676
+        }
+      },
+      "paired_against_3dep": {}
+    },
+    {
+      "window_m": 1800,
+      "cell_m": 60,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "slope",
+      "setting_m": 120,
+      "unit": "deg",
+      "common_cells": 900,
+      "total_cells": 900,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.5527065369037467,
+          "p90": 3.4139785968700838
+        },
+        "GLO-30": {
+          "p50": 1.5455843621622845,
+          "p90": 3.3242146412192994
+        },
+        "SRTM": {
+          "p50": 1.8166328134980798,
+          "p90": 3.830923603087825
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.01675444563099565,
+          "median_absolute": 0.061568142516940094,
+          "p90_absolute": 0.1735644540108027
+        },
+        "SRTM": {
+          "median_signed": 0.1454503535353318,
+          "median_absolute": 0.5174899643870449,
+          "p90_absolute": 1.4033587670658016
+        }
+      }
+    },
+    {
+      "window_m": 1800,
+      "cell_m": 60,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "slope",
+      "setting_m": 240,
+      "unit": "deg",
+      "common_cells": 900,
+      "total_cells": 900,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.388544051604121,
+          "p90": 2.9440362393637924
+        },
+        "GLO-30": {
+          "p50": 1.3765904245549434,
+          "p90": 2.879329653373376
+        },
+        "SRTM": {
+          "p50": 1.5017613748559866,
+          "p90": 2.9182181117761616
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.007243204759264876,
+          "median_absolute": 0.03219306463084004,
+          "p90_absolute": 0.08960509276076083
+        },
+        "SRTM": {
+          "median_signed": 0.022134931865734342,
+          "median_absolute": 0.3081771092622795,
+          "p90_absolute": 0.8017802331999562
+        }
+      }
+    },
+    {
+      "window_m": 1800,
+      "cell_m": 60,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "roughness",
+      "setting_m": 360,
+      "unit": "m",
+      "common_cells": 900,
+      "total_cells": 900,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.9887018852020435,
+          "p90": 6.6516306928238444
+        },
+        "GLO-30": {
+          "p50": 1.9696022996536373,
+          "p90": 5.401580883200734
+        },
+        "SRTM": {
+          "p50": 2.1548652479918102,
+          "p90": 6.759912667052534
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.018129661297222155,
+          "median_absolute": 0.019601201118002398,
+          "p90_absolute": 1.6675067586865957
+        },
+        "SRTM": {
+          "median_signed": 0.18287448970836317,
+          "median_absolute": 0.2677146348612651,
+          "p90_absolute": 0.564644005147158
+        }
+      }
+    },
+    {
+      "window_m": 1800,
+      "cell_m": 60,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "roughness",
+      "setting_m": 720,
+      "unit": "m",
+      "common_cells": 900,
+      "total_cells": 900,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 4.716271546014795,
+          "p90": 8.15292556078362
+        },
+        "GLO-30": {
+          "p50": 4.709290638948419,
+          "p90": 7.466832087636472
+        },
+        "SRTM": {
+          "p50": 4.746875055206991,
+          "p90": 8.028253360655375
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.015806274268590714,
+          "median_absolute": 0.01608795474179625,
+          "p90_absolute": 0.7207543694905277
+        },
+        "SRTM": {
+          "median_signed": 0.0356158447351933,
+          "median_absolute": 0.16432046829584324,
+          "p90_absolute": 0.4127566555724754
+        }
+      }
+    },
+    {
+      "window_m": 3000,
+      "cell_m": 60,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "relief",
+      "setting_m": null,
+      "unit": "m",
+      "common_cells": 2500,
+      "total_cells": 2500,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p95_minus_p05": 33.70606311448773
+        },
+        "GLO-30": {
+          "p95_minus_p05": 33.48844072498355
+        },
+        "SRTM": {
+          "p95_minus_p05": 33.85871850314561
+        }
+      },
+      "paired_against_3dep": {}
+    },
+    {
+      "window_m": 3000,
+      "cell_m": 60,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "slope",
+      "setting_m": 120,
+      "unit": "deg",
+      "common_cells": 2500,
+      "total_cells": 2500,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.2421979624886905,
+          "p90": 3.2259940860644662
+        },
+        "GLO-30": {
+          "p50": 1.2283844827008166,
+          "p90": 3.119221541871601
+        },
+        "SRTM": {
+          "p50": 1.6498135443146942,
+          "p90": 3.5936454811236884
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.015904639933447706,
+          "median_absolute": 0.06543715538138833,
+          "p90_absolute": 0.18198329266645846
+        },
+        "SRTM": {
+          "median_signed": 0.1990141134454388,
+          "median_absolute": 0.5218837196750798,
+          "p90_absolute": 1.4061572161762084
+        }
+      }
+    },
+    {
+      "window_m": 3000,
+      "cell_m": 60,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "slope",
+      "setting_m": 240,
+      "unit": "deg",
+      "common_cells": 2500,
+      "total_cells": 2500,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.1313068510838888,
+          "p90": 2.840524562873039
+        },
+        "GLO-30": {
+          "p50": 1.1214013625081245,
+          "p90": 2.7796712440719955
+        },
+        "SRTM": {
+          "p50": 1.2888138401780493,
+          "p90": 2.911644422280723
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.005566702995101314,
+          "median_absolute": 0.033526623188388116,
+          "p90_absolute": 0.10138772532555737
+        },
+        "SRTM": {
+          "median_signed": 0.05366692402783113,
+          "median_absolute": 0.28537365973831363,
+          "p90_absolute": 0.7633180454628453
+        }
+      }
+    },
+    {
+      "window_m": 3000,
+      "cell_m": 60,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "roughness",
+      "setting_m": 360,
+      "unit": "m",
+      "common_cells": 2500,
+      "total_cells": 2500,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.7202671660209377,
+          "p90": 6.260158510066676
+        },
+        "GLO-30": {
+          "p50": 1.7101378967709482,
+          "p90": 5.350317409906779
+        },
+        "SRTM": {
+          "p50": 2.1510726468170693,
+          "p90": 6.018666689310787
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.021497905581919774,
+          "median_absolute": 0.02227859363902507,
+          "p90_absolute": 0.149375152859249
+        },
+        "SRTM": {
+          "median_signed": 0.3181378647409431,
+          "median_absolute": 0.35964849906696456,
+          "p90_absolute": 0.6913278523828491
+        }
+      }
+    },
+    {
+      "window_m": 3000,
+      "cell_m": 60,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "roughness",
+      "setting_m": 720,
+      "unit": "m",
+      "common_cells": 2500,
+      "total_cells": 2500,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 3.927842797967873,
+          "p90": 8.504006167534984
+        },
+        "GLO-30": {
+          "p50": 3.9294912678269363,
+          "p90": 8.03265929260484
+        },
+        "SRTM": {
+          "p50": 4.0962084974912045,
+          "p90": 8.297782379171752
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.014546536218872586,
+          "median_absolute": 0.014755190466138823,
+          "p90_absolute": 0.6634936915320417
+        },
+        "SRTM": {
+          "median_signed": 0.10522834942206583,
+          "median_absolute": 0.23055604020319054,
+          "p90_absolute": 0.4391204263164439
+        }
+      }
+    },
+    {
+      "window_m": 1800,
+      "cell_m": 120,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "relief",
+      "setting_m": null,
+      "unit": "m",
+      "common_cells": 225,
+      "total_cells": 225,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p95_minus_p05": 26.89314819433457
+        },
+        "GLO-30": {
+          "p95_minus_p05": 26.406594185135873
+        },
+        "SRTM": {
+          "p95_minus_p05": 26.884152611338095
+        }
+      },
+      "paired_against_3dep": {}
+    },
+    {
+      "window_m": 1800,
+      "cell_m": 120,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "slope",
+      "setting_m": 240,
+      "unit": "deg",
+      "common_cells": 225,
+      "total_cells": 225,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.3055301322911492,
+          "p90": 2.7834410585261558
+        },
+        "GLO-30": {
+          "p50": 1.3043690744539893,
+          "p90": 2.7370648270462197
+        },
+        "SRTM": {
+          "p50": 1.4025714590162472,
+          "p90": 2.7523760629844487
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.005241217854550895,
+          "median_absolute": 0.020769826855461027,
+          "p90_absolute": 0.053870607852143544
+        },
+        "SRTM": {
+          "median_signed": -0.029613139207851247,
+          "median_absolute": 0.22921794400820472,
+          "p90_absolute": 0.6161378482498232
+        }
+      }
+    },
+    {
+      "window_m": 1800,
+      "cell_m": 120,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "roughness",
+      "setting_m": 360,
+      "unit": "m",
+      "common_cells": 225,
+      "total_cells": 225,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 2.142449983486638,
+          "p90": 6.4099658593405024
+        },
+        "GLO-30": {
+          "p50": 2.138321271346929,
+          "p90": 5.361353537034467
+        },
+        "SRTM": {
+          "p50": 2.1894485909994574,
+          "p90": 6.101738446511631
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.01138418191528956,
+          "median_absolute": 0.014879220805797178,
+          "p90_absolute": 1.4516380616516067
+        },
+        "SRTM": {
+          "median_signed": 0.09894153789396176,
+          "median_absolute": 0.1538717352327197,
+          "p90_absolute": 0.4361991270683088
+        }
+      }
+    },
+    {
+      "window_m": 1800,
+      "cell_m": 120,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "roughness",
+      "setting_m": 720,
+      "unit": "m",
+      "common_cells": 225,
+      "total_cells": 225,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 4.845697622579555,
+          "p90": 7.775652727769405
+        },
+        "GLO-30": {
+          "p50": 4.8383652599142675,
+          "p90": 7.397552732149213
+        },
+        "SRTM": {
+          "p50": 4.693996770917893,
+          "p90": 7.683134644927033
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.010009678120124654,
+          "median_absolute": 0.01133313841353445,
+          "p90_absolute": 0.38374541634258497
+        },
+        "SRTM": {
+          "median_signed": -0.008377988863059738,
+          "median_absolute": 0.10973849407305103,
+          "p90_absolute": 0.2968781239582164
+        }
+      }
+    },
+    {
+      "window_m": 3000,
+      "cell_m": 120,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "relief",
+      "setting_m": null,
+      "unit": "m",
+      "common_cells": 625,
+      "total_cells": 625,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p95_minus_p05": 33.871152723151
+        },
+        "GLO-30": {
+          "p95_minus_p05": 33.11739060171112
+        },
+        "SRTM": {
+          "p95_minus_p05": 33.495303128119986
+        }
+      },
+      "paired_against_3dep": {}
+    },
+    {
+      "window_m": 3000,
+      "cell_m": 120,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "slope",
+      "setting_m": 240,
+      "unit": "deg",
+      "common_cells": 625,
+      "total_cells": 625,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.1001355965859079,
+          "p90": 2.755987698485144
+        },
+        "GLO-30": {
+          "p50": 1.1003024047863017,
+          "p90": 2.6851255678558514
+        },
+        "SRTM": {
+          "p50": 1.1997059938757024,
+          "p90": 2.7223433993138983
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.0050124587513868946,
+          "median_absolute": 0.02100058978809849,
+          "p90_absolute": 0.06314488264999765
+        },
+        "SRTM": {
+          "median_signed": 0.008819137260408838,
+          "median_absolute": 0.22896882934934193,
+          "p90_absolute": 0.5715495191813774
+        }
+      }
+    },
+    {
+      "window_m": 3000,
+      "cell_m": 120,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "roughness",
+      "setting_m": 360,
+      "unit": "m",
+      "common_cells": 625,
+      "total_cells": 625,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 1.7407821863538702,
+          "p90": 5.953442977923827
+        },
+        "GLO-30": {
+          "p50": 1.7432237452380726,
+          "p90": 5.309058099748316
+        },
+        "SRTM": {
+          "p50": 1.9354987735994151,
+          "p90": 5.884226537804042
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.013910183703468526,
+          "median_absolute": 0.015312415979585436,
+          "p90_absolute": 0.0802643499805748
+        },
+        "SRTM": {
+          "median_signed": 0.15994453471823633,
+          "median_absolute": 0.19770161779784368,
+          "p90_absolute": 0.45162753019020296
+        }
+      }
+    },
+    {
+      "window_m": 3000,
+      "cell_m": 120,
+      "elevation_coverage_by_source": {
+        "3DEP": 1.0,
+        "GLO-30": 1.0,
+        "SRTM": 1.0
+      },
+      "descriptor": "roughness",
+      "setting_m": 720,
+      "unit": "m",
+      "common_cells": 625,
+      "total_cells": 625,
+      "common_fraction": 1.0,
+      "statistics": {
+        "3DEP": {
+          "p50": 4.063949694289574,
+          "p90": 8.30121829376615
+        },
+        "GLO-30": {
+          "p50": 4.049116179776747,
+          "p90": 8.045023181055212
+        },
+        "SRTM": {
+          "p50": 4.1548134289788825,
+          "p90": 8.218793112180357
+        }
+      },
+      "paired_against_3dep": {
+        "GLO-30": {
+          "median_signed": -0.009468166364755781,
+          "median_absolute": 0.010410864862258506,
+          "p90_absolute": 0.3529504712115911
+        },
+        "SRTM": {
+          "median_signed": 0.04197407472501835,
+          "median_absolute": 0.13845460320852965,
+          "p90_absolute": 0.29088531538502205
+        }
+      }
+    }
+  ]
+}

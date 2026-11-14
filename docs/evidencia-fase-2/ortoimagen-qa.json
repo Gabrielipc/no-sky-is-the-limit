@@ -1,0 +1,17 @@
+{
+  "input": "data/raw/hirise/PSP_002387_1985_RED_C_01_ORTHO.JP2",
+  "url": "https://www.uahirise.org/PDS/DTM/PSP/ORB_002300_002399/PSP_002387_1985_PSP_003798_1985/PSP_002387_1985_RED_C_01_ORTHO.JP2",
+  "sha256": "be2612e4e932238959fd43b28118b6d319c83b19b3fcf4bd70a754f4b8eea99b",
+  "label_sha256": "8e19ea916399af81af8353f34d546ca74af40d78ed719ab6a4e5b0390421b8b5",
+  "decoder": "Pillow JPEG2000 (GDAL JP2OpenJPEG absent; no dependency change)",
+  "geometry": "Detached PDS label matches DTM grid in checked keys; no independent registration precision claimed",
+  "source_window": [
+    2593,
+    4664,
+    2306,
+    2264
+  ],
+  "crop_pixels": 5220784,
+  "crop_pixels_not_null_or_saturated": 5219658,
+  "use": "visual inspection only; not an additional similarity variable"
+}

@@ -1,0 +1,57 @@
+{
+  "date": "2026-11-07",
+  "timezone": "America/Managua",
+  "status": "implemented_and_verified",
+  "automated": {
+    "api_passed": 23,
+    "analysis_and_visuals_passed": 31,
+    "frontend_passed": 7,
+    "typescript_vite_build": "passed",
+    "planetary_crs": "passed"
+  },
+  "preserved_previous_evidence_files": 120,
+  "responsive_checks": 12,
+  "browser_checks": [
+    "Candidate, layer and cell changes",
+    "Rapid 60/120/60 changes preserve cell grid and range focus",
+    "Regional baseline and strict counts; sampling percentage",
+    "Complete catalogue sorting and selected map/list/page synchronization",
+    "Source versus scale separation; missing and non-member sample windows",
+    "Production Cesium loaded on demand; viewers destroyed on close",
+    "Malformed preview asset: measurements retained, retry recovered; original untouched",
+    "Invalid URL normalization and browser Back restore state"
+  ],
+  "screenshots": [
+    {
+      "file": "comparacion.jpg",
+      "width": 1440,
+      "height": 900,
+      "sha256": "d6b22dd18ecd8bc0d6dd144b3589ab67b5676a78524640f895695d7d17766037"
+    },
+    {
+      "file": "exploracion.jpg",
+      "width": 1440,
+      "height": 2469,
+      "sha256": "4bcbf603b2b4a692c96f42b215e4bb8a5e5853c0082f474f1132d2122c7cace9"
+    },
+    {
+      "file": "movil.jpg",
+      "width": 390,
+      "height": 844,
+      "sha256": "b4f1dc03facf594dfbe05311701382fbe94bd8733d315d54b6891732152c70ac"
+    },
+    {
+      "file": "sensibilidad.jpg",
+      "width": 1440,
+      "height": 1896,
+      "sha256": "ab1e81d3350759c7ef70cefeeb07d1ccd779b5b3ec948a2decfc2a78cdcd035c"
+    }
+  ],
+  "limitations": [
+    "No five-person comprehension study performed",
+    "No exhaustive browser matrix",
+    "No forced WebGL-failure test",
+    "Continuous preference weights and detail 3D remain subsequent increments"
+  ],
+  "concurrent_work": "Surface dimensions scenario and its navigation preserved; not authored by this refactor."
+}
