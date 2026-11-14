@@ -13,7 +13,7 @@ function load(relative) {
   const localRequire = createRequire(filename);
   const module = { exports: {} };
   const code = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }).outputText;
-  vm.runInNewContext(code, { module, exports: module.exports, URLSearchParams, fetch: (...args) => globalThis.fetch(...args), require: name => name.startsWith('.') ? load(path.relative(base, path.resolve(path.dirname(filename), name + '.ts'))) : localRequire(name) }, { filename });
+  vm.runInNewContext(code, { module, exports: module.exports, URL, URLSearchParams, fetch: (...args) => globalThis.fetch(...args), require: name => name.startsWith('.') ? load(path.relative(base, path.resolve(path.dirname(filename), name + '.ts'))) : localRequire(name) }, { filename });
   cache.set(filename, module.exports);
   return module.exports;
 }
@@ -100,4 +100,38 @@ test('mineral links preserve filters, clamp non-step fit values and reject incom
   assert.equal(valid.adjusted, false); assert.equal(valid.state.mineralGroup, 2); assert.equal(valid.state.mineralId, 129); assert.equal(valid.state.mineralFit, .45);
   const bad = parseState('?mineralGroup=3&mineralFit=0.43&mineralMaxSlope=80&mineralId=-1');
   assert.equal(bad.adjusted, true); assert.equal(bad.state.mineralFit, .45); assert.equal(bad.state.mineralMaxSlope,90); assert.equal(bad.state.mineralId,0);
+});
+
+const surface = load('src/features/surface/terrain.ts');
+test('surface links select real sites and reject unknown destinations', () => {
+  const parsed = parseState('?view=surface&surfaceSite=earth-atacama');
+  assert.equal(parsed.adjusted,false); assert.equal(parsed.state.view,'surface');
+  assert.equal(parsed.state.surfaceSite,'earth-atacama');
+  assert.equal(parseState('?surfaceSite=unknown').adjusted,true);
+});
+test('grayscale DEM decoding preserves negative heights, zero and missing samples', () => {
+  const site = {width:2,height:2,offset_m:-100,scale_m:1,nodata:255};
+  const h=surface.decodeGray(new Uint8ClampedArray([0,0,0,255,100,100,100,255,254,254,254,255,255,255,255,255]),site);
+  assert.equal(h[0],-100); assert.equal(h[1],0); assert.equal(h[2],154); assert.ok(Number.isNaN(h[3]));
+  assert.throws(()=>surface.decodeGray(new Uint8ClampedArray(4),site));
+});
+test('MOLA radius decoding keeps metre units and negative elevations', () => {
+  const h=surface.decodeMola(new Uint8ClampedArray([128,0,0,255,127,255,0,255,129,0,0,255]));
+  assert.deepEqual(Array.from(h),[0,-1,256]);
+});
+test('displaced plane has north-up coordinates, outward faces, UVs and nodata holes', () => {
+  const site={width:2,height:2,cell_m:30,center_m:10};
+  const a=surface.meshArrays(new Float32Array([10,11,12,13]),site,2);
+  assert.deepEqual(Array.from(a.positions),[-15,15,0,15,15,2,-15,-15,4,15,-15,6]);
+  assert.deepEqual(Array.from(a.uv),[0,1,1,1,0,0,1,0]);
+  assert.deepEqual(Array.from(a.indices),[0,2,1,1,2,3]);
+  const hole=surface.meshArrays(new Float32Array([NaN,11,12,13]),site,1);
+  assert.deepEqual(Array.from(hole.indices),[1,2,3]);
+  assert.throws(()=>surface.meshArrays(new Float32Array(4),site,NaN));
+});
+test('external layer URLs permit services and reject executable schemes and embedded credentials', () => {
+  assert.equal(surface.layerURL('/tiles/tileset.json','https://atlas.test/'),'https://atlas.test/tiles/tileset.json');
+  for(const url of ['javascript:alert(1)','data:text/html,x','https://user:password@example.test','http://example.test']) {
+    assert.throws(()=>surface.layerURL(url,'https://atlas.test/'));
+  }
 });
