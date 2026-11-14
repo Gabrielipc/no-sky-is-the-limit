@@ -1,0 +1,183 @@
+{
+  "engine_id": "motor-similitud-ml-v1",
+  "version": 1,
+  "status": "unsupervised_pending_blind_validation",
+  "store_contract_ref": "analogos-feature-store-v1",
+  "description": "Motor de similitud ML no supervisado para buscar análogos terrestres de una ventana de Marte o la Luna. Cada vista (dimensión) aprende una métrica sin etiquetas: transformación cuantil-normal ajustada en la Tierra y covarianza robusta (MCD con contracción) en ese espacio, de modo que la distancia de Mahalanobis descuenta la colinealidad (5 descriptores de escabrosidad no pesan 5 veces). Un modelo de mezcla gaussiana (GMM, BIC) descubre regímenes morfológicos y aporta la vista regimen_morfologico. Las vistas se fusionan con pesos elegidos en cada consulta; la ausencia estructural de una vista nunca se imputa como valor de feature: se trata con una política explícita y un intervalo de incertidumbre. Los pesos pueden calibrarse con preferencias por pares (Bradley-Terry con pesos no negativos) cuando exista la revisión visual ciega (Paso 7).",
+  "fit": {
+    "body": "Earth",
+    "qa_status": "rankable",
+    "eligibility_gate": "none",
+    "eligibility_gate_note": "La métrica describe la variabilidad del relieve terrestre; la compuerta de elegibilidad del escenario se aplica al buscar, no al ajustar (hoy solo un puñado de ventanas está marcado como elegible).",
+    "sample_size": 200000,
+    "bridge_sample_size": 200000,
+    "seed": 20261114,
+    "n_quantiles": 1000,
+    "min_fit_rows": 200,
+    "min_body_population": 100,
+    "covariance": {
+      "estimator": "min_cov_det",
+      "max_rows": 20000,
+      "fallback_below_rows": 500,
+      "fallback_estimator": "ledoit_wolf",
+      "shrinkage_to_diagonal": 0.05
+    },
+    "gmm": {
+      "components": [2, 3, 4, 5, 6, 7, 8],
+      "covariance_type": "full",
+      "max_rows": 50000,
+      "n_init": 2,
+      "reg_covar": 1e-4
+    },
+    "holdout_basins": [
+      {
+        "id": "mojave",
+        "bbox": [-117.5, 34.5, -115.5, 36.0],
+        "source": "docs/evidencia-entrega-3/seleccion-y-redundancia.json (whole_basin_holdout) y specs/search/busqueda-regional-v1.json"
+      }
+    ],
+    "holdout_note": "Las cuencas reservadas no entran en el ajuste (Leave-One-Basin-Out) para que la validación ciega no herede autocorrelación espacial."
+  },
+  "views": {
+    "escabrosidad": {
+      "kind": "metric",
+      "comparability": "direct_metric",
+      "min_features": 2,
+      "description": "Eje 1 (61,2 % de la varianza): relieve, pendientes y rugosidad, muy colineales (rho 0,89-0,96).",
+      "features": [
+        "relief_p95_p05_m",
+        "slope_240m_p50_deg",
+        "slope_240m_p90_deg",
+        "roughness_360m_p50_m",
+        "slope_240m_gt15_fraction",
+        "slope_240m_gt25_fraction"
+      ]
+    },
+    "forma_hipsometrica": {
+      "kind": "metric",
+      "comparability": "direct_metric",
+      "min_features": 1,
+      "description": "Eje 2 (22,7 %): integral hipsométrica y asimetría de elevación (rho -0,98 entre sí). Sensible al encuadre: estable hasta 300 m de desplazamiento.",
+      "features": [
+        "hypsometric_integral",
+        "elevation_skew_p95_p05"
+      ]
+    },
+    "organizacion": {
+      "kind": "metric",
+      "comparability": "direct_metric",
+      "min_features": 1,
+      "description": "Eje 3 (10,4 %): organización direccional de las pendientes.",
+      "features": [
+        "aspect_240m_resultant_length"
+      ]
+    },
+    "espectral": {
+      "kind": "metric",
+      "comparability": "functional_contract_bridge",
+      "min_features": 2,
+      "description": "Seis complejos funcionales de absorción (EMIT en la Tierra, CRISM en Marte). Soporte de píxel distinto: se comparan por rango dentro de cada cuerpo.",
+      "features": [
+        {"id": "abs_fe3_oxide_0p53_0p90um_p50", "columns": {"Earth": "abs_fe3_oxide_0p53_0p90um_p50", "Mars": "abs_fe3_oxide_0p53_0p90um_p50"}, "status_columns": {"Earth": "abs_fe3_oxide_0p53_0p90um_status", "Mars": "abs_fe3_oxide_0p53_0p90um_status"}},
+        {"id": "abs_al_oh_2p20um_p50", "columns": {"Earth": "abs_al_oh_2p20um_p50", "Mars": "abs_al_oh_2p20um_p50"}, "status_columns": {"Earth": "abs_al_oh_2p20um_status", "Mars": "abs_al_oh_2p20um_status"}},
+        {"id": "abs_fe_mg_oh_2p30um_p50", "columns": {"Earth": "abs_fe_mg_oh_2p30um_p50", "Mars": "abs_fe_mg_oh_2p30um_p50"}, "status_columns": {"Earth": "abs_fe_mg_oh_2p30um_status", "Mars": "abs_fe_mg_oh_2p30um_status"}},
+        {"id": "abs_carbonate_2p30_2p50um_p50", "columns": {"Earth": "abs_carbonate_2p30_2p50um_p50", "Mars": "abs_carbonate_2p30_2p50um_p50"}, "status_columns": {"Earth": "abs_carbonate_2p30_2p50um_status", "Mars": "abs_carbonate_2p30_2p50um_status"}},
+        {"id": "abs_hydrated_sioh_so4_1p9_2p26um_p50", "columns": {"Earth": "abs_hydrated_sioh_so4_1p9_2p26um_p50", "Mars": "abs_hydrated_sioh_so4_1p9_2p26um_p50"}, "status_columns": {"Earth": "abs_hydrated_sioh_so4_1p9_2p26um_status", "Mars": "abs_hydrated_sioh_so4_1p9_2p26um_status"}},
+        {"id": "abs_mafic_fe2_1p0um_p50", "columns": {"Earth": "abs_mafic_fe2_1p0um_p50", "Mars": "abs_mafic_fe2_1p0um_p50"}, "status_columns": {"Earth": "abs_mafic_fe2_1p0um_status", "Mars": "abs_mafic_fe2_1p0um_status"}}
+      ]
+    },
+    "termica": {
+      "kind": "metric",
+      "comparability": "functional_contract_bridge",
+      "min_features": 1,
+      "description": "Inercia térmica aparente MODIS (1/K) frente a inercia térmica THEMIS: unidades distintas, solo por rango dentro de cada cuerpo. La Luna no tiene puente térmico aprobado en el contrato.",
+      "features": [
+        {"id": "thermal_inertia_rank", "columns": {"Earth": "modis_ati_p50_per_k", "Mars": "thermal_inertia_p50"}, "status_columns": {"Earth": "apparent_thermal_inertia_status", "Mars": "thermal_status"}}
+      ]
+    },
+    "radar": {
+      "kind": "metric",
+      "comparability": "functional_contract_bridge",
+      "min_features": 1,
+      "description": "Razón de polarización circular: RCM banda C (5,6 cm) en la Tierra frente a Mini-RF banda S (12,6 cm) en la Luna; solo por rango dentro de cada cuerpo.",
+      "features": [
+        {"id": "cpr_p50", "columns": {"Earth": "rcm_cpr_p50", "Moon": "minirf_cpr_p50"}, "status_columns": {"Earth": "radar_status", "Moon": "minirf_status"}},
+        {"id": "cpr_p90", "columns": {"Earth": "rcm_cpr_p90", "Moon": "minirf_cpr_p90"}, "status_columns": {"Earth": "radar_status", "Moon": "minirf_status"}}
+      ]
+    },
+    "regimen_morfologico": {
+      "kind": "gmm",
+      "source_views": ["escabrosidad", "forma_hipsometrica", "organizacion"],
+      "description": "Probabilidad posterior de pertenecer a cada familia de relieve descubierta por el GMM; distancia = 1 - coeficiente de Bhattacharyya entre las posteriores de la candidata y de la referencia."
+    }
+  },
+  "default_weights": {
+    "Mars": {
+      "escabrosidad": 0.35,
+      "forma_hipsometrica": 0.25,
+      "organizacion": 0.1,
+      "regimen_morfologico": 0.15,
+      "espectral": 0.1,
+      "termica": 0.05,
+      "radar": 0.0
+    },
+    "Moon": {
+      "escabrosidad": 0.35,
+      "forma_hipsometrica": 0.2,
+      "organizacion": 0.1,
+      "regimen_morfologico": 0.15,
+      "espectral": 0.0,
+      "termica": 0.0,
+      "radar": 0.2
+    }
+  },
+  "search": {
+    "missing_policies": {
+      "neutral": "La vista ausente cuenta con la mediana de su distancia en el conjunto de candidatas (distancia esperada de una candidata cualquiera), nunca con un valor de feature imputado.",
+      "renormalize": "Se reparten los pesos entre las vistas disponibles de cada candidata.",
+      "require": "Se descartan las candidatas a las que les falte alguna vista con peso positivo."
+    },
+    "default_missing_policy": "neutral",
+    "fusions": {
+      "weighted": "Media ponderada de distancias por vista en [0, 1], con intervalo [score_low, score_high] según las vistas ausentes valgan 0 o 1.",
+      "rrf": "Reciprocal Rank Fusion ponderado: suma de w / (k + rango en la vista) entre las vistas disponibles."
+    },
+    "default_fusion": "weighted",
+    "rrf_k": 60,
+    "min_pool_for_percentile": 100
+  },
+  "calibration": {
+    "method": "bradley_terry_nonnegative",
+    "l2": 0.01,
+    "min_pairs": 50,
+    "note": "Cada par etiquetado en la revisión ciega (A se parece más a la referencia que B) aporta x = d(B) - d(A) por vista; los pesos son los coeficientes no negativos de una regresión logística sin intercepto, directamente interpretables como pesos del contrato."
+  },
+  "references": {
+    "jezero": {
+      "name": "Jezero — abanico sedimentario (HiRISE, 3 km centrado)",
+      "body": "Mars",
+      "source": "docs/evidencia-descriptores-forma/resultados.json (jezero_reference)",
+      "features": {
+        "relief_p95_p05_m": 120.27283167455244,
+        "slope_240m_p50_deg": 3.0744021305133282,
+        "slope_240m_p90_deg": 9.239335472760809,
+        "roughness_360m_p50_m": 7.570537569757946,
+        "hypsometric_integral": 0.612998218167359,
+        "elevation_skew_p95_p05": -0.30541628608877874,
+        "aspect_240m_resultant_length": 0.4515034386370893,
+        "slope_240m_gt15_fraction": 0.0274,
+        "slope_240m_gt25_fraction": 0.0
+      }
+    },
+    "haworth-fondo": {
+      "name": "Haworth — fondo de cráter polar (LOLA)",
+      "body": "Moon",
+      "region_id": "moon-aeqd-v1:haworth-fondo"
+    },
+    "de-gerlache-cresta": {
+      "name": "de Gerlache — cresta polar (LOLA)",
+      "body": "Moon",
+      "region_id": "moon-aeqd-v1:de-gerlache-cresta"
+    }
+  }
+}
