@@ -22,10 +22,15 @@ SYNC_INTERVAL_S="${SYNC_INTERVAL_S:-600}"
 # goes into the VM metadata: the VM reads the secret at start-up with its service account.
 EARTHDATA_SECRET="${EARTHDATA_SECRET:-earthdata-token}"
 
-echo "Checking bucket ${GCS_BUCKET}..."
-if ! gcloud storage buckets describe "$GCS_BUCKET" --project="$PROJECT_ID" >/dev/null 2>&1; then
-    echo "Creating bucket ${GCS_BUCKET} in ${REGION}..."
-    gcloud storage buckets create "$GCS_BUCKET" --project="$PROJECT_ID" --location="$REGION" --uniform-bucket-level-access
+export CLOUDSDK_CORE_DISABLE_PROMPTS=1
+SKIP_BUCKET_CHECK="${SKIP_BUCKET_CHECK:-0}"
+
+if [[ "$SKIP_BUCKET_CHECK" != "1" ]]; then
+    echo "Checking bucket ${GCS_BUCKET}..."
+    if ! gcloud storage buckets describe "$GCS_BUCKET" --project="$PROJECT_ID" --quiet >/dev/null 2>&1; then
+        echo "Creating bucket ${GCS_BUCKET} in ${REGION}..."
+        gcloud storage buckets create "$GCS_BUCKET" --project="$PROJECT_ID" --location="$REGION" --uniform-bucket-level-access --quiet
+    fi
 fi
 
 VM_SERVICE_ACCOUNT="${VM_SERVICE_ACCOUNT:-$(gcloud compute project-info describe --project="$PROJECT_ID" --format='value(defaultServiceAccount)')}"
@@ -105,6 +110,7 @@ gcloud compute instances create "$VM_NAME" \
     --image-project=ubuntu-os-cloud \
     --service-account="$VM_SERVICE_ACCOUNT" \
     --scopes=cloud-platform \
+    --quiet \
     --metadata-from-file=startup-script="$STARTUP_SCRIPT",shutdown-script="$SHUTDOWN_SCRIPT"
 
 echo ""
