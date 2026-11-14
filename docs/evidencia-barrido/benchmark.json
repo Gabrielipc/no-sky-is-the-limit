@@ -1,0 +1,155 @@
+{
+  "schema": 1,
+  "question": "Costo por ventana utilizable (rankable con cobertura medida) del barrido mundial",
+  "machine": {
+    "platform": "macOS-26.5.1-arm64-arm-64bit",
+    "cpu_count": 10,
+    "workers": 4
+  },
+  "local_cache_used": false,
+  "blocks": {
+    "desierto": {
+      "batch_id": "32612-484000-4222000",
+      "zone": 32612
+    },
+    "montana": {
+      "batch_id": "32632-618000-5113000",
+      "zone": 32632
+    },
+    "costa": {
+      "batch_id": "32719-337000-7334000",
+      "zone": 32719
+    },
+    "tropico": {
+      "batch_id": "32650-182000-16000",
+      "zone": 32650
+    },
+    "polar": {
+      "batch_id": "32761-1953000-2984000",
+      "zone": 32761
+    }
+  },
+  "phase_topography": {
+    "elapsed_s": 780.5,
+    "downloaded_tiles": 30,
+    "downloaded_mb": 730.0,
+    "download_failures": {},
+    "incomplete_batches": [],
+    "windows_by_stratum": {
+      "costa": {
+        "windows": 100,
+        "rankable": 91
+      },
+      "desierto": {
+        "windows": 100,
+        "rankable": 100
+      },
+      "polar": {
+        "windows": 100,
+        "rankable": 100
+      },
+      "montana": {
+        "windows": 100,
+        "rankable": 100
+      },
+      "tropico": {
+        "windows": 100,
+        "rankable": 100
+      }
+    }
+  },
+  "phase_cover_download": {
+    "elapsed_s": 829.1,
+    "windows": 491,
+    "blocks": 7,
+    "downloaded_mb": 815.9,
+    "cover_status": {
+      "no_cover_tile": 100,
+      "measured": 391
+    },
+    "download_failures": {
+      "occurrence_0E_80S_v1_5_2024.tif": "http_404",
+      "ESA_WorldCover_10m_2021_v200_S84E000_Map.tif": "http_404",
+      "ESA_WorldCover_10m_2021_v200_S81E000_Map.tif": "http_404",
+      "occurrence_10W_80S_v1_5_2024.tif": "http_404",
+      "ESA_WorldCover_10m_2021_v200_S84W003_Map.tif": "http_404",
+      "ESA_WorldCover_10m_2021_v200_S81W003_Map.tif": "http_404"
+    },
+    "asset_failures": {},
+    "s_per_window": 1.689
+  },
+  "phase_cover_range_sample": {
+    "elapsed_s": 19.1,
+    "windows": 50,
+    "cover_status": {
+      "no_cover_tile": 10,
+      "measured": 40
+    },
+    "s_per_window_wall": 0.382
+  },
+  "by_stratum": {
+    "montana": {
+      "windows": 100,
+      "rankable": 100,
+      "usable": 100,
+      "eligible_arid": 0,
+      "cover_status": {
+        "measured": 100
+      }
+    },
+    "tropico": {
+      "windows": 100,
+      "rankable": 100,
+      "usable": 100,
+      "eligible_arid": 0,
+      "cover_status": {
+        "measured": 100
+      }
+    },
+    "costa": {
+      "windows": 100,
+      "rankable": 91,
+      "usable": 91,
+      "eligible_arid": 88,
+      "cover_status": {
+        "measured": 91
+      }
+    },
+    "desierto": {
+      "windows": 100,
+      "rankable": 100,
+      "usable": 100,
+      "eligible_arid": 63,
+      "cover_status": {
+        "measured": 100
+      }
+    },
+    "polar": {
+      "windows": 100,
+      "rankable": 100,
+      "usable": 0,
+      "eligible_arid": 0,
+      "cover_status": {
+        "no_cover_tile": 100
+      }
+    }
+  },
+  "totals": {
+    "rankable": 491,
+    "usable": 391,
+    "s_per_usable_window": 4.117,
+    "mb_per_usable_window": 3.954
+  },
+  "world_store": {
+    "windows": 1793176,
+    "rankable": 1453572,
+    "rankable_pending_cover": 1453472,
+    "batches_recorded": 22303
+  },
+  "world_cover_extrapolation": {
+    "windows": 1453472,
+    "hours_at_benchmark_rate": 681.8,
+    "transfer_gb_at_benchmark_rate": 2415.2,
+    "note": "Ritmo medido con los mismos workers en 5 bloques; la reutilización de teselas en el barrido real (más ventanas por tesela) reduce bytes por ventana."
+  }
+}

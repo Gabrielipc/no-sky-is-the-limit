@@ -38,6 +38,9 @@ from analizar_dimensiones import geometry_descriptors
 import contrastar_topografia_utah as trial
 import explorar_fuentes_atlas as eda
 from armonizar_dimensiones_superficie import aggregate_emit_families, shannon_entropy_bits
+from pipelines import etl_surface_dimensions as surface_dims
+from pipelines import etl_surface_schema as surface_schema
+from pipelines import worldview_blind
 
 SPEC_PATH = ROOT / 'specs/analysis/contrato-comun-entrega3.json'
 HARMONIZATION_DIR = ROOT / 'docs/evidencia-armonizacion-superficie'
@@ -758,6 +761,22 @@ def build_common_contract_records(spec: dict) -> dict:
                 'note': 'Sin escena EMIT local precargada en esta ventana; consultable bajo demanda vía CMR/LP DAAC cuando el sitio supera filtros de etapa 2.',
             }
 
+        surface_spec = surface_dims.load_surface_spec()
+        surface_row = surface_dims.extract_surface_dimensions_window(sid, updated_at='2026-11-14T00:00:00Z')
+        official_surface_contract = {}
+        for dim_name, dim_cols in surface_schema.SURFACE_DIMENSIONS.items():
+            d_spec = surface_spec['dimensions'][dim_name]
+            primary_src = d_spec['sources']['primary']
+            status = surface_row[f'{dim_name}_status'] if site_meta['body'] == 'Earth' else 'unobserved_by_product'
+            official_surface_contract[dim_name] = {
+                'status': status,
+                'comparability_tier': d_spec['comparability_tier'],
+                'primary_product_id': primary_src['product_id'],
+                'doi': primary_src.get('doi'),
+                'valid_fraction': surface_row[f'{dim_name}_valid_fraction'],
+                'metrics': {c: surface_row[c] for c in dim_cols},
+            }
+
         site_records.append({
             'site_id': sid,
             'label': site_meta['label'],
@@ -769,6 +788,7 @@ def build_common_contract_records(spec: dict) -> dict:
             'eligibility_and_water_contract': eligibility,
             'thermal_contract': thermal_contract,
             'spectral_absorption_contract': spectral_contract,
+            'official_surface_dimensions_contract': official_surface_contract,
         })
 
     return {
@@ -778,17 +798,43 @@ def build_common_contract_records(spec: dict) -> dict:
     }
 
 
+def _compute_block_adjacency_stats(dev_blocks: list[dict], holdout_blocks: list[dict], geod: Geod) -> dict:
+    """Checks orthogonal and diagonal (Chebyshev <= 1 deg) adjacency within the same basin."""
+    adjacent_pairs = []
+    min_dist_km = float('inf')
+    for db in dev_blocks:
+        dlon, dlat = db['centroid_lon_lat']
+        for hb in holdout_blocks:
+            hlon, hlat = hb['centroid_lon_lat']
+            _, _, dist_m = geod.inv(dlon, dlat, hlon, hlat)
+            min_dist_km = min(min_dist_km, dist_m / 1000.0)
+            if (
+                db['area_id'] == hb['area_id']
+                and max(abs(db['lon_min'] - hb['lon_min']), abs(db['lat_min'] - hb['lat_min'])) <= 1
+            ):
+                adjacent_pairs.append([db['block_id'], hb['block_id']])
+    return {
+        'adjacent_dev_holdout_block_pairs': adjacent_pairs,
+        'adjacent_dev_holdout_block_pairs_count': len(adjacent_pairs),
+        'min_dev_to_holdout_centroid_distance_km': round(min_dist_km, 2) if dev_blocks and holdout_blocks else None,
+    }
+
+
 def partition_spatial_blocks(spec: dict) -> dict:
-    """Assigns deterministic 100x100 km blocks to development and holdout sets and verifies spatial separation."""
+    """Assigns leak-free spatial blocks (whole-basin primary + 1-block Chebyshev buffer secondary)."""
     p4 = json.loads(PHASE4_CANDIDATES.read_text())
     candidates = p4['candidates']
+    policy = spec['spatial_partition_policy']
+    holdout_basins = set(policy.get('holdout_basins', ['mojave']))
+    legacy_holdout = set(policy.get('legacy_holdout_blocks', []))
+    buffer_blocks = set(policy.get('buffer_blocks_1deg_chebyshev', []))
+    buffered_dev_ids = set(policy.get('buffered_development_blocks', []))
     geod = Geod(ellps='WGS84')
 
     blocks = {}
     for c in candidates:
         lon, lat = c['longitude'], c['latitude']
         area_id = c['area_id']
-        # 1.0 degree (~100 km) geographic block key within each basin
         bx = int(math.floor(lon))
         by = int(math.floor(lat))
         bkey = f'{area_id}:{bx:+04d}_{by:+03d}'
@@ -805,38 +851,68 @@ def partition_spatial_blocks(spec: dict) -> dict:
         blocks[bkey]['lats'].append(lat)
         blocks[bkey]['lons'].append(lon)
 
-    # Deterministic holdout assignment: 1 holdout block per region (eastmost/southmost block) so ~30% is held out
     by_area = {}
+    all_blocks = []
     for bkey, binfo in sorted(blocks.items()):
         binfo['window_count'] = len(binfo['windows'])
         binfo['centroid_lon_lat'] = [float(np.mean(binfo['lons'])), float(np.mean(binfo['lats']))]
+        binfo['in_legacy_holdout'] = bkey in legacy_holdout
         by_area.setdefault(binfo['area_id'], []).append(binfo)
+        all_blocks.append(binfo)
 
+    # Primary leak-free partition: reserve full basin(s) (`mojave`, 279 windows = 28.67%).
     dev_windows, holdout_windows = [], []
+    strict_no_legacy_dev_windows = []
+    buffered_dev_windows = []
     block_summaries = []
-    for area_id, blist in sorted(by_area.items()):
-        blist.sort(key=lambda b: (b['lon_min'], b['lat_min']))
-        # Reserve the last block(s) with substantial windows (~25-35% of region) as holdout
-        total_area_win = sum(b['window_count'] for b in blist)
-        acc_holdout = 0
-        for idx, b in enumerate(reversed(blist)):
-            if acc_holdout < 0.25 * total_area_win and idx < max(1, len(blist) // 3):
-                b['split'] = 'holdout'
-                acc_holdout += b['window_count']
-            else:
-                b['split'] = 'development'
-        for b in blist:
-            if b['split'] == 'holdout':
-                holdout_windows.extend(b['windows'])
-            else:
-                dev_windows.extend(b['windows'])
-            block_summaries.append({
-                'block_id': b['block_id'],
-                'area_id': b['area_id'],
-                'split': b['split'],
-                'window_count': b['window_count'],
-                'centroid_lon_lat': b['centroid_lon_lat'],
-            })
+    dev_block_objs, hold_block_objs = [], []
+    legacy_dev_objs, legacy_hold_objs = [], []
+    buf_dev_objs, buf_hold_objs, buf_mid_objs = [], [], []
+
+    for b in sorted(all_blocks, key=lambda x: x['block_id']):
+        bkey = b['block_id']
+        if b['area_id'] in holdout_basins:
+            b['split'] = 'holdout'
+            holdout_windows.extend(b['windows'])
+            hold_block_objs.append(b)
+        else:
+            b['split'] = 'development'
+            dev_windows.extend(b['windows'])
+            dev_block_objs.append(b)
+            if not b['in_legacy_holdout']:
+                strict_no_legacy_dev_windows.extend(b['windows'])
+
+        if b['in_legacy_holdout']:
+            legacy_hold_objs.append(b)
+        else:
+            legacy_dev_objs.append(b)
+
+        if bkey in buffered_dev_ids:
+            buf_split = 'development'
+            buffered_dev_windows.extend(b['windows'])
+            buf_dev_objs.append(b)
+        elif bkey in buffer_blocks:
+            buf_split = 'buffer_excluded'
+            buf_mid_objs.append(b)
+        else:
+            buf_split = 'holdout'
+            buf_hold_objs.append(b)
+
+        block_summaries.append({
+            'block_id': bkey,
+            'area_id': b['area_id'],
+            'split': b['split'],
+            'buffered_scheme_split': buf_split,
+            'in_legacy_holdout': b['in_legacy_holdout'],
+            'window_count': b['window_count'],
+            'centroid_lon_lat': b['centroid_lon_lat'],
+        })
+
+    primary_adj = _compute_block_adjacency_stats(dev_block_objs, hold_block_objs, geod)
+    legacy_adj = _compute_block_adjacency_stats(legacy_dev_objs, legacy_hold_objs, geod)
+    buffered_adj = _compute_block_adjacency_stats(buf_dev_objs, buf_hold_objs, geod)
+    strict_dev_objs = [b for b in dev_block_objs if not b['in_legacy_holdout']]
+    strict_adj = _compute_block_adjacency_stats(strict_dev_objs, hold_block_objs, geod)
 
     # Compute inter-basin distances (Utah vs Mojave vs Atacama)
     area_centroids = {}
@@ -856,30 +932,60 @@ def partition_spatial_blocks(spec: dict) -> dict:
             inter_area_distances_km[f'{a1}_vs_{a2}'] = round(dist_m / 1000.0, 2)
 
     return {
+        'strategy': policy['strategy'],
+        'primary_mode': policy['primary_mode'],
+        'holdout_basins': sorted(holdout_basins),
         'total_screening_windows': len(candidates),
         'development_windows_count': len(dev_windows),
         'holdout_windows_count': len(holdout_windows),
         'holdout_fraction': round(len(holdout_windows) / len(candidates), 4),
         'blocks_count': len(block_summaries),
-        'development_blocks_count': sum(1 for b in block_summaries if b['split'] == 'development'),
-        'holdout_blocks_count': sum(1 for b in block_summaries if b['split'] == 'holdout'),
+        'development_blocks_count': len(dev_block_objs),
+        'holdout_blocks_count': len(hold_block_objs),
+        **primary_adj,
         'inter_basin_distances_km': inter_area_distances_km,
         'min_inter_basin_distance_km': min(inter_area_distances_km.values()),
+        'strict_basin_dev_no_legacy_holdout': {
+            'development_windows_count': len(strict_no_legacy_dev_windows),
+            'development_blocks_count': len(strict_dev_objs),
+            'legacy_holdout_blocks_excluded': sorted(legacy_holdout & {b['block_id'] for b in all_blocks if b['area_id'] not in holdout_basins}),
+            **strict_adj,
+        },
+        'buffered_block_scheme': {
+            'scheme_id': 'chebyshev_1block_buffer_v1',
+            'development_windows_count': len(buffered_dev_windows),
+            'development_blocks_count': len(buf_dev_objs),
+            'buffer_windows_count': sum(b['window_count'] for b in buf_mid_objs),
+            'buffer_blocks_count': len(buf_mid_objs),
+            'holdout_windows_count': sum(b['window_count'] for b in buf_hold_objs),
+            'holdout_blocks_count': len(buf_hold_objs),
+            'unfrozen_prior_holdout_blocks_count': 0,
+            **buffered_adj,
+        },
+        'leakage_audit_prior_within_basin_split': {
+            'development_windows_count': sum(b['window_count'] for b in legacy_dev_objs),
+            'holdout_windows_count': sum(b['window_count'] for b in legacy_hold_objs),
+            **legacy_adj,
+        },
         'blocks': block_summaries,
         '_dev_windows': dev_windows,
         '_holdout_windows': holdout_windows,
+        '_strict_no_legacy_dev_windows': strict_no_legacy_dev_windows,
+        '_buffered_dev_windows': buffered_dev_windows,
     }
 
 
-def analyze_selection_and_redundancy(spec: dict, contract_data: dict, partition: dict) -> dict:
-    """Computes collinearity on development windows, sensor stability ratios, and formal feature decisions."""
-    dev_windows = partition.pop('_dev_windows')
-    _ = partition.pop('_holdout_windows')  # Frozen for Step 7; never used to select features!
+def _corr_pair(a, b) -> dict:
+    rho, _ = spearmanr(a, b)
+    r, _ = pearsonr(a, b)
+    return {'spearman_rho': round(float(rho), 4), 'pearson_r': round(float(r), 4), 'n': len(a)}
 
-    # 1. Collinearity on regional development windows (n = len(dev_windows)) at 300 m and 600 m
+
+def _compute_regional_collinearity(windows: list[dict]) -> dict:
+    """Computes Spearman/Pearson collinearity at 300 m and 600 m over a window list."""
     rel_300, p10_300, p50_300, p90_300 = [], [], [], []
     rel_600, p50_600, p90_600 = [], [], []
-    for w in dev_windows:
+    for w in windows:
         m300 = next(m for m in w['metrics'] if m['cell_m'] == 300)
         m600 = next(m for m in w['metrics'] if m['cell_m'] == 600)
         if m300['relief_p95_p5_m'] is not None and m600['relief_p95_p5_m'] is not None:
@@ -891,22 +997,33 @@ def analyze_selection_and_redundancy(spec: dict, contract_data: dict, partition:
             p50_600.append(m600['slope_quantiles_deg']['p50'])
             p90_600.append(m600['slope_quantiles_deg']['p90'])
 
-    def corr_pair(a, b):
-        rho, _ = spearmanr(a, b)
-        r, _ = pearsonr(a, b)
-        return {'spearman_rho': round(float(rho), 4), 'pearson_r': round(float(r), 4), 'n': len(a)}
-
-    regional_collinearity = {
+    return {
         'sample_size_development_windows': len(rel_300),
         'pairs': {
-            'relief_300m_vs_slope_p90_300m': corr_pair(rel_300, p90_300),
-            'relief_300m_vs_slope_p50_300m': corr_pair(rel_300, p50_300),
-            'slope_p50_300m_vs_slope_p90_300m': corr_pair(p50_300, p90_300),
-            'slope_p10_300m_vs_slope_p50_300m': corr_pair(p10_300, p50_300),
-            'relief_300m_vs_relief_600m': corr_pair(rel_300, rel_600),
-            'slope_p50_300m_vs_slope_p50_600m': corr_pair(p50_300, p50_600),
-            'slope_p90_300m_vs_slope_p90_600m': corr_pair(p90_300, p90_600),
+            'relief_300m_vs_slope_p90_300m': _corr_pair(rel_300, p90_300),
+            'relief_300m_vs_slope_p50_300m': _corr_pair(rel_300, p50_300),
+            'slope_p50_300m_vs_slope_p90_300m': _corr_pair(p50_300, p90_300),
+            'slope_p10_300m_vs_slope_p50_300m': _corr_pair(p10_300, p50_300),
+            'relief_300m_vs_relief_600m': _corr_pair(rel_300, rel_600),
+            'slope_p50_300m_vs_slope_p50_600m': _corr_pair(p50_300, p50_600),
+            'slope_p90_300m_vs_slope_p90_600m': _corr_pair(p90_300, p90_600),
         },
+    }
+
+
+def analyze_selection_and_redundancy(spec: dict, contract_data: dict, partition: dict) -> dict:
+    """Computes collinearity on leak-free development windows, sensor stability ratios, and formal feature decisions."""
+    dev_windows = partition.pop('_dev_windows')
+    _ = partition.pop('_holdout_windows')  # Frozen for Step 7; never used to select features!
+    strict_dev_windows = partition.pop('_strict_no_legacy_dev_windows')
+    buffered_dev_windows = partition.pop('_buffered_dev_windows')
+
+    # 1. Collinearity on leak-free regional development windows
+    regional_collinearity = _compute_regional_collinearity(dev_windows)
+    sensitivity_by_partition = {
+        'whole_basin_holdout': regional_collinearity,
+        'whole_basin_excluding_legacy_holdout': _compute_regional_collinearity(strict_dev_windows),
+        'buffered_1block_holdout': _compute_regional_collinearity(buffered_dev_windows),
     }
 
     # 2. High-resolution (30 m) collinearity across the 11 contract sites (3000 m window, 30 m cell)
@@ -923,11 +1040,11 @@ def analyze_selection_and_redundancy(spec: dict, contract_data: dict, partition:
     highres_collinearity = {
         'sample_size_sites_30m': len(rel_30),
         'pairs': {
-            'relief_30m_vs_slope_240m_p50': corr_pair(rel_30, s240_p50),
-            'relief_30m_vs_slope_240m_p90': corr_pair(rel_30, s240_p90),
-            'slope_240m_p50_vs_slope_240m_p90': corr_pair(s240_p50, s240_p90),
-            'slope_240m_p50_vs_roughness_360m_p50': corr_pair(s240_p50, r360_p50),
-            'relief_30m_vs_roughness_360m_p50': corr_pair(rel_30, r360_p50),
+            'relief_30m_vs_slope_240m_p50': _corr_pair(rel_30, s240_p50),
+            'relief_30m_vs_slope_240m_p90': _corr_pair(rel_30, s240_p90),
+            'slope_240m_p50_vs_slope_240m_p90': _corr_pair(s240_p50, s240_p90),
+            'slope_240m_p50_vs_roughness_360m_p50': _corr_pair(s240_p50, r360_p50),
+            'relief_30m_vs_roughness_360m_p50': _corr_pair(rel_30, r360_p50),
         },
     }
 
@@ -1046,37 +1163,37 @@ def analyze_selection_and_redundancy(spec: dict, contract_data: dict, partition:
         {
             'feature_id': 'abs_fe3_oxide_0p53_0p90um',
             'dimension': 'spectral_absorption',
-            'decision': 'approved_for_ranking',
+            'decision': 'approved_as_context_only',
             'comparability_tier': 'functional_contract_bridge',
-            'quantitative_evidence': 'Puente funcional entre CRISM BD530_2 (Jezero p50 = 0,144, p95 = 0,156) y EMIT Grupo 1 óxidos férricos (Atacama p50 = 0,106, p95 = 0,149; Utah p50 = 0,141, p95 = 0,163; 100 % de muestras minerales Grupo 1).',
+            'quantitative_evidence': 'Puente funcional entre CRISM BD530_2 (Jezero p50 = 0,144, p95 = 0,156) y EMIT Grupo 1 óxidos férricos (Atacama p50 = 0,106, p95 = 0,149; Utah p50 = 0,141, p95 = 0,163; 100 % de muestras minerales Grupo 1). Decisión revisada el 14/11/2026: los p50/p95 de CRISM son parámetros de banda continuos sobre toda la huella (IN = 0) y los de EMIT L2B son profundidades del mejor ajuste de biblioteca entre muestras identificadas; las fracciones tampoco comparten denominador ni umbral. Queda como contexto hasta calcular los mismos parámetros CRISM sobre reflectancia EMIT L2A.',
         },
         {
             'feature_id': 'abs_al_oh_2p20um',
             'dimension': 'spectral_absorption',
-            'decision': 'approved_for_ranking',
+            'decision': 'approved_as_context_only',
             'comparability_tier': 'functional_contract_bridge',
-            'quantitative_evidence': 'Conecta CRISM D2200/BD2210_2 (Jezero p95 = 0,0084) con filosilicatos de Al-OH en EMIT Grupo 2 (Utah: 99,6 % moscovita/illita + caolinita, n = 1590, p95 = 0,043; Atacama: 29,8 % montmorillonita + caolinita, n = 211, p95 = 0,051).',
+            'quantitative_evidence': 'Conecta CRISM D2200/BD2210_2 (Jezero p95 = 0,0084) con filosilicatos de Al-OH en EMIT Grupo 2 (Utah: 99,6 % moscovita/illita + caolinita, n = 1590, p95 = 0,043; Atacama: 29,8 % montmorillonita + caolinita, n = 211, p95 = 0,051). Decisión revisada el 14/11/2026: los p50/p95 de CRISM son parámetros de banda continuos sobre toda la huella (IN = 0) y los de EMIT L2B son profundidades del mejor ajuste de biblioteca entre muestras identificadas; las fracciones tampoco comparten denominador ni umbral. Queda como contexto hasta calcular los mismos parámetros CRISM sobre reflectancia EMIT L2A.',
         },
         {
             'feature_id': 'abs_fe_mg_oh_2p30um',
             'dimension': 'spectral_absorption',
-            'decision': 'approved_for_ranking',
+            'decision': 'approved_as_context_only',
             'comparability_tier': 'functional_contract_bridge',
-            'quantitative_evidence': 'Conecta CRISM D2300/BD2290 (Jezero p95 = 0,0121, firma clave de esmectita Fe/Mg en el abanico) con esmectitas/cloritas de EMIT Grupo 2 (Atacama: 1,8 %, n = 13 < 30 → insufficient_complex_sample; Utah: n = 1 < 30 → insufficient_complex_sample).',
+            'quantitative_evidence': 'Conecta CRISM D2300/BD2290 (Jezero p95 = 0,0121, firma clave de esmectita Fe/Mg en el abanico) con esmectitas/cloritas de EMIT Grupo 2 (Atacama: 1,8 %, n = 13 < 30 → insufficient_complex_sample; Utah: n = 1 < 30 → insufficient_complex_sample). Decisión revisada el 14/11/2026: los p50/p95 de CRISM son parámetros de banda continuos sobre toda la huella (IN = 0) y los de EMIT L2B son profundidades del mejor ajuste de biblioteca entre muestras identificadas; las fracciones tampoco comparten denominador ni umbral. Queda como contexto hasta calcular los mismos parámetros CRISM sobre reflectancia EMIT L2A.',
         },
         {
             'feature_id': 'abs_carbonate_2p30_2p50um',
             'dimension': 'spectral_absorption',
-            'decision': 'approved_for_ranking',
+            'decision': 'approved_as_context_only',
             'comparability_tier': 'functional_contract_bridge',
-            'quantitative_evidence': 'Conecta CRISM MIN2295_2480/BD2500_2 (Jezero p95 = +0,0013, max = +0,0087, 7,3 % de píxeles activos > 0) con carbonatos de EMIT Grupo 2 (Atacama: 43,1 % aragonito/dolomita/calcita, n = 305, p95 = 0,041; Utah: n = 5 < 30 → insufficient_complex_sample).',
+            'quantitative_evidence': 'Conecta CRISM MIN2295_2480/BD2500_2 (Jezero p95 = +0,0013, max = +0,0087, 7,3 % de píxeles activos > 0) con carbonatos de EMIT Grupo 2 (Atacama: 43,1 % aragonito/dolomita/calcita, n = 305, p95 = 0,041; Utah: n = 5 < 30 → insufficient_complex_sample). Decisión revisada el 14/11/2026: los p50/p95 de CRISM son parámetros de banda continuos sobre toda la huella (IN = 0) y los de EMIT L2B son profundidades del mejor ajuste de biblioteca entre muestras identificadas; las fracciones tampoco comparten denominador ni umbral. Queda como contexto hasta calcular los mismos parámetros CRISM sobre reflectancia EMIT L2A.',
         },
         {
             'feature_id': 'abs_hydrated_sioh_so4_1p9_2p26um',
             'dimension': 'spectral_absorption',
-            'decision': 'approved_for_ranking',
+            'decision': 'approved_as_context_only',
             'comparability_tier': 'functional_contract_bridge',
-            'quantitative_evidence': 'Conecta CRISM BD1900R2/BD2265 (Jezero p95 = 0,0074, max = 0,0302) con sílice hidratada y sulfatos en EMIT Grupo 2 (Atacama: 25,2 % calcedonia/vidrio basáltico hidratado + jarosita, n = 178, p95 = 0,061; Utah: 0 %, n = 0).',
+            'quantitative_evidence': 'Conecta CRISM BD1900R2/BD2265 (Jezero p95 = 0,0074, max = 0,0302) con sílice hidratada y sulfatos en EMIT Grupo 2 (Atacama: 25,2 % calcedonia/vidrio basáltico hidratado + jarosita, n = 178, p95 = 0,061; Utah: 0 %, n = 0). Decisión revisada el 14/11/2026: los p50/p95 de CRISM son parámetros de banda continuos sobre toda la huella (IN = 0) y los de EMIT L2B son profundidades del mejor ajuste de biblioteca entre muestras identificadas; las fracciones tampoco comparten denominador ni umbral. Queda como contexto hasta calcular los mismos parámetros CRISM sobre reflectancia EMIT L2A.',
         },
         {
             'feature_id': 'abs_mafic_fe2_1p0um',
@@ -1097,7 +1214,7 @@ def analyze_selection_and_redundancy(spec: dict, contract_data: dict, partition:
             'dimension': 'surface_eligibility_and_water',
             'decision': 'approved_as_eligibility_filter',
             'comparability_tier': 'planet_specific_constraint',
-            'quantitative_evidence': 'Error de muestreo <= 0,22 pp frente a intersección exacta en LAEA; actúa como compuerta dura de elegibilidad terrestre (bare_or_sparse >= 0,85, trees <= 0,05, built <= 0,02, permanent_water == 0 para análogos de superficie marciana).',
+            'quantitative_evidence': 'Error de muestreo <= 0,22 pp frente a intersección exacta en LAEA; actúa como compuerta de elegibilidad terrestre versionada por escenario en pipelines/etl_eligibility.py (perfil por defecto arid_mars_surface_v2: bare_or_sparse >= 0,85, trees <= 0,05, built <= 0,02, nieve/hielo <= 0,05 y agua <= 0,02 como máximo entre agua permanente de WorldCover y ocurrencia JRC >= 50 %).',
         },
         {
             'feature_id': 'jrc_water_occurrence_and_extent',
@@ -1127,11 +1244,54 @@ def analyze_selection_and_redundancy(spec: dict, contract_data: dict, partition:
             'comparability_tier': 'requires_on_demand_product',
             'quantitative_evidence': 'THEMIS TI es muy estable en Jezero (253,2 J m⁻² K⁻¹ s⁻¹/² a 1,8 km; Δ <= 0,87 ante traslación de 100 m), mientras Landsat LST varía 38,1 K entre invierno y verano en Utah. No se mezclan en distancia hasta calcular ATI diurna bajo demanda.',
         },
+        {
+            'feature_id': 'precip_mean_annual_mm_and_dry_months',
+            'dimension': 'aridity',
+            'decision': 'on_demand_contract_ready',
+            'comparability_tier': 'planet_specific_constraint',
+            'quantitative_evidence': 'Contrato formalizado en enrichment_surface con GPM IMERG v07B (DOI 10.5067/GPM/IMERGDF/DAY/07, ~0,1°) y contraste JAXA GSMaP v8; cobertura mínima >= 80 % para restringir aridez climática sin penalizar ventanas no consultadas.',
+        },
+        {
+            'feature_id': 'smap_sm_p50_and_p90_m3m3',
+            'dimension': 'soil_moisture',
+            'decision': 'on_demand_contract_ready',
+            'comparability_tier': 'planet_specific_constraint',
+            'quantitative_evidence': 'Sustituye la ambigüedad de NDMI por humedad volumétrica radiométrica SPL3SMP_E.006 a 9 km (DOI 10.5067/4DQ54OUIJ9DL) filtrada por bit 0 de retrieval_qual_flag y cobertura válida >= 80 %.',
+        },
+        {
+            'feature_id': 'mod10a1_snow_and_clear_days_fraction',
+            'dimension': 'snow_persistence',
+            'decision': 'on_demand_contract_ready',
+            'comparability_tier': 'planet_specific_constraint',
+            'quantitative_evidence': 'Supera las detecciones aisladas de Fmask con series diarias MODIS MOD10A1.061 a 500 m (DOI 10.5067/MODIS/MOD10A1.061, NDSI en [0, 100] y Basic QA <= 1) y contraste SGLI SICE 250 m.',
+        },
+        {
+            'feature_id': 'cci_permafrost_probability_and_alt_m',
+            'dimension': 'permafrost',
+            'decision': 'on_demand_contract_ready',
+            'comparability_tier': 'planet_specific_constraint',
+            'quantitative_evidence': 'Integra ESA CCI Permafrost v5.0 desde ESA Open Science Catalog (DOI 10.5285/6ef1a60b678f4048a20b5c8d94d665c9, 1 km, 1997-2023) para caracterización criosférica terrestre sin equipararla con hielo lunar.',
+        },
+        {
+            'feature_id': 'aster_emissivity_mafic_index_and_cf_um',
+            'dimension': 'thermal_emissivity',
+            'decision': 'on_demand_contract_ready',
+            'comparability_tier': 'functional_contract_bridge',
+            'quantitative_evidence': 'Adaptador ASTER GED v3 (AG100.003, 100 m, bandas 8,3-11,3 µm, DOI 10.5067/Community/ASTER_GED/AG100.003) hacia el rasgo de Christiansen de LRO Diviner y la emisividad térmica THEMIS.',
+        },
+        {
+            'feature_id': 's1_rtc_vv_vh_sigma0_and_ratio_db',
+            'dimension': 'sar_backscatter',
+            'decision': 'on_demand_contract_ready',
+            'comparability_tier': 'functional_contract_bridge',
+            'quantitative_evidence': 'Adaptador Sentinel-1 RTC (OPERA_L2_RTC-S1_V1 / CDSE, 20 m, DOI 10.5067/SNWG/OPERA_L2_RTC-S1_V1) con máscara de layover/sombra para rugosidad decamétrica y puente hacia Mini-RF.',
+        },
     ]
 
     return {
         'spatial_partition': partition,
         'regional_collinearity_development': regional_collinearity,
+        'sensitivity_by_partition_scheme': sensitivity_by_partition,
         'highres_collinearity_30m': highres_collinearity,
         'sensor_and_scale_stability': sensor_stability,
         'on_demand_architecture': on_demand_summary,
@@ -1293,11 +1453,28 @@ def main() -> None:
     print('3. Generando figura comparativa de contrato e instrumentos...', flush=True)
     plot_contract_and_selection(contract_data, selection_data)
 
+    print('4. Generando paquete de revisión visual a ciegas con NASA Worldview / GIBS...', flush=True)
+    earth_review_inputs = [
+        {
+            'region_id': s['site_id'],
+            'area_id': s['stratum'],
+            'lon_lat': s['lon_lat'],
+            'window_m': 3000,
+            'cell_m': 30,
+            **s['topography_contract']['3000']['30'],
+        }
+        for s in contract_data['sites']
+        if s['body'] == 'Earth'
+    ]
+    blind_pkg = worldview_blind.build_blind_review_package(earth_review_inputs)
+
     eda.write(OUT / 'contrato-features.json', contract_data)
     eda.write(OUT / 'seleccion-y-redundancia.json', selection_data)
+    eda.write(OUT / 'revision-ciegas-worldview.json', blind_pkg)
 
     tracked_files = [
         SPEC_PATH,
+        ROOT / 'specs/sources/dimensiones-superficie-oficiales-v1.json',
         Path(__file__),
         HARMONIZATION_DIR / 'mediciones.json',
         HARMONIZATION_DIR / 'features-piloto.json',
@@ -1305,6 +1482,7 @@ def main() -> None:
         PHASE4_CANDIDATES,
         OUT / 'contrato-features.json',
         OUT / 'seleccion-y-redundancia.json',
+        OUT / 'revision-ciegas-worldview.json',
         OUT / 'comparabilidad-e-instrumentos.png',
     ]
     eda.write(OUT / 'manifest.json', {

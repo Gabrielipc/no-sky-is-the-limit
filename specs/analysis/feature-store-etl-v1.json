@@ -12,7 +12,11 @@
     "compaction_thresholds": {
       "max_delta_files": 50,
       "max_delta_mb": 512
-    }
+    },
+    "partition_key_values_moon": [
+      "MOON_SPS",
+      "MOON_NPS"
+    ]
   },
   "duckdb_out_of_core": {
     "memory_limit": "2GB",
@@ -21,21 +25,32 @@
     "temp_directory_name": "duckdb_spill"
   },
   "enums": {
-    "body": ["Earth", "Mars"],
+    "body": [
+      "Earth",
+      "Mars",
+      "Moon"
+    ],
     "eligibility_status": [
       "mars_reference_surface",
+      "moon_reference_surface",
       "eligible_arid_exposed",
-      "excluded_dense_canopy",
-      "excluded_permanent_water",
-      "excluded_urban_or_ice",
+      "eligible_paleolake_margin",
+      "eligible_polar_cold_exposed",
       "excluded_insufficient_land",
-      "pending_on_demand_cover_check"
+      "pending_on_demand_cover_check",
+      "excluded_permanent_water",
+      "excluded_dense_canopy",
+      "excluded_built",
+      "excluded_snow_ice",
+      "excluded_vegetated_non_tree",
+      "excluded_urban_or_ice"
     ],
     "base_qa_status": [
       "rankable",
       "insufficient_dem_support",
       "insufficient_land",
-      "dem_unavailable"
+      "dem_unavailable",
+      "dem_fetch_failed"
     ],
     "feature_status": [
       "measured",
@@ -45,29 +60,231 @@
       "unobserved_by_product",
       "on_demand_fetchable",
       "no_swath_coverage"
+    ],
+    "eligibility_profile": [
+      "arid_mars_surface_v2",
+      "paleolake_margin_v1",
+      "polar_cold_v1",
+      "mars_reference",
+      "moon_reference"
+    ],
+    "cover_status": [
+      "measured",
+      "insufficient_cover_support",
+      "no_cover_tile",
+      "cover_fetch_failed",
+      "not_requested"
+    ],
+    "planetary_frame": [
+      "EARTH_WGS84",
+      "IAU_MARS",
+      "MOON_ME_DE421"
+    ],
+    "lunar_site_status": [
+      "base_candidate_illuminated",
+      "volatile_target_psr",
+      "excluded_steep",
+      "excluded_low_illumination",
+      "pending_illumination",
+      "pending_topography"
     ]
   },
   "tables": {
     "base_windows": {
       "path_pattern": "base/utm_zone_band=*/part_*.parquet",
-      "primary_key": ["region_id"],
-      "partition_by": ["utm_zone_band"],
+      "primary_key": [
+        "region_id"
+      ],
+      "partition_by": [
+        "utm_zone_band"
+      ],
       "description": "Tabla base densa generada en pasada batch: identidad espacial, contrato topográfico (base 240 m, halo 720 m) y contrato de elegibilidad/agua (WorldCover 10 m + JRC)."
     },
     "enrichment_spectral": {
       "path_pattern": "enrichment/spectral/delta_*.parquet",
-      "primary_key": ["region_id", "updated_at"],
+      "primary_key": [
+        "region_id",
+        "updated_at"
+      ],
       "description": "Deltas append-only y particiones compactadas para los 6 complejos funcionales de absorción (EMIT L2B/L2A y CRISM MTR3)."
     },
     "enrichment_temporal": {
       "path_pattern": "enrichment/temporal/delta_*.parquet",
-      "primary_key": ["region_id", "updated_at"],
+      "primary_key": [
+        "region_id",
+        "updated_at"
+      ],
       "description": "Deltas append-only para contexto óptico (HLS NDVI) y térmico (Landsat ST / THEMIS TI / ATI)."
     },
     "source_manifests": {
       "path_pattern": "manifests/sources_*.parquet",
-      "primary_key": ["source_manifest_id"],
-      "description": "Catálogo normalizado de procedencia (activos, URLs, SHA-256/ETags, resoluciones nativas y fechas) para evitar repetir metadatos largos en las tablas de ventanas."
+      "primary_key": [
+        "source_manifest_id"
+      ],
+      "description": "Catálogo normalizado de procedencia (activos, URLs, SHA-256/ETags, resoluciones nativas y fechas) para evitar repetir metadatos largos en las tablas de ventanas. Incluye crs_wkt (CRS nativo del activo), planetary_frame (EARTH_WGS84, IAU_MARS, MOON_ME_DE421), doi y product_version (ESA Open Science Catalog / NASA DAACs); los manifiestos anteriores sin esos campos quedan anulables."
+    },
+    "enrichment_framing": {
+      "path_pattern": "enrichment/framing/delta_*.parquet",
+      "primary_key": [
+        "region_id",
+        "updated_at"
+      ],
+      "description": "Etapa densificada: integral hipsométrica del mejor encuadre de la huella de 3 km en una retícula local (paso 300 m, hasta 600 m por eje), con rango, desplazamiento elegido, indicador de borde de retícula y descriptores topográficos en ese encuadre. Informativa: no entra en distance_score."
+    },
+    "enrichment_cover": {
+      "path_pattern": "enrichment/cover/delta_*.parquet",
+      "primary_key": [
+        "region_id",
+        "updated_at"
+      ],
+      "description": "Relleno de cobertura WorldCover 2021 + JRC GSW para ventanas ya calculadas (etl_pipeline.py cover). La vista base_windows superpone la fila más reciente por ventana sobre la base (estado, fracciones y elegibilidad), sin recalcular topografía."
+    },
+    "enrichment_lunar": {
+      "path_pattern": "enrichment/lunar/delta_*.parquet",
+      "primary_key": [
+        "region_id",
+        "updated_at"
+      ],
+      "description": "Dimensiones solo lunares de una ventana de la Luna (auditoría 2026-11-14 §2.1): iluminación promedio y fracción PSR (compuerta del sitio lunar), temperaturas Diviner y termofísica del regolito, y CPR de Mini-RF (puentes por percentil dentro de cada cuerpo). La topografía lunar vive en base_windows con la misma huella, partición MOON_SPS/MOON_NPS. Fuentes en specs/sources/luna-polar-sur-v1.json."
+    },
+    "enrichment_altimetry": {
+      "path_pattern": "enrichment/altimetry/delta_*.parquet",
+      "primary_key": [
+        "region_id",
+        "updated_at"
+      ],
+      "description": "Puente láser (auditoría 2026-11-14 §3): pendientes a lo largo de traza (20 y 100 m) y pendientes diferenciales (200 y 600 m) de los segmentos de terreno ICESat-2 ATL08 v007 en el núcleo de 3 km, y las mismas métricas de GLO-30 en los mismos segmentos más la diferencia de altura DEM − láser (mediana y NMAD, al elipsoide con EGM2008). Valida las features del DEM y comparte principio de medición con LOLA y MOLA. Fuentes en specs/sources/puentes-laser-radar-v1.json."
+    },
+    "enrichment_radar": {
+      "path_pattern": "enrichment/radar/delta_*.parquet",
+      "primary_key": [
+        "region_id",
+        "updated_at"
+      ],
+      "description": "Puente de radar polarimétrico (auditoría 2026-11-14 §3): razón de polarización circular CPR = γ⁰RR/γ⁰RL, potencia total S1 y grado de polarización de RCM compacto (CEOS-ARD, banda C) en el núcleo de 3 km, mediana por celda entre escenas sin nieve. Lado terrestre del CPR de Mini-RF (banda S): se compara por percentil dentro de cada cuerpo. Las filas de sitios de control usan region_id control-v1:<sitio>."
+    },
+    "enrichment_surface": {
+      "path_pattern": "enrichment/surface/delta_*.parquet",
+      "primary_key": [
+        "region_id",
+        "updated_at"
+      ],
+      "description": "Seis dimensiones de superficie bajo demanda con fuentes oficiales (auditoría 2026-11-14 §3): aridez (IMERG/GSMaP), humedad del suelo (SMAP L3), persistencia de nieve (MOD10A1/SICE), permafrost (ESA CCI Permafrost v5.0), emisividad térmica de silicatos (ASTER GED v3) y retrodispersión SAR en banda C (Sentinel-1 RTC / OPERA-S1). Especificación en specs/sources/dimensiones-superficie-oficiales-v1.json."
     }
+  },
+  "eligibility_profiles": {
+    "default": "arid_mars_surface_v2",
+    "legacy_statuses": [
+      "excluded_urban_or_ice"
+    ],
+    "min_land_fraction": 0.8,
+    "min_cover_support": 0.8,
+    "check_order": [
+      "land",
+      "cover_support",
+      "water",
+      "trees",
+      "built",
+      "snow_ice",
+      "exposure"
+    ],
+    "water_definition": "max(WorldCover permanent water fraction, JRC occurrence >= 50 % area fraction)",
+    "legacy_rows": "Rows without eligibility_profile resolve to pending_on_demand_cover_check under every profile until re-extracted.",
+    "profiles": {
+      "arid_mars_surface_v2": {
+        "eligible_status": "eligible_arid_exposed",
+        "exposed_fractions": [
+          "bare_or_sparse_fraction"
+        ],
+        "min_exposed": 0.85,
+        "max_water": 0.02,
+        "max_trees": 0.05,
+        "max_built": 0.02,
+        "max_snow_ice": 0.05,
+        "exposed_over_land_only": false,
+        "description": "Superficie árida expuesta análoga a Marte. Tolera hasta 2 % de agua (WorldCover permanente u ocurrencia JRC >= 50 %) en lugar de excluir por un píxel."
+      },
+      "paleolake_margin_v1": {
+        "eligible_status": "eligible_paleolake_margin",
+        "exposed_fractions": [
+          "bare_or_sparse_fraction"
+        ],
+        "min_exposed": 0.85,
+        "max_water": 0.3,
+        "max_trees": 0.05,
+        "max_built": 0.02,
+        "max_snow_ice": 0.05,
+        "exposed_over_land_only": true,
+        "description": "Márgenes de playas, salares y lagos efímeros (análogos de paleolago/delta). Admite agua hasta 30 % y mide la exposición sobre la tierra no acuática."
+      },
+      "polar_cold_v1": {
+        "eligible_status": "eligible_polar_cold_exposed",
+        "exposed_fractions": [
+          "bare_or_sparse_fraction",
+          "snow_ice_fraction",
+          "moss_lichen_fraction"
+        ],
+        "min_exposed": 0.85,
+        "max_water": 0.05,
+        "max_trees": 0.05,
+        "max_built": 0.02,
+        "max_snow_ice": null,
+        "exposed_over_land_only": false,
+        "description": "Terreno frío expuesto para analogías lunares polares. Suelo desnudo, nieve/hielo y musgo/líquenes cuentan como superficie expuesta."
+      }
+    }
+  },
+  "shape_features": {
+    "status": "measured_not_ranked",
+    "note": "Descriptores de forma de la huella (auditoría 2026-11-14 §1.1). Se guardan en base_windows; no entran en rank_similar hasta validar su aporte en ventanas de desarrollo y bloques reservados.",
+    "features": {
+      "hypsometric_integral": "(media - P5) / (P95 - P5) de la elevación en la huella; nulo si P95 - P5 < 2 m",
+      "elevation_skew_p95_p05": "(P95 + P5 - 2 P50) / (P95 - P5), en [-1, 1]; nulo si P95 - P5 < 2 m",
+      "aspect_240m_resultant_length": "Longitud resultante media de vectores unitarios descendentes con pendiente > 1° (base 240 m); nulo si < 10 % de celdas superan 1°",
+      "slope_240m_gt15_fraction": "Fracción de celdas válidas con pendiente > 15° (base 240 m)",
+      "slope_240m_gt25_fraction": "Fracción de celdas válidas con pendiente > 25° (base 240 m)"
+    },
+    "hypsometric_integral_usage": "Solo en la etapa densificada (etl_pipeline.py refine): estable hasta 300 m de desplazamiento (rho 0,94), no a 750 m (0,73)."
+  },
+  "batch_records": {
+    "path_pattern": "manifests/batches/<batch_id>.json",
+    "status": [
+      "complete",
+      "incomplete"
+    ],
+    "complete_when": "Ninguna ventana con qa_status dem_fetch_failed ni cover_status cover_fetch_failed.",
+    "identity": [
+      "grid_version",
+      "stride_m",
+      "window_m",
+      "cell_m",
+      "halo_m",
+      "slope_base_m",
+      "roughness_radius_m"
+    ],
+    "legacy_identity": {
+      "grid_version": "utm-ups-v1",
+      "stride_m": 10000,
+      "window_m": 3000,
+      "cell_m": 30,
+      "halo_m": 720,
+      "slope_base_m": 240,
+      "roughness_radius_m": 360
+    },
+    "resume": "Se omiten solo lotes complete con la misma identidad; los incomplete se reintentan. --reopen-legacy-gaps reprocesa lotes antiguos con dem_unavailable o insufficient_dem_support.",
+    "missing_tile_causes": [
+      "http_404",
+      "http_403"
+    ]
+  },
+  "moon": {
+    "grid_version": "moon-aeqd-v1",
+    "radius_m": 1737400.0,
+    "planetary_frame": "MOON_ME_DE421",
+    "measurement_grid": "Azimutal equidistante local sobre la esfera lunar, centrada en el sitio (como la referencia de Jezero).",
+    "partition": "Estereográfica polar por hemisferio: MOON_SPS (sur) y MOON_NPS (norte); solo |lat| >= 60°.",
+    "eligibility": "moon_reference_surface con perfil moon_reference; las fracciones de cobertura terrestre quedan nulas y cover_status = not_requested.",
+    "site_gate_profile": "lunar_polar_base_v1",
+    "sources_spec": "specs/sources/luna-polar-sur-v1.json"
   }
 }

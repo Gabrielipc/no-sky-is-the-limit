@@ -28,6 +28,7 @@ pytest = "*"
 matplotlib = "*"
 pillow = "*"
 nodejs = ">=22.17,<23"
+libgdal-hdf4 = ">=3.12.3,<4"
 
 [tasks]
 check-env = "python -c \"from pyproj import CRS; print(CRS.from_string('IAU_2015:49900').name); print(CRS.from_string('IAU_2015:30100').name)\""

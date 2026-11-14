@@ -1,0 +1,254 @@
+{
+  "spec_id": "luna-polar-sur-v1",
+  "description": "Referencias lunares del polo sur y productos para las dimensiones lunares (auditoría del 14 de noviembre de 2026, sección 2.1). La topografía se mide con la misma huella que en Tierra (3 km, halo 720 m, celda 30 m, base de pendiente 240 m, radio de rugosidad 360 m) en una rejilla local azimutal equidistante sobre la esfera lunar.",
+  "body": "Moon",
+  "radius_m": 1737400.0,
+  "planetary_frame": "MOON_ME_DE421",
+  "partition": "Estereográfica polar por hemisferio (MOON_SPS / MOON_NPS); solo sitios con |lat| >= 60°.",
+  "source_status_values": {
+    "confirmed": "Archivo, unidades y CRS verificados; se lee por ventana (HTTP 206) o desde una copia local.",
+    "pending_identity": "Producto oficial identificado, pero sin archivo, unidades o CRS confirmados. La dimensión queda on_demand_fetchable.",
+    "pending_adapter": "Archivo localizado en un formato que aún no tiene adaptador (p. ej. tabla ASCII). La dimensión queda on_demand_fetchable."
+  },
+  "sources": {
+    "lola_ldem_80s_20mpp": {
+      "status": "confirmed",
+      "product_id": "pgda-lola-ldem-80s-20mpp-adj",
+      "asset_id": "LDEM_80S_20MPP_ADJ.TIF",
+      "url": "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_20MPP_ADJ.TIF",
+      "product_page": "https://pgda.gsfc.nasa.gov/products/90",
+      "citation": "Barker et al. (2023), PSJ 4, 183, doi:10.3847/PSJ/acf3e1",
+      "format": "GeoTIFF optimizado para la nube (COG), float32, NaN como vacío",
+      "crs": "+proj=stere +lat_0=-90 +lat_ts=-90 +lon_0=0 +R=1737400 +units=m (marco MOON_ME de DE421)",
+      "native_resolution_m": 20.0,
+      "units": "m de altura sobre la esfera de 1737,4 km",
+      "scale": 1.0,
+      "offset": 0.0,
+      "valid_range_m": [
+        -9500.0,
+        11000.0
+      ],
+      "observation_period": "LOLA 2009-2022 (mosaico ajustado)",
+      "checked_on": "2026-11-14",
+      "limitations": [
+        "Interpolación entre trazas LOLA en latitudes < 85°S",
+        "Resolución efectiva inferior a 20 m donde la densidad de trazas es baja"
+      ]
+    },
+    "lola_lpsr_80s_20mpp": {
+      "status": "confirmed",
+      "product_id": "pgda-lola-lpsr-80s-20mpp-adj",
+      "asset_id": "LPSR_80S_20MPP_ADJ.TIF",
+      "url": "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LPSR_80S_20MPP_ADJ.TIF",
+      "product_page": "https://pgda.gsfc.nasa.gov/products/90",
+      "citation": "Barker et al. (2023), PSJ 4, 183",
+      "format": "GeoTIFF COG, float32, 1 = permanentemente sombreado, 0 = no",
+      "crs": "Igual que LDEM_80S_20MPP_ADJ",
+      "native_resolution_m": 20.0,
+      "units": "máscara 0/1",
+      "scale": 1.0,
+      "offset": 0.0,
+      "valid_range": [
+        0.0,
+        1.0
+      ],
+      "observation_period": "Geometría de iluminación de un ciclo de precesión, sobre el DEM ajustado",
+      "checked_on": "2026-11-14"
+    },
+    "lola_illumination_avg": {
+      "status": "pending_identity",
+      "product_id": "pgda-lunar-polar-illumination",
+      "asset_id": null,
+      "product_page": "https://pgda.gsfc.nasa.gov/products/69",
+      "citation": "Mazarico et al. (2011), Icarus 211, 1066; actualización PGDA 2018",
+      "note": "La página del producto no mostró el archivo de iluminación promedio al consultarla. Fijar archivo, unidades (fracción o %) y CRS antes de pasar a confirmed."
+    },
+    "diviner_tmax_south": {
+      "status": "pending_adapter",
+      "product_id": "LRO-L-DLRE-5-PRP-V2.0",
+      "asset_id": "dlre_prp_south.tab",
+      "url": "https://pds-geosciences.wustl.edu/lro/urn-nasa-pds-lro_diviner_derived1/data_derived_prp/dlre_prp_south.tab",
+      "bytes": 604800210,
+      "product_page": "https://pds-geosciences.wustl.edu/missions/lro/diviner.htm",
+      "format": "Tabla ASCII, 2 880 000 filas x 15 columnas (RECORD_BYTES = 210); estructura en DLRE_PRP.FMT",
+      "note": "Hace falta leer DLRE_PRP.FMT para fijar columnas (Tmax, Tmin, Tmedia), rejilla de 240 m y proyección, y rasterizar a GeoTIFF estereográfico antes de medir.",
+      "variable": "Temperatura bolométrica máxima (K), rasterizada desde la tabla PRP",
+      "units": "K"
+    },
+    "diviner_tmin_south": {
+      "status": "pending_adapter",
+      "product_id": "LRO-L-DLRE-5-PRP-V2.0",
+      "asset_id": "dlre_prp_south.tab",
+      "url": "https://pds-geosciences.wustl.edu/lro/urn-nasa-pds-lro_diviner_derived1/data_derived_prp/dlre_prp_south.tab",
+      "bytes": 604800210,
+      "product_page": "https://pds-geosciences.wustl.edu/missions/lro/diviner.htm",
+      "format": "Tabla ASCII, 2 880 000 filas x 15 columnas (RECORD_BYTES = 210); estructura en DLRE_PRP.FMT",
+      "note": "Hace falta leer DLRE_PRP.FMT para fijar columnas (Tmax, Tmin, Tmedia), rejilla de 240 m y proyección, y rasterizar a GeoTIFF estereográfico antes de medir.",
+      "variable": "Temperatura bolométrica mínima (K), rasterizada desde la tabla PRP",
+      "units": "K"
+    },
+    "diviner_rock_abundance": {
+      "status": "pending_identity",
+      "product_id": "diviner-rock-abundance-h-parameter",
+      "asset_id": null,
+      "citation": "Bandfield et al. (2011) para abundancia de rocas; Hayne et al. (2017) para el parámetro H",
+      "note": "No figuran por nombre en los paquetes Diviner de PDS Geosciences consultados. Verificar versión y ubicación.",
+      "variable": "Abundancia de rocas (fracción de área)",
+      "units": "fracción"
+    },
+    "diviner_h_parameter": {
+      "status": "pending_identity",
+      "product_id": "diviner-rock-abundance-h-parameter",
+      "asset_id": null,
+      "citation": "Bandfield et al. (2011) para abundancia de rocas; Hayne et al. (2017) para el parámetro H",
+      "note": "No figuran por nombre en los paquetes Diviner de PDS Geosciences consultados. Verificar versión y ubicación.",
+      "variable": "Parámetro H de la termofísica del regolito",
+      "units": "m"
+    },
+    "minirf_cpr": {
+      "status": "pending_identity",
+      "product_id": "LRO-L-MRFLRO-4-CDR-V1 (CDR-MOSAIC)",
+      "asset_id": null,
+      "product_page": "https://pds-geosciences.wustl.edu/missions/lro/mrf.htm",
+      "note": "Mosaicos polares en DATA/SAR/MOSAICS de los volúmenes LROMRF_0001-0005; falta fijar archivo, bandas S1/CPR y CRS.",
+      "variable": "Razón de polarización circular (CPR)",
+      "units": "adimensional"
+    },
+    "minirf_s1": {
+      "status": "pending_identity",
+      "product_id": "LRO-L-MRFLRO-4-CDR-V1 (CDR-MOSAIC)",
+      "asset_id": null,
+      "product_page": "https://pds-geosciences.wustl.edu/missions/lro/mrf.htm",
+      "note": "Mosaicos polares en DATA/SAR/MOSAICS de los volúmenes LROMRF_0001-0005; falta fijar archivo, bandas S1/CPR y CRS.",
+      "variable": "Primer parámetro de Stokes S1",
+      "units": "dB"
+    }
+  },
+  "dimensions": {
+    "illumination": {
+      "comparability_tier": "planet_specific_constraint",
+      "earth_counterpart": null,
+      "use": "Compuerta del sitio lunar; no entra en la analogía con Tierra.",
+      "layers": {
+        "illumination_mean_fraction": {
+          "source": "lola_illumination_avg",
+          "stat": "mean"
+        },
+        "illumination_p10_fraction": {
+          "source": "lola_illumination_avg",
+          "stat": "p10"
+        }
+      }
+    },
+    "psr": {
+      "comparability_tier": "planet_specific_constraint",
+      "earth_counterpart": null,
+      "use": "Compuerta: fracción de la huella permanentemente sombreada (objetivo de volátiles).",
+      "layers": {
+        "psr_fraction": {
+          "source": "lola_lpsr_80s_20mpp",
+          "stat": "mean"
+        }
+      }
+    },
+    "diviner_temperature": {
+      "comparability_tier": "functional_contract_bridge",
+      "earth_counterpart": "Climatología MODIS LST día/noche (MOD11A1/MYD11A1)",
+      "use": "Comparar por percentil dentro de cada cuerpo, nunca por kelvin absolutos.",
+      "layers": {
+        "diviner_tmax_p50_k": {
+          "source": "diviner_tmax_south",
+          "stat": "p50"
+        },
+        "diviner_tmin_p50_k": {
+          "source": "diviner_tmin_south",
+          "stat": "p50"
+        },
+        "diviner_tamp_p50_k": {
+          "source": "diviner_tmax_south",
+          "stat": "derived_difference",
+          "minus": "diviner_tmin_south"
+        }
+      }
+    },
+    "diviner_regolith": {
+      "comparability_tier": "functional_contract_bridge",
+      "earth_counterpart": "Inercia térmica aparente climatológica (MODIS ATI, auditoría §2.2)",
+      "use": "Comparar por percentil dentro de cada cuerpo.",
+      "layers": {
+        "diviner_rock_abundance_p50": {
+          "source": "diviner_rock_abundance",
+          "stat": "p50"
+        },
+        "diviner_h_parameter_p50_m": {
+          "source": "diviner_h_parameter",
+          "stat": "p50"
+        }
+      }
+    },
+    "minirf": {
+      "comparability_tier": "functional_contract_bridge",
+      "earth_counterpart": "RCM en polarimetría compacta (CPR, banda C) sobre Devon/Haughton",
+      "use": "Banda S (12,6 cm) frente a banda C (5,6 cm): comparar por percentil o normalizado por escala.",
+      "layers": {
+        "minirf_cpr_p50": {
+          "source": "minirf_cpr",
+          "stat": "p50"
+        },
+        "minirf_cpr_p90": {
+          "source": "minirf_cpr",
+          "stat": "p90"
+        },
+        "minirf_s1_p50_db": {
+          "source": "minirf_s1",
+          "stat": "p50"
+        }
+      }
+    }
+  },
+  "site_gate": {
+    "lunar_polar_base_v1": {
+      "min_psr_fraction_for_volatile_target": 0.5,
+      "max_slope_240m_p90_deg": 15.0,
+      "min_illumination_mean_fraction": 0.3,
+      "note": "Umbrales iniciales; validar contra las regiones candidatas de Artemis III antes de usarlos para ordenar sitios."
+    }
+  },
+  "topography_comparability": {
+    "tier": "direct_metric",
+    "earth_counterpart": "GLO-30 en la misma huella y base (base_windows); ArcticDEM como alternativa polar",
+    "note": "Relieve, pendiente P50/P90, rugosidad y descriptores de forma usan el mismo operador. El DEM lunar de 20 m interpola entre trazas: la comparación es directa en operador, no en resolución efectiva."
+  },
+  "sites": [
+    {
+      "id": "haworth-fondo",
+      "name": "Haworth — fondo del cráter",
+      "longitude": -5.0,
+      "latitude": -87.45,
+      "dem_source": "lola_ldem_80s_20mpp",
+      "rationale": "Región candidata de Artemis III y trampa fría con sombra permanente: referencia de volátiles para el escenario polar. Centro aproximado del fondo, comprobado con LOLA (ventana de 3 km a ~-3,3 km de altura y 100 % en el mapa PSR).",
+      "limitations": [
+        "Coordenadas aproximadas del fondo, no un sitio de aterrizaje publicado",
+        "El fondo está en sombra permanente: el DEM ahí depende solo de altimetría láser, sin sombreado fotométrico"
+      ]
+    },
+    {
+      "id": "de-gerlache-cresta",
+      "name": "Cresta de de Gerlache — punto C de Bussey et al. (2010)",
+      "longitude": -68.7,
+      "latitude": -88.71,
+      "dem_source": "lola_ldem_80s_20mpp",
+      "rationale": "Punto muy iluminado del borde de de Gerlache (85 % de iluminación anual en un punto, mínimo 64 % por día lunar): referencia del escenario de base permanente, frente al fondo en sombra de Haworth.",
+      "coordinate_source": {
+        "citation": "Bussey, D. B. J. et al. (2010), Icarus 208(2), 558-564, doi:10.1016/j.icarus.2010.03.028, tabla de puntos (punto C)",
+        "read_from": "Tabla reproducida en https://en.wikipedia.org/wiki/Peak_of_eternal_light (consultada el 2026-11-14); el artículo original no pudo leerse.",
+        "reported_illumination_point": 0.85,
+        "convention": "Latitud sur negativa, longitud oeste negativa"
+      },
+      "limitations": [
+        "Coordenadas de 2010 con dos decimales (0,01° de latitud ≈ 300 m) sobre una topografía anterior al DEM ajustado de 2023",
+        "La iluminación publicada es de un punto, no la media de la huella de 3 km; no se usa como valor de illumination_mean_fraction"
+      ]
+    }
+  ]
+}

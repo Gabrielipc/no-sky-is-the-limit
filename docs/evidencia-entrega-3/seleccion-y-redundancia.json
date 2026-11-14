@@ -1,53 +1,110 @@
 {
   "spatial_partition": {
+    "strategy": "whole_basin_and_buffered_block_holdout",
+    "primary_mode": "whole_basin_holdout",
+    "holdout_basins": [
+      "mojave"
+    ],
     "total_screening_windows": 973,
-    "development_windows_count": 716,
-    "holdout_windows_count": 257,
-    "holdout_fraction": 0.2641,
+    "development_windows_count": 694,
+    "holdout_windows_count": 279,
+    "holdout_fraction": 0.2867,
     "blocks_count": 16,
-    "development_blocks_count": 11,
-    "holdout_blocks_count": 5,
+    "development_blocks_count": 10,
+    "holdout_blocks_count": 6,
+    "adjacent_dev_holdout_block_pairs": [],
+    "adjacent_dev_holdout_block_pairs_count": 0,
+    "min_dev_to_holdout_centroid_distance_km": 527.07,
     "inter_basin_distances_km": {
       "atacama_vs_mojave": 8317.08,
       "atacama_vs_utah": 8239.8,
       "mojave_vs_utah": 662.17
     },
     "min_inter_basin_distance_km": 662.17,
+    "strict_basin_dev_no_legacy_holdout": {
+      "development_windows_count": 507,
+      "development_blocks_count": 7,
+      "legacy_holdout_blocks_excluded": [
+        "atacama:-068_-24",
+        "utah:-110_+38",
+        "utah:-110_+39"
+      ],
+      "adjacent_dev_holdout_block_pairs": [],
+      "adjacent_dev_holdout_block_pairs_count": 0,
+      "min_dev_to_holdout_centroid_distance_km": 527.07
+    },
+    "buffered_block_scheme": {
+      "scheme_id": "chebyshev_1block_buffer_v1",
+      "development_windows_count": 128,
+      "development_blocks_count": 4,
+      "buffer_windows_count": 588,
+      "buffer_blocks_count": 7,
+      "holdout_windows_count": 257,
+      "holdout_blocks_count": 5,
+      "unfrozen_prior_holdout_blocks_count": 0,
+      "adjacent_dev_holdout_block_pairs": [],
+      "adjacent_dev_holdout_block_pairs_count": 0,
+      "min_dev_to_holdout_centroid_distance_km": 125.0
+    },
+    "leakage_audit_prior_within_basin_split": {
+      "development_windows_count": 716,
+      "holdout_windows_count": 257,
+      "adjacent_dev_holdout_block_pairs": [
+        [
+          "atacama:-068_-25",
+          "atacama:-068_-24"
+        ],
+        [
+          "atacama:-069_-24",
+          "atacama:-068_-24"
+        ],
+        [
+          "atacama:-069_-25",
+          "atacama:-068_-24"
+        ],
+        [
+          "mojave:-117_+34",
+          "mojave:-116_+34"
+        ],
+        [
+          "mojave:-117_+34",
+          "mojave:-116_+35"
+        ],
+        [
+          "mojave:-117_+35",
+          "mojave:-116_+34"
+        ],
+        [
+          "mojave:-117_+35",
+          "mojave:-116_+35"
+        ],
+        [
+          "utah:-111_+38",
+          "utah:-110_+38"
+        ],
+        [
+          "utah:-111_+38",
+          "utah:-110_+39"
+        ],
+        [
+          "utah:-111_+39",
+          "utah:-110_+38"
+        ],
+        [
+          "utah:-111_+39",
+          "utah:-110_+39"
+        ]
+      ],
+      "adjacent_dev_holdout_block_pairs_count": 11,
+      "min_dev_to_holdout_centroid_distance_km": 64.83
+    },
     "blocks": [
-      {
-        "block_id": "atacama:-069_-25",
-        "area_id": "atacama",
-        "split": "development",
-        "window_count": 100,
-        "centroid_lon_lat": [
-          -68.45408807516758,
-          -24.49226639447879
-        ]
-      },
-      {
-        "block_id": "atacama:-069_-24",
-        "area_id": "atacama",
-        "split": "development",
-        "window_count": 110,
-        "centroid_lon_lat": [
-          -68.45077261833639,
-          -23.54427538575831
-        ]
-      },
-      {
-        "block_id": "atacama:-068_-25",
-        "area_id": "atacama",
-        "split": "development",
-        "window_count": 100,
-        "centroid_lon_lat": [
-          -67.46751737647357,
-          -24.49201356471789
-        ]
-      },
       {
         "block_id": "atacama:-068_-24",
         "area_id": "atacama",
-        "split": "holdout",
+        "split": "development",
+        "buffered_scheme_split": "holdout",
+        "in_legacy_holdout": true,
         "window_count": 111,
         "centroid_lon_lat": [
           -67.4752663987152,
@@ -55,49 +112,47 @@
         ]
       },
       {
-        "block_id": "mojave:-118_+34",
-        "area_id": "mojave",
+        "block_id": "atacama:-068_-25",
+        "area_id": "atacama",
         "split": "development",
-        "window_count": 20,
-        "centroid_lon_lat": [
-          -117.21387756929471,
-          34.7817798486838
-        ]
-      },
-      {
-        "block_id": "mojave:-118_+35",
-        "area_id": "mojave",
-        "split": "development",
-        "window_count": 44,
-        "centroid_lon_lat": [
-          -117.22021900787352,
-          35.502831875627415
-        ]
-      },
-      {
-        "block_id": "mojave:-117_+34",
-        "area_id": "mojave",
-        "split": "development",
-        "window_count": 45,
-        "centroid_lon_lat": [
-          -116.50372634272638,
-          34.78362172328858
-        ]
-      },
-      {
-        "block_id": "mojave:-117_+35",
-        "area_id": "mojave",
-        "split": "development",
+        "buffered_scheme_split": "buffer_excluded",
+        "in_legacy_holdout": false,
         "window_count": 100,
         "centroid_lon_lat": [
-          -116.4997218511462,
-          35.503153963881665
+          -67.46751737647357,
+          -24.49201356471789
+        ]
+      },
+      {
+        "block_id": "atacama:-069_-24",
+        "area_id": "atacama",
+        "split": "development",
+        "buffered_scheme_split": "buffer_excluded",
+        "in_legacy_holdout": false,
+        "window_count": 110,
+        "centroid_lon_lat": [
+          -68.45077261833639,
+          -23.54427538575831
+        ]
+      },
+      {
+        "block_id": "atacama:-069_-25",
+        "area_id": "atacama",
+        "split": "development",
+        "buffered_scheme_split": "buffer_excluded",
+        "in_legacy_holdout": false,
+        "window_count": 100,
+        "centroid_lon_lat": [
+          -68.45408807516758,
+          -24.49226639447879
         ]
       },
       {
         "block_id": "mojave:-116_+34",
         "area_id": "mojave",
         "split": "holdout",
+        "buffered_scheme_split": "holdout",
+        "in_legacy_holdout": true,
         "window_count": 25,
         "centroid_lon_lat": [
           -115.7389504706991,
@@ -108,6 +163,8 @@
         "block_id": "mojave:-116_+35",
         "area_id": "mojave",
         "split": "holdout",
+        "buffered_scheme_split": "holdout",
+        "in_legacy_holdout": true,
         "window_count": 45,
         "centroid_lon_lat": [
           -115.78129800549605,
@@ -115,29 +172,83 @@
         ]
       },
       {
-        "block_id": "utah:-112_+38",
-        "area_id": "utah",
-        "split": "development",
-        "window_count": 40,
+        "block_id": "mojave:-117_+34",
+        "area_id": "mojave",
+        "split": "holdout",
+        "buffered_scheme_split": "buffer_excluded",
+        "in_legacy_holdout": false,
+        "window_count": 45,
         "centroid_lon_lat": [
-          -111.20318277458144,
-          38.5068084264249
+          -116.50372634272638,
+          34.78362172328858
         ]
       },
       {
-        "block_id": "utah:-112_+39",
+        "block_id": "mojave:-117_+35",
+        "area_id": "mojave",
+        "split": "holdout",
+        "buffered_scheme_split": "buffer_excluded",
+        "in_legacy_holdout": false,
+        "window_count": 100,
+        "centroid_lon_lat": [
+          -116.4997218511462,
+          35.503153963881665
+        ]
+      },
+      {
+        "block_id": "mojave:-118_+34",
+        "area_id": "mojave",
+        "split": "holdout",
+        "buffered_scheme_split": "development",
+        "in_legacy_holdout": false,
+        "window_count": 20,
+        "centroid_lon_lat": [
+          -117.21387756929471,
+          34.7817798486838
+        ]
+      },
+      {
+        "block_id": "mojave:-118_+35",
+        "area_id": "mojave",
+        "split": "holdout",
+        "buffered_scheme_split": "development",
+        "in_legacy_holdout": false,
+        "window_count": 44,
+        "centroid_lon_lat": [
+          -117.22021900787352,
+          35.502831875627415
+        ]
+      },
+      {
+        "block_id": "utah:-110_+38",
         "area_id": "utah",
         "split": "development",
-        "window_count": 24,
+        "buffered_scheme_split": "holdout",
+        "in_legacy_holdout": true,
+        "window_count": 46,
         "centroid_lon_lat": [
-          -111.21030291474104,
-          39.22741504453805
+          -109.74996432325072,
+          38.529987069508955
+        ]
+      },
+      {
+        "block_id": "utah:-110_+39",
+        "area_id": "utah",
+        "split": "development",
+        "buffered_scheme_split": "holdout",
+        "in_legacy_holdout": true,
+        "window_count": 30,
+        "centroid_lon_lat": [
+          -109.76267454961281,
+          39.22720539142334
         ]
       },
       {
         "block_id": "utah:-111_+38",
         "area_id": "utah",
         "split": "development",
+        "buffered_scheme_split": "buffer_excluded",
+        "in_legacy_holdout": false,
         "window_count": 85,
         "centroid_lon_lat": [
           -110.49209147339745,
@@ -148,6 +259,8 @@
         "block_id": "utah:-111_+39",
         "area_id": "utah",
         "split": "development",
+        "buffered_scheme_split": "buffer_excluded",
+        "in_legacy_holdout": false,
         "window_count": 48,
         "centroid_lon_lat": [
           -110.51544052677382,
@@ -155,64 +268,190 @@
         ]
       },
       {
-        "block_id": "utah:-110_+38",
+        "block_id": "utah:-112_+38",
         "area_id": "utah",
-        "split": "holdout",
-        "window_count": 46,
+        "split": "development",
+        "buffered_scheme_split": "development",
+        "in_legacy_holdout": false,
+        "window_count": 40,
         "centroid_lon_lat": [
-          -109.74996432325072,
-          38.529987069508955
+          -111.20318277458144,
+          38.5068084264249
         ]
       },
       {
-        "block_id": "utah:-110_+39",
+        "block_id": "utah:-112_+39",
         "area_id": "utah",
-        "split": "holdout",
-        "window_count": 30,
+        "split": "development",
+        "buffered_scheme_split": "development",
+        "in_legacy_holdout": false,
+        "window_count": 24,
         "centroid_lon_lat": [
-          -109.76267454961281,
-          39.22720539142334
+          -111.21030291474104,
+          39.22741504453805
         ]
       }
     ]
   },
   "regional_collinearity_development": {
-    "sample_size_development_windows": 716,
+    "sample_size_development_windows": 694,
     "pairs": {
       "relief_300m_vs_slope_p90_300m": {
-        "spearman_rho": 0.9459,
-        "pearson_r": 0.9078,
-        "n": 716
+        "spearman_rho": 0.9471,
+        "pearson_r": 0.9022,
+        "n": 694
       },
       "relief_300m_vs_slope_p50_300m": {
-        "spearman_rho": 0.9544,
-        "pearson_r": 0.9251,
-        "n": 716
+        "spearman_rho": 0.9553,
+        "pearson_r": 0.9173,
+        "n": 694
       },
       "slope_p50_300m_vs_slope_p90_300m": {
-        "spearman_rho": 0.9245,
-        "pearson_r": 0.9078,
-        "n": 716
+        "spearman_rho": 0.9331,
+        "pearson_r": 0.9067,
+        "n": 694
       },
       "slope_p10_300m_vs_slope_p50_300m": {
-        "spearman_rho": 0.9258,
-        "pearson_r": 0.9066,
-        "n": 716
+        "spearman_rho": 0.9208,
+        "pearson_r": 0.8949,
+        "n": 694
       },
       "relief_300m_vs_relief_600m": {
         "spearman_rho": 0.9974,
-        "pearson_r": 0.997,
-        "n": 716
+        "pearson_r": 0.9967,
+        "n": 694
       },
       "slope_p50_300m_vs_slope_p50_600m": {
-        "spearman_rho": 0.985,
-        "pearson_r": 0.9768,
-        "n": 716
+        "spearman_rho": 0.9822,
+        "pearson_r": 0.9654,
+        "n": 694
       },
       "slope_p90_300m_vs_slope_p90_600m": {
-        "spearman_rho": 0.9813,
-        "pearson_r": 0.9739,
-        "n": 716
+        "spearman_rho": 0.9806,
+        "pearson_r": 0.9678,
+        "n": 694
+      }
+    }
+  },
+  "sensitivity_by_partition_scheme": {
+    "whole_basin_holdout": {
+      "sample_size_development_windows": 694,
+      "pairs": {
+        "relief_300m_vs_slope_p90_300m": {
+          "spearman_rho": 0.9471,
+          "pearson_r": 0.9022,
+          "n": 694
+        },
+        "relief_300m_vs_slope_p50_300m": {
+          "spearman_rho": 0.9553,
+          "pearson_r": 0.9173,
+          "n": 694
+        },
+        "slope_p50_300m_vs_slope_p90_300m": {
+          "spearman_rho": 0.9331,
+          "pearson_r": 0.9067,
+          "n": 694
+        },
+        "slope_p10_300m_vs_slope_p50_300m": {
+          "spearman_rho": 0.9208,
+          "pearson_r": 0.8949,
+          "n": 694
+        },
+        "relief_300m_vs_relief_600m": {
+          "spearman_rho": 0.9974,
+          "pearson_r": 0.9967,
+          "n": 694
+        },
+        "slope_p50_300m_vs_slope_p50_600m": {
+          "spearman_rho": 0.9822,
+          "pearson_r": 0.9654,
+          "n": 694
+        },
+        "slope_p90_300m_vs_slope_p90_600m": {
+          "spearman_rho": 0.9806,
+          "pearson_r": 0.9678,
+          "n": 694
+        }
+      }
+    },
+    "whole_basin_excluding_legacy_holdout": {
+      "sample_size_development_windows": 507,
+      "pairs": {
+        "relief_300m_vs_slope_p90_300m": {
+          "spearman_rho": 0.9485,
+          "pearson_r": 0.9049,
+          "n": 507
+        },
+        "relief_300m_vs_slope_p50_300m": {
+          "spearman_rho": 0.9567,
+          "pearson_r": 0.924,
+          "n": 507
+        },
+        "slope_p50_300m_vs_slope_p90_300m": {
+          "spearman_rho": 0.9313,
+          "pearson_r": 0.9073,
+          "n": 507
+        },
+        "slope_p10_300m_vs_slope_p50_300m": {
+          "spearman_rho": 0.9297,
+          "pearson_r": 0.901,
+          "n": 507
+        },
+        "relief_300m_vs_relief_600m": {
+          "spearman_rho": 0.9975,
+          "pearson_r": 0.9973,
+          "n": 507
+        },
+        "slope_p50_300m_vs_slope_p50_600m": {
+          "spearman_rho": 0.9832,
+          "pearson_r": 0.9743,
+          "n": 507
+        },
+        "slope_p90_300m_vs_slope_p90_600m": {
+          "spearman_rho": 0.9814,
+          "pearson_r": 0.9725,
+          "n": 507
+        }
+      }
+    },
+    "buffered_1block_holdout": {
+      "sample_size_development_windows": 128,
+      "pairs": {
+        "relief_300m_vs_slope_p90_300m": {
+          "spearman_rho": 0.9494,
+          "pearson_r": 0.9019,
+          "n": 128
+        },
+        "relief_300m_vs_slope_p50_300m": {
+          "spearman_rho": 0.939,
+          "pearson_r": 0.9357,
+          "n": 128
+        },
+        "slope_p50_300m_vs_slope_p90_300m": {
+          "spearman_rho": 0.8977,
+          "pearson_r": 0.8793,
+          "n": 128
+        },
+        "slope_p10_300m_vs_slope_p50_300m": {
+          "spearman_rho": 0.9181,
+          "pearson_r": 0.8938,
+          "n": 128
+        },
+        "relief_300m_vs_relief_600m": {
+          "spearman_rho": 0.9946,
+          "pearson_r": 0.9964,
+          "n": 128
+        },
+        "slope_p50_300m_vs_slope_p50_600m": {
+          "spearman_rho": 0.9851,
+          "pearson_r": 0.9737,
+          "n": 128
+        },
+        "slope_p90_300m_vs_slope_p90_600m": {
+          "spearman_rho": 0.9764,
+          "pearson_r": 0.9641,
+          "n": 128
+        }
       }
     }
   },
@@ -383,37 +622,37 @@
     {
       "feature_id": "abs_fe3_oxide_0p53_0p90um",
       "dimension": "spectral_absorption",
-      "decision": "approved_for_ranking",
+      "decision": "approved_as_context_only",
       "comparability_tier": "functional_contract_bridge",
-      "quantitative_evidence": "Puente funcional entre CRISM BD530_2 (Jezero p50 = 0,144, p95 = 0,156) y EMIT Grupo 1 óxidos férricos (Atacama p50 = 0,106, p95 = 0,149; Utah p50 = 0,141, p95 = 0,163; 100 % de muestras minerales Grupo 1)."
+      "quantitative_evidence": "Puente funcional entre CRISM BD530_2 (Jezero p50 = 0,144, p95 = 0,156) y EMIT Grupo 1 óxidos férricos (Atacama p50 = 0,106, p95 = 0,149; Utah p50 = 0,141, p95 = 0,163; 100 % de muestras minerales Grupo 1). Decisión revisada el 14/11/2026: los p50/p95 de CRISM son parámetros de banda continuos sobre toda la huella (IN = 0) y los de EMIT L2B son profundidades del mejor ajuste de biblioteca entre muestras identificadas; las fracciones tampoco comparten denominador ni umbral. Queda como contexto hasta calcular los mismos parámetros CRISM sobre reflectancia EMIT L2A."
     },
     {
       "feature_id": "abs_al_oh_2p20um",
       "dimension": "spectral_absorption",
-      "decision": "approved_for_ranking",
+      "decision": "approved_as_context_only",
       "comparability_tier": "functional_contract_bridge",
-      "quantitative_evidence": "Conecta CRISM D2200/BD2210_2 (Jezero p95 = 0,0084) con filosilicatos de Al-OH en EMIT Grupo 2 (Utah: 99,6 % moscovita/illita + caolinita, n = 1590, p95 = 0,043; Atacama: 29,8 % montmorillonita + caolinita, n = 211, p95 = 0,051)."
+      "quantitative_evidence": "Conecta CRISM D2200/BD2210_2 (Jezero p95 = 0,0084) con filosilicatos de Al-OH en EMIT Grupo 2 (Utah: 99,6 % moscovita/illita + caolinita, n = 1590, p95 = 0,043; Atacama: 29,8 % montmorillonita + caolinita, n = 211, p95 = 0,051). Decisión revisada el 14/11/2026: los p50/p95 de CRISM son parámetros de banda continuos sobre toda la huella (IN = 0) y los de EMIT L2B son profundidades del mejor ajuste de biblioteca entre muestras identificadas; las fracciones tampoco comparten denominador ni umbral. Queda como contexto hasta calcular los mismos parámetros CRISM sobre reflectancia EMIT L2A."
     },
     {
       "feature_id": "abs_fe_mg_oh_2p30um",
       "dimension": "spectral_absorption",
-      "decision": "approved_for_ranking",
+      "decision": "approved_as_context_only",
       "comparability_tier": "functional_contract_bridge",
-      "quantitative_evidence": "Conecta CRISM D2300/BD2290 (Jezero p95 = 0,0121, firma clave de esmectita Fe/Mg en el abanico) con esmectitas/cloritas de EMIT Grupo 2 (Atacama: 1,8 %, n = 13 < 30 → insufficient_complex_sample; Utah: n = 1 < 30 → insufficient_complex_sample)."
+      "quantitative_evidence": "Conecta CRISM D2300/BD2290 (Jezero p95 = 0,0121, firma clave de esmectita Fe/Mg en el abanico) con esmectitas/cloritas de EMIT Grupo 2 (Atacama: 1,8 %, n = 13 < 30 → insufficient_complex_sample; Utah: n = 1 < 30 → insufficient_complex_sample). Decisión revisada el 14/11/2026: los p50/p95 de CRISM son parámetros de banda continuos sobre toda la huella (IN = 0) y los de EMIT L2B son profundidades del mejor ajuste de biblioteca entre muestras identificadas; las fracciones tampoco comparten denominador ni umbral. Queda como contexto hasta calcular los mismos parámetros CRISM sobre reflectancia EMIT L2A."
     },
     {
       "feature_id": "abs_carbonate_2p30_2p50um",
       "dimension": "spectral_absorption",
-      "decision": "approved_for_ranking",
+      "decision": "approved_as_context_only",
       "comparability_tier": "functional_contract_bridge",
-      "quantitative_evidence": "Conecta CRISM MIN2295_2480/BD2500_2 (Jezero p95 = +0,0013, max = +0,0087, 7,3 % de píxeles activos > 0) con carbonatos de EMIT Grupo 2 (Atacama: 43,1 % aragonito/dolomita/calcita, n = 305, p95 = 0,041; Utah: n = 5 < 30 → insufficient_complex_sample)."
+      "quantitative_evidence": "Conecta CRISM MIN2295_2480/BD2500_2 (Jezero p95 = +0,0013, max = +0,0087, 7,3 % de píxeles activos > 0) con carbonatos de EMIT Grupo 2 (Atacama: 43,1 % aragonito/dolomita/calcita, n = 305, p95 = 0,041; Utah: n = 5 < 30 → insufficient_complex_sample). Decisión revisada el 14/11/2026: los p50/p95 de CRISM son parámetros de banda continuos sobre toda la huella (IN = 0) y los de EMIT L2B son profundidades del mejor ajuste de biblioteca entre muestras identificadas; las fracciones tampoco comparten denominador ni umbral. Queda como contexto hasta calcular los mismos parámetros CRISM sobre reflectancia EMIT L2A."
     },
     {
       "feature_id": "abs_hydrated_sioh_so4_1p9_2p26um",
       "dimension": "spectral_absorption",
-      "decision": "approved_for_ranking",
+      "decision": "approved_as_context_only",
       "comparability_tier": "functional_contract_bridge",
-      "quantitative_evidence": "Conecta CRISM BD1900R2/BD2265 (Jezero p95 = 0,0074, max = 0,0302) con sílice hidratada y sulfatos en EMIT Grupo 2 (Atacama: 25,2 % calcedonia/vidrio basáltico hidratado + jarosita, n = 178, p95 = 0,061; Utah: 0 %, n = 0)."
+      "quantitative_evidence": "Conecta CRISM BD1900R2/BD2265 (Jezero p95 = 0,0074, max = 0,0302) con sílice hidratada y sulfatos en EMIT Grupo 2 (Atacama: 25,2 % calcedonia/vidrio basáltico hidratado + jarosita, n = 178, p95 = 0,061; Utah: 0 %, n = 0). Decisión revisada el 14/11/2026: los p50/p95 de CRISM son parámetros de banda continuos sobre toda la huella (IN = 0) y los de EMIT L2B son profundidades del mejor ajuste de biblioteca entre muestras identificadas; las fracciones tampoco comparten denominador ni umbral. Queda como contexto hasta calcular los mismos parámetros CRISM sobre reflectancia EMIT L2A."
     },
     {
       "feature_id": "abs_mafic_fe2_1p0um",
@@ -434,7 +673,7 @@
       "dimension": "surface_eligibility_and_water",
       "decision": "approved_as_eligibility_filter",
       "comparability_tier": "planet_specific_constraint",
-      "quantitative_evidence": "Error de muestreo <= 0,22 pp frente a intersección exacta en LAEA; actúa como compuerta dura de elegibilidad terrestre (bare_or_sparse >= 0,85, trees <= 0,05, built <= 0,02, permanent_water == 0 para análogos de superficie marciana)."
+      "quantitative_evidence": "Error de muestreo <= 0,22 pp frente a intersección exacta en LAEA; actúa como compuerta de elegibilidad terrestre versionada por escenario en pipelines/etl_eligibility.py (perfil por defecto arid_mars_surface_v2: bare_or_sparse >= 0,85, trees <= 0,05, built <= 0,02, nieve/hielo <= 0,05 y agua <= 0,02 como máximo entre agua permanente de WorldCover y ocurrencia JRC >= 50 %)."
     },
     {
       "feature_id": "jrc_water_occurrence_and_extent",
@@ -463,6 +702,48 @@
       "decision": "approved_as_context_only",
       "comparability_tier": "requires_on_demand_product",
       "quantitative_evidence": "THEMIS TI es muy estable en Jezero (253,2 J m⁻² K⁻¹ s⁻¹/² a 1,8 km; Δ <= 0,87 ante traslación de 100 m), mientras Landsat LST varía 38,1 K entre invierno y verano en Utah. No se mezclan en distancia hasta calcular ATI diurna bajo demanda."
+    },
+    {
+      "feature_id": "precip_mean_annual_mm_and_dry_months",
+      "dimension": "aridity",
+      "decision": "on_demand_contract_ready",
+      "comparability_tier": "planet_specific_constraint",
+      "quantitative_evidence": "Contrato formalizado en enrichment_surface con GPM IMERG v07B (DOI 10.5067/GPM/IMERGDF/DAY/07, ~0,1°) y contraste JAXA GSMaP v8; cobertura mínima >= 80 % para restringir aridez climática sin penalizar ventanas no consultadas."
+    },
+    {
+      "feature_id": "smap_sm_p50_and_p90_m3m3",
+      "dimension": "soil_moisture",
+      "decision": "on_demand_contract_ready",
+      "comparability_tier": "planet_specific_constraint",
+      "quantitative_evidence": "Sustituye la ambigüedad de NDMI por humedad volumétrica radiométrica SPL3SMP_E.006 a 9 km (DOI 10.5067/4DQ54OUIJ9DL) filtrada por bit 0 de retrieval_qual_flag y cobertura válida >= 80 %."
+    },
+    {
+      "feature_id": "mod10a1_snow_and_clear_days_fraction",
+      "dimension": "snow_persistence",
+      "decision": "on_demand_contract_ready",
+      "comparability_tier": "planet_specific_constraint",
+      "quantitative_evidence": "Supera las detecciones aisladas de Fmask con series diarias MODIS MOD10A1.061 a 500 m (DOI 10.5067/MODIS/MOD10A1.061, NDSI en [0, 100] y Basic QA <= 1) y contraste SGLI SICE 250 m."
+    },
+    {
+      "feature_id": "cci_permafrost_probability_and_alt_m",
+      "dimension": "permafrost",
+      "decision": "on_demand_contract_ready",
+      "comparability_tier": "planet_specific_constraint",
+      "quantitative_evidence": "Integra ESA CCI Permafrost v5.0 desde ESA Open Science Catalog (DOI 10.5285/6ef1a60b678f4048a20b5c8d94d665c9, 1 km, 1997-2023) para caracterización criosférica terrestre sin equipararla con hielo lunar."
+    },
+    {
+      "feature_id": "aster_emissivity_mafic_index_and_cf_um",
+      "dimension": "thermal_emissivity",
+      "decision": "on_demand_contract_ready",
+      "comparability_tier": "functional_contract_bridge",
+      "quantitative_evidence": "Adaptador ASTER GED v3 (AG100.003, 100 m, bandas 8,3-11,3 µm, DOI 10.5067/Community/ASTER_GED/AG100.003) hacia el rasgo de Christiansen de LRO Diviner y la emisividad térmica THEMIS."
+    },
+    {
+      "feature_id": "s1_rtc_vv_vh_sigma0_and_ratio_db",
+      "dimension": "sar_backscatter",
+      "decision": "on_demand_contract_ready",
+      "comparability_tier": "functional_contract_bridge",
+      "quantitative_evidence": "Adaptador Sentinel-1 RTC (OPERA_L2_RTC-S1_V1 / CDSE, 20 m, DOI 10.5067/SNWG/OPERA_L2_RTC-S1_V1) con máscara de layover/sombra para rugosidad decamétrica y puente hacia Mini-RF."
     }
   ]
 }

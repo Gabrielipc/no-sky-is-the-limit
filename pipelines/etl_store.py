@@ -8,10 +8,30 @@ from tempfile import TemporaryDirectory
 
 import duckdb
 import pyarrow as pa
+from pyproj import CRS
 import pyarrow.parquet as pq
 
+from pipelines import atlas_sources as sources
 from pipelines import etl_contract as contract
+from pipelines import etl_eligibility as eligibility
 from pipelines import etl_extractors as extractors
+from pipelines import etl_framing as framing
+
+
+def eligibility_expression(profile_id: str) -> str:
+    """Eligibility of each stored window under `profile_id`.
+
+    Rows already gated with that profile keep their stored label (computed in float64
+    at extraction); other rows are re-gated in SQL from their stored cover fractions.
+    """
+    eligibility.get_profile(profile_id)
+    return (
+        f"CASE WHEN eligibility_profile = '{profile_id}' THEN analog_surface_eligibility "
+        f"ELSE {eligibility.sql_case(profile_id)} END"
+    )
+
+
+EARTH_ASSET_CRS_WKT = CRS.from_epsg(4326).to_wkt()
 
 
 class FeatureStore:
@@ -23,12 +43,44 @@ class FeatureStore:
         self.threads = threads
         self.spec = contract.load_store_spec()
         self.spill_dir = self.root / self.spec['duckdb_out_of_core']['temp_directory_name']
-        for sub in ('base', 'enrichment/spectral', 'enrichment/temporal', 'manifests', 'manifests/batches'):
+        for sub in ('base', *(f'enrichment/{e}' for e in contract.ENRICHMENT_SUBSETS), 'manifests', 'manifests/batches'):
             (self.root / sub).mkdir(parents=True, exist_ok=True)
 
-    def completed_batch_ids(self) -> set[str]:
+    def batch_records(self) -> dict[str, dict]:
         bdir = self.root / 'manifests' / 'batches'
-        return {p.stem for p in bdir.glob('*.json')}
+        records = {}
+        for path in bdir.glob('*.json'):
+            try:
+                records[path.stem] = json.loads(path.read_text(encoding='utf-8'))
+            except (OSError, ValueError):
+                records[path.stem] = {'status': 'unreadable'}
+        return records
+
+    def completed_batch_ids(self, identity: dict | None = None) -> set[str]:
+        """Batches to skip on resume: status complete and, if given, the same run identity.
+
+        Records written before statuses and identities existed count as complete with
+        `extractors.LEGACY_RUN_IDENTITY`. Incomplete batches are therefore retried.
+        """
+        done = set()
+        for batch_id, meta in self.batch_records().items():
+            if meta.get('status', 'complete') != 'complete':
+                continue
+            if identity is not None and meta.get('identity', extractors.LEGACY_RUN_IDENTITY) != identity:
+                continue
+            done.add(batch_id)
+        return done
+
+    def incomplete_batch_ids(self) -> set[str]:
+        return {b for b, m in self.batch_records().items() if m.get('status', 'complete') != 'complete'}
+
+    def batches_with_qa(self, statuses: tuple[str, ...]) -> set[str]:
+        """Batch ids whose stored windows include any of `statuses` (e.g. legacy dem_unavailable)."""
+        placeholders = ', '.join('?' for _ in statuses)
+        with self._connect() as conn:
+            return {r[0] for r in conn.execute(
+                f'SELECT DISTINCT batch_id FROM base_windows WHERE qa_status IN ({placeholders})', list(statuses)
+            ).fetchall()}
 
     def mark_batch_completed(self, batch_id: str, meta: dict) -> Path:
         bdir = self.root / 'manifests' / 'batches'
@@ -48,7 +100,17 @@ class FeatureStore:
     def _write_manifests(self, manifests: list[dict]) -> None:
         if not manifests:
             return
-        dedup = {(m['source_manifest_id'], m['asset_id']): m for m in manifests}
+        # Earth extractors predate the planetary frame: their GLO-30/WorldCover/JRC tiles are EPSG:4326.
+        earth = {'crs_wkt': EARTH_ASSET_CRS_WKT, 'planetary_frame': 'EARTH_WGS84'}
+        dedup = {}
+        for m in manifests:
+            enriched = dict(m) if 'planetary_frame' in m else {**earth, **m}
+            prov = sources.catalog_provenance(enriched['product_id'])
+            if 'doi' not in enriched:
+                enriched['doi'] = prov['doi']
+            if 'product_version' not in enriched:
+                enriched['product_version'] = prov['product_version']
+            dedup[(enriched['source_manifest_id'], enriched['asset_id'])] = enriched
         table = contract.validate_table(
             pa.Table.from_pylist(list(dedup.values()), schema=contract.SOURCE_MANIFESTS_SCHEMA),
             'source_manifests',
@@ -91,7 +153,7 @@ class FeatureStore:
 
     def append_enrichment(self, subset: str, rows: list[dict], manifests: list[dict] | None = None) -> Path | None:
         """Append on-demand enrichment rows as an immutable delta Parquet file."""
-        if subset not in ('spectral', 'temporal'):
+        if subset not in contract.ENRICHMENT_SUBSETS:
             raise ValueError(f'Subconjunto de enriquecimiento inválido: {subset}')
         if not rows:
             return None
@@ -121,21 +183,24 @@ class FeatureStore:
             return self.compact(subset)
         return None
 
-    def query_candidates_for_enrichment(self, limit: int = 50) -> list[dict]:
+    def query_candidates_for_enrichment(
+        self, limit: int = 50, profile: str = eligibility.DEFAULT_PROFILE,
+    ) -> list[dict]:
         """Return eligible, rankable windows whose spectral module is still on_demand_fetchable."""
+        p = eligibility.get_profile(profile)
         with self._connect() as conn:
             cur = conn.execute(
-                """
+                f"""
                 SELECT region_id, longitude, latitude, utm_zone_band, relief_p95_p05_m, slope_240m_p50_deg
                 FROM features_unified
                 WHERE body = 'Earth'
                   AND qa_status = 'rankable'
-                  AND analog_surface_eligibility = 'eligible_arid_exposed'
+                  AND ({eligibility_expression(profile)}) = ?
                   AND abs_al_oh_2p20um_status = 'on_demand_fetchable'
                 ORDER BY region_id
                 LIMIT ?
                 """,
-                [limit],
+                [p.eligible_status, limit],
             )
             cols = [c[0] for c in cur.description]
             return [dict(zip(cols, r)) for r in cur.fetchall()]
@@ -148,12 +213,22 @@ class FeatureStore:
         weights: tuple[float, float, float] = (0.4, 0.35, 0.25),
         limit: int = 25,
         only_eligible: bool = True,
+        profile: str = eligibility.DEFAULT_PROFILE,
+        ref_hypsometric_integral: float | None = None,
     ) -> list[dict]:
-        """Out-of-core DuckDB similarity ranking using Entrega 3 topographic contract."""
+        """Out-of-core DuckDB similarity ranking using Entrega 3 topographic contract.
+
+        `profile` selects the scenario eligibility gate; `only_eligible=False` keeps
+        every rankable window but still reports its status under that profile.
+        With `ref_hypsometric_integral`, windows refined by best framing also report
+        `hi_best_abs_delta`; it is informative only and does not enter `distance_score`.
+        """
         w_rel, w_s50, w_s90 = weights
+        p = eligibility.get_profile(profile)
+        elig_sql = eligibility_expression(profile)
         where_clauses = ["body = 'Earth'", "qa_status = 'rankable'"]
         if only_eligible:
-            where_clauses.append("analog_surface_eligibility = 'eligible_arid_exposed'")
+            where_clauses.append(f"({elig_sql}) = '{p.eligible_status}'")
         where_sql = ' AND '.join(where_clauses)
 
         with self._connect() as conn:
@@ -176,7 +251,10 @@ class FeatureStore:
                     longitude,
                     latitude,
                     utm_zone_band,
+                    ({elig_sql}) AS scenario_eligibility,
+                    '{profile}' AS scenario_profile,
                     analog_surface_eligibility,
+                    eligibility_profile,
                     relief_p95_p05_m,
                     slope_240m_p50_deg,
                     slope_240m_p90_deg,
@@ -187,6 +265,16 @@ class FeatureStore:
                     abs_carbonate_2p30_2p50um_status,
                     hls_status,
                     thermal_status,
+                    framing_status,
+                    hi_center,
+                    hi_best,
+                    hi_min,
+                    hi_max,
+                    best_offset_east_m,
+                    best_offset_north_m,
+                    best_at_lattice_edge,
+                    best_relief_p95_p05_m,
+                    abs(hi_best - CAST(? AS DOUBLE)) AS hi_best_abs_delta,
                     (
                         ? * (abs(relief_p95_p05_m - ?) / ?) +
                         ? * (abs(slope_240m_p50_deg - ?) / ?) +
@@ -197,10 +285,81 @@ class FeatureStore:
                 ORDER BY distance_score ASC
                 LIMIT ?
                 """,
-                [w_rel, ref_relief_m, s_rel, w_s50, ref_slope_p50_deg, s_s50, w_s90, ref_slope_p90_deg, s_s90, limit],
+                [ref_hypsometric_integral, w_rel, ref_relief_m, s_rel, w_s50, ref_slope_p50_deg, s_s50,
+                 w_s90, ref_slope_p90_deg, s_s90, limit],
             )
             cols = [c[0] for c in cur.description]
             return [dict(zip(cols, r)) for r in cur.fetchall()]
+
+    def rank_densified(
+        self,
+        ref_relief_m: float,
+        ref_hypsometric_integral: float,
+        lattice_step_m: int = framing.DEFAULT_STEP_M,
+        max_offset_m: int = framing.DEFAULT_MAX_OFFSET_M,
+        limit: int = 25,
+        profile: str = eligibility.DEFAULT_PROFILE,
+    ) -> list[dict]:
+        """Densified-stage ranking of framed candidates by relief and hypsometric integral.
+
+        `refine` chose each best framing by minimising `framing.densified_distance`; this
+        ranks candidates by that same distance (fixed weights and framing-step scales),
+        so selection and ranking cannot disagree. Only windows framed jointly against the
+        same reference relief and integral and the same lattice enter. Slopes are
+        reported but do not enter: they repeat the relief axis (rank correlation ~0.9).
+        """
+        (w_rel, w_hi), (s_rel, s_hi) = framing.DENSIFIED_WEIGHTS, framing.DENSIFIED_SCALES
+        p = eligibility.get_profile(profile)
+        elig_sql = eligibility_expression(profile)
+        where_sql = f"""
+            body = 'Earth' AND qa_status = 'rankable'
+            AND ({elig_sql}) = '{p.eligible_status}'
+            AND framing_status = 'measured'
+            AND framing_criterion = '{framing.FRAMING_CRITERION}'
+            AND hi_best IS NOT NULL AND best_relief_p95_p05_m IS NOT NULL
+            AND abs(framing_reference_hi - CAST(? AS DOUBLE)) <= {framing.REFERENCE_HI_TOLERANCE}
+            AND abs(framing_reference_relief_m - CAST(? AS DOUBLE)) <= {framing.REFERENCE_RELIEF_TOLERANCE_M}
+            AND framing_step_m = ? AND framing_max_offset_m = ?
+        """
+        filt = [ref_hypsometric_integral, ref_relief_m, lattice_step_m, max_offset_m]
+
+        with self._connect() as conn:
+            if 'framing_criterion' not in {c[0] for c in conn.execute('DESCRIBE features_unified').fetchall()}:
+                return []
+            n = conn.execute(f'SELECT count(*) FROM features_unified WHERE {where_sql}', filt).fetchone()[0]
+            if not n:
+                return []
+            cur = conn.execute(
+                f"""
+                SELECT
+                    region_id, longitude, latitude, utm_zone_band,
+                    ({elig_sql}) AS scenario_eligibility,
+                    '{profile}' AS scenario_profile,
+                    relief_p95_p05_m, slope_240m_p50_deg, slope_240m_p90_deg,
+                    hi_center, hi_best, hi_min, hi_max,
+                    best_offset_east_m, best_offset_north_m, best_at_lattice_edge,
+                    best_relief_p95_p05_m, best_aspect_240m_resultant_length,
+                    framing_step_m, framing_max_offset_m,
+                    center_distance_score,
+                    abs(best_relief_p95_p05_m - CAST(? AS DOUBLE)) / {s_rel} AS relief_term,
+                    abs(hi_best - CAST(? AS DOUBLE)) / {s_hi} AS hi_term,
+                    {w_rel} * abs(best_relief_p95_p05_m - CAST(? AS DOUBLE)) / {s_rel}
+                      + {w_hi} * abs(hi_best - CAST(? AS DOUBLE)) / {s_hi} AS distance_score,
+                    '{framing.DENSIFIED_VECTOR_ID}' AS ranking_vector,
+                    '{framing.DENSIFIED_VECTOR_STATUS}' AS ranking_vector_status
+                FROM features_unified
+                WHERE {where_sql}
+                ORDER BY distance_score ASC, region_id
+                LIMIT ?
+                """,
+                [ref_relief_m, ref_hypsometric_integral, ref_relief_m, ref_hypsometric_integral, *filt, limit],
+            )
+            cols = [c[0] for c in cur.description]
+            rows = [dict(zip(cols, r)) for r in cur.fetchall()]
+        for rank, row in enumerate(rows, 1):
+            row['densified_rank'] = rank
+            row['candidates_compared'] = n
+        return rows
 
     def store_stats(self) -> dict:
         """Return storage footprint vs 100 GB budget and row/enrichment counts."""
@@ -212,6 +371,16 @@ class FeatureStore:
             by_elig = dict(conn.execute(
                 'SELECT analog_surface_eligibility, count(*) FROM base_windows GROUP BY analog_surface_eligibility'
             ).fetchall())
+            by_profile = {
+                pid: dict(conn.execute(
+                    f"SELECT ({eligibility_expression(pid)}) AS s, count(*) FROM base_windows "
+                    "WHERE body = 'Earth' GROUP BY s"
+                ).fetchall())
+                for pid in eligibility.PROFILES
+            }
+            legacy_rows = conn.execute(
+                "SELECT count(*) FROM base_windows WHERE body = 'Earth' AND eligibility_profile IS NULL"
+            ).fetchone()[0]
             enriched_spectral = conn.execute(
                 "SELECT count(*) FROM features_unified WHERE abs_al_oh_2p20um_status != 'on_demand_fetchable' AND body = 'Earth'"
             ).fetchone()[0]
@@ -224,5 +393,7 @@ class FeatureStore:
             'budget_used_pct': round((total_bytes / max_bytes) * 100, 4),
             'total_windows': total_rows,
             'by_eligibility': by_elig,
+            'by_scenario_profile': by_profile,
+            'legacy_rows_needing_reextraction': legacy_rows,
             'enriched_spectral_earth': enriched_spectral,
         }
