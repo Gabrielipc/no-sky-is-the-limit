@@ -39,7 +39,7 @@ import {
   sharedRange,
   type VisualSite,
 } from "./terrainModel";
-import { useCatalog, useGrid } from "./resources";
+import { prefetchGrids, useCatalog, useGrid } from "./resources";
 import "./unified.css";
 
 const EMPTY: never[] = [];
@@ -89,6 +89,15 @@ export function UnifiedWorkspace({
   }, [data, state.regionId, update]);
   const leftSite = exactSite(catalog.data, ref.id, ref.longitude, ref.latitude, kind),
     rightSite = row ? exactSite(catalog.data, row.region_id, row.longitude, row.latitude, kind) : undefined;
+  useEffect(() => {
+    if (ref.id !== "jezero" || !catalog.data || !data) return;
+    const sites = data.results.slice(0, 10).flatMap((candidate) =>
+      (["regional", "local"] as const).map((scale) =>
+        exactSite(catalog.data, candidate.region_id, candidate.longitude, candidate.latitude, scale),
+      ).filter((site): site is VisualSite => !!site),
+    );
+    return prefetchGrids(sites);
+  }, [ref.id, catalog.data, data]);
   const left = useGrid(leftSite, state.surfaceMode !== "space"),
     right = useGrid(rightSite, state.surfaceMode !== "space");
   const range = useMemo(
