@@ -48,7 +48,7 @@ cleanup_and_exit() {
     SYNC_LOCK_WAIT_S=300 bash "$WORKDIR/cloud/gcp/sync-outputs.sh" || true
     if [[ "$WRITE_SNAPSHOT" == "1" && -d "$WORKDIR/data/feature_store_v1/base" ]]; then
         log "Writing store snapshot ${STORE_SNAPSHOT}..."
-        tar -C "$WORKDIR/data" --exclude='duckdb_spill' --exclude='.stream_tmp' --exclude='tmp*' --format=gnu -cf - feature_store_v1 \
+        tar -C "$WORKDIR/data" --exclude='duckdb_spill' --exclude='.stream_tmp' --exclude='tmp*' --exclude='._*' --format=gnu -cf - feature_store_v1 \
             | gcloud storage cp - "${STORE_SNAPSHOT}.part-$(hostname)" \
             && gcloud storage mv "${STORE_SNAPSHOT}.part-$(hostname)" "$STORE_SNAPSHOT" || log "WARNING: snapshot not written"
     fi
@@ -114,11 +114,15 @@ if gcloud storage ls "$STORE_SNAPSHOT" >/dev/null 2>&1; then
     # serial console (~70 lines/s) then paces the whole extraction. Drop those warnings.
     gcloud storage cat "$STORE_SNAPSHOT" | tar -x --warning=no-unknown-keyword -C "$WORKDIR/data" 2>/dev/null \
         || log "WARNING: snapshot not restored"
+    # macOS archives also carry AppleDouble `._*` files next to every file; DuckDB would try to read
+    # `._part_*.parquet` as Parquet. They hold no data.
+    find "$WORKDIR/data/feature_store_v1" -name '._*' -delete
 fi
 log "Completing the store with files newer than the snapshot..."
-gcloud storage rsync -r --no-clobber "${GCS_BUCKET}/data/feature_store_v1" "$WORKDIR/data/feature_store_v1" 2>&1 \
+APPLEDOUBLE='(^|/)\._'
+gcloud storage rsync -r --no-clobber --exclude="$APPLEDOUBLE" "${GCS_BUCKET}/data/feature_store_v1" "$WORKDIR/data/feature_store_v1" 2>&1 \
     | grep -v '^Copying\|^\.Copying' || true
-gcloud storage rsync -r "${GCS_BUCKET}/data/feature_store_v1/enrichment" "$WORKDIR/data/feature_store_v1/enrichment" 2>&1 \
+gcloud storage rsync -r --exclude="$APPLEDOUBLE" "${GCS_BUCKET}/data/feature_store_v1/enrichment" "$WORKDIR/data/feature_store_v1/enrichment" 2>&1 \
     | grep -v '^Copying\|^\.Copying' || true
 gcloud storage rsync -r "${GCS_BUCKET}/releases" "$WORKDIR/releases" || true
 for evidence in $(gcloud storage ls "${GCS_BUCKET}/docs/" 2>/dev/null | grep -o 'evidencia-[^/]*' | sort -u); do
