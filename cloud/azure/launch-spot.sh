@@ -38,12 +38,26 @@ az account show --output none 2>/dev/null || { echo "Run 'az login' first." >&2;
 SUBSCRIPTION_ID=$(az account show --query id -o tsv)
 
 # New subscriptions start with these resource providers unregistered (empty `az vm list-usage`).
-for ns in Microsoft.Compute Microsoft.Network Microsoft.Storage Microsoft.KeyVault Microsoft.ManagedIdentity; do
-    if [[ "$(az provider show --namespace "$ns" --query registrationState -o tsv 2>/dev/null)" != "Registered" ]]; then
-        echo "Registering resource provider ${ns} (one time, ~1-2 min)..."
-        az provider register --namespace "$ns" --wait --output none
+# Registration takes a few minutes each: start them all, then wait once.
+PROVIDERS=(Microsoft.Compute Microsoft.Network Microsoft.Storage Microsoft.KeyVault Microsoft.ManagedIdentity)
+provider_state() { az provider show --namespace "$1" --query registrationState -o tsv 2>/dev/null; }
+pending=()
+for ns in "${PROVIDERS[@]}"; do
+    if [[ "$(provider_state "$ns")" != "Registered" ]]; then
+        az provider register --namespace "$ns" --output none 2>/dev/null || true
+        pending+=("$ns")
     fi
 done
+if ((${#pending[@]})); then
+    echo "Registering resource providers (one time, can take 5-10 min): ${pending[*]}"
+    for _ in $(seq 1 90); do
+        waiting=()
+        for ns in "${pending[@]}"; do [[ "$(provider_state "$ns")" == "Registered" ]] || waiting+=("$ns"); done
+        ((${#waiting[@]})) || break
+        echo "  still registering: ${waiting[*]}"
+        sleep 20
+    done
+fi
 ME=$(az ad signed-in-user show --query id -o tsv 2>/dev/null || true)
 
 echo "Persistent resources in ${DATA_RESOURCE_GROUP} (${LOCATION})..."
