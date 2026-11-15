@@ -907,6 +907,7 @@ export default function UnifiedScene(p: SceneProps) {
     frame,
     p.grid?.site.center_m,
     p.marks,
+    p.selected,
   ]);
   useEffect(() => {
     const v = view.current;
@@ -937,6 +938,7 @@ export default function UnifiedScene(p: SceneProps) {
             aria-pressed={m.id === p.selected}
             onClick={() => {
               if (m.members.length === 1) {
+                if (m.id === p.selected) setFrame((n) => n + 1);
                 p.choose(m.id);
                 return;
               }

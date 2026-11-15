@@ -320,7 +320,11 @@ test('automatic marker framing accounts for nearby points, narrow panels and the
  const alone = unified.markerCameraRange(center, [center], 1000, 1);
  const nearby = [{longitude: -179, latitude: 0}];
  assert.ok(unified.markerCameraRange(center, nearby, 1000, 1) >= alone);
- const spread = [{longitude: -151, latitude: 0}];
+ const spread = [{longitude: -177, latitude: 0}];
  assert.ok(unified.markerCameraRange(center, spread, 1000, .5) > unified.markerCameraRange(center, spread, 1000, 1));
  assert.equal(unified.markerCameraRange(center, [{longitude: 0, latitude: 0}], 1000, 1), alone);
+ assert.equal(unified.markerCameraRange(center, [{longitude: -151, latitude: 0}], 1000, 1), alone);
+ assert.ok(unified.markerCameraRange(center, nearby, 1000, 1) > alone);
+ const polar = {longitude: -5, latitude: -87.45};
+ assert.ok(Number.isFinite(unified.markerCameraRange(polar, [{longitude: -68.7, latitude: -88.71}], 1737400, 1)));
 });
