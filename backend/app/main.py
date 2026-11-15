@@ -31,7 +31,7 @@ app.include_router(regions_router)
 
 FRONTEND_DIST = Path(__file__).resolve().parents[2] / 'frontend' / 'dist'
 if (FRONTEND_DIST / 'index.html').is_file():
-    for directory in ('assets', 'analysis', 'regions', 'textures', 'cesium'):
+    for directory in ('assets', 'analysis', 'regions', 'textures', 'cesium', 'surface'):
         static_directory = FRONTEND_DIST / directory
         if static_directory.is_dir():
             app.mount(
