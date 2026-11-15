@@ -2,13 +2,14 @@ import { useEffect, useState } from "react";
 import { asset, pixels } from "../surface/assets";
 import { decodeGray } from "../surface/terrain";
 import type { Catalog, Grid, VisualSite } from "./terrainModel";
+import { tr } from "../../i18n/lang";
 export function useCatalog() {
   const [result, setResult] = useState<{ data?: Catalog; error?: string }>({});
   useEffect(() => {
     const c = new AbortController();
     fetch(asset("unified/catalog.json"), { signal: c.signal })
       .then((r) => {
-        if (!r.ok) throw Error("Catálogo de relieve no disponible");
+        if (!r.ok) throw Error(tr("Catálogo de relieve no disponible", "Relief catalog unavailable"));
         return r.json();
       })
       .then((data) => {

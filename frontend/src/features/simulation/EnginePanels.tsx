@@ -1,5 +1,6 @@
 import {featureRows,features,number,pct,distance,signed,eligibility,viewNames,viewReason,type LoadedSearch,type Match} from './model';
 import type {SimulationResource} from './useSimulation';
+import {tr,warningText} from '../../i18n/lang';
 
 export function SearchStatus({resource}:{resource:SimulationResource}) {
   if(resource.loading)return <p role="status" className="simulation-state">Buscando resultados disponibles…</p>;
@@ -10,7 +11,7 @@ export function SourceBanner({loaded}:{loaded:LoadedSearch}) {
   return <aside className="simulation-source" aria-label="Procedencia del ranking"><span className="sim-badge">{loaded.source==='demo'?'Demostración precalculada':'Release publicada'}</span><span className="sim-badge">{loaded.data.status==='unsupervised_pending_blind_validation'?'Motor experimental':loaded.data.status}</span><p>{loaded.notice}</p><small>Motor {loaded.data.engine_id} · ajuste {loaded.data.model_fitted_at} · {loaded.version?`release ${loaded.version}`:'sin release asociada'}</small>{loaded.source==='demo'&&<a href={`${import.meta.env.BASE_URL}analysis/simulation/provenance.json`} target="_blank" rel="noreferrer">Fuentes e identidades del ejemplo ↗</a>}</aside>;
 }
 export function EngineWarnings({loaded}:{loaded:LoadedSearch}) {
-  return <section className="engine-warnings" aria-label="Avisos del motor"><h2>Avisos y alcance del cálculo</h2>{!loaded.data.only_eligible&&<p>La consulta incluye ventanas excluidas o pendientes de comprobar. El parecido del relieve no implica elegibilidad.</p>}<ul>{loaded.data.warnings.map((w,i)=><li key={i}>{w}</li>)}</ul>{!loaded.data.warnings.length&&<p>La respuesta no incluye avisos adicionales.</p>}</section>;
+  return <section className="engine-warnings" aria-label={tr('Avisos del motor','Engine warnings')}><h2>{tr('Avisos y alcance del cálculo','Warnings and scope of the calculation')}</h2>{!loaded.data.only_eligible&&<p>{tr('La consulta incluye ventanas excluidas o pendientes de comprobar. El parecido del relieve no implica elegibilidad.','The query includes excluded windows or windows not yet checked. Similar relief does not imply eligibility.')}</p>}<ul>{loaded.data.warnings.map((w,i)=><li key={i}>{warningText(w)}</li>)}</ul>{!loaded.data.warnings.length&&<p>{tr('La respuesta no incluye avisos adicionales.','The response includes no further warnings.')}</p>}</section>;
 }
 export function ScoreInterval({row}:{row:Match}) {
   return <div className="score-interval"><span>Distancia <strong>{distance(row.score)}</strong> <small>menor = más parecido</small></span><svg viewBox="0 0 300 20" role="img" aria-label={`Distancia ${distance(row.score)}, intervalo ${distance(row.score_low)} a ${distance(row.score_high)}`}><path d="M6 10H294" stroke="#40584e"/><path d={`M${6+row.score_low*288} 10H${6+row.score_high*288}`} stroke="#e9c87a" strokeWidth="5"/><circle cx={6+row.score*288} cy="10" r="4" fill="#c5e59e"/></svg><small>Intervalo por dimensiones ausentes: {distance(row.score_low)} – {distance(row.score_high)} · escala 0–1</small><small>Cobertura del peso efectivo: {pct(row.coverage)}</small></div>;

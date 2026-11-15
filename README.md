@@ -40,6 +40,10 @@ make frontend
 
 Abre [la aplicación](http://localhost:5173). La documentación de la API está en [FastAPI](http://127.0.0.1:8000/docs). `make check` repite las comprobaciones de entorno, API y compilación.
 
+## Idiomas
+
+La interfaz está en español e inglés. El selector ES/EN de la cabecera (y de la portada) cambia el idioma al momento y lo recuerda en el navegador; la primera visita usa el idioma del navegador, y `/?lang=en` abre directamente en inglés. El código está en `frontend/src/i18n/`: en componentes, `const { t } = useI18n()` y `t('texto', 'text')`; fuera de React, `tr('texto', 'text')`. Los textos del precálculo de Nicaragua se traducen en `frontend/src/features/nicaragua/english.ts`, y si el original cambia se muestra en español. Los mensajes que envía el backend y algunos campos de los catálogos de datos siguen en español.
+
 ## Datos y método
 
 La vista **Búsqueda mundial** (`/?view=world`) consulta el Atlas de 30 m. El muestreo activo puede ser parcial. Los comandos de adquisición, procesamiento, reanudación y publicación están en la [guía de operación](docs/Atlas%20de%2030%20m%20-%20operacion.md).

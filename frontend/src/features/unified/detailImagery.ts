@@ -16,6 +16,7 @@ import {
   type Viewer,
 } from "cesium";
 import { asset } from "../surface/assets";
+import { tr } from "../../i18n/lang";
 
 export type Body = "Mars" | "Moon" | "Earth";
 export type DetailPatch = {
@@ -119,7 +120,7 @@ export async function loadBakedDetail(
   try {
     if (!signal.aborted) await add(
       body === "Mars" ? "mars-globe.png" : entry.base.file,
-      body === "Mars" ? "NASA MGS / MOLA · relieve en tonos naturales" : entry.base.credit,
+      body === "Mars" ? tr("NASA MGS / MOLA · relieve en tonos naturales", "NASA MGS / MOLA · natural-colour relief") : entry.base.credit,
     );
   } catch {
     /* the 2k context image stays */

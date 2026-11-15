@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { useI18n } from "../../i18n/I18nProvider";
+import { msg, tr, type Msg } from "../../i18n/lang";
 import {
   ArcGisMapServerImageryProvider,
   ArcGISTiledElevationTerrainProvider,
@@ -108,7 +110,9 @@ function draw(viewer: Viewer) {
   });
 }
 const colors = { Mars: "#E2694A", Moon: "#E8DAC2", Earth: "#72AED6" };
+const LOADING: Msg = ["Cargando contexto…", "Loading context…"];
 export default function UnifiedScene(p: SceneProps) {
+  const { lang, t } = useI18n();
   const root = useRef<HTMLDivElement>(null),
     view = useRef<Viewer>(),
     props = useRef(p);
@@ -119,12 +123,12 @@ export default function UnifiedScene(p: SceneProps) {
   >([]);
   const [contextOnly, setContextOnly] = useState(true);
   const [ready, setReady] = useState(false),
-    [error, setError] = useState(""),
-    [status, setStatus] = useState("Cargando contexto…"),
+    [error, setError] = useState<Msg | "">(""),
+    [status, setStatus] = useState<Msg>(LOADING),
     [frame, setFrame] = useState(0),
     [scale, setScale] = useState<ReturnType<typeof metricScale>>(null),
     [heading, setHeading] = useState(0),
-    [detailNote, setDetailNote] = useState(""),
+    [detailNote, setDetailNote] = useState<Msg | "">(""),
     [detail, setDetail] = useState<DetailCatalog | null>();
   const terrainMesh = useRef<Primitive>(),
     guides = useRef<CustomDataSource>(),
@@ -139,7 +143,7 @@ export default function UnifiedScene(p: SceneProps) {
       removeRender: (() => void) | undefined;
     setReady(false);
     setError("");
-    setStatus("Cargando contexto…");
+    setStatus(LOADING);
     setDetailNote("");
     const radius =
       p.body === "Mars" ? 3396000 : p.body === "Moon" ? 1737400 : 6378137;
@@ -231,7 +235,7 @@ export default function UnifiedScene(p: SceneProps) {
           p.body === "Moon"
             ? "NASA CGI Moon Kit · LROC + LOLA"
             : p.body === "Mars"
-              ? "NASA MOLA · relieve en tonos naturales"
+              ? tr("NASA MOLA · relieve en tonos naturales", "NASA MOLA · natural-colour relief")
               : "NASA Blue Marble",
       })
         .then((provider) => {
@@ -251,29 +255,32 @@ export default function UnifiedScene(p: SceneProps) {
               (loaded, total, finest) => {
                 wakeUntil.current = performance.now() + 4000;
                 draw(viewer);
-                if (finest)
-                  setDetailNote(
-                    `detalle ${finest.pixel_m.latitude < 1000 ? `${Math.round(finest.pixel_m.latitude)} m` : `${(finest.pixel_m.latitude / 1000).toFixed(1)} km`}${loaded < total ? ` · ${loaded}/${total}` : ""}`,
-                  );
+                if (finest) {
+                  const size = finest.pixel_m.latitude < 1000 ? `${Math.round(finest.pixel_m.latitude)} m` : `${(finest.pixel_m.latitude / 1000).toFixed(1)} km`;
+                  const progress = loaded < total ? ` · ${loaded}/${total}` : "";
+                  setDetailNote([`detalle ${size}${progress}`, `detail ${size}${progress}`]);
+                }
               },
             );
           }
         })
         .catch(() => {
           if (!disposed)
-            setError(
+            setError([
               "Imagen global ausente. Se mantienen las coordenadas y el relieve válido.",
-            );
+              "Global image missing. Coordinates and valid relief are kept.",
+            ]);
         });
-      const install = (provider: Viewer["terrainProvider"], label: string) => {
+      const install = (provider: Viewer["terrainProvider"], label: Msg) => {
         if (disposed || !v || v.isDestroyed()) return;
         v.terrainProvider = provider;
         wakeUntil.current = performance.now() + 4000;
         provider.errorEvent.addEventListener(() => {
           if (!disposed)
-            setStatus(
+            setStatus([
               "Relieve incompleto · contexto sin detalle en teselas ausentes",
-            );
+              "Incomplete relief · no detail in missing tiles",
+            ]);
         });
         setStatus(label);
         draw(v);
@@ -283,11 +290,11 @@ export default function UnifiedScene(p: SceneProps) {
           "https://elevation3d.arcgis.com/arcgis/rest/services/WorldElevation3D/Terrain3D/ImageServer",
         )
           .then((provider) =>
-            install(provider, "Esri World Elevation · streaming"),
+            install(provider, ["Esri World Elevation · streaming", "Esri World Elevation · streaming"]),
           )
           .catch(() => {
             if (!disposed)
-              setStatus("Relieve global sin servicio · elipsoide de contexto");
+              setStatus(["Relieve global sin servicio · elipsoide de contexto", "Global relief unavailable · context ellipsoid"]);
           });
       else
         fetch(asset("manifest.json"), { signal: c.signal })
@@ -332,13 +339,13 @@ export default function UnifiedScene(p: SceneProps) {
             install(
               provider,
               moon
-                ? "LOLA global · muestreo ~7,6 km"
-                : "MOLA global ~14,8 km · Jezero ~463 m",
+                ? ["LOLA global · muestreo ~7,6 km", "Global LOLA · ~7.6 km sampling"]
+                : ["MOLA global ~14,8 km · Jezero ~463 m", "Global MOLA ~14.8 km · Jezero ~463 m"],
             );
           })
           .catch(() => {
             if (!disposed)
-              setStatus("Relieve global ausente · globo de contexto");
+              setStatus(["Relieve global ausente · globo de contexto", "Global relief missing · context globe"]);
           });
       handler = new ScreenSpaceEventHandler(v.scene.canvas);
       handler.setInputAction((e: { position: Cartesian2 }) => {
@@ -445,9 +452,10 @@ export default function UnifiedScene(p: SceneProps) {
       });
       removeRender = v.scene.renderError.addEventListener(() => {
         if (!disposed)
-          setError(
+          setError([
             "El visor no pudo renderizar esta escena. La lista y las medidas siguen disponibles.",
-          );
+            "The viewer could not render this scene. The list and measurements are still available.",
+          ]);
       });
       setReady(true);
       // A bounded render loop settles asynchronous globe/Canvas textures in Safari.
@@ -473,9 +481,10 @@ export default function UnifiedScene(p: SceneProps) {
           v.render();
         } catch {
           failed = true;
-          setError(
+          setError([
             "El renderizador se detuvo. Recarga el visor o usa la lista de ubicaciones.",
-          );
+            "The renderer stopped. Reload the viewer or use the list of locations.",
+          ]);
         }
       }, 1000 / 30);
       c.signal.addEventListener("abort", () => {
@@ -483,9 +492,10 @@ export default function UnifiedScene(p: SceneProps) {
         observer.disconnect();
       });
     } catch {
-      setError(
+      setError([
         "WebGL no disponible. Utiliza la lista accesible de ubicaciones.",
-      );
+        "WebGL not available. Use the accessible list of locations.",
+      ]);
     }
     return () => {
       disposed = true;
@@ -533,7 +543,7 @@ export default function UnifiedScene(p: SceneProps) {
       p.selected,
       delay,
       (count) => {
-        setDetailNote(`detalle satelital · ${count} candidatas`);
+        setDetailNote([`detalle satelital · ${count} candidatas`, `satellite detail · ${count} candidates`]);
         wakeUntil.current = performance.now() + 4000;
         draw(v);
       },
@@ -664,7 +674,7 @@ export default function UnifiedScene(p: SceneProps) {
         e,
       ),
       label: {
-        text: "3 km · análisis / 1,8 km · visual",
+        text: tr("3 km · análisis / 1,8 km · visual", "3 km · analysis / 1.8 km · visual"),
         font: "11px DM Sans",
         pixelOffset: new Cartesian2(0, 25),
         showBackground: true,
@@ -677,7 +687,7 @@ export default function UnifiedScene(p: SceneProps) {
     return () => {
       if (!v.isDestroyed()) v.dataSources.remove(ds, true);
     };
-  }, [ready, p.mode, p.longitude, p.latitude, p.grid, p.exaggeration, p.body]);
+  }, [ready, p.mode, p.longitude, p.latitude, p.grid, p.exaggeration, p.body, lang]);
   useEffect(() => {
     const v = view.current;
     if (!ready || !v || p.mode !== "regional" || p.body === "Moon") return;
@@ -698,7 +708,7 @@ export default function UnifiedScene(p: SceneProps) {
               78.75,
               19.6875,
             ),
-            credit: "NASA CTX / Esri · recorte ~81 m/píxel",
+            credit: tr("NASA CTX / Esri · recorte ~81 m/píxel", "NASA CTX / Esri · ~81 m/pixel crop"),
           });
     task
       .then((provider) => {
@@ -711,9 +721,10 @@ export default function UnifiedScene(p: SceneProps) {
       })
       .catch(() => {
         if (!disposed)
-          setError(
+          setError([
             "Imagen regional sin servicio. Se conserva el contexto y el DEM disponible.",
-          );
+            "Regional imagery unavailable. The context and available DEM are kept.",
+          ]);
       });
     return () => {
       disposed = true;
@@ -943,7 +954,7 @@ export default function UnifiedScene(p: SceneProps) {
         ref={root}
         className="u-canvas"
         role="region"
-        aria-label={`Mapa 3D de ${p.name}`}
+        aria-label={t(`Mapa 3D de ${p.name}`, `3D map of ${p.name}`)}
       />
       {p.mode !== "mesh" &&
         mapButtons.map((m) => (
@@ -953,8 +964,14 @@ export default function UnifiedScene(p: SceneProps) {
             style={{ left: m.x, top: m.y }}
             aria-label={
               m.members.length > 1
-                ? `Ampliar grupo de ${m.members.length} ${p.body === "Earth" ? "candidatas" : "referencias"} en el mapa`
-                : `Seleccionar ${p.body === "Earth" ? "candidata" : "referencia"} ${m.name} en el mapa`
+                ? t(
+                    `Ampliar grupo de ${m.members.length} ${p.body === "Earth" ? "candidatas" : "referencias"} en el mapa`,
+                    `Zoom into a group of ${m.members.length} ${p.body === "Earth" ? "candidates" : "references"} on the map`,
+                  )
+                : t(
+                    `Seleccionar ${p.body === "Earth" ? "candidata" : "referencia"} ${m.name} en el mapa`,
+                    `Select ${p.body === "Earth" ? "candidate" : "reference"} ${m.name} on the map`,
+                  )
             }
             aria-pressed={m.id === p.selected}
             onClick={() => {
@@ -989,24 +1006,24 @@ export default function UnifiedScene(p: SceneProps) {
         ))}
       <div className="u-scene-top">
         <span className={`u-body u-${p.body}`}>
-          {p.body === "Mars" ? "MARTE" : p.body === "Moon" ? "LUNA" : "TIERRA"}
+          {p.body === "Mars" ? t("MARTE", "MARS") : p.body === "Moon" ? t("LUNA", "MOON") : t("TIERRA", "EARTH")}
         </span>
         <span>
           {p.mode === "mesh"
-            ? "Malla DEM · 1,8 × 1,8 km"
+            ? t("Malla DEM · 1,8 × 1,8 km", "DEM mesh · 1.8 × 1.8 km")
             : p.mode === "regional"
-              ? "Encuadre regional · ~24 km"
+              ? t("Encuadre regional · ~24 km", "Regional frame · ~24 km")
               : contextOnly
-                ? "Contexto NASA · relieve global pendiente"
+                ? t("Contexto NASA · relieve global pendiente", "NASA context · global relief pending")
                 : detailNote
-                  ? `${status} · ${detailNote}`
-                  : status}
+                  ? `${msg(status)} · ${msg(detailNote)}`
+                  : msg(status)}
         </span>
       </div>
       <button
         className="u-reset"
         onClick={() => setFrame((n) => n + 1)}
-        aria-label={`Restablecer encuadre de ${p.name}`}
+        aria-label={t(`Restablecer encuadre de ${p.name}`, `Reset the view of ${p.name}`)}
       >
         ⌖
       </button>
@@ -1030,24 +1047,24 @@ export default function UnifiedScene(p: SceneProps) {
         <div className="u-missing" role="status">
           <strong>
             {p.pending
-              ? "Leyendo DEM de esta ubicación…"
-              : "Sin malla local disponible"}
+              ? t("Leyendo DEM de esta ubicación…", "Reading the DEM of this location…")
+              : t("Sin malla local disponible", "No local mesh available")}
           </strong>
           <p>
             {p.pending
-              ? "Se cargará únicamente el relieve de la selección actual."
-              : p.missing || "El DEM de esta ubicación no está publicado."}
+              ? t("Se cargará únicamente el relieve de la selección actual.", "Only the relief of the current selection will be loaded.")
+              : p.missing || t("El DEM de esta ubicación no está publicado.", "The DEM of this location is not published.")}
           </p>
-          <small>La selección y las medidas del motor se conservan.</small>
+          <small>{t("La selección y las medidas del motor se conservan.", "The selection and the engine measurements are kept.")}</small>
         </div>
       )}
       {error && (
         <p className="u-map-error" role="alert">
-          {error}
+          {msg(error)}
         </p>
       )}
       <span className="u-gesture">
-        Arrastra para explorar · rueda para acercar
+        {t("Arrastra para explorar · rueda para acercar", "Drag to explore · scroll to zoom")}
       </span>
     </div>
   );

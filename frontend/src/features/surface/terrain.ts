@@ -1,3 +1,4 @@
+import { tr } from '../../i18n/lang';
 /** Data math kept independent of WebGL so orientation, units and holes are testable. */
 export type SurfaceSite = {
   id: string; name: string; body: 'Mars' | 'Earth' | 'Moon'; longitude: number; latitude: number;
@@ -14,7 +15,7 @@ export type RemoteLayer = { kind: 'terrain' | 'tiles'; url: string } | null;
 
 export function decodeGray(data: Uint8ClampedArray, site: SurfaceSite): Float32Array {
   if (data.length !== site.width * site.height * 4 || !Number.isFinite(site.scale_m) || site.scale_m <= 0) {
-    throw new Error('Dimensiones o escala del DEM inválidas.');
+    throw new Error(tr('Dimensiones o escala del DEM inválidas.', 'Invalid DEM dimensions or scale.'));
   }
   return Float32Array.from({ length: site.width * site.height }, (_, i) =>
     data[i * 4] === site.nodata || data[i * 4 + 3] === 0 ? NaN : site.offset_m + data[i * 4] * site.scale_m);
@@ -25,7 +26,7 @@ export function decodeMola(data: Uint8ClampedArray): Float32Array {
 export function meshArrays(heights: Float32Array, site: SurfaceSite, exaggeration: number) {
   const { width, height, cell_m, center_m } = site;
   if (width < 2 || height < 2 || heights.length !== width * height || !Number.isFinite(exaggeration) || exaggeration < 0 || exaggeration > 8) {
-    throw new Error('Geometría del DEM inválida.');
+    throw new Error(tr('Geometría del DEM inválida.', 'Invalid DEM geometry.'));
   }
   const positions = new Float64Array(width * height * 3), uv = new Float32Array(width * height * 2);
   const indices: number[] = [];

@@ -1,5 +1,6 @@
 import type { Grid } from "./terrainModel";
 import { number } from "../simulation/model";
+import { useI18n } from "../../i18n/I18nProvider";
 export function Profiles({
   left,
   right,
@@ -11,18 +12,19 @@ export function Profiles({
   range: [number, number];
   names: [string, string];
 }) {
+  const { t } = useI18n();
   const lo = range[0],
     hi = range[1],
     y = (h: number) => 65 - ((h - lo) / (hi - lo || 1)) * 52;
   return (
     <section
       className="u-profiles"
-      aria-label="Perfiles de terreno comparables"
+      aria-label={t("Perfiles de terreno comparables", "Comparable terrain profiles")}
     >
       <header>
-        <strong>Un mismo corte, 1.800 m</strong>
+        <strong>{t("Un mismo corte, 1.800 m", "The same transect, 1,800 m")}</strong>
         <small>
-          A → B · oeste a este · altura respecto a la mediana · sin exageración
+          {t("A → B · oeste a este · altura respecto a la mediana · sin exageración", "A → B · west to east · height relative to the median · no exaggeration")}
         </small>
       </header>
       <div>
@@ -34,7 +36,7 @@ export function Profiles({
                 <svg
                   viewBox="0 0 300 90"
                   role="img"
-                  aria-label={`Perfil de ${names[index]}, 1800 metros de longitud, altura relativa de ${number(lo, 0)} a ${number(hi, 0)} metros`}
+                  aria-label={t(`Perfil de ${names[index]}, 1800 metros de longitud, altura relativa de ${number(lo, 0)} a ${number(hi, 0)} metros`, `Profile of ${names[index]}, 1800 metres long, relative height from ${number(lo, 0)} to ${number(hi, 0)} metres`)}
                 >
                   <path d="M8 65H292" stroke="#85705A" />
                   <path
@@ -55,7 +57,7 @@ export function Profiles({
                     A · 0 m
                   </text>
                   <text x="292" y="84" textAnchor="end">
-                    1.800 m · B
+                    {t("1.800 m · B", "1,800 m · B")}
                   </text>
                   <text x="8" y="11">
                     {number(hi, 0)} m
@@ -66,7 +68,7 @@ export function Profiles({
                 </svg>
               </>
             ) : (
-              <p className="u-no-profile">Sin DEM válido para este perfil</p>
+              <p className="u-no-profile">{t("Sin DEM válido para este perfil", "No valid DEM for this profile")}</p>
             )}
           </figure>
         ))}
