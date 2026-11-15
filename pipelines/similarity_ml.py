@@ -192,7 +192,7 @@ def robust_covariance(z: np.ndarray, cfg: dict, seed: int) -> tuple[np.ndarray, 
     rng = np.random.default_rng(seed)
     if n > cfg['max_rows']:
         z = z[rng.choice(n, cfg['max_rows'], replace=False)]
-    if cfg.get('estimator', 'min_cov_det') == 'min_cov_det' and z.shape[0] >= cfg['fallback_below_rows']:
+    if z.shape[0] >= cfg['fallback_below_rows']:
         cov, name = MinCovDet(random_state=seed).fit(z).covariance_, 'min_cov_det'
         if covariance_degeneracy(cov, np.cov(z, rowvar=False), cfg):
             cov, name = LedoitWolf().fit(z).covariance_, 'ledoit_wolf_after_degenerate_min_cov_det'
@@ -385,8 +385,7 @@ def build_model(spec: dict, values: dict[str, np.ndarray], *, seed: int,
         z = np.column_stack([feat_models[f]['transform'].normal(values[f]) for f in fids])
         complete = np.isfinite(z).all(axis=1)
         if complete.sum() >= min_rows:
-            cfg = fcfg['covariance'] | fcfg.get('covariance_by_view', {}).get(view_id, {})
-            cov, estimator = robust_covariance(z[complete], cfg, seed)
+            cov, estimator = robust_covariance(z[complete], fcfg['covariance'], seed)
         else:
             cov, estimator = np.eye(len(fids)), 'identity_insufficient_overlap'
         corr = cov / np.sqrt(np.outer(np.diag(cov), np.diag(cov)))
@@ -711,18 +710,6 @@ def coverage_warnings(view_report: dict, eff_w: dict[str, float], cfg: dict) -> 
     return out
 
 
-POOL_COLUMNS = ('region_id', 'longitude', 'latitude', 'utm_zone_band', 'scenario_eligibility')
-
-
-def _share_strings(values: np.ndarray) -> np.ndarray:
-    """Same strings, but repeated values point to one object instead of one object per row."""
-    table: dict = {}
-    out = np.empty(len(values), dtype=object)
-    for i, v in enumerate(values):
-        out[i] = table.setdefault(v, v)
-    return out
-
-
 @dataclass
 class CandidatePool:
     """Earth candidates of one eligibility profile, held in memory for repeated queries."""
@@ -848,25 +835,17 @@ class SimilarityEngine:
         return cand_raw, cand_z
 
     def build_pool(self, store_root: Path, profile: str = eligibility.DEFAULT_PROFILE,
-                   memory_limit: str = '2GB', threads: int = 4, serve_memory_limit: str = '512MB') -> 'CandidatePool':
-        """Load every rankable Earth window once and precompute what does not depend on the query.
-
-        The pool keeps only what `search()` reads (the identity columns and the normal scores), shares the
-        repeated strings, and lowers the DuckDB memory limit once loaded: the scan needs `memory_limit`, serving
-        queries does not.
-        """
+                   memory_limit: str = '2GB', threads: int = 4) -> 'CandidatePool':
+        """Load every rankable Earth window once and precompute what does not depend on the query."""
         conn = connect(store_root, memory_limit, threads)
         present = unified_columns(conn)
         sql, params, _ = self._candidate_sql(present, profile, False, None, None)
         data = _fetch(conn, sql, params)
         cand_raw, cand_z = self.candidate_scores(data)
         eligible_status = eligibility.get_profile(profile).eligible_status
-        data = {key: _share_strings(data[key]) if data[key].dtype == object else data[key]
-                for key in POOL_COLUMNS}
-        eligible = np.asarray(data['scenario_eligibility'], dtype=object) == eligible_status
-        conn.execute(f"SET memory_limit = '{serve_memory_limit}'")
         return CandidatePool(profile=profile, conn=conn, present=present, data=data, cand_raw=cand_raw,
-                             cand_z=cand_z, eligible=eligible)
+                             cand_z=cand_z, eligible=np.asarray(data['scenario_eligibility'], dtype=object)
+                             == eligible_status)
 
     def search(self, store_root: Path, reference, *, weights: dict | None = None,
                profile: str = eligibility.DEFAULT_PROFILE, only_eligible: bool = True, limit: int = 25,

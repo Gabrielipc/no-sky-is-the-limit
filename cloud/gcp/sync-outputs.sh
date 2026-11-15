@@ -14,6 +14,12 @@ LOCK_WAIT_S="${SYNC_LOCK_WAIT_S:-20}"
 # Matched from the start of the relative path (gcloud) or anywhere (azcopy): both work.
 EXCLUDE='(.*/)?(tmp[^/]*|\.stream_tmp)(/.*)?$|.*\.part(\.tif)?$|(.*/)?\._.*'
 
+# `releases/atlas30/current` says which release is served. A VM that restored an old copy of it must
+# not upload that copy over the one another run just set, so only a run started with --set-current
+# (SYNC_CURRENT=1, set by run-etl-spot.sh) uploads it.
+RELEASES_EXCLUDE="$EXCLUDE"
+[[ "${SYNC_CURRENT:-0}" == "1" ]] || RELEASES_EXCLUDE="${EXCLUDE}|(.*/)?atlas30/current\$"
+
 log() { echo "[$(date -u '+%Y-%m-%dT%H:%M:%SZ')] sync: $*"; }
 
 exec 9>"$LOCK_FILE"
@@ -24,13 +30,13 @@ fi
 
 status=0
 sync_dir() {
-    local src="$1" dst="$2"
+    local src="$1" dst="$2" exclude="${3:-$EXCLUDE}"
     [[ -d "$src" ]] || return 0
-    gcloud storage rsync -r --exclude="$EXCLUDE" "$src" "$dst" || status=1
+    gcloud storage rsync -r --exclude="$exclude" "$src" "$dst" || status=1
 }
 
 sync_dir "$WORKDIR/data/feature_store_v1" "${GCS_BUCKET}/data/feature_store_v1"
-sync_dir "$WORKDIR/releases" "${GCS_BUCKET}/releases"
+sync_dir "$WORKDIR/releases" "${GCS_BUCKET}/releases" "$RELEASES_EXCLUDE"
 sync_dir "$WORKDIR/data/global_layers" "${GCS_BUCKET}/data/global_layers"
 # Verified mirror of the Moon/Mars rasters (scripts/etl_referencias.py espejo); `.part` downloads are excluded.
 sync_dir "$WORKDIR/data/raw/espejo" "${GCS_BUCKET}/data/raw/espejo"

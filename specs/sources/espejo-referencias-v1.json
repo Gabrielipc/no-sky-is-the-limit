@@ -18,8 +18,7 @@
       "bytes": 2696082051,
       "path": "moon/lola/LDEM_80S_20MPP_ADJ.TIF",
       "role": "Topografía LOLA a 20 m, 80°S–90°S (COG): relieve, pendiente, rugosidad y forma de los sitios polares.",
-      "citation": "Barker et al. (2023), PSJ 4, 183, doi:10.3847/PSJ/acf3e1",
-      "sha256": "09b7ca80f9e6a146f970225d18af72fc02787669b3ef51b888e347d2b6845649"
+      "citation": "Barker et al. (2023), PSJ 4, 183, doi:10.3847/PSJ/acf3e1"
     },
     {
       "id": "lola-lpsr-80s-20mpp",
@@ -30,8 +29,7 @@
       "bytes": 154221202,
       "path": "moon/lola/LPSR_80S_20MPP_ADJ.TIF",
       "role": "Máscara de sombra permanente (PSR) a 20 m.",
-      "citation": "Barker et al. (2023), PSJ 4, 183",
-      "sha256": "ad95311b81db773039af441dd66a017f024327858c6e0314b8c92bf2f470834e"
+      "citation": "Barker et al. (2023), PSJ 4, 183"
     },
     {
       "id": "lola-illumination-85s-60m",
@@ -42,8 +40,7 @@
       "bytes": 33994464,
       "path": "moon/lola/AVGVISIB_85S_060M_201608.TIF",
       "role": "Fracción media de tiempo con el Sol visible a 60 m, 85°S–90°S.",
-      "citation": "Mazarico et al. (2011), Icarus 211, 1066-1081",
-      "sha256": "ccf67d4f39e0a970c111196da7d6551ffcf50d075470b93067fb3904c0b05806"
+      "citation": "Mazarico et al. (2011), Icarus 211, 1066-1081"
     },
     {
       "id": "diviner-prp-south",
@@ -54,8 +51,7 @@
       "bytes": 604800210,
       "path": "moon/diviner/dlre_prp_south.tab",
       "role": "Temperatura media anual y máxima de Diviner en el polo sur (tabla PDS3).",
-      "citation": "LRO-L-DLRE-5-PRP-V2.0",
-      "sha256": "393deaa5d8925d45bb2ed608f937a824f5eae029c2558aad1d2da8206b83a62d"
+      "citation": "LRO-L-DLRE-5-PRP-V2.0"
     },
     {
       "id": "minirf-cpr-global-128ppd",
@@ -66,8 +62,7 @@
       "bytes": 4246732800,
       "path": "moon/minirf/global_cpr_128ppd_simp_0c.img",
       "role": "Mosaico global de la razón de polarización circular de Mini-RF (128 ppd).",
-      "citation": "LRO-L-MRFLRO-5-GLOBAL-MOSAIC-V1.0",
-      "sha256": "9964d63f55f13cb6b98184eaca2c4667133f4f9895ac8a811f03958a52f880e1"
+      "citation": "LRO-L-MRFLRO-5-GLOBAL-MOSAIC-V1.0"
     },
     {
       "id": "hirise-dtm-jezero",
@@ -78,8 +73,7 @@
       "bytes": 320045704,
       "path": "mars/hirise/DTEEC_002387_1985_003798_1985_A01.IMG",
       "role": "DTM estéreo HiRISE de Jezero (~1 m): referencia topográfica de Marte.",
-      "citation": "HiRISE DTM DTEEC_002387_1985_003798_1985_A01",
-      "sha256": "268bd5912f0aa0e0b0be8db9004085c2ace78f559377acad0a47b32878c7ccea"
+      "citation": "HiRISE DTM DTEEC_002387_1985_003798_1985_A01"
     },
     {
       "id": "hirise-ortho-jezero",
@@ -90,8 +84,7 @@
       "bytes": 30941086,
       "path": "mars/hirise/PSP_002387_1985_RED_C_01_ORTHO.JP2",
       "role": "Ortoimagen HiRISE de contexto de Jezero.",
-      "citation": "HiRISE PSP_002387_1985",
-      "sha256": "be2612e4e932238959fd43b28118b6d319c83b19b3fcf4bd70a754f4b8eea99b"
+      "citation": "HiRISE PSP_002387_1985"
     },
     {
       "id": "themis-ti-jezero",
@@ -103,8 +96,7 @@
       "md5": "53fec7c990a90629e98c871a7a0da474",
       "path": "mars/themis/Jezero_Thermal_Inertia_v1.tiff",
       "role": "Inercia térmica derivada de THEMIS de Jezero (100 m).",
-      "citation": "doi:10.5281/zenodo.4931348 (CC-BY-4.0)",
-      "sha256": "84401e7717d43ae80cbd80213b91bd141ee48197eb8648293197447c43c2829c"
+      "citation": "doi:10.5281/zenodo.4931348 (CC-BY-4.0)"
     },
     {
       "id": "crism-sr-frt000047a3",
@@ -115,8 +107,7 @@
       "bytes": 164250240,
       "path": "mars/crism/frt000047a3_07_sr166j_mtr3.img",
       "role": "Indicadores espectrales CRISM MTRDR (SR) de Jezero, 18 m.",
-      "citation": "MRO CRISM MTRDR FRT000047A3",
-      "sha256": "10eb37e4dd8f2f95a6c3ebdfda5a0b066bd02c33bb2d1e03558c024f3b16ec2d"
+      "citation": "MRO CRISM MTRDR FRT000047A3"
     },
     {
       "id": "crism-in-frt000047a3",
@@ -127,8 +118,7 @@
       "bytes": 24637536,
       "path": "mars/crism/frt000047a3_07_in166j_mtr3.img",
       "role": "Bandas auxiliares CRISM MTRDR (IN) de Jezero.",
-      "citation": "MRO CRISM MTRDR FRT000047A3",
-      "sha256": "575a55fd2792ce6e263901949bbc333003dae87e8b00ea488efbe0d6c8cc828b"
+      "citation": "MRO CRISM MTRDR FRT000047A3"
     },
     {
       "id": "mola-dem-463m",

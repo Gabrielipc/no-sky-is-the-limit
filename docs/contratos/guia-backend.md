@@ -15,20 +15,39 @@ Contratos: [README](README.md). Esta guía parte de lo que ya existe en `backend
   ```
   El ETL entrega `releases/atlas30/etl-30m-r2/`. Se copia al servidor y `current` apunta a la versión activa.
 
-## 1. Similitud precalculada (implementado)
+## 1. Similitud precalculada (recomendado para empezar)
 
 Si `manifest.json` trae `similarity`, la release incluye `similarity/<referencia>.json` con la respuesta del motor ([`motor-busqueda-v1`](../../specs/api/motor-busqueda-v1.schema.json)) para `jezero`, `haworth-fondo` y `de-gerlache-cresta`, con sus pesos por defecto. Servirlo no requiere el modelo ni el almacén.
 
-| Método y ruta (`backend/app/routers/atlas_router.py`) | Respuesta | Errores |
-|---|---|---|
-| `GET /api/atlas/similarity?version=` | `manifest.similarity`: estado del motor y una entrada por referencia (`status`, `file`, `profile`, `results`, `warnings`) | 404 si la release no lo incluye, 503 sin release |
-| `GET /api/atlas/similarity/{referencia}?version=&limit=&offset=` | La respuesta `motor-busqueda-v1` de la referencia, paginada (`limit` 1–100), más `version`, `limit` y `offset` | 404 si la referencia no está publicada o el manifiesto apunta fuera de la release, 422 por paginación inválida |
+Endpoint propuesto, con las convenciones de `atlas_router.py` (`release_for`, `read_optional`):
 
-Nunca se calcula al pedirla: sirve el archivo de la release, así que un resultado fijado por `version` es reproducible. Es lo que consume la vista de simulación del frontend (`frontend/src/features/simulation/source.ts`): ante un 404 o un 5xx muestra su demostración incluida. `results[i].region_id` enlaza con `/api/atlas/candidates/{region_id}`. Para pesos personalizados usad la sección 2.
+```python
+@router.get('/similarity')
+def similarity_index(version: Optional[str] = None):
+    _, manifest = release_for(version)
+    sim = manifest.get('similarity')
+    if not sim:
+        raise HTTPException(404, 'Esta versión no incluye resultados del motor de similitud')
+    return sim  # engine_status, model_fitted_at, references: {id: {status, file, profile, results, warnings}}
+
+
+@router.get('/similarity/{reference}')
+def similarity(reference: str, version: Optional[str] = None,
+               limit: int = Query(25, ge=1, le=100), offset: int = Query(0, ge=0)):
+    path, manifest = release_for(version)
+    entry = (manifest.get('similarity') or {}).get('references', {}).get(reference)
+    if not store.TOKEN.fullmatch(reference) or not entry or entry.get('status') != 'published':
+        raise HTTPException(404, 'Referencia sin resultados publicados')
+    data = json.loads((path / entry['file']).read_text())
+    data['results'] = data['results'][offset:offset + limit]
+    return {**data, 'version': manifest['version'], 'limit': limit, 'offset': offset}
+```
+
+`results[i].region_id` enlaza con `/api/atlas/candidates/{region_id}` para la ficha completa.
 
 ## 2. Motor en tiempo de consulta (implementado)
 
-`backend/app/routers/similarity_router.py` sirve el motor con pesos personalizados (el servicio residente está en `services/similarity_service.py` y los modelos de petición en `schemas/similarity.py`). Contrato HTTP: [`specs/api/similitud-api-v1.schema.json`](../../specs/api/similitud-api-v1.schema.json) (catálogo, ficha, sobre de la búsqueda, estado y errores) y, para la petición y la respuesta del motor, [`motor-busqueda-v1`](../../specs/api/motor-busqueda-v1.schema.json).
+`backend/app/similarity.py` ya sirve el motor con pesos personalizados. Contrato HTTP: [`specs/api/similitud-api-v1.schema.json`](../../specs/api/similitud-api-v1.schema.json) (catálogo, ficha, sobre de la búsqueda, estado y errores) y, para la petición y la respuesta del motor, [`motor-busqueda-v1`](../../specs/api/motor-busqueda-v1.schema.json).
 
 | Método y ruta | Respuesta | Errores |
 |---|---|---|
@@ -45,18 +64,7 @@ Cómo funciona:
 - **Perfiles.** El pool del perfil por defecto se carga al arrancar; los otros se cargan en la primera petición que los use.
 - **Orden determinista.** La consulta de candidatos ordena por `region_id` para que los empates de la fusión RRF no dependan del orden de escaneo.
 
-## Requisitos de la VM del backend (disco y memoria)
-
-**Disco: ~1 GB**, sin el espejo. El motor solo lee `data/feature_store_v1/base` (375 MB) y `enrichment` (40 MB), el modelo (`similarity/model.joblib`, 0,3 MB) y, para `/api/atlas`, la release activa (`etl-30m-r2b`, 120 MB). No necesita `manifests/` (184 MB) ni la evidencia (37 MB). Los 8,3 GB de rásteres del espejo **no se despliegan**: son entrada del ETL y viven en GCS (`data/raw/espejo/`). DuckDB puede volcar a `duckdb_spill/` dentro del almacén si una consulta excede su límite; tras cargar el pool el límite baja a 512 MB.
-
-**Memoria: 8 GB recomendados, 4 GB como mínimo, con un solo worker de uvicorn.** Cada worker carga su propio pool. Lo medido y lo extrapolado:
-
-| Qué | Dato |
-|---|---|
-| Medido con el almacén local (188.003 ventanas, 9 features ajustadas) | El pool retiene 49 MB; el pico del proceso al cargar es ~820 MB (incluye Python, numpy, scipy, scikit-learn y DuckDB). Antes de recortar el pool eran 79 MB. |
-| Extrapolado a la release `etl-30m-r2b` (1,46 M ventanas, 17 features ajustadas) | El pool retendría unos 0,6 GB (~390 B por fila). El pico al cargar, con las columnas completas y DuckDB, sería de varios GB (estimado 3–4 GB). |
-
-La extrapolación **no se ha medido en el almacén real de la nube**: mide `peak_rss_mb` de `GET /api/similarity/status` en la VM antes de fijar el tamaño. La estimación de ~70 MB que figuraba aquí era errónea.
+Despliegue: cada worker de uvicorn mantiene su propio pool (~70 MB estimados para 1,45 M ventanas). Dependencias del entorno Pixi: `duckdb`, `numpy`, `scipy`, `scikit-learn`, `joblib`; `pipelines/` se añade solo al `sys.path`.
 
 ## 3. Imágenes por ventana (propuesto)
 

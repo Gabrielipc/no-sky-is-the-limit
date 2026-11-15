@@ -13,7 +13,7 @@ from fastapi.testclient import TestClient
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'backend'))
 
-from app.services import similarity_service as similarity  # noqa: E402
+from app import similarity  # noqa: E402
 from app.main import app  # noqa: E402
 from pipelines import contract_check as check  # noqa: E402
 from pipelines import similarity_ml as sim  # noqa: E402
@@ -230,12 +230,6 @@ class SimilarityAPITest(unittest.TestCase):
         self.assertEqual(check.validate(body, SCHEMA['$defs']['SearchResponse'], root=SCHEMA), [])  # engine contract
         self.assertRegex(body['query_id'], API_SCHEMA['$defs']['SearchEnvelope']['properties']['query_id']['pattern'])
         self.assertEqual(conforms(self.client.get('/api/similarity/status').json(), 'ServiceStatus'), [])
-
-    def test_status_reports_peak_memory_so_the_vm_can_be_sized(self) -> None:
-        self.post({'reference': 'jezero', 'only_eligible': False})
-        status = self.client.get('/api/similarity/status').json()
-        self.assertGreater(status['peak_rss_mb'], 50)  # at least the interpreter and the libraries
-        self.assertEqual(conforms(status, 'ServiceStatus'), [])
 
     def test_status_conforms_before_the_engine_is_loaded(self) -> None:
         similarity.configure(self.root, self.model_path)
