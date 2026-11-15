@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Uploads the Feature Store, releases, global surface layers, evidence and the log to Azure Blob.
+# Uploads the Feature Store, releases, global surface layers, the Moon/Mars mirror, evidence and the log to Azure Blob.
 # Called periodically, on a Spot eviction notice and at the end of the run (run-etl-azure.sh).
 # Staging directories (`tmp*`, `.stream_tmp`) and rasters still being written (`*.part*`) are
 # excluded, so only complete batches and layers reach the container.
@@ -31,6 +31,8 @@ sync_dir() {
 sync_dir "$WORKDIR/data/feature_store_v1" "${BLOB_URL}/data/feature_store_v1"
 sync_dir "$WORKDIR/releases" "${BLOB_URL}/releases"
 sync_dir "$WORKDIR/data/global_layers" "${BLOB_URL}/data/global_layers"
+# Verified mirror of the Moon/Mars rasters (scripts/etl_referencias.py espejo); `.part` downloads are excluded.
+sync_dir "$WORKDIR/data/raw/espejo" "${BLOB_URL}/data/raw/espejo"
 for evidence in "$WORKDIR"/docs/evidencia-*; do
     [[ -d "$evidence" ]] && sync_dir "$evidence" "${BLOB_URL}/docs/$(basename "$evidence")"
 done

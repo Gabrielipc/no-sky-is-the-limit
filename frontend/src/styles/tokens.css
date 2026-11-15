@@ -9,6 +9,8 @@
   --muted: #CDBBA4;
   --line: #85705A;
   --accent: #F2A64E;
+  --accent-amber: #F2A64E;
+  --accent-amber-glow: rgba(242, 166, 78, 0.3);
   --candidate: #72AED6;
   --error: #ffc0ac;
   --nodata: #9A8B7B;

@@ -16,6 +16,7 @@ import { useSimulation } from "../features/simulation/useSimulation";
 import { location, references } from "../features/simulation/model";
 import { AtlasReview } from "../features/simulation/AtlasReview";
 import "../features/simulation/simulation.css";
+import { LandingPage } from "../features/landing/LandingPage";
 
 export function AtlasShell() {
   const { state, update, adjusted, dismissAdjustment } = useAtlasState();
@@ -118,6 +119,8 @@ export function AtlasShell() {
       <span className="regolith-descriptor">NO SKY IS THE LIMIT</span>
     </header>
   );
+  if (state.view === "landing")
+    return <LandingPage onStart={() => update({ view: "unified", method: "engine" })} />;
   if (state.view === "unified")
     return (
       <>

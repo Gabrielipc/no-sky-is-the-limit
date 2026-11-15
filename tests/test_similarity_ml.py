@@ -77,6 +77,21 @@ def make_spec() -> dict:
     return spec
 
 
+class TestPatternGrouping(unittest.TestCase):
+    def test_matches_np_unique_on_rows(self) -> None:
+        rng = np.random.default_rng(3)
+        for k in (1, 3, 9):
+            avail = rng.random((500, k)) > 0.4
+            patterns, inverse = sim._group_patterns(avail)
+            self.assertTrue((patterns[inverse] == avail).all())
+            ref_patterns, _ = np.unique(avail, axis=0, return_inverse=True)
+            self.assertEqual({tuple(r) for r in patterns}, {tuple(r) for r in ref_patterns})
+
+    def test_empty_input(self) -> None:
+        patterns, inverse = sim._group_patterns(np.empty((0, 4), dtype=bool))
+        self.assertEqual(len(inverse), 0)
+
+
 class TestPrimitives(unittest.TestCase):
     def test_quantile_normal_is_monotone_and_ties_take_mid_rank(self) -> None:
         values = np.concatenate([np.zeros(500), np.linspace(1, 10, 500)])
@@ -266,6 +281,53 @@ class TestEngineOnStore(unittest.TestCase):
                                             memory_limit='512MB', threads=2)
         self.assertEqual(set(d), {'exact_twin', 'shape_twin'})
         self.assertLess(d['exact_twin']['escabrosidad'], d['shape_twin']['escabrosidad'])
+
+    def assert_same_response(self, a: dict, b: dict) -> None:
+        self.assertEqual(a['candidates_in_pool'], b['candidates_in_pool'])
+        self.assertEqual(a['candidates_ranked'], b['candidates_ranked'])
+        self.assertEqual(a['warnings'], b['warnings'])
+        self.assertEqual(a['views'], b['views'])
+        self.assertEqual(a['weights_effective'], b['weights_effective'])
+        self.assertEqual(a['results'], b['results'])
+
+    def test_pool_gives_the_same_answer_as_the_sql_path(self) -> None:
+        pool = self.engine.build_pool(self.root, memory_limit='512MB', threads=2)
+        self.addCleanup(pool.close)
+        moon = {'id': 'm', 'body': 'Moon', 'features': REF, 'percentiles': {'cpr_p50': 0.9, 'cpr_p90': 0.9}}
+        cases = [
+            dict(),
+            dict(only_eligible=False, limit=1000),
+            dict(only_eligible=False, limit=1000, missing_policy='require'),
+            dict(only_eligible=False, limit=1000, missing_policy='renormalize'),
+            dict(only_eligible=False, limit=50, fusion='rrf'),
+            dict(only_eligible=False, limit=20, bbox=[-100.5, 9.0, -98.0, 11.0]),
+            dict(only_eligible=False, limit=5, region_ids=['exact_twin', 'shape_twin', 'w0003']),
+            dict(only_eligible=False, limit=10, weights={'escabrosidad': 0, 'forma_hipsometrica': 1}),
+        ]
+        for kw in cases:
+            with self.subTest(**kw):
+                self.assert_same_response(self.search(**kw), self.search(pool=pool, **kw))
+        with self.subTest('moon bridge'):
+            kw = dict(limit=10, only_eligible=False, weights={'radar': 1.0, 'escabrosidad': 0.5})
+            self.assert_same_response(self.search(moon, **kw), self.search(moon, pool=pool, **kw))
+        with self.subTest('store reference'):
+            self.assert_same_response(self.search('moon-ref', limit=5, only_eligible=False),
+                                      self.search('moon-ref', limit=5, only_eligible=False, pool=pool))
+
+    def test_pool_rejects_a_different_profile(self) -> None:
+        pool = self.engine.build_pool(self.root, memory_limit='512MB', threads=2)
+        self.addCleanup(pool.close)
+        with self.assertRaises(ValueError):
+            self.search(pool=pool, profile='polar_cold_v1')
+
+    def test_pool_is_safe_across_threads(self) -> None:
+        from concurrent.futures import ThreadPoolExecutor
+        pool = self.engine.build_pool(self.root, memory_limit='512MB', threads=2)
+        self.addCleanup(pool.close)
+        expected = self.search(only_eligible=False, limit=30)['results']
+        with ThreadPoolExecutor(4) as ex:
+            out = list(ex.map(lambda _: self.search(only_eligible=False, limit=30, pool=pool)['results'], range(8)))
+        self.assertTrue(all(o == expected for o in out))
 
     def test_bad_reference_rejected(self) -> None:
         with self.assertRaises(ValueError):

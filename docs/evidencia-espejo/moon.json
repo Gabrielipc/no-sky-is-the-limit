@@ -1,0 +1,32 @@
+{
+  "spec_id": "espejo-evidencia-v1",
+  "body": "Moon",
+  "verified_at": "2026-11-15T11:59:57.413394+00:00",
+  "products": {
+    "lola-ldem-80s-20mpp": {
+      "sha256": "09b7ca80f9e6a146f970225d18af72fc02787669b3ef51b888e347d2b6845649",
+      "bytes": 2696082051,
+      "url": "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LDEM_80S_20MPP_ADJ.TIF"
+    },
+    "lola-lpsr-80s-20mpp": {
+      "sha256": "ad95311b81db773039af441dd66a017f024327858c6e0314b8c92bf2f470834e",
+      "bytes": 154221202,
+      "url": "https://pgda.gsfc.nasa.gov/data/LOLA_20mpp/LPSR_80S_20MPP_ADJ.TIF"
+    },
+    "lola-illumination-85s-60m": {
+      "sha256": "ccf67d4f39e0a970c111196da7d6551ffcf50d075470b93067fb3904c0b05806",
+      "bytes": 33994464,
+      "url": "https://pgda.gsfc.nasa.gov/data/MoonIllumination/AVGVISIB_85S_060M_201608.TIF"
+    },
+    "diviner-prp-south": {
+      "sha256": "393deaa5d8925d45bb2ed608f937a824f5eae029c2558aad1d2da8206b83a62d",
+      "bytes": 604800210,
+      "url": "https://pds-geosciences.wustl.edu/lro/urn-nasa-pds-lro_diviner_derived1/data_derived_prp/dlre_prp_south.tab"
+    },
+    "minirf-cpr-global-128ppd": {
+      "sha256": "9964d63f55f13cb6b98184eaca2c4667133f4f9895ac8a811f03958a52f880e1",
+      "bytes": 4246732800,
+      "url": "https://pds-geosciences.wustl.edu/lro/lro-l-mrflro-5-global-mosaic-v1/lromrf_1001/data/128ppd/global_cpr_128ppd_simp_0c.img"
+    }
+  }
+}

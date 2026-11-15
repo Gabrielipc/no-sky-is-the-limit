@@ -1,0 +1,32 @@
+{
+  "spec_id": "espejo-evidencia-v1",
+  "body": "Mars",
+  "verified_at": "2026-11-15T11:35:21.309855+00:00",
+  "products": {
+    "hirise-dtm-jezero": {
+      "sha256": "268bd5912f0aa0e0b0be8db9004085c2ace78f559377acad0a47b32878c7ccea",
+      "bytes": 320045704,
+      "url": "https://www.uahirise.org/PDS/DTM/PSP/ORB_002300_002399/PSP_002387_1985_PSP_003798_1985/DTEEC_002387_1985_003798_1985_A01.IMG"
+    },
+    "hirise-ortho-jezero": {
+      "sha256": "be2612e4e932238959fd43b28118b6d319c83b19b3fcf4bd70a754f4b8eea99b",
+      "bytes": 30941086,
+      "url": "https://www.uahirise.org/PDS/DTM/PSP/ORB_002300_002399/PSP_002387_1985_PSP_003798_1985/PSP_002387_1985_RED_C_01_ORTHO.JP2"
+    },
+    "themis-ti-jezero": {
+      "sha256": "84401e7717d43ae80cbd80213b91bd141ee48197eb8648293197447c43c2829c",
+      "bytes": 1721889,
+      "url": "https://zenodo.org/api/records/4931348/files/Jezero_Thermal_Inertia_v1.tiff/content"
+    },
+    "crism-sr-frt000047a3": {
+      "sha256": "10eb37e4dd8f2f95a6c3ebdfda5a0b066bd02c33bb2d1e03558c024f3b16ec2d",
+      "bytes": 164250240,
+      "url": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/mtrdr/2007/2007_057/frt000047a3/frt000047a3_07_sr166j_mtr3.img"
+    },
+    "crism-in-frt000047a3": {
+      "sha256": "575a55fd2792ce6e263901949bbc333003dae87e8b00ea488efbe0d6c8cc828b",
+      "bytes": 24637536,
+      "url": "https://pds-geosciences.wustl.edu/mro/mro-m-crism-5-rdr-mptargeted-v1/mrocr_4001/mtrdr/2007/2007_057/frt000047a3/frt000047a3_07_in166j_mtr3.img"
+    }
+  }
+}

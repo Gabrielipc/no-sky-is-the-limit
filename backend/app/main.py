@@ -1,6 +1,10 @@
+import logging
+import os
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.concurrency import run_in_threadpool
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -12,8 +16,28 @@ from app.routers.minerals_router import router as minerals_router
 from app.routers.regional_router import router as regional_router
 from app.routers.regions_router import router as regions_router
 from app.routers.scenarios_router import router as scenarios_router
+from app.routers.similarity_router import router as similarity_router
+from app.services import similarity_service
 
-app = FastAPI(title='Análogos planetarios · API', version='0.5.0')
+log = logging.getLogger('uvicorn.error')
+
+
+@asynccontextmanager
+async def lifespan(_app):
+    """Load the similarity engine at start-up so the first query does not pay for it."""
+    if os.environ.get('ANALOGOS_SIMILARITY_PRELOAD', '1') != '0':
+        try:
+            await run_in_threadpool(similarity_service.service().ensure)
+            log.info('Motor de similitud cargado en %s s', similarity_service.service().load_seconds)
+        except similarity_service.Unavailable as exc:
+            log.warning('Motor de similitud no disponible: %s', exc)
+        except Exception:  # a broken model must not stop the rest of the API
+            log.exception('No se pudo cargar el motor de similitud')
+    yield
+    similarity_service.service().close()
+
+
+app = FastAPI(title='Análogos planetarios · API', version='0.6.0', lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=['http://localhost:5173', 'http://127.0.0.1:5173'],
@@ -28,6 +52,7 @@ app.include_router(dimensions_router)
 app.include_router(minerals_router)
 app.include_router(atlas_router)
 app.include_router(regions_router)
+app.include_router(similarity_router)
 
 FRONTEND_DIST = Path(__file__).resolve().parents[2] / 'frontend' / 'dist'
 if (FRONTEND_DIST / 'index.html').is_file():

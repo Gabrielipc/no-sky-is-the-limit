@@ -156,6 +156,11 @@ if [[ "$ETL_SCRIPT" == *"etl_pipeline.py"* || "$ETL_SCRIPT" == *"atlas30.py"* ]]
     pixi run python "$WORKDIR/scripts/atlas30.py" inventory
 fi
 
+# The store keeps one small Parquet per delta (tens of thousands of manifests); publish reads them
+# all in one query and DuckDB needs a descriptor per file. Raise the soft limit as far as the hard one allows.
+for limit in 1048576 524288 262144 65536 "$(ulimit -Hn)"; do ulimit -n "$limit" 2>/dev/null && break; done
+log "Open-files limit: $(ulimit -n)"
+
 log "Running ETL: ${ETL_SCRIPT} ${ETL_ARGS}"
 # shellcheck disable=SC2086
 bash "$WORKDIR/scripts/ejecutar_minerales.sh" "$ETL_SCRIPT" $ETL_ARGS

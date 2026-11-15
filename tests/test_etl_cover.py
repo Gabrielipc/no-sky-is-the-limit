@@ -71,7 +71,8 @@ class TestCoverBackfill(unittest.TestCase):
             self.assertAlmostEqual(ranked[0]['bare_or_sparse_fraction'], SCENARIOS['desert']['bare_or_sparse_fraction'], places=6)
             # Other profiles are re-gated in SQL from the overlaid fractions.
             polar = store.rank_similar(100.0, 3.0, 9.0, profile='polar_cold_v1')
-            self.assertEqual([r['region_id'] for r in polar], ['desert'])
+            # The polar profile also needs a cold climate, and this store has no global layers.
+            self.assertEqual([r['region_id'] for r in polar], [])
             stats = store.store_stats()
             self.assertEqual(stats['by_eligibility']['eligible_arid_exposed'], 1)
 

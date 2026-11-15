@@ -30,12 +30,14 @@ Código: [`pipelines/etl_lunar_schema.py`](../../../pipelines/etl_lunar_schema.p
 |---|---|---|---|
 | Topografía y forma | LOLA `LDEM_80S_20MPP_ADJ` (Barker et al., 2023), 20 m, metros, estereográfica polar sur, R = 1 737 400 m | **Confirmada** | `direct_metric` con GLO‑30 en la misma huella |
 | Fracción PSR | LOLA `LPSR_80S_20MPP_ADJ`, máscara 0/1 a 20 m | **Confirmada** | `planet_specific_constraint` (compuerta) |
-| Iluminación promedio | PGDA *Lunar Polar Illumination* (producto 69) | Pendiente: la página no mostró el archivo | `planet_specific_constraint` (compuerta) |
-| Tmax, Tmin y amplitud | Diviner PRP sur (`dlre_prp_south.tab`, 605 MB) | Pendiente de adaptador: es una tabla ASCII de 15 columnas cuya estructura (`DLRE_PRP.FMT`) falta leer | `functional_contract_bridge` con climatología MODIS LST, por percentil |
-| Abundancia de rocas y parámetro H | Productos derivados de Diviner | Pendiente: no figuran por nombre en PDS Geosciences | `functional_contract_bridge` con la ATI de MODIS, por percentil |
-| CPR y S1 | Mosaicos polares Mini‑RF (CDR‑MOSAIC) | Pendiente: falta fijar archivo, bandas y CRS | `functional_contract_bridge` con RCM compacto, por percentil |
+| Iluminación promedio | PGDA `AVGVISIB_85S_060M_201608.TIF` (producto 69), 60 m, fracción de tiempo con el Sol visible (entero × 4·10⁻⁵), 85° S–90° S | **Confirmada** el 15 de noviembre de 2026; Haworth da 0 y de Gerlache 0,41 de media en la huella | `planet_specific_constraint` (compuerta) |
+| Tmax | Diviner PRP sur (`dlre_prp_south.tab`, 605 MB): temperatura máxima anual de superficie modelada, un triángulo de ~500 m por fila | **Confirmada** con un lector propio (cada celda toma el triángulo más cercano; la tabla se recorre una vez sin guardarla) | `functional_contract_bridge` con climatología MODIS LST, por percentil |
+| Tmin y amplitud | Mismo producto | **No disponible**: PRP trae la media anual a 2 cm y la máxima, pero no la mínima. Los mapas globales (GHRM) llegan solo a 70° S | — |
+| Abundancia de rocas y parámetro H | Diviner GHRM | **No disponible en los polos**: los mapas cubren 70° S–70° N | — |
+| CPR | Mosaico global Mini‑RF `global_cpr_128ppd_simp_0c.img` (banda S, 128 px/grado, cilíndrico simple) | **Confirmada** con lectura por rangos; un píxel mide ~237 m en latitud | `functional_contract_bridge` con RCM compacto, por percentil |
+| S1 | Mosaico global Mini‑RF S1 | **No disponible**: S1 = \|ERH\| + \|ERV\| sin unidades ni calibración en dB documentadas | — |
 
-Una dimensión cuyas fuentes no están confirmadas queda `on_demand_fetchable`, sin adivinar valores. Para activarla basta con cambiar la fuente a `confirmed` en la especificación, con URL o ruta, escala y rango válido. La amplitud térmica es la mediana por celda de Tmax − Tmin, no la diferencia de medianas, y todas las columnas de una dimensión comparten denominador.
+Una columna se mide cuando todas sus fuentes están confirmadas; las demás quedan vacías, sin adivinar valores, y la dimensión pasa a `measured` si al menos una columna se midió. Si ninguna se puede medir, queda `on_demand_fetchable`. Para activarla basta con cambiar la fuente a `confirmed` en la especificación, con URL o ruta, escala y rango válido. La amplitud térmica es la mediana por celda de Tmax − Tmin, no la diferencia de medianas, y todas las columnas de una dimensión comparten denominador.
 
 ### Compuerta del sitio lunar (`lunar_polar_base_v1`)
 
