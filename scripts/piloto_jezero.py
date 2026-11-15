@@ -25,6 +25,7 @@ from pipelines.spectral_bridge import MEASURED_STATUSES
 
 FORMAT = 'jezero-multivista-v1'
 CMR = 'https://cmr.earthdata.nasa.gov/search/granules.umm_json'
+R2C_MODEL_SHA256 = '3beb785f1bc5687d084e2ac708487e6bbfcc0580582c18c5b1d44e2689ce445e'
 
 
 def read(path: Path):
@@ -236,6 +237,7 @@ def stability(store, spec, profile, reference, ids=None, observations=None, samp
     report = {name: {} for name in variants} | ({'combined': {}} if observations is not None else {})
     baseline = {}
     for seed in [evaluation.SEED, *evaluation.STABILITY_SEEDS]:
+        print(f'Ajuste de estabilidad para semilla {seed}', file=sys.stderr, flush=True)
         models = [sim.SimilarityEngine(sim.fit_model(store, s, seed=seed, sample_size=sample_size), s)
                   for s in (current, spec)]
         for name, (cfg, with_gmm) in variants.items():
@@ -301,6 +303,8 @@ def evaluate(args) -> dict:
     spectral_scores = {r['region_id']: float(d) for r, d in zip(observed, metric.score(observed)) if np.isfinite(d)}
     test = [r for r in plan['frame'] if r['partition'] == 'test' and 'inclusion_probability' in r]
     ids = [r['region_id'] for r in test]
+    if digest(args.r2c_model) != R2C_MODEL_SHA256:
+        raise ValueError('El modelo de comparación no corresponde al artefacto publicado de r2c')
     engine = sim.SimilarityEngine(sim.fit_model(args.store, spec), spec)
     stable = distance_map(scores(engine, args.store, plan['profile'], ref, ids, with_gmm=False))
     original = sim.SimilarityEngine.load(args.r2c_model)
@@ -346,7 +350,8 @@ def evaluate(args) -> dict:
 def publish(args) -> dict:
     report = read(args.report)
     if (report.get('format') != FORMAT or report['status'] != 'publishable_experiment'
-            or not all(report.get(k, {}).get('pass') for k in ('support', 'retrieval', 'relevance', 'stability'))):
+            or not all(report.get(k, {}).get('pass') is True
+                       for k in ('support', 'retrieval', 'relevance', 'stability'))):
         raise ValueError('El piloto todavía es diagnóstico y no puede servirse')
     if not re.fullmatch(r'jezero-r3-[a-z0-9-]+', args.version):
         raise ValueError('La versión debe comenzar por jezero-r3-')

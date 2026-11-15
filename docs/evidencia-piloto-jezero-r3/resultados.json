@@ -1,0 +1,447 @@
+{
+  "status": "diagnostic",
+  "baseline": "etl-30m-r2c",
+  "baseline_model_sha256": "3beb785f1bc5687d084e2ac708487e6bbfcc0580582c18c5b1d44e2689ce445e",
+  "sampling": {
+    "arid_mars_surface_v2": {
+      "catalog_scenes": 2066,
+      "frame_windows": 8801,
+      "samples": {
+        "fit": 1000,
+        "test": 300
+      },
+      "reserved_samples_per_block": {
+        "atacama": 141,
+        "mojave": 81,
+        "namib": 78
+      },
+      "design_sha256": "20e155a62ca5ed0915ef2951604979680b1d2dcb7fbe8dc5476630a635982b4d"
+    },
+    "paleolake_margin_v1": {
+      "catalog_scenes": 2066,
+      "frame_windows": 8816,
+      "samples": {
+        "fit": 1000,
+        "test": 300
+      },
+      "reserved_samples_per_block": {
+        "atacama": 142,
+        "mojave": 80,
+        "namib": 78
+      },
+      "design_sha256": "83d3fb74c92326faacc5559ac0f6bb0fe859d0d30bbab21cd513d622a492bad8"
+    }
+  },
+  "spectral": {
+    "mars_jezero": {
+      "region_id": "mars-jezero-fan",
+      "body": "Mars",
+      "block": "controls",
+      "partition": "fit",
+      "role": "reference",
+      "longitude": 77.41,
+      "latitude": 18.49,
+      "geologic_unit": null,
+      "inclusion_probability": null,
+      "scene_id": "FRT000047A3_07_IF166J_MTR3",
+      "spectral_side_m": 1800,
+      "topographic_side_m": 3000,
+      "sample": {
+        "instrument": "CRISM_MTRDR",
+        "product_id": "FRT000047A3_07_IF166J_MTR3",
+        "footprint_cells": 10200,
+        "in_coverage_cells": 10200,
+        "valid_cells": 8897,
+        "valid_fraction": 0.8722549019607844,
+        "pixel_m": 18.0,
+        "kernel_mode": "channels",
+        "wavelength_range_nm": [
+          436.13,
+          3896.76
+        ],
+        "notes": [
+          "Reflectancia corregida MTRDR (IF); celdas válidas con máscara VNIR/IR = 0"
+        ]
+      },
+      "indicators": {
+        "BD530_2": {
+          "parameter": "BD530_2",
+          "floor": 0.05,
+          "floor_origin": "",
+          "p50": 0.14390822795111002,
+          "p95": 0.1557448474399984,
+          "active_fraction": 1.0,
+          "n_valid": 8897,
+          "status": "measured",
+          "valid_fraction": 0.8722549019607844
+        },
+        "BD2210_2": {
+          "parameter": "BD2210_2",
+          "floor": 0.005,
+          "floor_origin": "",
+          "p50": 0.0005419852125964075,
+          "p95": 0.003003798463605434,
+          "active_fraction": 0.004720692368214005,
+          "n_valid": 8897,
+          "status": "measured",
+          "valid_fraction": 0.8722549019607844
+        },
+        "BD2290": {
+          "parameter": "BD2290",
+          "floor": 0.005,
+          "floor_origin": "",
+          "p50": 0.002519764553084891,
+          "p95": 0.0066924024817748284,
+          "active_fraction": 0.14982578397212543,
+          "n_valid": 8897,
+          "status": "measured",
+          "valid_fraction": 0.8722549019607844
+        }
+      }
+    },
+    "earth_utah_control": {
+      "region_id": "utah-control",
+      "body": "Earth",
+      "block": "utah",
+      "partition": "fit",
+      "role": "control",
+      "longitude": -110.6,
+      "latitude": 38.6,
+      "geologic_unit": null,
+      "inclusion_probability": null,
+      "scene_id": "EMIT_L2A_RFL_002_20230609T171110",
+      "spectral_side_m": 1800,
+      "topographic_side_m": 3000,
+      "sample": {
+        "instrument": "EMIT_L2A",
+        "product_id": "EMIT_L2A_RFL_002_20230609T171110",
+        "footprint_cells": 1140,
+        "in_coverage_cells": 1140,
+        "valid_cells": 1140,
+        "valid_fraction": 1.0,
+        "pixel_m": 60.0,
+        "kernel_mode": "nm",
+        "wavelength_range_nm": [
+          380.8190002441406,
+          2492.737060546875
+        ],
+        "notes": [
+          "Reflectancia de superficie L2A v002; celdas en la rejilla GLT; máscara agregada = 0 (0 celdas enmascaradas)",
+          "37 bandas marcadas como no válidas (vapor de agua y extremos)"
+        ]
+      },
+      "indicators": {
+        "BD530_2": {
+          "parameter": "BD530_2",
+          "floor": 0.05,
+          "floor_origin": "",
+          "p50": 0.20974960725834246,
+          "p95": 0.23030380588626734,
+          "active_fraction": 1.0,
+          "n_valid": 1140,
+          "status": "measured",
+          "valid_fraction": 1.0
+        },
+        "BD2210_2": {
+          "parameter": "BD2210_2",
+          "floor": 0.005,
+          "floor_origin": "",
+          "p50": 0.03382407854997782,
+          "p95": 0.04238852567619067,
+          "active_fraction": 1.0,
+          "n_valid": 1140,
+          "status": "measured",
+          "valid_fraction": 1.0
+        },
+        "BD2290": {
+          "parameter": "BD2290",
+          "floor": 0.005,
+          "floor_origin": "",
+          "p50": -0.017850303884782592,
+          "p95": -0.009380726865419499,
+          "active_fraction": 0.0,
+          "n_valid": 1140,
+          "status": "measured_absent",
+          "valid_fraction": 1.0
+        }
+      }
+    },
+    "evaluation": {
+      "format": "jezero-multivista-v1",
+      "profile": "arid_mars_surface_v2",
+      "status": "diagnostic",
+      "support": {
+        "repeatability": {
+          "Earth": {
+            "BD530_2": {
+              "pairs": 0,
+              "spearman": null,
+              "pass": false
+            },
+            "BD2210_2": {
+              "pairs": 0,
+              "spearman": null,
+              "pass": false
+            },
+            "BD2290": {
+              "pairs": 0,
+              "spearman": null,
+              "pass": false
+            }
+          },
+          "Mars": {
+            "BD530_2": {
+              "pairs": 0,
+              "spearman": null,
+              "pass": false
+            },
+            "BD2210_2": {
+              "pairs": 0,
+              "spearman": null,
+              "pass": false
+            },
+            "BD2290": {
+              "pairs": 0,
+              "spearman": null,
+              "pass": false
+            }
+          }
+        },
+        "support": {
+          "BD530_2": {
+            "earth": 0,
+            "mars": 0,
+            "mars_scenes": 0,
+            "mars_units": 0,
+            "usable": false
+          },
+          "BD2210_2": {
+            "earth": 0,
+            "mars": 0,
+            "mars_scenes": 0,
+            "mars_units": 0,
+            "usable": false
+          },
+          "BD2290": {
+            "earth": 0,
+            "mars": 0,
+            "mars_scenes": 0,
+            "mars_units": 0,
+            "usable": false
+          }
+        },
+        "reference_scene": "FRT000047A3_07_IF166J_MTR3",
+        "pass": false,
+        "reason": "Sin dos indicadores con soporte y repetibilidad"
+      },
+      "measurement_failures": 0,
+      "design_sha256": "20e155a62ca5ed0915ef2951604979680b1d2dcb7fbe8dc5476630a635982b4d",
+      "measurements_sha256": "b77fe387dcd540e4900c09c29d1b335a3d0f074d20f23f762912686e952fbfca"
+    }
+  },
+  "thermal": {
+    "themis": {
+      "product": "Jezero_Thermal_Inertia_v1.tiff",
+      "doi": "10.5281/zenodo.4931348",
+      "longitude": 77.41,
+      "latitude": 18.49,
+      "units": "J m−2 K−1 s−1/2",
+      "by_side": {
+        "1800": {
+          "side_m": 1800,
+          "native_pixel": [
+            100.0,
+            100.0
+          ],
+          "valid_cells": 342,
+          "valid_fraction": 1.0,
+          "status": "measured",
+          "p10": 223.0965560913086,
+          "p50": 253.21662139892578,
+          "p90": 271.9817321777344
+        },
+        "3000": {
+          "side_m": 3000,
+          "native_pixel": [
+            100.0,
+            100.0
+          ],
+          "valid_cells": 930,
+          "valid_fraction": 1.0,
+          "status": "measured",
+          "p10": 207.0374526977539,
+          "p50": 239.76403045654297,
+          "p90": 267.85076293945315
+        }
+      },
+      "status": "diagnostic",
+      "ranking_weight": 0
+    },
+    "modis_snapshot": {
+      "status": "diagnostic",
+      "fine_windows": 100,
+      "tiles": 24,
+      "compared_with_coarse": 100,
+      "spearman": 0.9374017401740172,
+      "ranking_weight": 0
+    }
+  },
+  "polar": {
+    "hemispheres": [
+      {
+        "hemisphere": "norte",
+        "cause": "eligible_polar_cold_exposed",
+        "windows": 44622
+      },
+      {
+        "hemisphere": "norte",
+        "cause": "excluded_built",
+        "windows": 17695
+      },
+      {
+        "hemisphere": "norte",
+        "cause": "excluded_dense_canopy",
+        "windows": 452604
+      },
+      {
+        "hemisphere": "norte",
+        "cause": "excluded_permanent_water",
+        "windows": 104887
+      },
+      {
+        "hemisphere": "norte",
+        "cause": "excluded_vegetated_non_tree",
+        "windows": 212733
+      },
+      {
+        "hemisphere": "norte",
+        "cause": "excluded_warm_climate",
+        "windows": 159902
+      },
+      {
+        "hemisphere": "norte",
+        "cause": "pending_climate_check",
+        "windows": 544
+      },
+      {
+        "hemisphere": "norte",
+        "cause": "pending_on_demand_cover_check",
+        "windows": 247
+      },
+      {
+        "hemisphere": "sur",
+        "cause": "eligible_polar_cold_exposed",
+        "windows": 687
+      },
+      {
+        "hemisphere": "sur",
+        "cause": "excluded_built",
+        "windows": 1352
+      },
+      {
+        "hemisphere": "sur",
+        "cause": "excluded_dense_canopy",
+        "windows": 212429
+      },
+      {
+        "hemisphere": "sur",
+        "cause": "excluded_permanent_water",
+        "windows": 14085
+      },
+      {
+        "hemisphere": "sur",
+        "cause": "excluded_vegetated_non_tree",
+        "windows": 106700
+      },
+      {
+        "hemisphere": "sur",
+        "cause": "excluded_warm_climate",
+        "windows": 8011
+      },
+      {
+        "hemisphere": "sur",
+        "cause": "pending_climate_check",
+        "windows": 25
+      },
+      {
+        "hemisphere": "sur",
+        "cause": "pending_on_demand_cover_check",
+        "windows": 122947
+      }
+    ],
+    "rankable_windows": 1459470,
+    "lunar_windows": [
+      {
+        "region_id": "moon-aeqd-v1:de-gerlache-cresta",
+        "illumination_fraction": 0.4062838554382324,
+        "psr_fraction": 0.002984321443364024,
+        "diviner_tmax_p50_k": 255.5590057373047,
+        "slope_p90_deg": 22.40203857421875
+      },
+      {
+        "region_id": "moon-aeqd-v1:haworth-fondo",
+        "illumination_fraction": 0.0,
+        "psr_fraction": 1.0,
+        "diviner_tmax_p50_k": 59.83000183105469,
+        "slope_p90_deg": 5.685737133026123
+      }
+    ]
+  },
+  "antarctic": {
+    "rema_tile": "18_35_32m_v2.0_dem.tif",
+    "scar_doi": "10.5285/9df510e3-ea1c-450b-9950-d742db1efd96",
+    "rema_doi": "10.7910/DVN/EBW8UC",
+    "windows": [
+      {
+        "longitude": 162.75,
+        "latitude": -77.62,
+        "surface_side_m": 3000,
+        "status": "diagnostic",
+        "rock_outcrop_fraction": 0.6755328290676417,
+        "rema": {
+          "side_m": 3000,
+          "native_pixel": [
+            32.0,
+            32.0
+          ],
+          "valid_cells": 5692,
+          "valid_fraction": 0.6685459243598778,
+          "status": "insufficient_coverage",
+          "p10": null,
+          "p50": null,
+          "p90": null
+        },
+        "sources": [
+          "SCAR Antarctic Digital Database rock outcrop",
+          "Reference Elevation Model of Antarctica"
+        ],
+        "note": "La fracción de afloramientos proviene de SCAR; la elevación de superficie procede de REMA."
+      },
+      {
+        "longitude": 162.6,
+        "latitude": -77.62,
+        "surface_side_m": 3000,
+        "status": "diagnostic",
+        "rock_outcrop_fraction": 0.2036153857135215,
+        "rema": {
+          "side_m": 3000,
+          "native_pixel": [
+            32.0,
+            32.0
+          ],
+          "valid_cells": 8515,
+          "valid_fraction": 1.0,
+          "status": "measured",
+          "p10": 1205.2876220703124,
+          "p50": 1620.5107421875,
+          "p90": 1721.9544189453125
+        },
+        "sources": [
+          "SCAR Antarctic Digital Database rock outcrop",
+          "Reference Elevation Model of Antarctica"
+        ],
+        "note": "La fracción de afloramientos proviene de SCAR; la elevación de superficie procede de REMA."
+      }
+    ]
+  }
+}

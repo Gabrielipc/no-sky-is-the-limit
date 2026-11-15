@@ -62,5 +62,5 @@ def antarctic(outcrops: Path, rema: Path | str, longitude: float, latitude: floa
         'longitude': longitude, 'latitude': latitude, 'surface_side_m': 3000, 'status': 'diagnostic',
         'rock_outcrop_fraction': local_rocks.area / geom.area, 'rema': dem,
         'sources': ['SCAR Antarctic Digital Database rock outcrop', 'Reference Elevation Model of Antarctica'],
-        'note': 'La fracción de afloramientos proviene de SCAR; la elevación de superficie procede de REMA.',
+        'note': 'SCAR aporta la fracción de afloramientos y REMA aporta la elevación superficial.',
     }

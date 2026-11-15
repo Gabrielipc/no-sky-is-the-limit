@@ -4,8 +4,7 @@ import os
 from pathlib import Path
 from typing import Literal
 
-from fastapi import APIRouter, HTTPException
-from fastapi import Query
+from fastapi import APIRouter, HTTPException, Query
 from fastapi.concurrency import run_in_threadpool
 
 from app.schemas.similarity import SearchRequest
@@ -35,7 +34,7 @@ def read_jezero_pilot(mode: str, limit: int) -> dict:
     try:
         report = json.loads((Path(directory) / 'jezero.json').read_text(encoding='utf-8'))
         if (report['format'] != 'jezero-multivista-v1' or report['status'] != 'experimental'
-                or not all(report[key]['pass'] for key in ('support', 'relevance', 'retrieval', 'stability'))):
+                or not all(report[key]['pass'] is True for key in ('support', 'relevance', 'retrieval', 'stability'))):
             raise ValueError('El piloto aún no cumple los criterios de publicación')
         results = report['rankings'][mode]
         return {
