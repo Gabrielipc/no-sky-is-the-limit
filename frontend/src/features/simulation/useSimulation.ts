@@ -4,7 +4,7 @@ import {loadSearch} from './source';
 import type {LoadedSearch} from './model';
 export function useSimulation(state:AtlasState) {
   const key=`${state.reference}/${state.release}/${state.engineSource}`;
-  const enabled=state.method==='engine' && ['simulation','compare','sensitivity','surface'].includes(state.view);
+  const enabled=state.method==='engine' && ['unified','simulation','compare','sensitivity','surface'].includes(state.view);
   const [attempt,setAttempt]=useState(0);
   const [result,setResult]=useState<{key:string;attempt:number;value?:LoadedSearch;error?:string}>();
   useEffect(()=>{

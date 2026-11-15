@@ -44,7 +44,7 @@ test('zero is a real measurement, missing comparisons are last, exclusions remai
 });
 test('links reject incompatible scales, unknown modes, arbitrary identifiers and cross-area selections', () => {
   const parsed = parseState('?view=global&cell=300&regionalCell=60&layer=unknown&profile=validated&excluded=maybe&area=utah&regionalSite=atacama-001-001&sensitivitySite=../../secret');
-  assert.equal(parsed.adjusted, true); assert.equal(parsed.state.view, 'surface'); assert.equal(parsed.state.cell, 60); assert.equal(parsed.state.regionalCell, 300); assert.equal(parsed.state.regionalSite, '');
+  assert.equal(parsed.adjusted, true); assert.equal(parsed.state.view, 'unified'); assert.equal(parsed.state.cell, 60); assert.equal(parsed.state.regionalCell, 300); assert.equal(parsed.state.regionalSite, '');
 });
 test('links preserve distinct experiments and an unavailable sample member without silently substituting it', () => {
   const { state, adjusted } = parseState('?view=sensitivity&site=earth-atacama&cell=120&area=mojave&regionalSite=control-mojave&sensitivitySite=utah-003-001&sensitivityCell=600&excluded=true');
@@ -185,7 +185,7 @@ test('metric rulers fit their viewport and profile uses exactly the mesh centre 
   assert.equal(surface.metricScale(NaN),null);
   const row=surface.terrainProfile(new Float32Array([0,1,2,10,NaN,12,20,21,22]),{width:3,height:3,cell_m:30});
   assert.deepEqual(Array.from(row,r=>r.distance),[0,30,60]);assert.equal(row[0].height,10);assert.ok(Number.isNaN(row[1].height));
-  assert.deepEqual(Array.from(surface.elevationColor(0,0,100)),[28,91,112]);assert.deepEqual(Array.from(surface.elevationColor(100,0,100)),[255,249,229]);
+  assert.deepEqual(Array.from(surface.elevationColor(0,0,100)),[43,29,20]);assert.deepEqual(Array.from(surface.elevationColor(100,0,100)),[253,241,214]);
 });
 
 test('service outage still opens evidence, while HTTP authorization errors stay explicit',async t=>{
@@ -227,4 +227,60 @@ test('malformed successful service responses and cancelled queries never fall ba
   const controller=new AbortController();controller.abort();
   t.mock.method(globalThis,'fetch',async()=>{throw new Error('cancelled');});
   await assert.rejects(motorSource.loadSearch('jezero','','auto','/',controller.signal),/cancelled/);
+});
+
+const unified=load('src/features/unified/terrainModel.ts');
+test('unified study levels retain the complete scientific pair and default to true vertical scale',()=>{
+  const {state}=parseState('?reference=haworth-fondo&regionId=utm-ups-v1-10000-32741-249-59&release=reviewed-v1&visualLayer=slope');
+  assert.equal(state.view,'unified');assert.equal(state.exaggeration,1);
+  const {stateQuery}=load('src/app/useAtlasState.ts');
+  for(const surfaceMode of ['space','regional','mesh']){
+    const restored=parseState(stateQuery({...state,surfaceMode})).state;
+    for(const key of ['reference','regionId','release','method','visualLayer'])assert.equal(restored[key],state[key]);
+    assert.equal(restored.surfaceMode,surfaceMode);
+  }
+});
+test('visual DEM selection requires both exact identity and centre, including distinct regional and local Jezero sources',()=>{
+ const catalog=JSON.parse(fs.readFileSync(path.join(base,'public/surface/unified/catalog.json')));
+ assert.equal(unified.exactSite(catalog,'haworth-fondo',-5,-87.45,'local').body,'Moon');
+ assert.equal(unified.exactSite(catalog,'haworth-fondo',-68.7,-88.71,'local'),undefined);
+ assert.equal(unified.exactSite(catalog,'de-gerlache-cresta',-68.7,-88.71,'local').id,'de-gerlache-cresta');
+ assert.equal(unified.exactSite(catalog,'unknown',-5,-87.45,'local'),undefined);
+ assert.match(unified.exactSite(catalog,'jezero',77.41,18.49,'regional').source,/MOLA/);
+ assert.match(unified.exactSite(catalog,'jezero',77.41,18.49,'local').source,/HiRISE/);
+});
+test('shared visual ranges align relative datums and common slope support while keeping nodata gaps',()=>{
+ const site={width:3,height:3,cell_m:30,center_m:1000};
+ const a={site,heights:new Float32Array([970,1000,1030,970,1000,1030,970,1000,1030])};
+ const b={site:{...site,center_m:-3000},heights:new Float32Array([-3060,-3000,-2940,-3060,-3000,-2940,-3060,-3000,-2940])};
+ assert.deepEqual(Array.from(unified.sharedRange([a,b],'elevation')),[-60,60]);
+ assert.equal(unified.visualValues(a,'slope')[4],45);
+ assert.ok(Math.abs(unified.sharedRange([a,b],'slope')[1]-63.43495)<.001);
+ a.heights[3]=NaN;assert.ok(Number.isNaN(unified.visualValues(a,'slope')[4]));
+ assert.equal(unified.visualValues(a,'elevation')[4],0);
+ assert.deepEqual(Array.from(unified.sharedRange([undefined,undefined],'elevation')),[0,1]);
+});
+test('polar DEM offsets follow metre distances without longitude stretching or reversed north',()=>{
+ const radius=1737400,lon=-68.7,lat=-88.71;
+ const north=unified.offsetDegrees(lon,lat,0,900,radius),east=unified.offsetDegrees(lon,lat,900,0,radius);
+ assert.ok(north[1]>lat);assert.ok(east[0]>lon);
+ function arc([a,b]){const p=lat*Math.PI/180,q=b*Math.PI/180,d=(a-lon)*Math.PI/180;return 2*radius*Math.asin(Math.sqrt(Math.sin((q-p)/2)**2+Math.cos(p)*Math.cos(q)*Math.sin(d/2)**2));}
+ assert.ok(Math.abs(arc(north)-900)<1e-5);assert.ok(Math.abs(arc(east)-900)<1e-5);
+});
+test('browser terrain catalog contains calibrated DEMs for exact demonstration centres and true lunar sites',()=>{
+ const crypto=require('node:crypto');
+ const catalog=JSON.parse(fs.readFileSync(path.join(base,'public/surface/unified/catalog.json')));
+ for(const reference of ['jezero','haworth-fondo'])for(const row of JSON.parse(fs.readFileSync(path.join(base,`public/simulation/${reference}.json`))).results){
+  const site=unified.exactSite(catalog,row.region_id,row.longitude,row.latitude,'local');assert.ok(site,row.region_id);assert.equal(site.window_m,1800);assert.equal(site.cell_m,30);
+ }
+ for(const entry of Object.values(catalog.sites))for(const [kind,s] of Object.entries(entry)){
+  assert.equal((s.width-1)*s.cell_m,s.window_m);assert.ok(s.scale_m>0);assert.equal(s.nodata,255);
+  assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(base,'public/surface',s.heightmap))).digest('hex'),s.sha256);
+  assert.equal(s.cell_m,kind==='local'?30:150);
+ }
+});
+test('unselected result framing respects spherical geography at the date line',()=>{
+ const [lon,lat]=unified.candidateFocus([{longitude:179,latitude:30},{longitude:-179,latitude:30}]);
+ assert.ok(Math.abs(Math.abs(lon)-180)<1e-6);assert.ok(lat>30&&lat<30.01);
+ assert.deepEqual(Array.from(unified.candidateFocus([])),[0,10]);
 });

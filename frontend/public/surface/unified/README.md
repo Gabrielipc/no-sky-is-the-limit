@@ -39,3 +39,10 @@ Las demostraciones del ranking usan ventanas de 3 km, pendiente con base 240 m y
 rugosidad con radio 360 m. La pendiente visual usa diferencias centrales de 60 m
 en la rejilla de 30 m; no sustituye ese descriptor. No se genera rugosidad ficticia.
 Ni zoom, ni exageración, ni capa cambian las mediciones publicadas.
+
+Jezero regional: MOLA 128 ppd, rango ya verificado del proyecto
+MEGR44N000HB.IMG (filas 3072–3455, bytes 70778880–79626239),
+SHA-256 430ae7fb3b811bbe48697856d9ed21a412a1d14b4b29181cf7df474628bc762f.
+Muestreo nativo ~463 m, remuestreado a 150 m para el visor; esta interpolación no
+aporta detalle nuevo. El recorte CTX se proyecta sobre la malla con coordenadas
+por vértice de su rectángulo geográfico original, sin estirar la imagen al recorte.

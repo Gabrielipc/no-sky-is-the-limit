@@ -23,7 +23,7 @@ def save_grid(z, ident, name, body, lon,lat,cell,source,url,datum,native,kind):
  file=f'{ident}-{kind}.png';Image.fromarray(q).save(OUT/file)
  return dict(id=ident,name=name,body=body,longitude=lon,latitude=lat,width=z.shape[1],height=z.shape[0],cell_m=cell,window_m=(z.shape[1]-1)*cell,offset_m=lo,scale_m=scale,nodata=255,center_m=float(np.median(vals)),min_m=lo,max_m=hi,coverage=float(valid.mean()),heightmap='unified/'+file,texture='unified/'+file,source=source,source_url=url,datum=datum,native_resolution_m=native,quantization_error_m=scale/2,sha256=hashlib.sha256((OUT/file).read_bytes()).hexdigest(),grid_crs=f'Local azimuthal equidistant at {lat}, {lon}; raster north-up')
 def sample(src,lon,lat,body,cell,n):
- radius='+R=1737400' if body=='Moon' else '+datum=WGS84'
+ radius='+R=1737400' if body=='Moon' else '+R=3396000' if body=='Mars' else '+datum=WGS84'
  crs=f'+proj=aeqd +lat_0={lat} +lon_0={lon} {radius} +units=m'
  half=(n-1)*cell/2
  dst_transform=from_origin(-half-cell/2,half+cell/2,cell,cell)
@@ -54,6 +54,18 @@ q=np.asarray(Image.open(ROOT/'frontend/public/surface'/s['heightmap']).convert('
 z=np.full((61,61),np.nan,dtype='float32');crs='+proj=aeqd +lat_0=18.49 +lon_0=77.41 +R=3396000 +units=m'
 reproject(h,z,src_transform=from_origin(-900-9.375,900+9.375,18.75,18.75),src_crs=crs,src_nodata=np.nan,dst_transform=from_origin(-915,915,30,30),dst_crs=crs,dst_nodata=np.nan,resampling=Resampling.bilinear)
 manifest['sites']['jezero']={'local':save_grid(z,'jezero','Jezero','Mars',77.41,18.49,30,s['source'],s['source_url'],'Mars 2000 equipotential',18.75,'local')}
+manifest['sites']['jezero']['local']['upstream_quantization_error_m']=s['scale_m']/2
+manifest['sites']['jezero']['local']['quantization_error_m']+=s['scale_m']/2
+from rasterio.io import MemoryFile
+file=ROOT/'data/raw/frontend-surface/mola128-rows3072-3455.bin'
+assert hashlib.sha256(file.read_bytes()).hexdigest()=='430ae7fb3b811bbe48697856d9ed21a412a1d14b4b29181cf7df474628bc762f'
+fine=np.fromfile(file,dtype='>i2').reshape(384,11520).astype('float32')
+with MemoryFile() as mem:
+ with mem.open(driver='GTiff',height=384,width=11520,count=1,dtype='float32',crs='+proj=longlat +R=3396000',transform=from_origin(0,20,1/128,1/128)) as src:
+  src.write(fine,1);z=sample(src,77.41,18.49,'Mars',150,161)
+url='https://pds-geosciences.wustl.edu/mgs/urn-nasa-pds-mgs_mola_topography_derived/meg128/megr44n000hb.img'
+manifest['sites']['jezero']['regional']=save_grid(z,'jezero','Jezero','Mars',77.41,18.49,150,'NASA MGS / MOLA 128 ppd',url,'3396000 m sphere · radius grid, not areoid elevation',463.0625,'regional')
+
 env=dict(GDAL_DISABLE_READDIR_ON_OPEN='EMPTY_DIR',CPL_VSIL_CURL_ALLOWED_EXTENSIONS='.TIF,.tif',GDAL_HTTP_TIMEOUT='20',GDAL_HTTP_MAX_RETRY='0',CPL_VSIL_CURL_CACHE_SIZE=32000000)
 with rasterio.Env(**env):
  for ident,name,lon,lat in [('haworth-fondo','Haworth',-5,-87.45),('de-gerlache-cresta','De Gerlache',-68.7,-88.71)]:
