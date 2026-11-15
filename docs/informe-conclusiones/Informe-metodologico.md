@@ -48,7 +48,7 @@ Primero, cada característica se transforma mediante cuantiles empíricos terres
 
 Una mezcla gaussiana agrupa regímenes morfológicos y compara las probabilidades de pertenencia con el coeficiente de Bhattacharyya. El número de componentes se selecciona mediante BIC dentro del rango configurado. Las vistas se fusionan con pesos declarados o fusión de rankings; si falta una dimensión, la política explícita puede tratarla como neutral, renormalizar o exigirla. El intervalo reportado refleja la política para información ausente; no debe presentarse como un intervalo de confianza estadístico validado. La reserva espacial evita entrenar sobre Mojave, pero por sí sola no prueba que las candidatas sean correctas: queda por realizar y evaluar la revisión ciega. [I7, R15–R17]
 
-En etl-30m-r1b figuran ajustadas escabrosidad, forma hipsométrica, organización y régimen morfológico. Espectral y radar no tenían mediciones suficientes; térmica contaba con solo 39 ventanas de fondo; entorno superficial y emisividad global aún no se habían muestreado para el ajuste. Las vistas no ajustadas se excluyen de la fusión con aviso. Jezero funciona como referencia; Haworth y De Gerlache requieren ventanas lunares en el almacén. Una búsqueda calculada en consulta necesita el feature store; los resultados precalculados pueden servirse desde la release. [I3]
+En etl-30m-r1b figuran ajustadas escabrosidad, forma hipsométrica, organización y régimen morfológico. Espectral y radar no tenían mediciones suficientes; térmica contaba con solo 39 ventanas de fondo; entorno superficial y emisividad global aún no se habían muestreado para el ajuste. Las vistas no ajustadas se excluyen de la fusión con aviso. Jezero funciona como referencia; Para consultas generales, Haworth y De Gerlache requieren sus ventanas lunares en el almacén; el caso de Nicaragua dispone de resultados lunares precalculados en un artefacto separado. Una búsqueda calculada en consulta necesita el feature store; los resultados precalculados pueden servirse desde la release. [I3]
 
 ## 4. Validación realizada y resultados
 
@@ -76,7 +76,55 @@ El sistema puede explorar un catálogo mundial muestreado, mostrar calidad y ele
 
 No puede afirmar equivalencia geológica completa, identificar la composición real sin contraste, inferir directamente condiciones pasadas de Marte, evaluar seguridad de navegación o certificar accesibilidad de una zona. Tampoco proporciona un ranking mundial exhaustivo: la separación de 10 km omite áreas entre ventanas y favorece lo que la malla y los filtros observan. El GLO-30 representa superficie y las clases de cobertura corresponden a productos y épocas concretas. Los parámetros, los pesos y la población de normalización pueden cambiar el orden; fuentes, escala, soporte y selección introducen incertidumbre. Un número alto no es una probabilidad científica de éxito. [I1, I5, I10]
 
-## 6. Roadmap propuesto
+## 6. Nicaragua como caso de aplicación
+
+### 6.1 Por qué Nicaragua
+
+Nicaragua permite conectar el atlas con un problema regional y con literatura científica previa: Cerro Negro, Momotombo, Telica y los Hervideros de San Jacinto se incluyen como sitios estudiados por sus procesos de alteración ácido-sulfática y su interés para comprender sistemas marcianos antiguos. Su valor como análogos procede de la investigación citada, no de haber obtenido una puntuación favorable en el atlas. La analogía es específica de las propiedades y procesos estudiados; no significa que todo el volcán reproduzca Marte. [I15, I16; R18, R19]
+
+Esta distinción ofrece un planteamiento para la propuesta: partir de sitios con fundamento publicado, usar el sistema para explorar ventanas que comparten rasgos medibles, y contrastar después las candidatas con información geológica independiente. La plataforma puede reducir el espacio de búsqueda y hacer visibles las razones de selección; todavía no se ha medido cuánto tiempo o dinero ahorraría ni su capacidad de recuperar nuevos análogos confirmados.
+
+### 6.2 Por qué adaptar el método global
+
+La malla mundial original, con centros cada 10 km, es útil para reconocimiento amplio pero no colocaba ninguna ventana sobre los análogos conocidos de este caso. Un resultado vacío habría podido reflejar el diseño de muestreo en lugar de ausencia de interés científico. Por ello se añadieron centros cada 2 km dentro de aproximadamente 10 km de 13 volcanes holocenos del inventario Smithsonian GVP, además de centros en cumbres y sitios conocidos. La huella sigue siendo de 3 km; ventanas vecinas se solapan y sus resultados no son observaciones independientes. La selección alrededor de volcanes prioriza una hipótesis geológica y deja otras zonas con muestreo más disperso. [I15, I17; R20]
+
+Se empleó el mismo extractor topográfico y las mismas fuentes GLO-30, WorldCover y JRC del atlas para conservar la comparabilidad del procesamiento. Se retiró el filtro de superficie árida porque eliminaría gran parte del territorio de interés cubierto por vegetación, cultivos o agua. Esa decisión amplía el universo de exploración, pero aumenta la necesidad de interpretar la cobertura y los sesgos del DSM; no demuestra que los lugares vegetados tengan superficie expuesta comparable a Marte. Con más de 5 % de árboles la rugosidad se deja sin medir; la ausencia no es rugosidad cero. Se excluyen del ranking ventanas con al menos 50 % de agua permanente. [I15, I17]
+
+El contorno Natural Earth simplificado es una referencia operativa, no un límite oficial. Para una referencia terrestre conocida se excluyen candidatas a menos de 5 km de ella, con el propósito de evitar que el mismo relieve cercano aparezca como descubrimiento; el radio es una regla de diseño y no garantiza independencia geológica. Las ventanas densas se procesan fuera del ajuste del modelo, evitando alterar el modelo global para favorecer al caso local. [I15, I17]
+
+### 6.3 Qué muestran los datos disponibles
+
+El precálculo generado el 15 de noviembre de 2026 a las 15:01 UTC contiene 2.154 ventanas con centro en el país: 1.282 del atlas y 872 adicionales (855 de rejilla, 13 de cumbre y cuatro de sitios conocidos); 903 se identifican en zona volcánica. De todas las ventanas, 2.139 son rankable, 14 tienen tierra insuficiente y una soporte DEM insuficiente. El archivo marca 272 dominadas por agua; estas categorías describen propiedades distintas y pueden solaparse. [I17]
+
+La salida incluye distancias para Jezero y para las referencias lunares Haworth y De Gerlache, además de búsquedas de relieve parecido a los cuatro sitios conocidos. En el precálculo aparecen 1.867 ventanas con puntuación para cada referencia planetaria; para las terrestres el número varía por la exclusión de proximidad. Las referencias lunares están disponibles en este resultado estático; eso no implica que cualquier instalación tenga los insumos lunares necesarios para recalcularlas. [I17]
+
+El puesto mundial de este artefacto se calcula frente a 188.003 ventanas terrestres clasificables cargadas en esa ejecución, no frente a las 1.459.470 rankable registradas en el manifiesto global etl-30m-r1b. Los documentos no justifican de manera suficiente esta diferencia de población: antes de utilizar el puesto como evidencia comparativa debe reconciliarse el almacén, el modelo, los filtros y la identidad de la corrida. El puesto describe una población de referencia, no la probabilidad de que una candidata sea un análogo. [I1, I17]
+
+### 6.4 Qué se puede concluir y qué sigue pendiente
+
+El caso demuestra que el flujo puede adaptarse a una pregunta regional: parte de referencias publicadas, densifica donde la malla original es insuficiente y produce candidatos y contexto de cobertura sin necesidad de una consulta en vivo para mostrar el resultado. También revela una tensión relevante: los sitios de referencia fueron estudiados por química y procesos hidrotermales, mientras el motor actual compara principalmente topografía. Una buena coincidencia de relieve no verifica mineralogía, alteración, habitabilidad ni historia geológica; una coincidencia baja tampoco invalida la literatura. [I15–I17]
+
+Las referencias actuales de Jezero y de los cráteres lunares no representan necesariamente el tipo de edificio volcánico o sistema hidrotermal nicaragüense. Conviene incorporar referencias planetarias volcánicas con DTM y huellas compatibles, controles no volcánicos y una revisión ciega por especialistas. Después habría que contrastar candidatas con cartografía, espectros y, si procede, trabajo de campo bajo coordinación local y evaluación de acceso y condiciones volcánicas. Las coordenadas de San Jacinto son aproximadas y requieren verificación antes de decisiones de campo. [I15, I16]
+
+## 7. Bases para una propuesta de solución
+
+### Problema y usuarios
+
+Una propuesta puede formular el problema así: identificar lugares terrestres potencialmente útiles para estudiar preguntas planetarias exige integrar datos orbitales heterogéneos y revisar áreas extensas, con diferencias de cobertura y resolución. Investigadores en geología planetaria, equipos académicos, especialistas en teledetección y organizaciones que planifican campañas podrían usar el atlas para priorizar una lista trazable de sitios. Estas necesidades y usuarios son una hipótesis de producto que debe validarse mediante entrevistas y pruebas, no un impacto ya medido.
+
+### Solución y decisiones que la hacen viable
+
+La solución propuesta combina un cribado mundial mediante resúmenes topográficos, filtros adaptados al escenario, densificación regional donde la decisión lo requiere y enriquecimiento posterior con datos especializados. La búsqueda por etapas concentra cómputo y revisión en áreas prometedoras; el caso de Nicaragua ilustra por qué una sola malla y un solo filtro no sirven para todas las preguntas. Mantener fuentes, soporte, versión y explicaciones por dimensión permite que un especialista examine una candidata y decida qué evidencia falta. [I1, I4, I15]
+
+La arquitectura por teselas y lecturas parciales permite procesar un volumen amplio sin mantener todos los originales simultáneamente en disco. La evidencia disponible sostiene factibilidad para el flujo ensayado, con su malla y recursos específicos, pero no una afirmación general de costo mínimo ni un despliegue sin infraestructura. Conviene proponer un piloto medido con indicadores de costo por ventana útil, latencia y reproducibilidad antes de prometer ahorros. [I4, I14]
+
+### Propuesta de valor y evidencia necesaria
+
+La propuesta de valor es una herramienta de apoyo a la investigación que transforma fuentes dispersas en candidatas comparables y revisables, al tiempo que expone sus límites. Su elemento diferencial debe demostrarse comparando el flujo contra una búsqueda manual o una línea base topográfica simple en un estudio acordado con usuarios. Indicadores propuestos: recuperación de sitios conocidos sin usarlos para ajustar, precisión de las primeras candidatas evaluadas a ciegas, acuerdo entre expertos, cobertura de datos útiles, tiempo de análisis y costo por candidata evaluable. Fijar umbrales, muestra y protocolo antes del piloto.
+
+Para un piloto Nicaragua, una secuencia razonable es reconciliar el universo de 188.003 ventanas; verificar coordenadas y fuentes; seleccionar preguntas y controles junto con especialistas locales; evaluar una lista ciega que incluya sitios conocidos y controles; incorporar evidencia espectral o de campo solo donde sea pertinente; y documentar aciertos, falsos positivos, sesgos y costos. Un ranking y un mapa son entregables intermedios; la validación independiente es la condición para sostener afirmaciones de utilidad científica.
+
+## 8. Roadmap propuesto
 
 Las fases siguientes son recomendaciones, no trabajo ya completado. Los criterios son puertas de decisión propuestas y requieren fijar responsables, presupuesto y umbrales antes de ejecutarlas.
 
@@ -100,7 +148,7 @@ Validar el operador espectral con muestras de referencia, espectros y controles 
 
 Procesar por tesela, reutilizar caché, aplicar enriquecimiento selectivo y medir bytes, memoria, latencia, almacenamiento y costo por ventana útil. Automatizar controles de integridad, reintentos, versiones y observabilidad. Priorizar revisión humana, acceso y permisos, y validación de campo de un subconjunto. Para Luna, completar el almacén y validar fuentes LOLA, iluminación, temperatura y cobertura apropiadas antes de presentar búsquedas polares como operativas. Definir un presupuesto y umbrales de disponibilidad con base en mediciones reales.
 
-## 7. Referencias y créditos
+## 9. Referencias y créditos
 
 Las referencias I identifican evidencia interna del repositorio; R identifica proveedores y metodología externa. Las URL son enlaces a fuentes originales o documentación oficial. La inclusión en el catálogo no implica uso efectivo en cada análisis. Deben conservarse atribuciones y licencias de cada producto al redistribuir derivados.
 
@@ -120,6 +168,9 @@ I11. Tercera entrega, muestreo estratificado y puentes entre cuerpos: docs/01-vi
 I12. Validación de armonización topográfica en desierto bosque y costa: docs/01-vigentes/etapa-actual-armonizacion/Validacion de armonizacion topografica en desierto bosque y costa.md; evidencia docs/evidencia-validacion-topografica/.
 I13. Puente espectral con un solo operador en tres cuerpos: docs/01-vigentes/etapa-actual-armonizacion/Puente espectral con un solo operador en tres cuerpos.md; resultados docs/evidencia-puente-espectral/resultados.json.
 I14. Atlas de 30 m, operación: docs/01-vigentes/operacion-y-datos/Atlas de 30 m - operacion.md; estimaciones adicionales en I2.
+I15. Análogos planetarios en Nicaragua: docs/Analogos en Nicaragua.md. Método, decisiones y límites regionales.
+I16. Inventario y citas de sitios conocidos: data/nicaragua/sitios-conocidos.json; coordenadas de San Jacinto aproximadas.
+I17. Precálculo Nicaragua: frontend/public/analysis/nicaragua/analogos-nicaragua-v1.json; implementación scripts/analogos_nicaragua.py. Los conteos corresponden al archivo generado el 15 de noviembre de 2026 a las 15:01 UTC.
 
 ### Datos y metodología externos
 
@@ -140,6 +191,11 @@ R14. scikit-learn. QuantileTransformer y robust covariance, documentación de im
 R15. Schwarz, G. (1978). Estimating the Dimension of a Model. Annals of Statistics 6, 461–464. https://doi.org/10.1214/aos/1176344136
 R16. Bhattacharyya, A. (1943). On a Measure of Divergence between Two Statistical Populations Defined by Their Probability Distributions. Bulletin of the Calcutta Mathematical Society 35, 99–109.
 R17. Cormack, G. V., Clarke, C. L. A. y Buettcher, S. (2009). Reciprocal Rank Fusion outperforms Condorcet and individual Rank Learning Methods. https://doi.org/10.1145/1571941.1572114 . La variante ponderada y sus opciones son decisiones de implementación del proyecto.
+
+R18. Hynek, B. M., McCollom, T. M., Marcucci, E. C., Brugman, K. y Rogers, K. L. (2013). Assessment of environmental controls on acid-sulfate alteration at active volcanoes in Nicaragua: Applications to relic hydrothermal systems on Mars. Journal of Geophysical Research: Planets 118, 2083–2104. https://doi.org/10.1002/jgre.20140
+R19. Marcucci, E. C., Hynek, B. M., Kierein-Young, K. S. y Rogers, K. L. (2013). Visible-near-infrared reflectance spectroscopy of volcanic acid-sulfate alteration in Nicaragua: Analogs for early Mars. Journal of Geophysical Research: Planets 118, 2213–2233. https://doi.org/10.1002/jgre.20159
+R20. Smithsonian Institution, Global Volcanism Program. Volcanoes of the World; catálogo y guía de cita: https://volcano.si.edu/gvp_votw.cfm y https://volcano.si.edu/gvp_cite.cfm . La extracción local contiene 13 entradas y debe acompañarse de su versión y fecha de acceso cuando se publique.
+R21. Hynek, B. M. et al. (2007). Resumen de congreso sobre Cerro Negro como análogo de meteorización ácido-sulfática: https://gsa.confex.com/gsa/2007AM/webprogram/Paper129449.html . El inventario local recoge también un proyecto histórico NASA sobre Cerro Negro; consultar I16 para su referencia archivada.
 
 ## Nota de lectura
 
