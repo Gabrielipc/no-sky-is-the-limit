@@ -87,6 +87,7 @@ export type SceneProps = {
   range: [number, number];
   exaggeration: number;
   overview?: boolean;
+  focusToken?: number;
   missing?: string;
   pending?: boolean;
 };
@@ -353,7 +354,7 @@ export default function UnifiedScene(p: SceneProps) {
             .filter(Boolean) as Cartesian3[];
           if (points.length)
             v.camera.flyToBoundingSphere(BoundingSphere.fromPoints(points), {
-              duration: 0,
+              duration: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 2,
               offset: new HeadingPitchRange(
                 0,
                 -Math.PI / 2,
@@ -851,9 +852,12 @@ export default function UnifiedScene(p: SceneProps) {
     p.body,
     detail,
   ]);
+  const cameraState = useRef<{ mode: SurfaceMode; frame: number }>();
   useEffect(() => {
     const v = view.current;
     if (!v || !ready) return;
+    const previous = cameraState.current;
+    cameraState.current = { mode: p.mode, frame };
     const local = p.mode === "mesh",
       e = v.scene.globe.ellipsoid;
     v.scene.globe.show = !local;
@@ -865,6 +869,9 @@ export default function UnifiedScene(p: SceneProps) {
         : true;
     v.scene.screenSpaceCameraController.enableCollisionDetection = !local;
     v.scene.verticalExaggeration = p.exaggeration;
+    // Preserve the current camera while an explicitly selected Earth marker flies in.
+    if (p.body === "Earth" && p.mode === "space" && p.focusToken &&
+        previous?.mode === "space" && previous.frame === frame) return;
     v.camera.cancelFlight();
     v.camera.lookAtTransform(Matrix4.IDENTITY);
     const center = Cartesian3.fromDegrees(
@@ -911,6 +918,20 @@ export default function UnifiedScene(p: SceneProps) {
   ]);
   useEffect(() => {
     const v = view.current;
+    if (!ready || !v || p.body !== "Earth" || p.mode !== "space" || !p.focusToken || !p.selected) return;
+    const target = p.marks.find((mark) => mark.id === p.selected);
+    if (!target) return;
+    const center = Cartesian3.fromDegrees(target.longitude, target.latitude, 0, v.scene.globe.ellipsoid);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    wakeUntil.current = performance.now() + 6000;
+    v.camera.flyToBoundingSphere(new BoundingSphere(center, 1), {
+      duration: reduced ? 0 : 2.5,
+      offset: new HeadingPitchRange(0, CMath.toRadians(-55), 44000),
+    });
+    draw(v);
+  }, [ready, p.body, p.mode, p.focusToken, p.selected, p.marks]);
+  useEffect(() => {
+    const v = view.current;
     if (ready && v) {
       v.scene.verticalExaggeration = p.exaggeration;
       draw(v);
@@ -938,7 +959,7 @@ export default function UnifiedScene(p: SceneProps) {
             aria-pressed={m.id === p.selected}
             onClick={() => {
               if (m.members.length === 1) {
-                if (m.id === p.selected) setFrame((n) => n + 1);
+                if (m.id === p.selected && p.body !== "Earth") setFrame((n) => n + 1);
                 p.choose(m.id);
                 return;
               }
@@ -951,15 +972,10 @@ export default function UnifiedScene(p: SceneProps) {
                   Cartesian3.fromDegrees(mark.longitude, mark.latitude, 0, e),
                 );
               const sphere = BoundingSphere.fromPoints(points);
-              v.camera.lookAt(
-                sphere.center,
-                new HeadingPitchRange(
-                  0,
-                  -Math.PI / 2,
-                  Math.max(30000, sphere.radius * 3),
-                ),
-              );
-              v.camera.lookAtTransform(Matrix4.IDENTITY);
+              v.camera.flyToBoundingSphere(sphere, {
+                duration: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 2,
+                offset: new HeadingPitchRange(0, -Math.PI / 2, Math.max(30000, sphere.radius * 3)),
+              });
               wakeUntil.current = performance.now() + 4000;
               draw(v);
             }}

@@ -110,6 +110,11 @@ export function UnifiedWorkspace({
     () => rows.map((r) => ({ id: r.region_id, name: String(r.rank), longitude: r.longitude, latitude: r.latitude })),
     [rows],
   );
+  const [focusToken, setFocusToken] = useState(0);
+  const chooseCandidate = (regionId: string) => {
+    update({ regionId });
+    setFocusToken((n) => n + 1);
+  };
   const changeRef = (reference: ReferenceId) => {
     setOverview(false);
     update({ reference, regionId: "", method: "engine" });
@@ -261,7 +266,8 @@ export function UnifiedWorkspace({
               latitude={row?.latitude ?? candidateFocus(rows)[1]}
               marks={earthMarks}
               selected={row?.region_id ?? ""}
-              choose={(regionId) => update({ regionId })}
+              choose={chooseCandidate}
+              focusToken={focusToken}
               mode={state.surfaceMode}
               grid={right.grid}
               layer={state.visualLayer}
@@ -319,7 +325,7 @@ export function UnifiedWorkspace({
                 <button
                   key={r.region_id}
                   aria-pressed={row?.region_id === r.region_id}
-                  onClick={() => update({ regionId: r.region_id })}
+                  onClick={() => chooseCandidate(r.region_id)}
                 >
                   <b>{r.rank.toString().padStart(2, "0")}</b>
                   {science ? (
