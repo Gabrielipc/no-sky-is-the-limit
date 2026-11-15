@@ -23,7 +23,7 @@ jobs:
           version: "0.13.8"
           enable-cache: true
           cache-dependency-glob: backend/uv.lock
-      - run: uv sync --locked --no-dev
+      - run: uv sync --locked
         working-directory: backend
       - run: uv run --locked python -m unittest discover -s tests -v
         working-directory: backend
