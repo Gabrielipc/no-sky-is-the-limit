@@ -578,6 +578,56 @@ export function UnifiedWorkspace({
                               </dd>
                             </div>
                           </dl>
+                          {loaded.data.reference.features[f.id]
+                            ?.earth_percentile != null && (
+                            <p>
+                              Percentil terrestre de la referencia:{" "}
+                              {pct(
+                                loaded.data.reference.features[f.id]
+                                  .earth_percentile,
+                              )}
+                              .
+                            </p>
+                          )}
+                          {loaded.data.reference.features[f.id]
+                            ?.outside_earth_range && (
+                            <p>
+                              La referencia está fuera del rango terrestre de
+                              este descriptor.
+                            </p>
+                          )}
+                        </article>
+                      ))}
+                      <h3>Evidencia por dimensión</h3>
+                      {Object.entries(row.views).map(([id, view]) => (
+                        <article className="u-feature" key={id}>
+                          <h4>{viewNames[id] || id}</h4>
+                          {view.available ? (
+                            <>
+                              <p>
+                                Distancia {distance(view.distance)} · peso
+                                efectivo {pct(view.weight)}.
+                              </p>
+                              {view.pool_percentile != null && (
+                                <p>
+                                  Percentil en la población de esta dimensión:{" "}
+                                  {pct(view.pool_percentile)}.
+                                </p>
+                              )}
+                              {view.component != null && (
+                                <p>
+                                  Familia morfológica {view.component}
+                                  {view.posterior != null &&
+                                    ` · probabilidad de asignación ${pct(view.posterior)}`}
+                                  .
+                                </p>
+                              )}
+                            </>
+                          ) : (
+                            <p>
+                              Sin cobertura de esta dimensión para la candidata.
+                            </p>
+                          )}
                         </article>
                       ))}
                       <CandidateRecord
