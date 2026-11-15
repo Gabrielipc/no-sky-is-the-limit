@@ -28,11 +28,16 @@ Es el mismo método que [`cloud/gcp/`](../gcp/README.md): una VM Spot que clona 
    ```bash
    az login
    ```
-2. **Cuota Spot en la región.** Una `Standard_D8s_v5` necesita 8 vCPU de la familia DSv5 y de «Total Regional Spot vCPUs». Las suscripciones nuevas o de prueba suelen tener poca cuota. Revísala con este comando y, si no alcanza, pide más en el portal o usa `VM_SIZE=Standard_D4s_v5` (16 GB: suficiente para todas las capas salvo `ati`):
+2. **Tipo de suscripción.** Con una **prueba gratuita** (`quotaId` `FreeTrial`) no hay VMs Spot y el límite es de 4 vCPU por región: lanza con `PRIORITY=Regular VM_SIZE=Standard_D4s_v5` (4 vCPU, 16 GB, suficiente también para la capa `ati`, que usa ~6 GB). El coste sale del crédito de la prueba. Para ver tu tipo de suscripción:
+   ```bash
+   az rest --method get --url "https://management.azure.com/subscriptions/$(az account show --query id -o tsv)?api-version=2022-12-01" --query subscriptionPolicies.quotaId -o tsv
+   ```
+   `launch-spot.sh` registra los proveedores de recursos que falten (`Microsoft.Compute`, `Network`, `Storage`, `KeyVault`, `ManagedIdentity`). Sin ese registro, `az vm list-usage` sale vacío.
+3. **Cuota Spot en la región** (suscripciones de pago). Una `Standard_D8s_v5` necesita 8 vCPU de la familia DSv5 y de «Total Regional Spot vCPUs». Las suscripciones nuevas o de prueba suelen tener poca cuota. Revísala con este comando y, si no alcanza, pide más en el portal o usa `VM_SIZE=Standard_D4s_v5` (16 GB: suficiente para todas las capas):
    ```bash
    az vm list-usage --location westus2 -o table | grep -iE "spot|DSv5"
    ```
-3. **Código en GitHub:** sube los commits a `REPO_BRANCH` antes de lanzar, porque la VM clona desde GitHub.
+4. **Código en GitHub:** sube los commits a `REPO_BRANCH` antes de lanzar, porque la VM clona desde GitHub.
 
 ## Qué se puede correr ya (sin esperar al barrido mundial)
 

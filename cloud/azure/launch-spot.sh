@@ -26,6 +26,9 @@ VM_SIZE="${VM_SIZE:-Standard_D8s_v5}"      # 8 vCPU, 32 GB (the ATI layer keeps 
 DISK_SIZE_GB="${DISK_SIZE_GB:-128}"
 IMAGE="${IMAGE:-Canonical:ubuntu-24_04-lts:server:latest}"
 MAX_PRICE="${MAX_PRICE:--1}"               # -1 = up to the on-demand price, never evicted for price
+# Spot (cheapest) or Regular. Free Trial subscriptions do not offer Spot and allow 4 vCPU per
+# region: use PRIORITY=Regular VM_SIZE=Standard_D4s_v5 there.
+PRIORITY="${PRIORITY:-Spot}"
 ETL_SCRIPT="${ETL_SCRIPT:-scripts/etl_secuencia.py}"
 ETL_ARGS="${ETL_ARGS:---steps build,sample,ati-cluster}"
 AUTO_DELETE="${AUTO_DELETE:-1}"
@@ -33,6 +36,14 @@ SYNC_INTERVAL_S="${SYNC_INTERVAL_S:-600}"
 
 az account show --output none 2>/dev/null || { echo "Run 'az login' first." >&2; exit 1; }
 SUBSCRIPTION_ID=$(az account show --query id -o tsv)
+
+# New subscriptions start with these resource providers unregistered (empty `az vm list-usage`).
+for ns in Microsoft.Compute Microsoft.Network Microsoft.Storage Microsoft.KeyVault Microsoft.ManagedIdentity; do
+    if [[ "$(az provider show --namespace "$ns" --query registrationState -o tsv 2>/dev/null)" != "Registered" ]]; then
+        echo "Registering resource provider ${ns} (one time, ~1-2 min)..."
+        az provider register --namespace "$ns" --wait --output none
+    fi
+done
 ME=$(az ad signed-in-user show --query id -o tsv 2>/dev/null || true)
 
 echo "Persistent resources in ${DATA_RESOURCE_GROUP} (${LOCATION})..."
@@ -123,10 +134,15 @@ fi
 bash "\$WORKDIR/cloud/azure/run-etl-azure.sh"
 EOF
 
-echo "Launching Spot VM ${VM_NAME} (${VM_SIZE}) in ${LOCATION}..."
+if [[ "$PRIORITY" == "Spot" ]]; then
+    PRIORITY_ARGS=(--priority Spot --eviction-policy Delete --max-price "$MAX_PRICE")
+else
+    PRIORITY_ARGS=(--priority Regular)
+fi
+echo "Launching ${PRIORITY} VM ${VM_NAME} (${VM_SIZE}) in ${LOCATION}..."
 az vm create --resource-group "$RUN_RESOURCE_GROUP" --name "$VM_NAME" --location "$LOCATION" \
     --image "$IMAGE" --size "$VM_SIZE" --os-disk-size-gb "$DISK_SIZE_GB" \
-    --priority Spot --eviction-policy Delete --max-price "$MAX_PRICE" \
+    "${PRIORITY_ARGS[@]}" \
     --assign-identity "$IDENTITY_ID" --custom-data "$CLOUD_INIT" \
     --public-ip-sku Standard --nsg-rule NONE --generate-ssh-keys \
     --admin-username analogos --output none
@@ -135,7 +151,7 @@ az vm boot-diagnostics enable --resource-group "$RUN_RESOURCE_GROUP" --name "$VM
 BLOB_URL="https://${STORAGE_ACCOUNT}.blob.core.windows.net/${CONTAINER}"
 cat <<MSG
 
-Spot VM launched: ${VM_NAME} (resource group ${RUN_RESOURCE_GROUP}, deleted when the ETL ends)
+${PRIORITY} VM launched: ${VM_NAME} (resource group ${RUN_RESOURCE_GROUP}, deleted when the ETL ends)
 Live log (console):  az vm boot-diagnostics get-boot-log -g ${RUN_RESOURCE_GROUP} -n ${VM_NAME} | tail -40
 Log in the container (every ${SYNC_INTERVAL_S} s):
   az storage blob download --account-name ${STORAGE_ACCOUNT} -c ${CONTAINER} --auth-mode login -n logs/current-${VM_NAME}.log -f /dev/stdout | tail -40
