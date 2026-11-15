@@ -13,6 +13,10 @@ LOCK_WAIT_S="${SYNC_LOCK_WAIT_S:-20}"
 # Matched from the start of the relative path (gcloud) or anywhere (azcopy): both work.
 EXCLUDE='(.*/)?(tmp[^/]*|\.stream_tmp)(/.*)?$|.*\.part(\.tif)?$|(.*/)?\._.*'
 
+# Only a run started with --set-current (SYNC_CURRENT=1) uploads `releases/atlas30/current`; see cloud/gcp/sync-outputs.sh.
+RELEASES_EXCLUDE="$EXCLUDE"
+[[ "${SYNC_CURRENT:-0}" == "1" ]] || RELEASES_EXCLUDE="${EXCLUDE}|(.*/)?atlas30/current\$"
+
 log() { echo "[$(date -u '+%Y-%m-%dT%H:%M:%SZ')] sync: $*"; }
 
 exec 9>"$LOCK_FILE"
@@ -23,13 +27,13 @@ fi
 
 status=0
 sync_dir() {
-    local src="$1" dst="$2"
+    local src="$1" dst="$2" exclude="${3:-$EXCLUDE}"
     [[ -d "$src" ]] || return 0
-    azcopy sync "$src" "$dst" --recursive --exclude-regex="$EXCLUDE" --log-level=ERROR || status=1
+    azcopy sync "$src" "$dst" --recursive --exclude-regex="$exclude" --log-level=ERROR || status=1
 }
 
 sync_dir "$WORKDIR/data/feature_store_v1" "${BLOB_URL}/data/feature_store_v1"
-sync_dir "$WORKDIR/releases" "${BLOB_URL}/releases"
+sync_dir "$WORKDIR/releases" "${BLOB_URL}/releases" "$RELEASES_EXCLUDE"
 sync_dir "$WORKDIR/data/global_layers" "${BLOB_URL}/data/global_layers"
 for evidence in "$WORKDIR"/docs/evidencia-*; do
     [[ -d "$evidence" ]] && sync_dir "$evidence" "${BLOB_URL}/docs/$(basename "$evidence")"

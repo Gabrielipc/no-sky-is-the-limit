@@ -18,17 +18,20 @@ from pipelines import etl_extractors as extractors
 from pipelines import etl_framing as framing
 
 
-def eligibility_expression(profile_id: str) -> str:
+def eligibility_expression(profile_id: str, climate: bool = True) -> str:
     """Eligibility of each stored window under `profile_id`.
 
     Rows already gated with that profile keep their stored label (computed in float64
     at extraction); other rows are re-gated in SQL from their stored cover fractions.
+    A profile with a cold-climate gate is always re-gated, because the label stored at
+    extraction cannot know the global layers. `climate=False` is for queries over
+    `base_windows`, which has no global columns.
     """
-    eligibility.get_profile(profile_id)
-    return (
-        f"CASE WHEN eligibility_profile = '{profile_id}' THEN analog_surface_eligibility "
-        f"ELSE {eligibility.sql_case(profile_id)} END"
-    )
+    profile = eligibility.get_profile(profile_id)
+    sql = eligibility.sql_case(profile_id, climate)
+    if profile.cold_climate is not None:
+        return sql
+    return f"CASE WHEN eligibility_profile = '{profile_id}' THEN analog_surface_eligibility ELSE {sql} END"
 
 
 EARTH_ASSET_CRS_WKT = CRS.from_epsg(4326).to_wkt()
@@ -373,7 +376,7 @@ class FeatureStore:
             ).fetchall())
             by_profile = {
                 pid: dict(conn.execute(
-                    f"SELECT ({eligibility_expression(pid)}) AS s, count(*) FROM base_windows "
+                    f"SELECT ({eligibility_expression(pid, climate=False)}) AS s, count(*) FROM base_windows "
                     "WHERE body = 'Earth' GROUP BY s"
                 ).fetchall())
                 for pid in eligibility.PROFILES

@@ -45,45 +45,26 @@ def similarity(reference: str, version: Optional[str] = None,
 
 `results[i].region_id` enlaza con `/api/atlas/candidates/{region_id}` para la ficha completa.
 
-## 2. Motor en tiempo de consulta (pesos personalizados)
+## 2. Motor en tiempo de consulta (implementado)
 
-Hace falta cuando el usuario mueve los pesos, sube su propia referencia o filtra por región. Requisitos en el servidor:
+`backend/app/similarity.py` ya sirve el motor con pesos personalizados. Contrato HTTP: [`specs/api/similitud-api-v1.schema.json`](../../specs/api/similitud-api-v1.schema.json) (catálogo, ficha, sobre de la búsqueda, estado y errores) y, para la petición y la respuesta del motor, [`motor-busqueda-v1`](../../specs/api/motor-busqueda-v1.schema.json).
 
-- **Almacén** `data/feature_store_v1/` (`ANALOGOS_FEATURE_STORE_DIR`) y **modelo** `motor-similitud-ml-v1.joblib`, ambos del mismo ajuste que la release.
-- **Dependencias del entorno Pixi del proyecto:** `duckdb`, `numpy`, `scipy`, `scikit-learn` y `joblib`. `pipelines/` debe estar en el `PYTHONPATH`.
-- **Memoria y tiempo:** una búsqueda sobre ~1,8 M ventanas tarda del orden de 15 s y usa hasta `memory_limit`.
+| Método y ruta | Respuesta | Errores |
+|---|---|---|
+| `GET /api/similarity/references` | `ReferencesResponse`: referencias con `available`, `kind`, `limitations`, `sources`, estado por vista, más `default_weights` por cuerpo | 503 |
+| `GET /api/similarity/references/{id}` | `ReferenceDetail`: añade `features` y `percentiles` | 404, 503 |
+| `POST /api/similarity/search` | `SearchResponse` + `query_id` + `timings` | 404, 422, 503 |
+| `GET /api/similarity/status` | `ServiceStatus` | — |
 
-```python
-from functools import lru_cache
-from pathlib import Path
-from fastapi.concurrency import run_in_threadpool
-from pipelines import similarity_ml as sim
+Cómo funciona:
+- **Arranque.** El `lifespan` de FastAPI carga el modelo y las ventanas terrestres rankables con sus puntuaciones normales en un `CandidatePool`. Cada consulta solo calcula distancias y fusión: con el almacén local (188 mil ventanas) tarda ~10 ms con `only_eligible` y ~260 ms sobre todas. Un pool simulado de 1,5 M filas tarda ~2 s (`scripts/benchmark_motor.py`). Si falta el modelo o el almacén, el resto de la API sigue y estas rutas devuelven 503. `ANALOGOS_SIMILARITY_PRELOAD=0` desactiva la carga al arrancar.
+- **Variables:** `ANALOGOS_FEATURE_STORE_DIR`, `ANALOGOS_SIMILARITY_MODEL`, `ANALOGOS_SIMILARITY_CACHE` (entradas, 256 por defecto) y `ANALOGOS_SIMILARITY_CONCURRENCY` (búsquedas simultáneas, 4).
+- **Caché.** `query_id` es el SHA-256 de la petición normalizada (los pesos se normalizan, así que `{a: 1, b: 1}` y `{a: 2, b: 2}` son la misma consulta) más el modelo y su `spec_hash`. `timings.cache_hit` indica si se sirvió de la caché.
+- **Referencias.** Se resuelven una vez al arrancar. Una referencia cuya ventana no está en el almacén aparece con `available: false` y `reason`, y buscar con ella da 404.
+- **Perfiles.** El pool del perfil por defecto se carga al arrancar; los otros se cargan en la primera petición que los use.
+- **Orden determinista.** La consulta de candidatos ordena por `region_id` para que los empates de la fusión RRF no dependan del orden de escaneo.
 
-STORE = Path(os.environ['ANALOGOS_FEATURE_STORE_DIR'])
-MODEL = Path(os.environ.get('ANALOGOS_SIMILARITY_MODEL', 'data/features/modelos-similitud/motor-similitud-ml-v1.joblib'))
-
-
-@lru_cache(maxsize=1)
-def engine() -> sim.SimilarityEngine:
-    return sim.SimilarityEngine.load(MODEL)  # una vez por proceso
-
-
-@router.post('/api/similarity/search')
-async def similarity_search(req: SimilaritySearchRequest):  # = $defs.SearchRequest del schema
-    try:
-        return await run_in_threadpool(
-            engine().search, STORE, req.reference, weights=req.weights, profile=req.profile,
-            only_eligible=req.only_eligible, limit=req.limit, missing_policy=req.missing_policy,
-            fusion=req.fusion, bbox=req.bbox, memory_limit='2GB', threads=4)
-    except ValueError as exc:  # pesos inválidos, referencia desconocida, política no válida
-        raise HTTPException(422, str(exc)) from exc
-```
-
-Recomendaciones:
-- **Caché por consulta:** usad el hash de la petición normalizada, igual que `query_id` en `/api/atlas/search`. Las combinaciones repetidas son frecuentes.
-- **Acotar:** con `bbox` o `only_eligible=true` la búsqueda es mucho más rápida. Para la interfaz conviene `limit <= 100`.
-- **Validación:** `ValueError` se traduce en 422. Las vistas no ajustadas o sin referencia no son errores: vienen en `views[v].status` y en `warnings`.
-- **Modelos Pydantic:** se pueden generar del JSON Schema (`datamodel-codegen --input specs/api/motor-busqueda-v1.schema.json --input-file-type jsonschema`) o declarar solo `SearchRequest` y devolver la respuesta como `dict`.
+Despliegue: cada worker de uvicorn mantiene su propio pool (~70 MB estimados para 1,45 M ventanas). Dependencias del entorno Pixi: `duckdb`, `numpy`, `scipy`, `scikit-learn`, `joblib`; `pipelines/` se añade solo al `sys.path`.
 
 ## 3. Imágenes por ventana (propuesto)
 

@@ -34,6 +34,7 @@ from rasterio.windows import Window, from_bounds
 
 from pipelines import atlas_sources as sources
 from pipelines import etl_extractors as extractors
+from pipelines import etl_mirror as mirror
 from pipelines.etl_lunar_schema import (  # noqa: F401  (re-exported)
     ENRICHMENT_LUNAR_SCHEMA, LUNAR_DIMENSIONS, LUNAR_RANGES, LUNAR_SITE_PROFILE, LUNAR_SITE_STATUS_ENUM,
 )
@@ -131,6 +132,9 @@ def source_path(source: dict) -> str:
     local = source.get('path')
     if local and (ROOT / local).exists():
         return str(ROOT / local)
+    mirrored = mirror.local_copy(source.get('asset_id'))
+    if mirrored is not None:  # verified copy in the local mirror (scripts/espejar_referencias.py)
+        return str(mirrored)
     if source.get('url'):
         return f"/vsicurl/{source['url']}"
     raise FileNotFoundError(f"Fuente sin ruta local ni URL: {source.get('id')}")

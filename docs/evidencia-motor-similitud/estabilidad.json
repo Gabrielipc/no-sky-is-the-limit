@@ -1,0 +1,107 @@
+{
+  "measured_at": "2026-11-15T11:46:57+00:00",
+  "store": "/opt/analogos/data/feature_store_v1",
+  "sample_size": null,
+  "limit": 100,
+  "references": {
+    "jezero": {
+      "same_seed_identical_ranking": true,
+      "by_seed": {
+        "1": {
+          "top10": 10,
+          "top25": 25,
+          "top100": 99
+        },
+        "2": {
+          "top10": 8,
+          "top25": 20,
+          "top100": 79
+        },
+        "3": {
+          "top10": 10,
+          "top25": 25,
+          "top100": 100
+        }
+      }
+    },
+    "haworth-fondo": {
+      "same_seed_identical_ranking": true,
+      "by_seed": {
+        "1": {
+          "top10": 10,
+          "top25": 24,
+          "top100": 99
+        },
+        "2": {
+          "top10": 7,
+          "top25": 21,
+          "top100": 79
+        },
+        "3": {
+          "top10": 10,
+          "top25": 25,
+          "top100": 100
+        }
+      }
+    },
+    "de-gerlache-cresta": {
+      "same_seed_identical_ranking": true,
+      "by_seed": {
+        "1": {
+          "top10": 9,
+          "top25": 23,
+          "top100": 96
+        },
+        "2": {
+          "top10": 4,
+          "top25": 9,
+          "top100": 34
+        },
+        "3": {
+          "top10": 4,
+          "top25": 14,
+          "top100": 69
+        }
+      }
+    }
+  },
+  "covariance_estimators": {
+    "default": {
+      "escabrosidad": "ledoit_wolf_after_degenerate_min_cov_det",
+      "forma_hipsometrica": "min_cov_det",
+      "organizacion": "variance",
+      "termica": "variance",
+      "entorno_superficial": "ledoit_wolf_after_degenerate_min_cov_det",
+      "emisividad_cmg": "ledoit_wolf_after_degenerate_min_cov_det"
+    },
+    "1": {
+      "escabrosidad": "ledoit_wolf_after_degenerate_min_cov_det",
+      "forma_hipsometrica": "min_cov_det",
+      "organizacion": "variance",
+      "termica": "variance",
+      "entorno_superficial": "ledoit_wolf_after_degenerate_min_cov_det",
+      "emisividad_cmg": "ledoit_wolf_after_degenerate_min_cov_det"
+    },
+    "2": {
+      "escabrosidad": "min_cov_det",
+      "forma_hipsometrica": "min_cov_det",
+      "organizacion": "variance",
+      "termica": "variance",
+      "entorno_superficial": "ledoit_wolf_after_degenerate_min_cov_det",
+      "emisividad_cmg": "ledoit_wolf_after_degenerate_min_cov_det"
+    },
+    "3": {
+      "escabrosidad": "ledoit_wolf_after_degenerate_min_cov_det",
+      "forma_hipsometrica": "min_cov_det",
+      "organizacion": "variance",
+      "termica": "variance",
+      "entorno_superficial": "ledoit_wolf_after_degenerate_min_cov_det",
+      "emisividad_cmg": "ledoit_wolf_after_degenerate_min_cov_det"
+    }
+  },
+  "summary": {
+    "min_top_overlap": 34,
+    "mean_top_overlap": 83.88888888888889,
+    "deterministic": true
+  }
+}

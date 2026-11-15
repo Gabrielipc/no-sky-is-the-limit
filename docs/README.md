@@ -36,6 +36,7 @@ La documentación está organizada por **vigencia y etapa** para distinguir ráp
 | [Atlas de 30 m - preparacion multidimensional.md](01-vigentes/operacion-y-datos/Atlas%20de%2030%20m%20-%20preparacion%20multidimensional.md) | **Vigente** | Preparación reproducible de WorldCover, JRC, HLS y Landsat. |
 | [Guia de recoleccion.md](01-vigentes/operacion-y-datos/Guia%20de%20recoleccion.md) | **Vigente** | Uso actual de `scripts/recolectar_datos.py` y recuperación de descargas. |
 | [Adquisicion CRISM de Marte.md](01-vigentes/operacion-y-datos/Adquisicion%20CRISM%20de%20Marte.md) | **Vigente** | Uso de `scripts/adquirir_marte.py` y adquisición CRISM `FRT000047A3`. |
+| [Plan - busqueda de analogos por referencia en tiempo real.md](01-vigentes/operacion-y-datos/Plan%20-%20busqueda%20de%20analogos%20por%20referencia%20en%20tiempo%20real.md) | **Propuesta** · 15 nov 2026 | Plan por fases: motor residente, espejo de datos, catálogo de referencias lunares y marcianas, API y frontend. |
 
 ### 1.3 Etapa actual: Armonización y contrato común (`01-vigentes/etapa-actual-armonizacion/`)
 

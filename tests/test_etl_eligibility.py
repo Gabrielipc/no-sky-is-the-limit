@@ -62,14 +62,15 @@ EXPECTED = {
         'town': 'excluded_built',
         'jrc_wet_desert': 'eligible_paleolake_margin',
     },
+    # Without the global layers the cold-climate gate has no evidence: nothing is declared eligible.
     'polar_cold_v1': {
-        'desert': 'eligible_polar_cold_exposed',
+        'desert': 'pending_climate_check',
         'playa_margin': 'excluded_permanent_water',
-        'arctic_barren': 'eligible_polar_cold_exposed',
+        'arctic_barren': 'pending_climate_check',
         'steppe': 'excluded_vegetated_non_tree',
         'forest': 'excluded_dense_canopy',
         'town': 'excluded_built',
-        'jrc_wet_desert': 'eligible_polar_cold_exposed',
+        'jrc_wet_desert': 'pending_climate_check',
     },
 }
 
@@ -100,6 +101,26 @@ class TestEligibilityProfiles(unittest.TestCase):
             for name, fractions in SCENARIOS.items():
                 with self.subTest(profile=profile_id, scenario=name):
                     self.assertEqual(eligibility.classify(fractions, 1.0, 1.0, profile_id), expected[name])
+
+    def test_polar_profile_needs_a_cold_climate(self) -> None:
+        def polar(climate: dict) -> str:
+            return eligibility.classify({**SCENARIOS['desert'], **climate}, 1.0, 1.0, 'polar_cold_v1')
+
+        snow, perm = eligibility.SNOW_MONTHS_COLUMN, eligibility.PERMAFROST_COLUMN
+        self.assertEqual(polar({snow: 0.0, perm: None}), 'excluded_warm_climate')  # Sahara, Arabia
+        self.assertEqual(polar({snow: 0.02, perm: None}), 'excluded_warm_climate')  # Utah
+        self.assertEqual(polar({snow: 0.24, perm: 0.09}), 'excluded_warm_climate')
+        self.assertEqual(polar({snow: 0.25, perm: None}), 'eligible_polar_cold_exposed')
+        self.assertEqual(polar({snow: 1.0, perm: None}), 'eligible_polar_cold_exposed')  # Devon, Peary Land
+        self.assertEqual(polar({snow: 0.12, perm: 1.0}), 'eligible_polar_cold_exposed')  # Tibetan plateau
+        self.assertEqual(polar({snow: None, perm: 0.1}), 'eligible_polar_cold_exposed')
+        self.assertEqual(polar({snow: None, perm: None}), 'pending_climate_check')
+        # Climate never rescues a window that fails the cover gates.
+        forest = {**SCENARIOS['forest'], snow: 1.0, perm: 1.0}
+        self.assertEqual(eligibility.classify(forest, 1.0, 1.0, 'polar_cold_v1'), 'excluded_dense_canopy')
+        # The other profiles ignore climate.
+        warm = {**SCENARIOS['desert'], snow: 0.0, perm: None}
+        self.assertEqual(eligibility.classify(warm, 1.0, 1.0, 'arid_mars_surface_v2'), 'eligible_arid_exposed')
 
     def test_support_gates_precede_cover(self) -> None:
         for profile_id in eligibility.PROFILES:
@@ -133,11 +154,27 @@ class TestEligibilityProfiles(unittest.TestCase):
         conn = duckdb.connect()
         conn.register('base_windows', pa.Table.from_pylist(rows))
         for profile_id in eligibility.PROFILES:
-            sql = f'SELECT id, {eligibility.sql_case(profile_id)} FROM base_windows ORDER BY id'
+            sql = f'SELECT id, {eligibility.sql_case(profile_id, climate=False)} FROM base_windows ORDER BY id'
             got = dict(conn.execute(sql).fetchall())
             for row in rows:
                 with self.subTest(profile=profile_id, row=row['id']):
                     self.assertEqual(got[row['id']], eligibility.classify(row, 1.0, 1.0, profile_id))
+
+    def test_sql_climate_gate_matches_python(self) -> None:
+        levels = (None, 0.0, 0.02, 0.24, 0.25, 0.5, 1.0)
+        rows = [{'id': i, 'land_fraction': 1.0, 'cover_valid_fraction': 1.0,
+                 **SCENARIOS['desert'], eligibility.SNOW_MONTHS_COLUMN: snow, eligibility.PERMAFROST_COLUMN: perm}
+                for i, (snow, perm) in enumerate(itertools.product(levels, (None, 0.0, 0.09, 0.1, 1.0)))]
+        conn = duckdb.connect()
+        schema = pa.schema([('id', pa.int64()), ('land_fraction', pa.float64()), ('cover_valid_fraction', pa.float64()),
+                            *[(k, pa.float64()) for k in SCENARIOS['desert']],
+                            (eligibility.SNOW_MONTHS_COLUMN, pa.float64()), (eligibility.PERMAFROST_COLUMN, pa.float64())])
+        conn.register('base_windows', pa.Table.from_pylist(rows, schema=schema))
+        got = dict(conn.execute(
+            f"SELECT id, {eligibility.sql_case('polar_cold_v1')} FROM base_windows ORDER BY id").fetchall())
+        for row in rows:
+            with self.subTest(row=row['id']):
+                self.assertEqual(got[row['id']], eligibility.classify(row, 1.0, 1.0, 'polar_cold_v1'))
 
     def test_store_ranks_by_profile_and_flags_legacy_rows(self) -> None:
         rows = [base_row(name, fractions) for name, fractions in SCENARIOS.items()]
@@ -159,17 +196,19 @@ class TestEligibilityProfiles(unittest.TestCase):
 
             self.assertEqual(ranked('arid_mars_surface_v2'), {'desert'})
             self.assertEqual(ranked('paleolake_margin_v1'), {'desert', 'playa_margin', 'jrc_wet_desert'})
-            self.assertEqual(ranked('polar_cold_v1'), {'desert', 'arctic_barren', 'jrc_wet_desert'})
+            self.assertEqual(ranked('polar_cold_v1'), set())  # no global layers in this store
 
             everything = store.rank_similar(100.0, 3.0, 9.0, limit=50, only_eligible=False,
                                             profile='polar_cold_v1')
             by_id = {r['region_id']: r['scenario_eligibility'] for r in everything}
             self.assertEqual(by_id['legacy'], 'pending_on_demand_cover_check')
             self.assertEqual(by_id['forest'], 'excluded_dense_canopy')
+            self.assertEqual(by_id['desert'], 'pending_climate_check')
 
             stats = store.store_stats()
             self.assertEqual(stats['legacy_rows_needing_reextraction'], 1)
-            self.assertEqual(stats['by_scenario_profile']['polar_cold_v1']['eligible_polar_cold_exposed'], 3)
+            self.assertNotIn('eligible_polar_cold_exposed', stats['by_scenario_profile']['polar_cold_v1'])
+            self.assertEqual(stats['by_scenario_profile']['polar_cold_v1']['pending_climate_check'], 3)
 
     def test_expression_rejects_unknown_profile(self) -> None:
         with self.assertRaises(ValueError):

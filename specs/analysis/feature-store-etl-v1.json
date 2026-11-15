@@ -43,6 +43,8 @@
       "excluded_built",
       "excluded_snow_ice",
       "excluded_vegetated_non_tree",
+      "excluded_warm_climate",
+      "pending_climate_check",
       "excluded_urban_or_ice"
     ],
     "base_qa_status": [

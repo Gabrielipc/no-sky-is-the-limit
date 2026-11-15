@@ -30,6 +30,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+import contextlib
 import hashlib
 import json
 import math
@@ -156,8 +157,35 @@ def normal_from_percentile(p) -> np.ndarray:
     return stats.norm.ppf(np.clip(np.asarray(p, dtype='float64'), P_EPS, 1 - P_EPS))
 
 
+# A robust estimate may not contradict the data it summarises. Zero-inflated features (the share of
+# slope above 15 or 25 degrees is exactly zero in most windows) have tied normal scores, and
+# MinCovDet can then pick a subset where such a feature is constant: a zero-variance direction
+# whose correlations collapse to 0 (or flip sign), so the metric silently drops the feature.
+DEGENERATE_MIN_EIGEN_RATIO = 1e-4   # smallest / largest eigenvalue below this: singular
+DEGENERATE_MAX_CORR_GAP = 0.3       # |corr(robust) - corr(classical)| above this: contradicts the data
+
+
+def covariance_degeneracy(robust: np.ndarray, classical: np.ndarray, cfg: dict | None = None) -> str | None:
+    """Why `robust` cannot be trusted next to the `classical` covariance of the same rows, if so."""
+    cfg = cfg or {}
+    if not np.isfinite(robust).all():
+        return 'non_finite'
+    eig = np.linalg.eigvalsh(robust)
+    if eig.max() <= 0 or eig.min() / eig.max() < cfg.get('degenerate_min_eigen_ratio', DEGENERATE_MIN_EIGEN_RATIO):
+        return 'singular'
+    d_r, d_c = np.sqrt(np.diag(robust)), np.sqrt(np.diag(classical))
+    if (d_c <= 0).any():
+        return None  # a constant feature is handled upstream
+    gap = np.abs(robust / np.outer(d_r, d_r) - classical / np.outer(d_c, d_c)).max()
+    return 'correlation_gap' if gap > cfg.get('degenerate_max_corr_gap', DEGENERATE_MAX_CORR_GAP) else None
+
+
 def robust_covariance(z: np.ndarray, cfg: dict, seed: int) -> tuple[np.ndarray, str]:
-    """Robust covariance of complete normal-score rows, shrunk towards its diagonal."""
+    """Robust covariance of complete normal-score rows, shrunk towards its diagonal.
+
+    MinCovDet is checked against the classical covariance of the same rows; a degenerate
+    result (see `covariance_degeneracy`) is replaced by Ledoit-Wolf and the estimator name says so.
+    """
     n, k = z.shape
     if k == 1:
         return np.array([[float(np.var(z[:, 0])) or 1.0]]), 'variance'
@@ -166,6 +194,8 @@ def robust_covariance(z: np.ndarray, cfg: dict, seed: int) -> tuple[np.ndarray, 
         z = z[rng.choice(n, cfg['max_rows'], replace=False)]
     if z.shape[0] >= cfg['fallback_below_rows']:
         cov, name = MinCovDet(random_state=seed).fit(z).covariance_, 'min_cov_det'
+        if covariance_degeneracy(cov, np.cov(z, rowvar=False), cfg):
+            cov, name = LedoitWolf().fit(z).covariance_, 'ledoit_wolf_after_degenerate_min_cov_det'
     else:
         cov, name = LedoitWolf().fit(z).covariance_, 'ledoit_wolf'
     lam = cfg['shrinkage_to_diagonal']
@@ -214,6 +244,19 @@ def _masked_values(data: dict, column: str, status_column: str | None) -> np.nda
 # ---------------------------------------------------------------------------
 # Fitting
 # ---------------------------------------------------------------------------
+def fit_sample_sql(cols: str, where_sql: str, sample_size: int, seed: int) -> str:
+    """SELECT of a fixed-size random sample of the fit pool that does not depend on scan order.
+
+    DuckDB's `USING SAMPLE reservoir(...) REPEATABLE (seed)` fixes the random stream, not the
+    rows it is applied to: the same seed over the same rows in another order (another file
+    listing, another thread schedule) gives an unrelated sample. Here every row gets a
+    pseudo-random key from its own id and the seed, and the `sample_size` smallest keys are
+    kept, so the sample is the same whatever the scan order or the number of threads.
+    """
+    return (f"SELECT {cols} FROM (SELECT * FROM features_unified WHERE {where_sql}) t "
+            f"ORDER BY hash(region_id, {int(seed)}), region_id LIMIT {int(sample_size)}")
+
+
 def fit_model(store_root: Path, spec: dict | None = None, *, sample_size: int | None = None,
               seed: int | None = None, memory_limit: str = '2GB', threads: int = 4,
               log: Callable[[str], None] = lambda _m: None) -> dict:
@@ -238,9 +281,7 @@ def fit_model(store_root: Path, spec: dict | None = None, *, sample_size: int | 
         values: dict[str, np.ndarray] = {}
         if direct and pool_n:
             cols = ', '.join(_ident(f.column('Earth')) for f in direct)
-            data = _fetch(conn, f"""
-                SELECT {cols} FROM (SELECT * FROM features_unified WHERE {where_sql}) t
-                USING SAMPLE reservoir({int(sample_size)} ROWS) REPEATABLE ({int(seed)})""")
+            data = _fetch(conn, fit_sample_sql(cols, where_sql, sample_size, seed))
             for f in direct:
                 values[f.id] = _float(data[f.column('Earth')])
         # Bridge enrichments are on demand and sparse: fit them on the background sample
@@ -434,7 +475,7 @@ def model_report(model: dict) -> dict:
     views = {}
     for vid, v in model['views'].items():
         r = {k: v[k] for k in ('kind', 'fitted', 'features', 'reason', 'covariance_estimator', 'n_complete',
-                                'effective_dof', 'n_components', 'bic', 'n_fit') if k in v}
+                                'effective_dof', 'n_components', 'bic', 'n_fit', 'fit_population') if k in v}
         if 'correlation' in v:
             r['correlation'] = np.round(v['correlation'], 4).tolist()
         if 'weights' in v:
@@ -447,6 +488,22 @@ def model_report(model: dict) -> dict:
 # ---------------------------------------------------------------------------
 # Distances
 # ---------------------------------------------------------------------------
+def _group_patterns(avail: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Unique availability patterns (rows of a boolean matrix) and the pattern index of each row.
+
+    Equivalent to `np.unique(avail, axis=0, return_inverse=True)` but sorts one integer key per row
+    instead of whole rows, which is several times faster on millions of candidates.
+    """
+    n, k = avail.shape
+    if n == 0 or k > 62:
+        patterns, inverse = np.unique(avail, axis=0, return_inverse=True)
+        return patterns, inverse.reshape(-1)
+    keys = avail.astype(np.int64) @ (np.int64(1) << np.arange(k, dtype=np.int64))
+    uniq, inverse = np.unique(keys, return_inverse=True)
+    patterns = ((uniq[:, None] >> np.arange(k, dtype=np.int64)[None, :]) & 1).astype(bool)
+    return patterns, inverse.reshape(-1)
+
+
 def mahalanobis_view(zc: np.ndarray, zref: np.ndarray, cov: np.ndarray, min_features: int
                      ) -> tuple[np.ndarray, np.ndarray]:
     """Per-candidate chi-square-calibrated distance in [0, 1] and number of features used.
@@ -460,8 +517,7 @@ def mahalanobis_view(zc: np.ndarray, zref: np.ndarray, cov: np.ndarray, min_feat
     used = avail.sum(axis=1)
     if n == 0:
         return dist, used
-    patterns, inverse = np.unique(avail, axis=0, return_inverse=True)
-    inverse = inverse.reshape(-1)
+    patterns, inverse = _group_patterns(avail)
     for pi, pattern in enumerate(patterns):
         kk = int(pattern.sum())
         if kk < max(1, min_features):
@@ -506,13 +562,14 @@ def gmm_view(zc: np.ndarray, zref: np.ndarray, gmm: dict) -> tuple[np.ndarray, n
     dist, comp, pmax = np.full(n, np.nan), np.full(n, -1), np.full(n, np.nan)
     ref_post = np.full(len(gmm['weights']), np.nan)
     avail = np.isfinite(zc) & np.isfinite(zref)[None, :]
-    if n == 0:
-        return dist, comp, pmax, ref_post
+    # The reference posterior does not depend on the candidates: an empty pool (a profile with no
+    # eligible windows) must still report it, never NaN (which is not valid JSON).
     full = np.isfinite(zref)
     if full.any():
         ref_post = np.exp(_gmm_log_resp(zref[full][None, :], gmm, np.flatnonzero(full)))[0]
-    patterns, inverse = np.unique(avail, axis=0, return_inverse=True)
-    inverse = inverse.reshape(-1)
+    if n == 0:
+        return dist, comp, pmax, ref_post
+    patterns, inverse = _group_patterns(avail)
     for pi, pattern in enumerate(patterns):
         if not pattern.any():
             continue
@@ -565,9 +622,9 @@ def reference_from_dict(data: dict, spec: dict) -> Reference:
                      values, percentiles, data.get('region_id'))
 
 
-def reference_from_store(store_root: Path, region_id: str, spec: dict, **conn_kw) -> Reference:
+def reference_from_store(store_root: Path, region_id: str, spec: dict, conn=None, **conn_kw) -> Reference:
     features = parse_features(spec)
-    with connect(store_root, **conn_kw) as conn:
+    with contextlib.nullcontext(conn) if conn is not None else connect(store_root, **conn_kw) as conn:
         present = unified_columns(conn)
         head = conn.execute('SELECT body FROM features_unified WHERE region_id = ?', [region_id]).fetchone()
         if head is None:
@@ -585,7 +642,7 @@ def reference_from_store(store_root: Path, region_id: str, spec: dict, **conn_kw
     return Reference(region_id, region_id, body, values, {}, region_id)
 
 
-def resolve_reference(ref, store_root: Path, spec: dict, **conn_kw) -> Reference:
+def resolve_reference(ref, store_root: Path, spec: dict, conn=None, **conn_kw) -> Reference:
     """Named reference from the spec, store region_id, dict, or Reference."""
     if isinstance(ref, Reference):
         return ref
@@ -593,17 +650,18 @@ def resolve_reference(ref, store_root: Path, spec: dict, **conn_kw) -> Reference
         return reference_from_dict(ref, spec)
     named = spec['references'].get(ref)
     if named is None:
-        return reference_from_store(store_root, ref, spec, **conn_kw)
+        return reference_from_store(store_root, ref, spec, conn=conn, **conn_kw)
     if 'region_id' in named:
-        r = reference_from_store(store_root, named['region_id'], spec, **conn_kw)
+        r = reference_from_store(store_root, named['region_id'], spec, conn=conn, **conn_kw)
         r.id, r.name = ref, named['name']
         return r
     return reference_from_dict({'id': ref, **named}, spec)
 
 
-def body_percentile(conn, fdef: FeatureDef, body: str, value: float, min_population: int) -> tuple[float | None, int]:
+def body_percentile(conn, fdef: FeatureDef, body: str, value: float, min_population: int,
+                    present: set[str] | None = None) -> tuple[float | None, int]:
     col, st = fdef.column(body), fdef.status_columns.get(body)
-    present = unified_columns(conn)
+    present = unified_columns(conn) if present is None else present
     if col not in present:
         return None, 0
     cond = f"body = ? AND {_ident(col)} IS NOT NULL"
@@ -652,6 +710,38 @@ def coverage_warnings(view_report: dict, eff_w: dict[str, float], cfg: dict) -> 
     return out
 
 
+@dataclass
+class CandidatePool:
+    """Earth candidates of one eligibility profile, held in memory for repeated queries."""
+    profile: str
+    conn: duckdb.DuckDBPyConnection
+    present: set
+    data: dict
+    cand_raw: dict
+    cand_z: dict
+    eligible: np.ndarray
+
+    def __len__(self) -> int:
+        return len(self.data['region_id'])
+
+    def select(self, only_eligible: bool, bbox=None, region_ids=None) -> tuple[dict, dict, dict]:
+        """Rows that pass the same filters as the SQL path, in the same order."""
+        mask = self.eligible.copy() if only_eligible else np.ones(len(self), dtype=bool)
+        if bbox:
+            w, s, e, n = (float(v) for v in bbox)
+            lon, lat = _float(self.data['longitude']), _float(self.data['latitude'])
+            mask &= (lon >= w) & (lon <= e) & (lat >= s) & (lat <= n)
+        if region_ids:
+            mask &= np.isin(np.asarray(self.data['region_id'], dtype=object), list(region_ids))
+        if mask.all():
+            return self.data, self.cand_raw, self.cand_z
+        take = lambda d: {k: v[mask] for k, v in d.items()}  # noqa: E731
+        return take(self.data), take(self.cand_raw), take(self.cand_z)
+
+    def close(self) -> None:
+        self.conn.close()
+
+
 class SimilarityEngine:
     """Ranks Earth windows against a Mars/Moon reference with per-query view weights."""
 
@@ -670,7 +760,8 @@ class SimilarityEngine:
         return cls(load_model(path), spec)
 
     # -- reference ---------------------------------------------------------
-    def reference_scores(self, ref: Reference, conn) -> tuple[dict[str, float], dict[str, dict]]:
+    def reference_scores(self, ref: Reference, conn, present: set[str] | None = None
+                         ) -> tuple[dict[str, float], dict[str, dict]]:
         """Normal score of each reference feature plus provenance notes."""
         fcfg = self.spec['fit']
         scores, info = {}, {}
@@ -690,7 +781,8 @@ class SimilarityEngine:
                 if ref.body == 'Earth':
                     p, source = float(fm['transform'].percentile(ref.values[fid])[0]), 'earth_fit'
                 else:
-                    p, n = body_percentile(conn, fdef, ref.body, ref.values[fid], fcfg['min_body_population'])
+                    p, n = body_percentile(conn, fdef, ref.body, ref.values[fid], fcfg['min_body_population'],
+                                           present)
                     source = 'body_population'
             if p is not None:
                 scores[fid] = float(normal_from_percentile(p))
@@ -724,30 +816,13 @@ class SimilarityEngine:
             where.append(f"region_id IN ({', '.join('?' for _ in region_ids)})")
             params.extend(region_ids)
         sql = (f"SELECT region_id, longitude, latitude, utm_zone_band, ({elig}) AS scenario_eligibility"
-               f"{''.join(', ' + c for c in sorted(cols))} FROM features_unified WHERE {' AND '.join(where)}")
+               f"{''.join(', ' + c for c in sorted(cols))} FROM features_unified WHERE {' AND '.join(where)}"
+               ' ORDER BY region_id')  # fixed row order: ties in the RRF ranks must not depend on the scan
         return sql, params, sorted(cols)
 
-    def search(self, store_root: Path, reference, *, weights: dict | None = None,
-               profile: str = eligibility.DEFAULT_PROFILE, only_eligible: bool = True, limit: int = 25,
-               missing_policy: str | None = None, fusion: str | None = None, bbox=None,
-               region_ids: list[str] | None = None, memory_limit: str = '2GB', threads: int = 4) -> dict:
-        scfg = self.spec['search']
-        missing_policy = missing_policy or scfg['default_missing_policy']
-        fusion = fusion or scfg['default_fusion']
-        if missing_policy not in MISSING_POLICIES:
-            raise ValueError(f'Política de ausencia inválida: {missing_policy}')
-        if fusion not in FUSIONS:
-            raise ValueError(f'Fusión inválida: {fusion}')
-        ref = resolve_reference(reference, store_root, self.spec, memory_limit=memory_limit, threads=threads)
-        w = normalize_weights(weights, self.spec, ref.body)
-
-        with connect(store_root, memory_limit, threads) as conn:
-            zref_map, ref_info = self.reference_scores(ref, conn)
-            present = unified_columns(conn)
-            sql, params, _ = self._candidate_sql(present, profile, only_eligible, bbox, region_ids)
-            data = _fetch(conn, sql, params)
-        n = len(data['region_id'])
-        cand_z, cand_raw = {}, {}
+    def candidate_scores(self, data: dict) -> tuple[dict[str, np.ndarray], dict[str, np.ndarray]]:
+        """Raw values and normal scores of every fitted feature for the candidates in `data`."""
+        cand_raw, cand_z = {}, {}
         for fid, fdef in self.features.items():
             fm = self.model['features'][fid]
             col = fdef.column('Earth')
@@ -757,6 +832,59 @@ class SimilarityEngine:
             raw = _masked_values(data, col, st if st in data else None)
             cand_raw[fid] = raw
             cand_z[fid] = fm['transform'].normal(raw)
+        return cand_raw, cand_z
+
+    def build_pool(self, store_root: Path, profile: str = eligibility.DEFAULT_PROFILE,
+                   memory_limit: str = '2GB', threads: int = 4) -> 'CandidatePool':
+        """Load every rankable Earth window once and precompute what does not depend on the query."""
+        conn = connect(store_root, memory_limit, threads)
+        present = unified_columns(conn)
+        sql, params, _ = self._candidate_sql(present, profile, False, None, None)
+        data = _fetch(conn, sql, params)
+        cand_raw, cand_z = self.candidate_scores(data)
+        eligible_status = eligibility.get_profile(profile).eligible_status
+        return CandidatePool(profile=profile, conn=conn, present=present, data=data, cand_raw=cand_raw,
+                             cand_z=cand_z, eligible=np.asarray(data['scenario_eligibility'], dtype=object)
+                             == eligible_status)
+
+    def search(self, store_root: Path, reference, *, weights: dict | None = None,
+               profile: str = eligibility.DEFAULT_PROFILE, only_eligible: bool = True, limit: int = 25,
+               missing_policy: str | None = None, fusion: str | None = None, bbox=None,
+               region_ids: list[str] | None = None, memory_limit: str = '2GB', threads: int = 4,
+               pool: 'CandidatePool | None' = None) -> dict:
+        """Rank Earth windows against `reference`.
+
+        With a `CandidatePool` (see `build_pool`) the Earth candidates and their normal scores are
+        already in memory, so a query only pays for the distances and the fusion.
+        """
+        scfg = self.spec['search']
+        missing_policy = missing_policy or scfg['default_missing_policy']
+        fusion = fusion or scfg['default_fusion']
+        if missing_policy not in MISSING_POLICIES:
+            raise ValueError(f'Política de ausencia inválida: {missing_policy}')
+        if fusion not in FUSIONS:
+            raise ValueError(f'Fusión inválida: {fusion}')
+        if pool is not None:
+            if pool.profile != profile:
+                raise ValueError(f'El pool se construyó con el perfil {pool.profile}, no con {profile}')
+            cursor = pool.conn.cursor()
+            try:
+                ref = resolve_reference(reference, store_root, self.spec, conn=cursor)
+                w = normalize_weights(weights, self.spec, ref.body)
+                zref_map, ref_info = self.reference_scores(ref, cursor, pool.present)
+            finally:
+                cursor.close()
+            data, cand_raw, cand_z = pool.select(only_eligible, bbox, region_ids)
+        else:
+            ref = resolve_reference(reference, store_root, self.spec, memory_limit=memory_limit, threads=threads)
+            w = normalize_weights(weights, self.spec, ref.body)
+            with connect(store_root, memory_limit, threads) as conn:
+                zref_map, ref_info = self.reference_scores(ref, conn)
+                present = unified_columns(conn)
+                sql, params, _ = self._candidate_sql(present, profile, only_eligible, bbox, region_ids)
+                data = _fetch(conn, sql, params)
+            cand_raw, cand_z = self.candidate_scores(data)
+        n = len(data['region_id'])
 
         view_dist: dict[str, np.ndarray] = {}
         view_report: dict[str, dict] = {}

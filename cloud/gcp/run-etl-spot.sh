@@ -14,6 +14,8 @@ WORKDIR="${WORKDIR:-/opt/analogos}"
 SCRATCH_DIR="${SCRATCH_DIR:-/tmp/atlas30_cache}"
 ETL_SCRIPT="${ETL_SCRIPT:-scripts/etl_pipeline.py}"
 ETL_ARGS="${ETL_ARGS:-stream --scope world --stride 10000 --max-batches 50 --workers 8 --io-workers 16 --max-temp-gb 12}"
+# Only a run that sets the active release may upload `releases/atlas30/current` (see sync-outputs.sh).
+[[ "$ETL_ARGS" == *"--set-current"* ]] && export SYNC_CURRENT=1 || export SYNC_CURRENT=0
 AUTO_DELETE="${AUTO_DELETE:-1}"
 SYNC_INTERVAL_S="${SYNC_INTERVAL_S:-600}"
 EARTHDATA_SECRET="${EARTHDATA_SECRET:-}"
@@ -160,6 +162,11 @@ if [[ "$ETL_SCRIPT" == *"etl_pipeline.py"* || "$ETL_SCRIPT" == *"atlas30.py"* ]]
     log "Ensuring atlas30 inventory (land mask + GLO-30 tile list)..."
     pixi run python "$WORKDIR/scripts/atlas30.py" inventory
 fi
+
+# The store keeps one small Parquet per delta (tens of thousands of manifests); publish reads them
+# all in one query and DuckDB needs a descriptor per file. Raise the soft limit as far as the hard one allows.
+for limit in 1048576 524288 262144 65536 "$(ulimit -Hn)"; do ulimit -n "$limit" 2>/dev/null && break; done
+log "Open-files limit: $(ulimit -n)"
 
 log "Running ETL: ${ETL_SCRIPT} ${ETL_ARGS}"
 # shellcheck disable=SC2086

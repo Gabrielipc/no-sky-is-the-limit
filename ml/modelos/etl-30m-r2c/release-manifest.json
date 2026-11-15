@@ -1,0 +1,223 @@
+{
+  "release_contract": "atlas30-release-v1",
+  "version": "etl-30m-r2c",
+  "scope": "world",
+  "coverage_status": "complete",
+  "window_m": 3000,
+  "cell_m": 30,
+  "stride_m": 10000,
+  "grid_version": "utm-ups-v1",
+  "min_land_fraction": 0.8,
+  "min_valid_fraction": 0.95,
+  "ranking_method": "etl-quantiles-v1",
+  "ranking_note": "slope_distance_deg = (|ΔP50| + |ΔP90|) / 2 de la pendiente a base de 240 m.",
+  "search_eligibility": "eligible_arid_exposed",
+  "eligibility_profile": "arid_mars_surface_v2",
+  "profile": {
+    "profile_id": "jezero-etl-240m",
+    "site": "Jezero — abanico sedimentario",
+    "body": "Mars",
+    "product": "DTEEC_002387_1985_003798_1985_A01",
+    "cell_m": 30,
+    "window_m": 3000,
+    "slope_baseline_m": 240,
+    "roughness_radius_m": 360,
+    "relief_m": 120.2728,
+    "slope_p50_deg": 3.0744,
+    "slope_p90_deg": 9.2393,
+    "roughness_m": 7.5705,
+    "hypsometric_integral": 0.613,
+    "land_fraction": 1.0,
+    "valid_elevation": 1.0,
+    "valid_slope": 1.0,
+    "valid_roughness": 1.0
+  },
+  "counts": {
+    "dem_unavailable": 1915,
+    "rankable": 1459470,
+    "insufficient_land": 331371,
+    "insufficient_dem_support": 419
+  },
+  "eligibility_counts": {
+    "pending_on_demand_cover_check": 123194,
+    "excluded_snow_ice": 27372,
+    "excluded_dense_canopy": 628833,
+    "excluded_vegetated_non_tree": 316847,
+    "excluded_built": 18184,
+    "excluded_permanent_water": 170445,
+    "eligible_arid_exposed": 174595
+  },
+  "cover_counts": {
+    "measured": 1336276,
+    "insufficient_cover_support": 245,
+    "no_cover_tile": 122949
+  },
+  "batch_count": 22308,
+  "incomplete_batches": 0,
+  "normalization": {
+    "slope_distance_deg": 5.696871792054177,
+    "relief_difference_m": 112.09429362564087,
+    "roughness_difference_m": 7.111362575173378
+  },
+  "normalization_method": "Percentil 75 de cada distancia entre las ventanas elegibles del release, con mínimos de 0.25°, 5 m y 0.1 m.",
+  "source_catalog": {
+    "land": {
+      "product": "Natural Earth Land 1:10m",
+      "version": "5.1.1",
+      "product_version": "5.1.1",
+      "doi": null,
+      "license": "Public domain",
+      "crs": "EPSG:4326",
+      "coverage": "world land polygons",
+      "url": "https://naturalearth.s3.amazonaws.com/10m_physical/ne_10m_land.zip"
+    },
+    "glo30": {
+      "product": "Copernicus DEM GLO-30 Public (DSM)",
+      "version": "DGED COG public inventory",
+      "product_version": "2023_1",
+      "doi": "10.5270/ESA-c5d3d65",
+      "license": "Copernicus DEM GLO-30, attribution required",
+      "crs": "EPSG:4326",
+      "vertical_reference": "EGM2008",
+      "native_resolution_m": 30,
+      "coverage": "public 1° tiles, with gaps",
+      "url": "https://copernicus-dem-30m.s3.amazonaws.com/tileList.txt"
+    },
+    "worldcover": {
+      "product": "ESA WorldCover Map",
+      "version": "2021 v200",
+      "product_version": "v200",
+      "doi": "10.5281/zenodo.7254221",
+      "license": "CC BY 4.0",
+      "native_resolution_m": 10,
+      "crs": "EPSG:4326",
+      "period": "2021",
+      "url": "https://esa-worldcover.org/en/data-access"
+    },
+    "jrc": {
+      "product": "JRC Global Surface Water Occurrence",
+      "version": "1.5",
+      "product_version": "1.5",
+      "doi": null,
+      "license": "Copernicus Programme, EC JRC/Google attribution",
+      "native_resolution_m": 30,
+      "crs": "EPSG:4326",
+      "period": "1984–2024",
+      "url": "https://global-surface-water.appspot.com/download"
+    },
+    "hls": {
+      "product": "NASA HLS L30/S30",
+      "version": "2.0",
+      "product_version": "2.0",
+      "doi": "10.5067/HLS/HLSS30.002",
+      "native_resolution_m": 30,
+      "access": "CMR and Earthdata Login",
+      "url": "https://hls.gsfc.nasa.gov/data-access-and-tools/"
+    },
+    "landsat": {
+      "product": "Landsat 8/9 Collection 2 Level-2 ST",
+      "version": "Collection 2",
+      "product_version": "C2_L2",
+      "doi": "10.5066/P9OGBGM6",
+      "native_resolution_m": 100,
+      "distributed_cell_m": 30,
+      "access": "USGS Landsat catalog",
+      "url": "https://www.usgs.gov/landsat-missions/landsat-data-access"
+    },
+    "esa_cci_permafrost": {
+      "product": "ESA CCI Permafrost v5.0 (Open Science Catalog)",
+      "version": "5.0",
+      "product_version": "5.0",
+      "doi": "10.5285/6ef1a60b678f4048a20b5c8d94d665c9",
+      "native_resolution_m": 1000,
+      "crs": "EPSG:4326",
+      "period": "1997–2023",
+      "access": "ESA Open Science Catalog / CEDA",
+      "url": "https://climate.esa.int/en/projects/permafrost/"
+    },
+    "gpm_imerg": {
+      "product": "GPM IMERG Final Precipitation L3 Daily v07",
+      "version": "07",
+      "product_version": "07",
+      "doi": "10.5067/GPM/IMERGDF/DAY/07",
+      "native_resolution_m": 11132,
+      "crs": "EPSG:4326",
+      "access": "NASA GES DISC / CMR",
+      "url": "https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGDF_07/summary"
+    },
+    "smap_spl3smp_e": {
+      "product": "SMAP Enhanced L3 Radiometer Daily 9 km Soil Moisture v006",
+      "version": "006",
+      "product_version": "006",
+      "doi": "10.5067/4DQ54OUIJ9DL",
+      "native_resolution_m": 9000,
+      "crs": "EPSG:6933",
+      "access": "NASA NSIDC DAAC / CMR",
+      "url": "https://nsidc.org/data/spl3smp_e/versions/6"
+    },
+    "modis_mod10a1": {
+      "product": "MODIS/Terra Snow Cover Daily L3 Global 500m v061",
+      "version": "061",
+      "product_version": "061",
+      "doi": "10.5067/MODIS/MOD10A1.061",
+      "native_resolution_m": 500,
+      "crs": "MODIS Sinusoidal",
+      "access": "NASA NSIDC DAAC / CMR",
+      "url": "https://nsidc.org/data/mod10a1/versions/61"
+    },
+    "aster_ged_ag100": {
+      "product": "ASTER Global Emissivity Dataset 100m v003",
+      "version": "003",
+      "product_version": "003",
+      "doi": "10.5067/Community/ASTER_GED/AG100.003",
+      "native_resolution_m": 100,
+      "crs": "EPSG:4326",
+      "access": "NASA LP DAAC / CMR",
+      "url": "https://lpdaac.usgs.gov/products/ag100v003/"
+    },
+    "sentinel1_rtc": {
+      "product": "OPERA Sentinel-1 Radiometric Terrain Corrected Backscatter / CDSE RTC",
+      "version": "V1",
+      "product_version": "V1",
+      "doi": "10.5067/SNWG/OPERA_L2_RTC-S1_V1",
+      "native_resolution_m": 20,
+      "crs": "UTM/WGS84",
+      "access": "NASA ASF DAAC / ESA CDSE",
+      "url": "https://documentation.dataspace.copernicus.eu/Data/Sentinel1.html"
+    }
+  },
+  "feature_store": "/opt/analogos/data/feature_store_v1",
+  "created_at": "2026-11-15T11:39:13.918095+00:00",
+  "similarity": {
+    "engine_id": "motor-similitud-ml-v1",
+    "engine_status": "unsupervised_pending_blind_validation",
+    "model_fitted_at": "2026-11-15T11:34:08+00:00",
+    "limit": 100,
+    "schema": "specs/api/motor-busqueda-v1.schema.json",
+    "model_file": "similarity/model.joblib",
+    "model_report": "similarity/model.json",
+    "references": {
+      "jezero": {
+        "status": "published",
+        "file": "similarity/jezero.json",
+        "profile": "arid_mars_surface_v2",
+        "results": 100,
+        "warnings": 2
+      },
+      "haworth-fondo": {
+        "status": "published",
+        "file": "similarity/haworth-fondo.json",
+        "profile": "polar_cold_v1",
+        "results": 100,
+        "warnings": 1
+      },
+      "de-gerlache-cresta": {
+        "status": "published",
+        "file": "similarity/de-gerlache-cresta.json",
+        "profile": "polar_cold_v1",
+        "results": 100,
+        "warnings": 1
+      }
+    }
+  }
+}
