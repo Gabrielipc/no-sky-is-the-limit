@@ -14,6 +14,8 @@ WORKDIR="${WORKDIR:-/opt/analogos}"
 SCRATCH_DIR="${SCRATCH_DIR:-/tmp/atlas30_cache}"
 ETL_SCRIPT="${ETL_SCRIPT:-scripts/etl_pipeline.py}"
 ETL_ARGS="${ETL_ARGS:-stream --scope world --stride 10000 --max-batches 50 --workers 8 --io-workers 16 --max-temp-gb 12}"
+# Only a run that sets the active release may upload `releases/atlas30/current` (see sync-outputs.sh).
+[[ "$ETL_ARGS" == *"--set-current"* ]] && export SYNC_CURRENT=1 || export SYNC_CURRENT=0
 AUTO_DELETE="${AUTO_DELETE:-1}"
 SYNC_INTERVAL_S="${SYNC_INTERVAL_S:-600}"
 EARTHDATA_SECRET="${EARTHDATA_SECRET:-}"
