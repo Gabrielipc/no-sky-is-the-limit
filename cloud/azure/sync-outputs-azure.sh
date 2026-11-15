@@ -10,7 +10,8 @@ WORKDIR="${WORKDIR:-/opt/analogos}"
 LOG_FILE="${LOG_FILE:-/var/log/analogos-etl.log}"
 LOCK_FILE="${SYNC_LOCK_FILE:-/tmp/analogos-sync.lock}"
 LOCK_WAIT_S="${SYNC_LOCK_WAIT_S:-20}"
-EXCLUDE='(^|/)(tmp[^/]*|\.stream_tmp)(/|$)|\.part(\.tif)?$|(^|/)\._'
+# Matched from the start of the relative path (gcloud) or anywhere (azcopy): both work.
+EXCLUDE='(.*/)?(tmp[^/]*|\.stream_tmp)(/.*)?$|.*\.part(\.tif)?$|(.*/)?\._.*'
 
 log() { echo "[$(date -u '+%Y-%m-%dT%H:%M:%SZ')] sync: $*"; }
 

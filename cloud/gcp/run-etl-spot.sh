@@ -114,16 +114,17 @@ if gcloud storage ls "$STORE_SNAPSHOT" >/dev/null 2>&1; then
     # serial console (~70 lines/s) then paces the whole extraction. Drop those warnings.
     gcloud storage cat "$STORE_SNAPSHOT" | tar -x --warning=no-unknown-keyword -C "$WORKDIR/data" 2>/dev/null \
         || log "WARNING: snapshot not restored"
-    # macOS archives also carry AppleDouble `._*` files next to every file; DuckDB would try to read
-    # `._part_*.parquet` as Parquet. They hold no data.
-    find "$WORKDIR/data/feature_store_v1" -name '._*' -delete
 fi
 log "Completing the store with files newer than the snapshot..."
-APPLEDOUBLE='(^|/)\._'
+# gcloud matches --exclude from the start of the relative path: keep the leading `(.*/)?`.
+APPLEDOUBLE='(.*/)?\._.*'
 gcloud storage rsync -r --no-clobber --exclude="$APPLEDOUBLE" "${GCS_BUCKET}/data/feature_store_v1" "$WORKDIR/data/feature_store_v1" 2>&1 \
     | grep -v '^Copying\|^\.Copying' || true
 gcloud storage rsync -r --exclude="$APPLEDOUBLE" "${GCS_BUCKET}/data/feature_store_v1/enrichment" "$WORKDIR/data/feature_store_v1/enrichment" 2>&1 \
     | grep -v '^Copying\|^\.Copying' || true
+# macOS archives carry AppleDouble `._*` files next to every file (and a faulty run uploaded some to the
+# bucket); DuckDB would read `._part_*.parquet` as Parquet. They hold no data: drop them all.
+find "$WORKDIR/data/feature_store_v1" -name '._*' -delete
 gcloud storage rsync -r "${GCS_BUCKET}/releases" "$WORKDIR/releases" || true
 for evidence in $(gcloud storage ls "${GCS_BUCKET}/docs/" 2>/dev/null | grep -o 'evidencia-[^/]*' | sort -u); do
     mkdir -p "$WORKDIR/docs/$evidence"
