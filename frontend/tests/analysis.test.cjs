@@ -304,3 +304,13 @@ test('invalid image data reports a Spanish DEM error, while cancellation retains
  t.mock.method(globalThis,'fetch',async()=>{throw abort;});
  await assert.rejects(pixelReader.pixels('/cancelled.png',c.signal,61,61),error=>error===abort);
 });
+test('the bare address opens the landing; the scientific mode follows the specialised analyses',()=>{
+  const {parseState,stateQuery}=load('src/app/useAtlasState.ts');
+  assert.equal(parseState('').state.view,'landing');
+  assert.equal(parseState('').state.science,false);
+  assert.equal(parseState('?view=unified').state.science,false);
+  assert.equal(parseState('?view=world').state.science,true);
+  assert.equal(parseState('?view=world&science=false').state.science,false);
+  const landing=parseState(stateQuery({...parseState('').state,reference:'haworth-fondo'}));
+  assert.equal(landing.state.view,'landing');assert.equal(landing.state.reference,'haworth-fondo');
+});

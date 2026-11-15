@@ -28,11 +28,15 @@
 .regolith-header nav > button {
   background: transparent;
   border: 0;
-  border-bottom: 2px solid var(--accent);
+  border-bottom: 2px solid transparent;
   border-radius: 0;
-  color: var(--accent);
+  color: var(--muted);
   font-weight: 500;
   padding: 10px 0;
+}
+.regolith-header nav > button[aria-current="page"] {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
 }
 .regolith-tools {
   position: relative;
@@ -130,9 +134,6 @@
   font-size: 13px;
   letter-spacing: 0;
   min-height: 40px;
-}
-.u-toolbar label:nth-child(2) {
-  min-width: 210px;
 }
 .u-scales {
   display: flex;
@@ -440,8 +441,13 @@
   font-size: 11px;
   min-height: 90px;
 }
-.u-inspector {
+.u-side {
   grid-area: panel;
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+.u-inspector {
   border: 1px solid #85705a66;
   background: var(--surface);
   border-radius: 10px;
@@ -1079,4 +1085,324 @@
   .regolith-brand {
     width: 140px;
   }
+}
+
+/* --- Modo sencillo / científico ------------------------------------------------ */
+.landing-loading {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+.regolith-mode {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 13px;
+  user-select: none;
+}
+.regolith-mode > span {
+  display: grid;
+  text-align: right;
+  gap: 2px;
+}
+.regolith-mode small {
+  font-size: 10px;
+  color: var(--muted);
+}
+.regolith-mode input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.regolith-mode i {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  border-radius: 12px;
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.regolith-mode i::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--muted);
+  transition: transform 0.2s, background 0.2s;
+}
+.regolith-mode input:checked + i {
+  background: var(--selected);
+  border-color: var(--accent);
+}
+.regolith-mode input:checked + i::after {
+  transform: translateX(18px);
+  background: var(--accent);
+}
+.regolith-mode input:focus-visible + i {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.u-segment,
+.u-sites {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid #85705a66;
+}
+.u-segment button,
+.u-sites button {
+  background: transparent;
+  border: 1px solid transparent;
+  min-height: 40px;
+  padding: 7px 14px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+.u-sites button {
+  display: grid;
+  text-align: left;
+  gap: 2px;
+  padding: 6px 14px;
+}
+.u-sites small {
+  font-size: 10px;
+  color: var(--muted);
+}
+.u-segment button[aria-pressed="true"],
+.u-sites button[aria-pressed="true"] {
+  background: var(--selected);
+  border-color: #f2a64e88;
+}
+.u-sites button[aria-pressed="true"] strong {
+  color: var(--accent);
+}
+.u-pair-labels em {
+  font-style: normal;
+  color: var(--muted);
+  font-weight: 400;
+}
+.u-candidate-list.is-stale,
+.u-inspector[aria-busy="true"] .u-comparison {
+  opacity: 0.55;
+  transition: opacity 0.2s;
+}
+.u-place {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 6px;
+}
+.u-similarity {
+  padding: 18px 0;
+  margin: 14px 0 18px;
+  border-top: 1px solid #85705a66;
+  border-bottom: 1px solid #85705a66;
+}
+.u-similarity > strong {
+  display: block;
+  font-size: 44px;
+  line-height: 1.1;
+  font-weight: 500;
+  color: var(--accent);
+}
+.u-similarity > span {
+  font-size: 13px;
+  color: var(--muted);
+}
+.u-meter {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--surface-raised);
+  margin-top: 12px;
+  overflow: hidden;
+}
+.u-meter i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+}
+.u-plain-row {
+  display: grid;
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid #85705a44;
+  font-size: 14px;
+}
+.u-plain-row > span small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+}
+.u-plain-row > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.u-plain-row > div span {
+  background: var(--bg);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-weight: 500;
+}
+.u-plain-row > div small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 400;
+}
+.u-note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 14px;
+}
+.is-simple .u-candidate-list button > span {
+  font-size: 13px;
+}
+.u-controls {
+  border: 1px solid #85705a66;
+  background: var(--surface);
+  border-radius: 10px;
+  padding: 18px 20px;
+  min-width: 0;
+}
+.u-controls > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.u-controls > header h3 {
+  font-size: 15px;
+}
+.u-controls > header button {
+  font-size: 12px;
+  padding: 6px 10px;
+  min-height: 0;
+}
+.u-controls-status {
+  font-size: 11px;
+  color: var(--accent);
+  margin-top: 6px;
+  min-height: 1.5em;
+}
+.u-controls-note {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 10px;
+}
+.u-controls fieldset {
+  border: 0;
+  padding: 0;
+  margin: 12px 0 0;
+  display: grid;
+  gap: 10px;
+}
+.u-controls legend {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 4px;
+  letter-spacing: 0.03em;
+}
+.u-weight {
+  display: grid;
+  gap: 2px;
+}
+.u-weight label {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 12px;
+}
+.u-weight label span {
+  color: var(--muted);
+  font-size: 11px;
+}
+.u-weight input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+}
+.u-weight small {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.u-weight.is-off label {
+  color: var(--muted);
+}
+.u-control-grid {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+}
+.u-control-grid label {
+  display: grid;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.u-control-grid select {
+  background: var(--bg);
+  font-size: 12px;
+  min-height: 34px;
+}
+.u-control-grid .u-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  font-size: 12px;
+}
+.u-controls code {
+  font-size: 10px;
+}
+@media (max-width: 1100px) {
+  .regolith-mode small {
+    display: none;
+  }
+}
+@media (max-width: 740px) {
+  .regolith-mode > span {
+    font-size: 11px;
+  }
+  .u-toolbar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .u-segment,
+  .u-sites,
+  .u-scales {
+    width: 100%;
+  }
+  .u-sites button {
+    padding: 6px 8px;
+  }
+  .u-segment button,
+  .u-sites button,
+  .u-scales button {
+    flex: 1;
+    justify-content: center;
+  }
+}
+/* The public mode keeps the body chip and drops the technical source line of each scene. */
+.is-simple .u-scene-top > span + span,
+.is-simple .u-missing small {
+  display: none;
+}
+.is-simple .u-candidate-list {
+  max-height: none;
 }

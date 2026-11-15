@@ -142,3 +142,24 @@ test('the client timeout and debounce follow the contract rules', () => {
   assert.ok(DEBOUNCE_MS >= 200 && DEBOUNCE_MS <= 500);
   assert.ok(api['x-client-rules'].some(rule => rule.includes('30 s')));
 });
+test('the scientific mode can send an eligibility profile inside the contract', () => {
+  const request = s.buildRequest('haworth-fondo', { ...s.defaultControls(jezero, catalog), profile: 'polar_cold_v1' });
+  assert.equal(request.profile, 'polar_cold_v1');
+  assert.ok(motor.$defs.SearchRequest.properties.profile.enum.includes(request.profile));
+  assert.equal('profile' in s.buildRequest('jezero', s.defaultControls(jezero, catalog)), false);
+  assert.deepEqual(keys(s.PROFILE_LABELS), [...motor.$defs.SearchRequest.properties.profile.enum].sort());
+});
+test('similarity is 1 − distance, clamped to [0, 1]', () => {
+  assert.equal(s.similarity(0.25), 0.75);
+  assert.equal(s.similarity(1.5), 0);
+  assert.equal(s.similarity(-0.1), 1);
+});
+test('a server without engine or connection is reported as unavailable, not as a failed search', async () => {
+  const { SearchUnavailable } = load('src/data/similarityApi.ts');
+  await withFetch(answer(503, { detail: 'El modelo no está disponible' }), async () =>
+    assert.rejects(postSearch({}, new AbortController().signal), e => e instanceof SearchUnavailable));
+  await withFetch(async () => { throw new TypeError('Failed to fetch'); }, async () =>
+    assert.rejects(postSearch({}, new AbortController().signal), e => e instanceof SearchUnavailable));
+  await withFetch(answer(404, { detail: 'Referencia desconocida' }), async () =>
+    assert.rejects(postSearch({}, new AbortController().signal), e => !(e instanceof SearchUnavailable)));
+});
