@@ -38,31 +38,6 @@
   border-bottom-color: var(--accent);
   color: var(--accent);
 }
-.regolith-tools {
-  position: relative;
-}
-.regolith-tools summary {
-  padding: 12px;
-  color: var(--muted);
-  font-size: 13px;
-}
-.regolith-tools > div {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  padding: 8px;
-  width: 250px;
-  box-shadow: 0 16px 40px #0008;
-  display: grid;
-  gap: 4px;
-}
-.regolith-tools button {
-  text-align: left;
-  border: 0;
-  background: transparent;
-}
 .regolith-descriptor {
   margin-left: auto;
   font-size: 10px;
@@ -898,14 +873,6 @@
     text-align: left;
     line-height: 1.4;
   }
-  .regolith-tools summary {
-    font-size: 11px;
-    padding: 8px 2px;
-  }
-  .regolith-tools > div {
-    left: auto;
-    right: 0;
-  }
   .regolith-main {
     padding: 20px 14px 28px;
   }
@@ -1059,11 +1026,6 @@
     min-width: 0;
     max-width: 100px;
     font-size: 11px;
-  }
-  .regolith-tools summary {
-    max-width: 70px;
-    white-space: normal;
-    line-height: 1.4;
   }
   .u-scene .cesium-credit-logoContainer img {
     max-width: 75px !important;
