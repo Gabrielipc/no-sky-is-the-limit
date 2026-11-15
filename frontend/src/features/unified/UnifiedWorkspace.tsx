@@ -51,12 +51,6 @@ const SITE_TEXT: Record<ReferenceId, string> = {
   "de-gerlache-cresta": "Cresta junto al polo sur",
 };
 const BODY_TEXT = { Mars: "Marte", Moon: "Luna", Earth: "Tierra" } as const;
-/** The three measurements a non-specialist can read, with what each one means. */
-const PLAIN_FEATURES = [
-  { id: "relief_p95_p05_m", label: "Desnivel", hint: "entre las partes altas y bajas", unit: "m", digits: 0 },
-  { id: "slope_240m_p50_deg", label: "Inclinación típica", hint: "del terreno", unit: "°", digits: 1 },
-  { id: "roughness_360m_p50_m", label: "Rugosidad", hint: "qué tan irregular es el suelo", unit: "m", digits: 1 },
-] as const;
 
 export function UnifiedWorkspace({
   state,
@@ -375,7 +369,6 @@ function SimpleInspector({
   loaded?: LoadedSearch;
   search: EngineSearch;
 }) {
-  const values = loaded && row ? featureRows(loaded.data, row) : [];
   return (
     <>
       <h2>
@@ -393,29 +386,16 @@ function SimpleInspector({
               <i style={{ width: `${similarity(row.score) * 100}%` }} />
             </div>
           </div>
-          <h3>Cómo se comparan</h3>
-          {PLAIN_FEATURES.map((f) => {
-            const v = values.find((x) => x.id === f.id);
-            if (!v) return null;
-            return (
-              <div className="u-plain-row" key={f.id}>
-                <span>
-                  {f.label}
-                  <small>{f.hint}</small>
-                </span>
-                <div>
-                  <span>
-                    <small>{refInfo.name}</small>
-                    {number(v.reference, f.digits)} {f.unit}
-                  </span>
-                  <span>
-                    <small>Tierra</small>
-                    {number(v.candidate, f.digits)} {f.unit}
-                  </span>
-                </div>
+          <h3>Resumen por dimensión</h3>
+          <div className="u-dimension-summary">
+            {Object.entries(row.views).filter(([, view]) => view.weight > 0).map(([id, view]) => (
+              <div key={id}>
+                <span>{viewNames[id] || id}</span>
+                <strong>{view.available && view.distance != null ? distance(view.distance) : "Sin datos"}</strong>
               </div>
-            );
-          })}
+            ))}
+          </div>
+          <p className="u-dimension-help">Distancia por dimensión: cuanto menor, mayor parecido. Consulta el modo científico para ver los detalles.</p>
           <p className="u-note">
             Comparamos la forma del relieve en zonas de 3 km medidas por satélite. Es un resultado
             experimental: no indica si un vehículo podría recorrer el terreno.
