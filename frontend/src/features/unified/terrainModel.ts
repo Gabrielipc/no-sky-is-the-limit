@@ -104,9 +104,56 @@ export function offsetDegrees(
 }
 
 /** A spherical mean frames an unselected result set, including the date line. */
-export function candidateFocus(rows:{longitude:number;latitude:number}[]):[number,number]{
- if(!rows.length)return [0,10];
- let x=0,y=0,z=0;
- for(const row of rows){const a=row.longitude*Math.PI/180,b=row.latitude*Math.PI/180;x+=Math.cos(b)*Math.cos(a);y+=Math.cos(b)*Math.sin(a);z+=Math.sin(b);}
- return Math.hypot(x,y,z)<1e-8?[0,10]:[Math.atan2(y,x)*180/Math.PI,Math.atan2(z,Math.hypot(x,y))*180/Math.PI];
+export function candidateFocus(
+  rows: { longitude: number; latitude: number }[],
+): [number, number] {
+  if (!rows.length) return [0, 10];
+  let x = 0,
+    y = 0,
+    z = 0;
+  for (const row of rows) {
+    const a = (row.longitude * Math.PI) / 180,
+      b = (row.latitude * Math.PI) / 180;
+    x += Math.cos(b) * Math.cos(a);
+    y += Math.cos(b) * Math.sin(a);
+    z += Math.sin(b);
+  }
+  return Math.hypot(x, y, z) < 1e-8
+    ? [0, 10]
+    : [
+        (Math.atan2(y, x) * 180) / Math.PI,
+        (Math.atan2(z, Math.hypot(x, y)) * 180) / Math.PI,
+      ];
+}
+
+export type ScreenMark = { id: string; name: string; x: number; y: number };
+/** Screen-space connected groups. Selection always remains its own visible target. */
+export function groupMapPoints(
+  points: ScreenMark[],
+  selected: string,
+  pixels = 42,
+) {
+  const pending = points.filter((p) => p.id !== selected).slice(),
+    groups: (ScreenMark & { members: string[] })[] = [];
+  while (pending.length) {
+    const members = [pending.shift()!];
+    for (let i = 0; i < members.length; i++)
+      for (let j = pending.length - 1; j >= 0; j--)
+        if (
+          Math.hypot(members[i].x - pending[j].x, members[i].y - pending[j].y) <
+          pixels
+        )
+          members.push(...pending.splice(j, 1));
+    const ids = members.map((p) => p.id).sort();
+    groups.push({
+      id: ids.join("|"),
+      name: members.length > 1 ? String(members.length) : members[0].name,
+      x: Math.round(members.reduce((a, p) => a + p.x, 0) / members.length),
+      y: Math.round(members.reduce((a, p) => a + p.y, 0) / members.length),
+      members: ids,
+    });
+  }
+  const active = points.find((p) => p.id === selected);
+  if (active) groups.push({ ...active, members: [active.id] });
+  return groups;
 }

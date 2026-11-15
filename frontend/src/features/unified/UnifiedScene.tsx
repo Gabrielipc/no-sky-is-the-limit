@@ -52,6 +52,7 @@ import {
 import { localGuides } from "../surface/guides";
 import {
   offsetDegrees,
+  groupMapPoints,
   visualValues,
   type Grid,
   type VisualLayer,
@@ -103,7 +104,7 @@ export default function UnifiedScene(p: SceneProps) {
   props.current = p;
   const wakeUntil = useRef(performance.now() + 4000);
   const [mapButtons, setMapButtons] = useState<
-    { id: string; name: string; x: number; y: number }[]
+    { id: string; name: string; x: number; y: number; members: string[] }[]
   >([]);
   const [contextOnly, setContextOnly] = useState(true);
   const [ready, setReady] = useState(false),
@@ -355,13 +356,7 @@ export default function UnifiedScene(p: SceneProps) {
           });
           // Clustered points retain Cesium's cluster control; isolated map targets are
           // also real keyboard buttons, at their projected geospatial positions.
-          const targets = visible.filter(
-            (m) =>
-              m.id === current.selected ||
-              !visible.some(
-                (n) => n.id !== m.id && Math.hypot(m.x - n.x, m.y - n.y) < 42,
-              ),
-          );
+          const targets = groupMapPoints(visible, current.selected);
           setMapButtons((previous) =>
             JSON.stringify(previous) === JSON.stringify(targets)
               ? previous
@@ -476,7 +471,7 @@ export default function UnifiedScene(p: SceneProps) {
     ds.clustering.minimumClusterSize = 2;
     ds.clustering.clusterEvent.addEventListener(
       (entities: Entity[], cluster: any) => {
-        cluster.label.show = true;
+        cluster.label.show = false;
         cluster.label.text = String(entities.length);
         cluster.label.font = "600 14px DM Sans";
         cluster.label.fillColor = Color.fromCssColorString("#F6EDE0");
@@ -484,7 +479,7 @@ export default function UnifiedScene(p: SceneProps) {
         cluster.label.backgroundColor = Color.fromCssColorString("#34261C");
         cluster.label.id = entities;
         cluster.billboard.show = false;
-        cluster.point.show = true;
+        cluster.point.show = false;
         cluster.point.pixelSize = 24;
         cluster.point.color = Color.fromCssColorString(colors[p.body]);
         cluster.point.id = entities;
@@ -839,11 +834,44 @@ export default function UnifiedScene(p: SceneProps) {
             key={m.id}
             className={`u-map-marker u-${p.body}`}
             style={{ left: m.x, top: m.y }}
-            aria-label={`Seleccionar ${p.body === "Earth" ? "candidata" : "referencia"} ${m.name} en el mapa`}
+            aria-label={
+              m.members.length > 1
+                ? `Ampliar grupo de ${m.members.length} ${p.body === "Earth" ? "candidatas" : "referencias"} en el mapa`
+                : `Seleccionar ${p.body === "Earth" ? "candidata" : "referencia"} ${m.name} en el mapa`
+            }
             aria-pressed={m.id === p.selected}
-            onClick={() => p.choose(m.id)}
+            onClick={() => {
+              if (m.members.length === 1) {
+                p.choose(m.id);
+                return;
+              }
+              const v = view.current;
+              if (!v) return;
+              const e = v.scene.globe.ellipsoid;
+              const points = p.marks
+                .filter((mark) => m.members.includes(mark.id))
+                .map((mark) =>
+                  Cartesian3.fromDegrees(mark.longitude, mark.latitude, 0, e),
+                );
+              const sphere = BoundingSphere.fromPoints(points);
+              v.camera.lookAt(
+                sphere.center,
+                new HeadingPitchRange(
+                  0,
+                  -Math.PI / 2,
+                  Math.max(30000, sphere.radius * 3),
+                ),
+              );
+              v.camera.lookAtTransform(Matrix4.IDENTITY);
+              wakeUntil.current = performance.now() + 4000;
+              draw(v);
+            }}
           >
-            {p.body === "Earth" ? m.name : <span aria-hidden="true">•</span>}
+            {p.body === "Earth" || m.members.length > 1 ? (
+              m.name
+            ) : (
+              <span aria-hidden="true">•</span>
+            )}
           </button>
         ))}
       <div className="u-scene-top">

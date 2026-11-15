@@ -13,7 +13,7 @@ function load(relative) {
   const localRequire = createRequire(filename);
   const module = { exports: {} };
   const code = ts.transpileModule(fs.readFileSync(filename, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }).outputText;
-  vm.runInNewContext(code, { module, exports: module.exports, URL, URLSearchParams, fetch: (...args) => globalThis.fetch(...args), require: name => name.startsWith('.') ? load(path.relative(base, path.resolve(path.dirname(filename), name + '.ts'))) : localRequire(name) }, { filename });
+  vm.runInNewContext(code, { module, exports: module.exports, URL, URLSearchParams, createImageBitmap:(...args)=>globalThis.createImageBitmap(...args), fetch: (...args) => globalThis.fetch(...args), require: name => name.startsWith('.') ? load(path.relative(base, path.resolve(path.dirname(filename), name + '.ts'))) : localRequire(name) }, { filename });
   cache.set(filename, module.exports);
   return module.exports;
 }
@@ -283,4 +283,24 @@ test('unselected result framing respects spherical geography at the date line',(
  const [lon,lat]=unified.candidateFocus([{longitude:179,latitude:30},{longitude:-179,latitude:30}]);
  assert.ok(Math.abs(Math.abs(lon)-180)<1e-6);assert.ok(lat>30&&lat<30.01);
  assert.deepEqual(Array.from(unified.candidateFocus([])),[0,10]);
+});
+test('map clusters can be expanded by keyboard while a selected location remains separate',()=>{
+ const points=[{id:'a',name:'1',x:10,y:10},{id:'b',name:'2',x:20,y:20},{id:'c',name:'3',x:200,y:200}];
+ const groups=unified.groupMapPoints(points,'c');
+ assert.deepEqual(Array.from(groups[0].members),['a','b']);assert.deepEqual(Array.from(groups[1].members),['c']);
+ const selected=unified.groupMapPoints(points,'a');assert.deepEqual(Array.from(selected.at(-1).members),['a']);assert.equal(selected.length,3);
+ const separated=unified.groupMapPoints([{...points[0],x:0},{...points[1],x:100}], '');assert.equal(separated.length,2);
+});
+const pixelReader=load('src/features/surface/pixels.ts');
+test('a successful SPA HTML fallback is never decoded or displayed as a DEM',async t=>{
+ t.mock.method(globalThis,'fetch',async()=>({ok:true,headers:{get:()=> 'text/html'}}));
+ await assert.rejects(pixelReader.pixels('/missing.png',new AbortController().signal,61,61),/imagen DEM válida/);
+});
+test('invalid image data reports a Spanish DEM error, while cancellation retains its identity',async t=>{
+ t.mock.method(globalThis,'fetch',async()=>({ok:true,headers:{get:()=> 'image/png'},blob:async()=>new Blob(['invalid'])}));
+ const previousBitmap=globalThis.createImageBitmap;globalThis.createImageBitmap=async()=>{throw Error('Cannot decode the data');};t.after(()=>{if(previousBitmap)globalThis.createImageBitmap=previousBitmap;else delete globalThis.createImageBitmap;});
+ await assert.rejects(pixelReader.pixels('/broken.png',new AbortController().signal,61,61),/No se pudo decodificar/);
+ const c=new AbortController();c.abort();const abort=Error('cancelled');
+ t.mock.method(globalThis,'fetch',async()=>{throw abort;});
+ await assert.rejects(pixelReader.pixels('/cancelled.png',c.signal,61,61),error=>error===abort);
 });

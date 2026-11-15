@@ -46,3 +46,10 @@ SHA-256 430ae7fb3b811bbe48697856d9ed21a412a1d14b4b29181cf7df474628bc762f.
 Muestreo nativo ~463 m, remuestreado a 150 m para el visor; esta interpolación no
 aporta detalle nuevo. El recorte CTX se proyecta sobre la malla con coordenadas
 por vértice de su rectángulo geográfico original, sin estirar la imagen al recorte.
+
+Atribución de los derivados Copernicus (GLO-30 Public, release 2021, COGs de AWS):
+
+> produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved
+
+Origen y condiciones: https://registry.opendata.aws/copernicus-dem/ y
+https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM

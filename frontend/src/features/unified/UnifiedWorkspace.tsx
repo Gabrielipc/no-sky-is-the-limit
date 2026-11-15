@@ -18,7 +18,12 @@ import { EngineWarnings, WeightsPanel } from "../simulation/EnginePanels";
 import { CandidateRecord } from "../simulation/CandidateRecord";
 import { ScenePanel } from "./ScenePanel";
 import { Profiles } from "./Profiles";
-import { candidateFocus, exactSite, sharedRange, type VisualSite } from "./terrainModel";
+import {
+  candidateFocus,
+  exactSite,
+  sharedRange,
+  type VisualSite,
+} from "./terrainModel";
 import { useCatalog, useGrid } from "./resources";
 import "./unified.css";
 const EMPTY: never[] = [];
@@ -199,7 +204,7 @@ export function UnifiedWorkspace({
             </select>
           </label>
         )}
-        {state.surfaceMode !== "space" && (
+        {(state.surfaceMode !== "space" || state.exaggeration !== 1) && (
           <label className="u-exaggeration">
             Altura
             <select
@@ -321,7 +326,10 @@ export function UnifiedWorkspace({
               {state.surfaceMode === "space"
                 ? "Cobertura visual global · detalle limitado por cada fuente. Pulsa una referencia o una candidata en los globos."
                 : "Encuadres comparables de ~24 km · huella de análisis: 3 × 3 km · N indica norte geográfico · barra de distancia medida en el centro."}{" "}
-              Zoom y capa no recalculan el ranking.
+              Zoom y capa no recalculan el ranking.{" "}
+              {state.exaggeration === 1
+                ? "Escala vertical real · 1×."
+                : `Exageración vertical ${state.exaggeration}×.`}
             </p>
           )}
           {state.surfaceMode === "regional" && (
@@ -646,6 +654,20 @@ function Source({ site, name }: { site?: VisualSite; name: string }) {
   return (
     <div className="u-source">
       <h4>{name}</h4>
+      {site?.body === "Earth" && (
+        <p>
+          Derivado de Copernicus WorldDEM-30. © DLR e.V. 2010–2014 y Airbus
+          Defence and Space GmbH 2014–2018, proporcionado bajo COPERNICUS por la
+          Unión Europea y ESA.{" "}
+          <a
+            href="https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Atribución y licencia de la fuente ↗
+          </a>
+        </p>
+      )}
       {site ? (
         <>
           <a href={site.source_url} target="_blank" rel="noreferrer">
