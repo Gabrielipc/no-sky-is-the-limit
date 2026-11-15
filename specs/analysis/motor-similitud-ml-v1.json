@@ -11,6 +11,13 @@
     "eligibility_gate_note": "La métrica describe la variabilidad del relieve terrestre; la compuerta de elegibilidad del escenario se aplica al buscar, no al ajustar (hoy solo un puñado de ventanas está marcado como elegible).",
     "sample_size": 200000,
     "bridge_sample_size": 200000,
+    "bridge_population": {
+      "mode": "background_weighted",
+      "min_background_rows": 100,
+      "selection_reasons": ["background", "background_cluster"],
+      "fallback": "all_enriched",
+      "note": "Las vistas puente se ajustan solo con las ventanas de la muestra de fondo (enrichment_selection), remuestreadas con peso 1/probabilidad de inclusión. Con menos de min_background_rows medidas se usan todas las ventanas enriquecidas y el modelo marca la vista como sesgada (biased_enriched_only)."
+    },
     "seed": 20261114,
     "n_quantiles": 1000,
     "min_fit_rows": 200,
@@ -105,6 +112,29 @@
         {"id": "cpr_p90", "columns": {"Earth": "rcm_cpr_p90", "Moon": "minirf_cpr_p90"}, "status_columns": {"Earth": "radar_status", "Moon": "minirf_status"}}
       ]
     },
+    "entorno_superficial": {
+      "kind": "metric",
+      "comparability": "direct_metric",
+      "min_features": 2,
+      "description": "Contexto de superficie terrestre de la capa global (enrichment_global, nivel context_coarse): precipitación anual, meses secos, cobertura de nieve y humedad del suelo. Solo columnas terrestres: con una referencia de Marte o la Luna la vista queda reference_missing; sirve con referencias terrestres (--ref-region-id) o con valores explícitos. Peso por defecto 0.",
+      "features": [
+        {"id": "precip_annual_mm_cmg", "columns": {"Earth": "precip_annual_mm_cmg"}, "status_columns": {"Earth": "imerg_cmg_status"}},
+        {"id": "dry_months_fraction_cmg", "columns": {"Earth": "dry_months_fraction_cmg"}, "status_columns": {"Earth": "imerg_cmg_status"}},
+        {"id": "snow_cover_mean_pct_cmg", "columns": {"Earth": "snow_cover_mean_pct_cmg"}, "status_columns": {"Earth": "snow_cmg_status"}},
+        {"id": "soil_moisture_mean_cmg", "columns": {"Earth": "soil_moisture_mean_cmg"}, "status_columns": {"Earth": "soil_moisture_cmg_status"}}
+      ]
+    },
+    "emisividad_cmg": {
+      "kind": "metric",
+      "comparability": "direct_metric",
+      "min_features": 2,
+      "description": "Índices de emisividad ASTER GED AG1km en la huella (cuarzo, máfico, carbonato), capa global. Solo Tierra; peso por defecto 0.",
+      "features": [
+        {"id": "emis_quartz_index_cmg", "columns": {"Earth": "emis_quartz_index_cmg"}, "status_columns": {"Earth": "emissivity_cmg_status"}},
+        {"id": "emis_mafic_index_cmg", "columns": {"Earth": "emis_mafic_index_cmg"}, "status_columns": {"Earth": "emissivity_cmg_status"}},
+        {"id": "emis_carbonate_index_cmg", "columns": {"Earth": "emis_carbonate_index_cmg"}, "status_columns": {"Earth": "emissivity_cmg_status"}}
+      ]
+    },
     "regimen_morfologico": {
       "kind": "gmm",
       "source_views": ["escabrosidad", "forma_hipsometrica", "organizacion"],
@@ -119,7 +149,9 @@
       "regimen_morfologico": 0.15,
       "espectral": 0.1,
       "termica": 0.05,
-      "radar": 0.0
+      "radar": 0.0,
+      "entorno_superficial": 0.0,
+      "emisividad_cmg": 0.0
     },
     "Moon": {
       "escabrosidad": 0.35,
@@ -128,7 +160,9 @@
       "regimen_morfologico": 0.15,
       "espectral": 0.0,
       "termica": 0.0,
-      "radar": 0.2
+      "radar": 0.2,
+      "entorno_superficial": 0.0,
+      "emisividad_cmg": 0.0
     }
   },
   "search": {
@@ -144,7 +178,12 @@
     },
     "default_fusion": "weighted",
     "rrf_k": 60,
-    "min_pool_for_percentile": 100
+    "min_pool_for_percentile": 100,
+    "coverage_warning": {
+      "min_view_coverage": 0.01,
+      "min_effective_weight": 0.2,
+      "note": "Si una vista con peso efectivo >= 0,2 cubre menos del 1 % de las candidatas, el resultado lo advierte: el ranking de esa vista no es global (plan de mitigación del sesgo de selección, fase D)."
+    }
   },
   "calibration": {
     "method": "bradley_terry_nonnegative",

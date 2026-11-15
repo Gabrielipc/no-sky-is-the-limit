@@ -6,6 +6,7 @@
     python scripts/motor_similitud.py search --ref-json mi_referencia.json --fusion rrf
     python scripts/motor_similitud.py calibrate --pairs pares_ciegos.json
     python scripts/motor_similitud.py views
+    python scripts/motor_similitud.py recall --reference jezero --retriever topografica=20 --retriever entorno=20
 """
 from __future__ import annotations
 
@@ -98,6 +99,33 @@ def run_calibrate(args: argparse.Namespace) -> None:
     print(json.dumps(result, indent=2, ensure_ascii=False))
 
 
+def run_recall(args: argparse.Namespace) -> None:
+    """Share of the best background windows that some shortlist would have proposed."""
+    from pipelines import etl_retrieval as retrieval
+    from pipelines import selection_recall as recall
+    from pipelines.etl_store import FeatureStore
+    engine = sim.SimilarityEngine.load(Path(args.model))
+    store = FeatureStore(Path(args.store_dir), memory_limit=args.memory_limit, threads=args.threads)
+    weights = parse_weights(args.weight)
+    counts = dict(parse_weights(args.retriever) or {})
+    counts = {k: int(v) for k, v in counts.items()}
+    if args.retrieval_total:
+        body = retrieval.load_spec()['profiles'].get(args.retrieval_profile, {}).get('body', 'Mars')
+        for view, k in retrieval.allocate_by_weights(
+                args.retrieval_total, sim.normalize_weights(weights, engine.spec, body)).items():
+            counts.setdefault(view, k)
+    ref_json = json.loads(Path(args.ref_json).read_text(encoding='utf-8')) if args.ref_json else None
+    result = recall.estimate_recall(engine, store, Path(args.store_dir), _reference(args), counts=counts,
+                                    weights=weights, profile=args.retrieval_profile, reference_json=ref_json,
+                                    targets=args.target, top_fraction=args.top_fraction,
+                                    memory_limit=args.memory_limit, threads=args.threads)
+    text = json.dumps(result, indent=2, ensure_ascii=False, default=float)
+    if args.output:
+        Path(args.output).parent.mkdir(parents=True, exist_ok=True)
+        Path(args.output).write_text(text + '\n', encoding='utf-8')
+    print(text)
+
+
 def run_views(args: argparse.Namespace) -> None:
     spec = sim.load_spec()
     out = {'engine_id': spec['engine_id'], 'views': {v: s['description'] for v, s in spec['views'].items()},
@@ -107,7 +135,7 @@ def run_views(args: argparse.Namespace) -> None:
     print(json.dumps(out, indent=2, ensure_ascii=False))
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description='Motor de similitud ML no supervisado (análogos terrestres)')
     parser.add_argument('--store-dir', default=str(DEFAULT_STORE))
     parser.add_argument('--model', default=str(DEFAULT_MODEL))
@@ -139,8 +167,22 @@ def main() -> None:
 
     sub.add_parser('views', help='Vistas, pesos por defecto y estado del modelo ajustado')
 
-    args = parser.parse_args()
-    {'fit': run_fit, 'search': run_search, 'calibrate': run_calibrate, 'views': run_views}[args.command](args)
+    p_rec = sub.add_parser('recall', help='Recall de las listas cortas sobre la muestra de fondo')
+    rref = p_rec.add_mutually_exclusive_group()
+    rref.add_argument('--reference', default='jezero')
+    rref.add_argument('--ref-region-id')
+    rref.add_argument('--ref-json')
+    p_rec.add_argument('--weight', action='append', metavar='VISTA=PESO')
+    p_rec.add_argument('--retriever', action='append', metavar='VISTA=K', help='Lista corta de recuperación')
+    p_rec.add_argument('--retrieval-total', type=int, default=0)
+    p_rec.add_argument('--retrieval-profile', default='arid_mars_surface_v2')
+    p_rec.add_argument('--target', action='append', help='vista:columna=percentil')
+    p_rec.add_argument('--top-fraction', type=float, default=0.05)
+    p_rec.add_argument('--output', default=str(ROOT / 'docs/evidencia-sesgo-seleccion/recall.json'))
+
+    args = parser.parse_args(argv)
+    {'fit': run_fit, 'search': run_search, 'calibrate': run_calibrate, 'views': run_views,
+     'recall': run_recall}[args.command](args)
 
 
 if __name__ == '__main__':

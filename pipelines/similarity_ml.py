@@ -243,25 +243,69 @@ def fit_model(store_root: Path, spec: dict | None = None, *, sample_size: int | 
                 USING SAMPLE reservoir({int(sample_size)} ROWS) REPEATABLE ({int(seed)})""")
             for f in direct:
                 values[f.id] = _float(data[f.column('Earth')])
-        # Bridge enrichments are on demand and sparse: sample them among measured rows only.
+        # Bridge enrichments are on demand and sparse: fit them on the background sample
+        # (weighted by 1/inclusion probability) so they describe Earth, not the candidates.
         bridge_views: dict[str, list[FeatureDef]] = {}
         for f in bridges:
             bridge_views.setdefault(f.view, []).append(f)
+        pop_cfg = fcfg.get('bridge_population', {'mode': 'all_enriched'})
+        weights = _background_weights(conn, pop_cfg) if pop_cfg.get('mode') == 'background_weighted' else {}
+        bridge_fit: dict[str, dict] = {}
         for view_id, fdefs in bridge_views.items():
             cols = sorted({_ident(f.column('Earth')) for f in fdefs} | {_ident(f.status_columns['Earth']) for f in fdefs})
             any_measured = ' OR '.join(f"{_ident(f.status_columns['Earth'])} = 'measured'" for f in fdefs)
             data = _fetch(conn, f"""
-                SELECT {', '.join(cols)} FROM (
-                    SELECT * FROM features_unified WHERE {where_sql} AND ({any_measured})) t
-                USING SAMPLE reservoir({int(fcfg['bridge_sample_size'])} ROWS) REPEATABLE ({int(seed)})""")
+                SELECT region_id, {', '.join(cols)} FROM features_unified WHERE {where_sql} AND ({any_measured})
+                ORDER BY region_id""")
+            idx, info = bridge_rows(np.asarray(data['region_id'], dtype=object), weights, pop_cfg,
+                                    int(fcfg['bridge_sample_size']), seed)
+            bridge_fit[view_id] = info
+            log(f"Vista puente {view_id}: {info['mode']} ({info['n_measured']} medidas, "
+                f"{info['n_background']} de la muestra de fondo)")
             for f in fdefs:
-                values[f.id] = _masked_values(data, f.column('Earth'), f.status_columns['Earth'])
+                values[f.id] = _masked_values(data, f.column('Earth'), f.status_columns['Earth'])[idx]
 
     model = build_model(spec, values, seed=seed, log=log)
+    for view_id, info in bridge_fit.items():
+        if view_id in model['views']:
+            model['views'][view_id]['fit_population'] = info
     model['fit_pool'] = {'windows': int(pool_n), 'sample_size': int(sample_size),
                          'holdout_basins': [b['id'] for b in fcfg['holdout_basins']],
                          'store_root': _display_path(store_root)}
     return model
+
+
+def _background_weights(conn, pop_cfg: dict) -> dict[str, float]:
+    reasons = ', '.join(f"'{r}'" for r in pop_cfg.get('selection_reasons', ['background', 'background_cluster']))
+    try:
+        rows = conn.execute(f'SELECT region_id, max(inclusion_probability) FROM enrichment_selection_latest '
+                            f'WHERE selection_reason IN ({reasons}) AND inclusion_probability > 0 '
+                            'GROUP BY region_id').fetchall()
+    except duckdb.Error:
+        return {}
+    return {r[0]: float(r[1]) for r in rows}
+
+
+def bridge_rows(region_ids: np.ndarray, weights: dict[str, float], pop_cfg: dict, sample_size: int,
+                seed: int) -> tuple[np.ndarray, dict]:
+    """Row indices used to fit a bridge view and a description of that population.
+
+    With enough measured background windows, they are resampled with probability proportional to
+    1/inclusion probability (Horvitz-Thompson weights); otherwise every measured row is used (up to
+    `sample_size`) and the population is flagged as biased.
+    """
+    rng = np.random.default_rng(seed)
+    n = len(region_ids)
+    bg = np.array([i for i, r in enumerate(region_ids) if r in weights], dtype=int)
+    info = {'n_measured': int(n), 'n_background': int(bg.size)}
+    if pop_cfg.get('mode') == 'background_weighted' and bg.size >= int(pop_cfg.get('min_background_rows', 100)):
+        w = np.array([1.0 / weights[region_ids[i]] for i in bg])
+        size = int(min(sample_size, max(20 * bg.size, 1000)))
+        idx = rng.choice(bg, size=size, replace=True, p=w / w.sum())
+        return idx, info | {'mode': 'background_weighted', 'resampled_rows': size}
+    idx = np.arange(n) if n <= sample_size else np.sort(rng.choice(n, size=sample_size, replace=False))
+    mode = 'all_enriched' if pop_cfg.get('mode') != 'background_weighted' else 'biased_enriched_only'
+    return idx, info | {'mode': mode, 'resampled_rows': int(idx.size)}
 
 
 def build_model(spec: dict, values: dict[str, np.ndarray], *, seed: int,
@@ -283,6 +327,9 @@ def build_model(spec: dict, values: dict[str, np.ndarray], *, seed: int,
                                 'reason': 'no_earth_measurements' if n == 0 else 'insufficient_earth_measurements'}
             continue
         qn = QuantileNormal.fit(v, fcfg['n_quantiles'])
+        if not np.nanstd(qn.normal(v)) > 1e-6:  # a constant feature carries no metric (singular covariance)
+            feat_models[fid] = {'view': fdef.view, 'fitted': False, 'n_fit': n, 'reason': 'constant_on_earth'}
+            continue
         feat_models[fid] = {'view': fdef.view, 'fitted': True, 'n_fit': qn.n_fit, 'transform': qn}
 
     views: dict[str, dict] = {}
@@ -589,6 +636,22 @@ def normalize_weights(weights: dict | None, spec: dict, body: str) -> dict[str, 
     return out
 
 
+def coverage_warnings(view_report: dict, eff_w: dict[str, float], cfg: dict) -> list[str]:
+    """Warn when a heavily weighted view covers few candidates or was fitted on a biased population."""
+    out = []
+    min_cov, min_w = float(cfg.get('min_view_coverage', 0.01)), float(cfg.get('min_effective_weight', 0.2))
+    for v, wv in eff_w.items():
+        rep = view_report.get(v, {})
+        cov = rep.get('coverage_fraction')
+        if wv >= min_w and cov is not None and cov < min_cov:
+            out.append(f'Vista {v} con peso efectivo {wv:.2f} solo está medida en el {100 * cov:.2f} % de las '
+                       f'candidatas ({rep.get("candidates_with_view")}): su ranking no es global')
+        if rep.get('fit_population', {}).get('mode') == 'biased_enriched_only':
+            out.append(f'Vista {v} ajustada sin muestra de fondo suficiente (solo ventanas enriquecidas): '
+                       'su percentil terrestre hereda el sesgo de selección')
+    return out
+
+
 class SimilarityEngine:
     """Ranks Earth windows against a Mars/Moon reference with per-query view weights."""
 
@@ -720,7 +783,10 @@ class SimilarityEngine:
             avail = np.isfinite(d)
             rep.update(status='used' if avail.any() else 'no_candidate_coverage',
                        features=fids, reference_features=[f for f, z in zip(fids, zref) if np.isfinite(z)],
-                       candidates_with_view=int(avail.sum()))
+                       candidates_with_view=int(avail.sum()),
+                       coverage_fraction=round(float(avail.sum()) / n, 6) if n else 0.0)
+            if vm.get('fit_population'):
+                rep['fit_population'] = vm['fit_population']
             if avail.any():
                 view_dist[vid] = d
 
@@ -732,6 +798,7 @@ class SimilarityEngine:
                                   only_eligible, n, 0, [], warnings + ['Ninguna vista con peso positivo es utilizable'])
         wsum = sum(w[v] for v in active)
         eff_w = {v: w[v] / wsum for v in active}
+        warnings += coverage_warnings(view_report, eff_w, scfg.get('coverage_warning', {}))
         D = np.column_stack([view_dist[v] for v in active])
         W = np.array([eff_w[v] for v in active])
         avail = np.isfinite(D)
