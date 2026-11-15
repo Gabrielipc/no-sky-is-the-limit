@@ -1,0 +1,787 @@
+{
+  "contract_id": "features-unified-v1",
+  "stability": "interno del ETL; el backend debe leer releases, no el almacén",
+  "producer": "pipelines/etl_contract.py (register_unified_views)",
+  "note": "Vista DuckDB con la base y el último enriquecimiento de cada ventana; la usan el motor y la publicación.",
+  "enums": {
+    "feature_status": [
+      "measured",
+      "measured_absent",
+      "insufficient_coverage",
+      "insufficient_complex_sample",
+      "unobserved_by_product",
+      "on_demand_fetchable",
+      "no_swath_coverage"
+    ]
+  },
+  "columns": [
+    {
+      "name": "region_id",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "grid_version",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "body",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "utm_zone_band",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "batch_id",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "longitude",
+      "type": "DOUBLE"
+    },
+    {
+      "name": "latitude",
+      "type": "DOUBLE"
+    },
+    {
+      "name": "window_m",
+      "type": "INTEGER"
+    },
+    {
+      "name": "cell_m",
+      "type": "INTEGER"
+    },
+    {
+      "name": "slope_base_m",
+      "type": "INTEGER"
+    },
+    {
+      "name": "roughness_radius_m",
+      "type": "INTEGER"
+    },
+    {
+      "name": "land_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "topo_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "roughness_coverage",
+      "type": "FLOAT"
+    },
+    {
+      "name": "relief_p95_p05_m",
+      "type": "FLOAT"
+    },
+    {
+      "name": "slope_240m_p50_deg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "slope_240m_p90_deg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "roughness_360m_p50_m",
+      "type": "FLOAT"
+    },
+    {
+      "name": "hypsometric_integral",
+      "type": "FLOAT"
+    },
+    {
+      "name": "elevation_skew_p95_p05",
+      "type": "FLOAT"
+    },
+    {
+      "name": "aspect_240m_resultant_length",
+      "type": "FLOAT"
+    },
+    {
+      "name": "slope_240m_gt15_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "slope_240m_gt25_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "analog_surface_eligibility",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "eligibility_profile",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "cover_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "cover_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "bare_or_sparse_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "trees_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "built_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "permanent_water_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "snow_ice_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "moss_lichen_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "water_occurrence_mean_pct",
+      "type": "FLOAT"
+    },
+    {
+      "name": "water_extent_gt0_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "water_occurrence_ge50_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "qa_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "source_manifest_id",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "updated_at",
+      "type": "TIMESTAMP WITH TIME ZONE"
+    },
+    {
+      "name": "spectral_instrument",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "abs_fe3_oxide_0p53_0p90um_p50",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_fe3_oxide_0p53_0p90um_p95",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_fe3_oxide_0p53_0p90um_active_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_fe3_oxide_0p53_0p90um_n_samples",
+      "type": "INTEGER"
+    },
+    {
+      "name": "abs_fe3_oxide_0p53_0p90um_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "abs_al_oh_2p20um_p50",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_al_oh_2p20um_p95",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_al_oh_2p20um_active_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_al_oh_2p20um_n_samples",
+      "type": "INTEGER"
+    },
+    {
+      "name": "abs_al_oh_2p20um_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "abs_fe_mg_oh_2p30um_p50",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_fe_mg_oh_2p30um_p95",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_fe_mg_oh_2p30um_active_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_fe_mg_oh_2p30um_n_samples",
+      "type": "INTEGER"
+    },
+    {
+      "name": "abs_fe_mg_oh_2p30um_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "abs_carbonate_2p30_2p50um_p50",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_carbonate_2p30_2p50um_p95",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_carbonate_2p30_2p50um_active_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_carbonate_2p30_2p50um_n_samples",
+      "type": "INTEGER"
+    },
+    {
+      "name": "abs_carbonate_2p30_2p50um_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "abs_hydrated_sioh_so4_1p9_2p26um_p50",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_hydrated_sioh_so4_1p9_2p26um_p95",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_hydrated_sioh_so4_1p9_2p26um_active_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_hydrated_sioh_so4_1p9_2p26um_n_samples",
+      "type": "INTEGER"
+    },
+    {
+      "name": "abs_hydrated_sioh_so4_1p9_2p26um_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "abs_mafic_fe2_1p0um_p50",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_mafic_fe2_1p0um_p95",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_mafic_fe2_1p0um_active_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "abs_mafic_fe2_1p0um_n_samples",
+      "type": "INTEGER"
+    },
+    {
+      "name": "abs_mafic_fe2_1p0um_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "hls_ndvi_p50",
+      "type": "FLOAT"
+    },
+    {
+      "name": "hls_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "hls_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "landsat_lst_p50_k",
+      "type": "FLOAT"
+    },
+    {
+      "name": "landsat_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "thermal_inertia_p50",
+      "type": "FLOAT"
+    },
+    {
+      "name": "thermal_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "framing_reference_id",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "framing_step_m",
+      "type": "INTEGER"
+    },
+    {
+      "name": "framing_max_offset_m",
+      "type": "INTEGER"
+    },
+    {
+      "name": "framing_reference_hi",
+      "type": "FLOAT"
+    },
+    {
+      "name": "framing_reference_relief_m",
+      "type": "FLOAT"
+    },
+    {
+      "name": "framing_criterion",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "best_distance_score",
+      "type": "FLOAT"
+    },
+    {
+      "name": "center_distance_score",
+      "type": "FLOAT"
+    },
+    {
+      "name": "framings_valid",
+      "type": "INTEGER"
+    },
+    {
+      "name": "hi_center",
+      "type": "FLOAT"
+    },
+    {
+      "name": "hi_best",
+      "type": "FLOAT"
+    },
+    {
+      "name": "hi_min",
+      "type": "FLOAT"
+    },
+    {
+      "name": "hi_max",
+      "type": "FLOAT"
+    },
+    {
+      "name": "best_offset_east_m",
+      "type": "INTEGER"
+    },
+    {
+      "name": "best_offset_north_m",
+      "type": "INTEGER"
+    },
+    {
+      "name": "best_at_lattice_edge",
+      "type": "BOOLEAN"
+    },
+    {
+      "name": "best_relief_p95_p05_m",
+      "type": "FLOAT"
+    },
+    {
+      "name": "best_aspect_240m_resultant_length",
+      "type": "FLOAT"
+    },
+    {
+      "name": "framing_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "illumination_mean_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "illumination_p10_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "illumination_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "illumination_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "psr_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "psr_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "psr_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "diviner_tmax_p50_k",
+      "type": "FLOAT"
+    },
+    {
+      "name": "diviner_tmin_p50_k",
+      "type": "FLOAT"
+    },
+    {
+      "name": "diviner_tamp_p50_k",
+      "type": "FLOAT"
+    },
+    {
+      "name": "diviner_temperature_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "diviner_temperature_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "diviner_rock_abundance_p50",
+      "type": "FLOAT"
+    },
+    {
+      "name": "diviner_h_parameter_p50_m",
+      "type": "FLOAT"
+    },
+    {
+      "name": "diviner_regolith_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "diviner_regolith_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "minirf_cpr_p50",
+      "type": "FLOAT"
+    },
+    {
+      "name": "minirf_cpr_p90",
+      "type": "FLOAT"
+    },
+    {
+      "name": "minirf_s1_p50_db",
+      "type": "FLOAT"
+    },
+    {
+      "name": "minirf_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "minirf_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "lunar_site_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "lunar_site_profile",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "n_tracks",
+      "type": "INTEGER"
+    },
+    {
+      "name": "n_pairs_100m",
+      "type": "INTEGER"
+    },
+    {
+      "name": "laser_slope_20m_p50_deg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "laser_slope_20m_p90_deg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "laser_slope_100m_p50_deg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "laser_slope_100m_p90_deg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "laser_diff_slope_200m_p50_deg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "laser_diff_slope_600m_p50_deg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "dem_slope_100m_p50_deg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "dem_slope_100m_p90_deg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "dem_diff_slope_200m_p50_deg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "dem_diff_slope_600m_p50_deg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "dem_minus_laser_median_m",
+      "type": "FLOAT"
+    },
+    {
+      "name": "dem_minus_laser_nmad_m",
+      "type": "FLOAT"
+    },
+    {
+      "name": "snow_flag_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "altimetry_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "n_scenes",
+      "type": "INTEGER"
+    },
+    {
+      "name": "rcm_cpr_p50",
+      "type": "FLOAT"
+    },
+    {
+      "name": "rcm_cpr_p90",
+      "type": "FLOAT"
+    },
+    {
+      "name": "rcm_s1_p50_db",
+      "type": "FLOAT"
+    },
+    {
+      "name": "rcm_dop_p50",
+      "type": "FLOAT"
+    },
+    {
+      "name": "rcm_local_incidence_p50_deg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "rcm_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "radar_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "precip_mean_annual_mm",
+      "type": "FLOAT"
+    },
+    {
+      "name": "dry_months_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "aridity_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "aridity_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "smap_sm_p50_m3m3",
+      "type": "FLOAT"
+    },
+    {
+      "name": "smap_sm_p90_m3m3",
+      "type": "FLOAT"
+    },
+    {
+      "name": "soil_moisture_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "soil_moisture_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "mod10a1_snow_days_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "mod10a1_clear_days_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "snow_persistence_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "snow_persistence_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "cci_permafrost_probability",
+      "type": "FLOAT"
+    },
+    {
+      "name": "cci_active_layer_thickness_m",
+      "type": "FLOAT"
+    },
+    {
+      "name": "permafrost_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "permafrost_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "aster_emissivity_mafic_index",
+      "type": "FLOAT"
+    },
+    {
+      "name": "aster_christiansen_wb_um",
+      "type": "FLOAT"
+    },
+    {
+      "name": "thermal_emissivity_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "thermal_emissivity_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "s1_rtc_vv_p50_db",
+      "type": "FLOAT"
+    },
+    {
+      "name": "s1_rtc_vh_p50_db",
+      "type": "FLOAT"
+    },
+    {
+      "name": "s1_rtc_vh_vv_ratio_db",
+      "type": "FLOAT"
+    },
+    {
+      "name": "sar_backscatter_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "sar_backscatter_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "modis_ati_p50_per_k",
+      "type": "FLOAT"
+    },
+    {
+      "name": "modis_ati_iqr_per_k",
+      "type": "FLOAT"
+    },
+    {
+      "name": "apparent_thermal_inertia_valid_fraction",
+      "type": "FLOAT"
+    },
+    {
+      "name": "apparent_thermal_inertia_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "precip_annual_mm_cmg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "dry_months_fraction_cmg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "imerg_cmg_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "snow_cover_mean_pct_cmg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "snow_months_fraction_cmg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "snow_cmg_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "lst_day_night_delta_k_cmg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "albedo_wsa_cmg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "ati_cmg_per_k",
+      "type": "FLOAT"
+    },
+    {
+      "name": "ati_cmg_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "emis_mean_b10_b14_cmg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "emis_quartz_index_cmg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "emis_carbonate_index_cmg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "emis_mafic_index_cmg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "emissivity_cmg_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "soil_moisture_mean_cmg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "soil_moisture_obs_fraction_cmg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "soil_moisture_cmg_status",
+      "type": "VARCHAR"
+    },
+    {
+      "name": "permafrost_fraction_cmg",
+      "type": "FLOAT"
+    },
+    {
+      "name": "permafrost_cmg_status",
+      "type": "VARCHAR"
+    }
+  ]
+}

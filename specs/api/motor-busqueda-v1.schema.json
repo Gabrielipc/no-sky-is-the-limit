@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "motor-busqueda-v1",
+  "title": "Motor de similitud ML: consulta y respuesta de búsqueda (v1)",
+  "description": "Contrato de `SimilarityEngine.search` (pipelines/similarity_ml.py) y de los archivos `similarity/<referencia>.json` de una release. La estructura es estable; los pesos por defecto y el estado del motor (`unsupervised_pending_blind_validation`) pueden cambiar con la calibración. Los campos solo se añaden.",
+  "oneOf": [{"$ref": "#/$defs/SearchResponse"}],
+  "$defs": {
+    "SearchRequest": {
+      "type": "object",
+      "description": "Parámetros de `engine.search(store_root, reference, **kwargs)` o del endpoint propuesto `POST /api/similarity/search`.",
+      "required": ["reference"],
+      "additionalProperties": false,
+      "properties": {
+        "reference": {
+          "description": "Referencia nombrada del spec (`jezero`, `haworth-fondo`, `de-gerlache-cresta`), `region_id` de una ventana del almacén, o una referencia explícita.",
+          "oneOf": [{"type": "string"}, {"$ref": "#/$defs/ReferenceInput"}]
+        },
+        "weights": {
+          "type": "object",
+          "description": "Peso no negativo por vista; las vistas omitidas conservan el peso por defecto del cuerpo de la referencia; 0 apaga la vista.",
+          "propertyNames": {"$ref": "#/$defs/ViewId"},
+          "additionalProperties": {"type": "number", "minimum": 0}
+        },
+        "profile": {"type": "string", "enum": ["arid_mars_surface_v2", "paleolake_margin_v1", "polar_cold_v1"], "default": "arid_mars_surface_v2"},
+        "only_eligible": {"type": "boolean", "default": true},
+        "limit": {"type": "integer", "minimum": 1, "maximum": 1000, "default": 25},
+        "missing_policy": {"type": "string", "enum": ["neutral", "renormalize", "require"], "default": "neutral"},
+        "fusion": {"type": "string", "enum": ["weighted", "rrf"], "default": "weighted"},
+        "bbox": {"type": "array", "items": {"type": "number"}, "minItems": 4, "maxItems": 4, "description": "[oeste, sur, este, norte] en grados"}
+      }
+    },
+    "ReferenceInput": {
+      "type": "object",
+      "required": ["body"],
+      "properties": {
+        "id": {"type": "string"},
+        "name": {"type": "string"},
+        "body": {"type": "string", "enum": ["Mars", "Moon", "Earth"]},
+        "features": {"type": "object", "additionalProperties": {"type": ["number", "null"]}, "description": "id de feature del motor (o columna del cuerpo) -> valor en unidades del cuerpo"},
+        "percentiles": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}, "description": "Solo features puente: percentil dentro del cuerpo"}
+      }
+    },
+    "ViewId": {
+      "type": "string",
+      "enum": ["escabrosidad", "forma_hipsometrica", "organizacion", "espectral", "termica", "radar", "entorno_superficial", "emisividad_cmg", "regimen_morfologico"]
+    },
+    "SearchResponse": {
+      "type": "object",
+      "required": ["engine_id", "model_fitted_at", "status", "reference", "weights_requested", "weights_effective",
+                   "missing_policy", "fusion", "profile", "only_eligible", "candidates_in_pool", "candidates_ranked",
+                   "views", "warnings", "results"],
+      "properties": {
+        "engine_id": {"type": "string", "const": "motor-similitud-ml-v1"},
+        "model_fitted_at": {"type": "string", "description": "ISO 8601 del ajuste del modelo usado"},
+        "status": {"type": "string", "description": "Estado de validación del motor, p. ej. unsupervised_pending_blind_validation"},
+        "reference": {
+          "type": "object",
+          "required": ["id", "name", "body", "features"],
+          "properties": {
+            "id": {"type": "string"},
+            "name": {"type": "string"},
+            "body": {"type": "string", "enum": ["Mars", "Moon", "Earth"]},
+            "region_id": {"type": ["string", "null"]},
+            "features": {"type": "object", "additionalProperties": {"$ref": "#/$defs/ReferenceFeature"}}
+          }
+        },
+        "weights_requested": {"type": "object", "additionalProperties": {"type": "number"}, "description": "Pesos normalizados pedidos por vista (incluye los por defecto)"},
+        "weights_effective": {"type": "object", "additionalProperties": {"type": "number"}, "description": "Pesos que suman 1 entre las vistas usadas"},
+        "missing_policy": {"type": "string", "enum": ["neutral", "renormalize", "require"]},
+        "fusion": {"type": "string", "enum": ["weighted", "rrf"]},
+        "profile": {"type": "string"},
+        "only_eligible": {"type": "boolean"},
+        "candidates_in_pool": {"type": "integer", "minimum": 0},
+        "candidates_ranked": {"type": "integer", "minimum": 0},
+        "views": {"type": "object", "additionalProperties": {"$ref": "#/$defs/ViewReport"}},
+        "warnings": {"type": "array", "items": {"type": "string"}, "description": "Mensajes para mostrar al usuario (vistas excluidas, cobertura baja, sesgo de selección)"},
+        "results": {"type": "array", "items": {"$ref": "#/$defs/Result"}}
+      }
+    },
+    "ReferenceFeature": {
+      "type": "object",
+      "properties": {
+        "value": {"type": ["number", "null"]},
+        "earth_percentile": {"type": "number", "minimum": 0, "maximum": 1},
+        "outside_earth_range": {"type": "boolean"},
+        "within_body_percentile": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "source": {"type": "string", "enum": ["explicit_percentile", "earth_fit", "body_population"]},
+        "reason": {"type": "string"}
+      }
+    },
+    "ViewReport": {
+      "type": "object",
+      "required": ["weight", "kind", "status"],
+      "properties": {
+        "weight": {"type": "number"},
+        "kind": {"type": "string", "enum": ["metric", "gmm"]},
+        "status": {"type": "string", "enum": ["used", "not_fitted", "reference_missing", "no_candidate_coverage"]},
+        "reason": {"type": ["string", "null"]},
+        "features": {"type": "array", "items": {"type": "string"}},
+        "reference_features": {"type": "array", "items": {"type": "string"}},
+        "candidates_with_view": {"type": "integer", "minimum": 0},
+        "coverage_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+        "fit_population": {
+          "type": "object",
+          "properties": {
+            "mode": {"type": "string", "enum": ["background_weighted", "biased_enriched_only", "all_enriched"]},
+            "n_measured": {"type": "integer"},
+            "n_background": {"type": "integer"},
+            "resampled_rows": {"type": "integer"}
+          }
+        },
+        "reference_posterior": {"type": "array", "items": {"type": "number"}},
+        "reference_component": {"type": ["integer", "null"]}
+      }
+    },
+    "Result": {
+      "type": "object",
+      "required": ["rank", "region_id", "longitude", "latitude", "utm_zone_band", "scenario_eligibility", "score",
+                   "score_low", "score_high", "rrf_score", "coverage", "missing_views", "views"],
+      "properties": {
+        "rank": {"type": "integer", "minimum": 1},
+        "region_id": {"type": "string", "description": "Clave de la ventana; la misma que `windows.region_id` de la release y `/api/atlas/candidates/{region_id}`"},
+        "longitude": {"type": "number", "minimum": -180, "maximum": 180},
+        "latitude": {"type": "number", "minimum": -90, "maximum": 90},
+        "utm_zone_band": {"type": "string"},
+        "scenario_eligibility": {"type": "string"},
+        "score": {"type": "number", "minimum": 0, "maximum": 1, "description": "Distancia fusionada: menor = más parecida"},
+        "score_low": {"type": "number", "minimum": 0, "maximum": 1, "description": "Cota optimista (vistas ausentes = 0)"},
+        "score_high": {"type": "number", "minimum": 0, "maximum": 1, "description": "Cota pesimista (vistas ausentes = 1)"},
+        "rrf_score": {"type": "number", "minimum": 0},
+        "coverage": {"type": "number", "minimum": 0, "maximum": 1, "description": "Fracción del peso efectivo con vista disponible"},
+        "missing_views": {"type": "array", "items": {"type": "string"}},
+        "views": {"type": "object", "additionalProperties": {"$ref": "#/$defs/ResultView"}}
+      }
+    },
+    "ResultView": {
+      "type": "object",
+      "required": ["distance", "weight", "available"],
+      "properties": {
+        "distance": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "weight": {"type": "number"},
+        "available": {"type": "boolean"},
+        "pool_percentile": {"type": "number", "minimum": 0, "maximum": 1},
+        "features": {"type": "object", "additionalProperties": {"$ref": "#/$defs/FeatureExplanation"}},
+        "component": {"type": "integer"},
+        "posterior": {"type": "number"}
+      }
+    },
+    "FeatureExplanation": {
+      "type": "object",
+      "required": ["candidate", "z_delta", "share"],
+      "properties": {
+        "candidate": {"type": "number", "description": "Valor de la candidata (unidades terrestres)"},
+        "reference": {"type": ["number", "null"]},
+        "z_delta": {"type": "number", "description": "Diferencia en desviaciones normales terrestres"},
+        "share": {"type": "number", "description": "Aporte a la distancia de la vista (suma 1; puede ser negativo o > 1 con features correlacionadas)"}
+      }
+    }
+  }
+}
