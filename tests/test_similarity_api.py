@@ -22,6 +22,13 @@ from tests import test_similarity_ml as fixtures  # noqa: E402
 REF = fixtures.REF
 
 SCHEMA = check.load_motor_schema()
+API_SCHEMA_PATH = ROOT / 'specs/api/similitud-api-v1.schema.json'
+API_SCHEMA = json.loads(API_SCHEMA_PATH.read_text(encoding='utf-8'))
+
+
+def conforms(value, definition: str) -> list:
+    """Errors of `value` against a definition of the API contract (empty when it conforms)."""
+    return check.validate(value, API_SCHEMA['$defs'][definition], root=API_SCHEMA)
 ALL_VIEWS = SCHEMA['$defs']['ViewId']['enum']
 
 
@@ -79,6 +86,14 @@ class SimilarityAPITest(unittest.TestCase):
             self.assertIn(entry['kind'], spec['kinds'])
             for source in entry['sources']:
                 self.assertIn(source, mirrored, f'{ref_id}: {source} no está en el manifiesto de espejo')
+
+    def test_catalog_response_gives_the_defaults_the_interface_needs(self) -> None:
+        body = self.client.get('/api/similarity/references').json()
+        self.assertEqual(set(body['default_weights']), {'Mars', 'Moon'})
+        self.assertEqual(set(body['default_weights']['Mars']), set(ALL_VIEWS))
+        self.assertTrue(body['views']['escabrosidad']['fitted'])
+        self.assertFalse(body['views']['espectral']['fitted'])
+        self.assertEqual(body['engine_status'], 'unsupervised_pending_blind_validation')
 
     def test_reference_detail(self) -> None:
         res = self.client.get('/api/similarity/references/jezero')
@@ -192,6 +207,59 @@ class SimilarityAPITest(unittest.TestCase):
         self.assertEqual(status['engine_status'], 'unsupervised_pending_blind_validation')
         self.assertGreater(status['profiles_loaded'][similarity.DEFAULT_PROFILE], 400)
         self.assertGreaterEqual(status['cached_queries'], 1)
+
+    def test_every_response_conforms_to_its_definition(self) -> None:
+        catalog = self.client.get('/api/similarity/references').json()
+        self.assertEqual(conforms(catalog, 'ReferencesResponse'), [])
+        for ref in catalog['references']:
+            self.assertEqual(conforms(ref, 'ReferenceEntry'), [], ref['id'])
+        detail = self.client.get('/api/similarity/references/jezero').json()
+        self.assertEqual(conforms(detail, 'ReferenceDetail'), [])
+        body = self.post({'reference': 'jezero', 'only_eligible': False, 'limit': 5}).json()
+        self.assertEqual(conforms(body, 'SearchEnvelope'), [])
+        self.assertEqual(check.validate(body, SCHEMA['$defs']['SearchResponse'], root=SCHEMA), [])  # engine contract
+        self.assertRegex(body['query_id'], API_SCHEMA['$defs']['SearchEnvelope']['properties']['query_id']['pattern'])
+        self.assertEqual(conforms(self.client.get('/api/similarity/status').json(), 'ServiceStatus'), [])
+
+    def test_status_conforms_before_the_engine_is_loaded(self) -> None:
+        similarity.configure(self.root, self.model_path)
+        self.assertEqual(conforms(self.client.get('/api/similarity/status').json(), 'ServiceStatus'), [])
+
+    def test_every_error_has_the_documented_shape(self) -> None:
+        cases = {
+            404: self.client.get('/api/similarity/references/no-existe'),
+            422: self.post({'reference': 'jezero', 'limit': 0}),
+        }
+        similarity.configure(self.root, Path(self.tmp.name) / 'sin-modelo.joblib')
+        cases[503] = self.client.get('/api/similarity/references')
+        for code, res in cases.items():
+            with self.subTest(code=code):
+                self.assertEqual(res.status_code, code)
+                self.assertEqual(conforms(res.json(), 'ErrorResponse'), [])
+                self.assertIn(str(code), API_SCHEMA['x-errors'])
+        self.assertIsInstance(cases[422].json()['detail'], list)  # pydantic: a list of validation errors
+        similarity.configure(self.root, self.model_path)
+        self.assertIsInstance(self.post({'reference': 'jezero', 'weights': {'zzz': 1}}).json()['detail'], str)
+
+    def test_the_contract_lists_the_routes_the_app_serves(self) -> None:
+        # OpenAPI lists the real operations whatever FastAPI version wraps the routers.
+        served = {(method.upper(), path) for path, ops in app.openapi()['paths'].items()
+                  if path.startswith('/api/similarity') for method in ops}
+        documented = {(e['method'], e['path']) for e in API_SCHEMA['x-endpoints']}
+        self.assertEqual(served, documented)
+        for endpoint in API_SCHEMA['x-endpoints']:
+            for code in endpoint['errors']:
+                self.assertIn(str(code), API_SCHEMA['x-errors'])
+
+    def test_enums_agree_with_the_engine_and_the_catalogue(self) -> None:
+        views = set(API_SCHEMA['$defs']['ViewId']['enum'])
+        self.assertEqual(views, set(SCHEMA['$defs']['ViewId']['enum']))
+        self.assertEqual(views, set(sim.view_ids(sim.load_spec())))
+        kinds = json.loads((ROOT / 'specs/analysis/referencias-v1.json').read_text(encoding='utf-8'))['kinds']
+        self.assertEqual(set(kinds), set(API_SCHEMA['$defs']['ReferenceEntry']['properties']['kind']['enum']) - {None})
+        seen = {s for r in self.client.get('/api/similarity/references').json()['references'] for s in r['views'].values()}
+        self.assertLessEqual(seen, set(API_SCHEMA['$defs']['ViewStatus']['enum']))
+        self.assertEqual(set(API_SCHEMA['$defs']['ViewStatus']['enum']), {'reference_has_data', 'reference_missing', 'not_fitted'})
 
 
 if __name__ == '__main__':

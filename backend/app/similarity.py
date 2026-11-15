@@ -304,7 +304,11 @@ async def status():
 @router.get('/references')
 async def references():
     svc = await available_service()
-    return {'references': await run_in_threadpool(svc.catalog)}
+    engine = svc.engine
+    return {'references': await run_in_threadpool(svc.catalog),
+            'default_weights': engine.spec['default_weights'],
+            'views': {vid: {'fitted': v['fitted'], 'kind': v['kind']} for vid, v in engine.model['views'].items()},
+            'engine_status': engine.spec['status']}
 
 
 @router.get('/references/{reference_id}')
