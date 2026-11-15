@@ -75,21 +75,29 @@ No instales ni configures Nginx para este despliegue.
    acceso administrativo a tu IP siempre que sea posible. No habilites SSH con
    contraseña para facilitar Actions.
 3. En **Networking**, confirma que la VM tenga una Network Security Group (NSG)
-   asociada. Más adelante agregarás reglas para SSH y para el puerto de la app.
+   asociada y una regla TCP de entrada para SSH (normalmente `22`) que permita
+   conectarte desde tu IP administrativa. Más adelante revisarás también el
+   acceso del runner y el puerto de la app.
 4. Anota la IP pública o el DNS, el usuario inicial de Ubuntu y el puerto SSH
    (normalmente `22`). No pongas esos valores en el código.
 
-### 2. Instalar Docker y comprobar el acceso
+### 2. Conectarte como administrador e instalar Docker
 
-Conéctate a la VM usando la clave administrativa que configuraste al crearla:
+Estos comandos se ejecutan en una **terminal de tu computadora** (Linux/macOS o
+WSL), no en GitHub ni en el editor de archivos. Usa la clave administrativa
+asociada con la VM y el usuario inicial que Azure mostró al crearla:
 
 ```bash
 ssh -i RUTA_A_TU_CLAVE_ADMIN usuario-inicial@IP_O_DNS_DE_LA_VM
 ```
 
-Instala Docker Engine y el complemento Compose siguiendo la guía oficial para
-Ubuntu: [Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/).
-Luego verifica:
+Reemplaza `RUTA_A_TU_CLAVE_ADMIN`, `usuario-inicial` y
+`IP_O_DNS_DE_LA_VM` por tus valores reales. Tras conectarte, el prompt cambia:
+ahora estás ejecutando comandos **dentro de la VM** como el usuario
+administrador. Instala Docker Engine y el plugin Compose siguiendo la guía
+oficial para Ubuntu:
+[Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/).
+Después, todavía dentro de la VM, verifica:
 
 ```bash
 sudo docker --version
@@ -98,136 +106,128 @@ sudo docker compose version
 
 No continúes hasta que ambos comandos muestren una versión instalada.
 
-### 3. Crear la cuenta SSH de despliegue
+### 3. Crear el usuario `deploy` y las carpetas en la VM
 
-Desde la sesión administrativa de la VM, crea el usuario `deploy` y permite que
-ejecute Docker:
+Ejecuta estos comandos **en la terminal SSH conectada a la VM**, como el
+usuario administrador inicial. `sudo` solicita la contraseña del administrador
+si la sesión la requiere; no es una contraseña para `deploy`.
 
 ```bash
 sudo adduser --disabled-password --gecos "" deploy
 sudo usermod -aG docker deploy
-```
-
-El acceso al grupo `docker` equivale prácticamente a privilegios de `root`.
-Usa una cuenta dedicada, protege su clave y no la reutilices como cuenta
-administrativa personal. La pertenencia al grupo se aplica en una sesión nueva.
-
-### 4. Crear carpetas y permisos persistentes
-
-En la VM ejecuta:
-
-```bash
 sudo mkdir -p /opt/analogos
 sudo chown deploy:deploy /opt/analogos
 sudo mkdir -p /srv/analogos/releases/atlas30
 sudo chown 10001:10001 /srv/analogos/releases/atlas30
 ```
 
-`/opt/analogos` contendrá el Compose y `.env`, que Actions actualizará. La ruta
-`/srv/analogos/releases/atlas30` conserva los datos Atlas entre despliegues. El
-UID/GID `10001` corresponde al usuario sin privilegios dentro de la imagen; no
-cambies ese propietario si quieres que la API pueda crear `searches.sqlite`.
+`deploy` queda sin contraseña y se autenticará por clave SSH. El grupo `docker`
+equivale prácticamente a privilegios de `root`, por eso la cuenta debe ser
+dedicada y su clave debe protegerse. `/opt/analogos` contendrá Compose y `.env`;
+`/srv/analogos/releases/atlas30` conserva datos Atlas. El UID/GID `10001`
+corresponde al usuario sin privilegios del contenedor.
 
-Si todavía no tienes una publicación Atlas, la carpeta puede quedar vacía: el
-resto de la aplicación puede iniciar, pero las rutas del Atlas no tendrán un
-índice disponible.
+Si todavía no tienes una publicación Atlas, esa carpeta puede quedar vacía: el
+resto de la aplicación puede iniciar, pero las rutas Atlas no tendrán un índice.
 
-El usuario `deploy` no tiene contraseña: se crea para autenticarse con una
-clave SSH. Primero completa el paso 5 para instalar y probar esa clave; después
-conéctate como `deploy` y comprueba Docker y los directorios:
+### 4. Generar el par de claves en tu computadora
 
-```bash
-ssh -i ~/.ssh/analogos_azure_deploy -o IdentitiesOnly=yes \
-  -p 22 deploy@IP_O_DNS_DE_LA_VM
-```
+Abre **otra terminal local en tu computadora** (Linux/macOS o WSL). No ejecutes
+estos comandos en la sesión SSH ni en la terminal de la VM: el archivo privado
+debe quedarse en tu computadora para guardarlo directamente como Secret en
+GitHub.
 
-Ya dentro de la VM, ejecuta:
-
-```bash
-docker version
-docker compose version
-test -w /opt/analogos && echo "/opt/analogos escribible"
-test -d /srv/analogos/releases/atlas30 && echo "Directorio Atlas existe"
-```
-
-Si `docker version` indica permiso denegado, confirma que `deploy` pertenece al
-grupo `docker` y vuelve a iniciar sesión. La carpeta Atlas pertenece al UID
-`10001`, no al usuario `deploy`; el job de despliegue probará que el contenedor
-pueda escribir allí antes de actualizar la aplicación. No intentes iniciar
-sesión con una contraseña de `deploy`; si aún no has instalado la clave, usa
-temporalmente la cuenta administrativa de la VM para completar el paso 5.
-
-### 5. Crear una clave exclusiva para GitHub Actions
-
-Genera esta clave en tu computadora administrativa, no en el repositorio ni en
-la VM. El ejemplo usa una clave Ed25519 sin frase de contraseña, necesaria para
-que el runner de Actions se autentique de forma no interactiva:
+Primero crea la carpeta SSH si no existe y genera una clave exclusiva para el
+despliegue:
 
 ```bash
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
 ssh-keygen -t ed25519 -C "github-actions-deploy" -f ~/.ssh/analogos_azure_deploy
-```
-
-Si pregunta por una frase de contraseña, déjala vacía solo para esta clave
-dedicada al despliegue; protégela con permisos locales y no la compartas. El
-workflow no configura un agente para desbloquear claves con frase de contraseña.
-El comando crea:
-
-- `~/.ssh/analogos_azure_deploy`: clave **privada**, se guardará como el Secret
-  `AZURE_VM_SSH_KEY`.
-- `~/.ssh/analogos_azure_deploy.pub`: clave **pública**, se instala en la VM.
-
-Protege la clave privada en tu equipo:
-
-```bash
 chmod 600 ~/.ssh/analogos_azure_deploy
 ```
 
-Para instalar la clave pública, conéctate a la VM usando el usuario inicial y
-la clave administrativa que configuraste al crearla. En la VM prepara el
-directorio de SSH para `deploy`:
+Cuando `ssh-keygen` pregunte por una frase de contraseña, pulsa **Enter** dos
+veces para dejarla vacía. Esto se hace solo para esta clave dedicada porque
+Actions no tiene un agente interactivo para desbloquearla. No uses ni compartas
+una clave personal existente.
+
+Se crean dos archivos en tu computadora:
+
+- `~/.ssh/analogos_azure_deploy`: clave **privada**. No la muestres ni la copies
+  a la VM; más adelante pegarás su contenido en el Secret
+  `AZURE_VM_SSH_KEY`.
+- `~/.ssh/analogos_azure_deploy.pub`: clave **pública**. Esta sí se instalará
+  en la VM.
+
+### 5. Instalar la clave pública en la cuenta `deploy`
+
+Primero, en la **terminal local de tu computadora**, muestra la clave pública:
+
+```bash
+cat ~/.ssh/analogos_azure_deploy.pub
+```
+
+Copia la línea completa que empieza con `ssh-ed25519`. No copies el archivo
+privado sin `.pub`.
+
+Ahora vuelve a la **terminal SSH de la VM como usuario administrador inicial**
+(la sesión del paso 2). Crea la carpeta de llaves de `deploy`:
 
 ```bash
 sudo install -d -o deploy -g deploy -m 700 /home/deploy/.ssh
 sudo nano /home/deploy/.ssh/authorized_keys
 ```
 
-En tu equipo muestra **solo la clave pública**:
-
-```bash
-cat ~/.ssh/analogos_azure_deploy.pub
-```
-
-Copia la línea completa que empieza con `ssh-ed25519`, pégala en
-`authorized_keys` (una línea) y guarda el archivo. Luego, en la VM, ejecuta:
+En el editor `nano`, pega la línea pública copiada, en una sola línea. Guarda
+con `Ctrl+O`, pulsa `Enter` para confirmar el nombre y sal con `Ctrl+X`. Luego,
+todavía **en la VM como administrador**, ajusta permisos:
 
 ```bash
 sudo chown deploy:deploy /home/deploy/.ssh/authorized_keys
 sudo chmod 600 /home/deploy/.ssh/authorized_keys
 ```
 
-Prueba la clave antes de configurar GitHub. Este comando inicia una sesión
-interactiva como `deploy`; no pide una contraseña:
+### 6. Probar el acceso `deploy` desde tu computadora
+
+Este paso se ejecuta **en una terminal local nueva de tu computadora**, no
+dentro de la VM. Reemplaza el host por la IP/DNS y cambia `22` si configuraste
+otro puerto:
 
 ```bash
 ssh -i ~/.ssh/analogos_azure_deploy -o IdentitiesOnly=yes \
   -p 22 deploy@IP_O_DNS_DE_LA_VM
 ```
 
-Cuando veas el prompt remoto, valida Docker y el directorio de despliegue:
+No debe pedir una contraseña de `deploy`. Si pregunta `Are you sure you want to
+continue connecting`, verifica primero la huella del servidor siguiendo la
+sección `AZURE_VM_KNOWN_HOSTS` antes de aceptar. Si aparece `Permission denied
+(publickey)`, comprueba que copiaste el archivo `.pub` en
+`/home/deploy/.ssh/authorized_keys` y que aplicaste los permisos indicados.
+
+Cuando la conexión funcione, el prompt de la terminal cambia otra vez: ahora
+estás **dentro de la VM como `deploy`**. Ejecuta allí:
 
 ```bash
+whoami
 docker version
 docker compose version
 test -w /opt/analogos && echo "/opt/analogos escribible"
+test -d /srv/analogos/releases/atlas30 && echo "Directorio Atlas existe"
 ```
 
-Al terminar, escribe `exit` para cerrar la sesión.
+`whoami` debe imprimir `deploy`. Si Docker muestra permiso denegado, confirma
+que el usuario pertenece al grupo `docker` y cierra la sesión con `exit`;
+conéctate de nuevo para que se aplique el grupo. La carpeta Atlas pertenece al
+UID `10001`, no a `deploy`; el job de despliegue comprobará que el contenedor
+pueda escribir allí. Al terminar la comprobación, ejecuta `exit` para volver a
+la terminal local.
 
-Si usas un puerto SSH distinto, reemplaza `22` por ese puerto en las pruebas y
-configura `AZURE_VM_SSH_PORT` en GitHub. Nunca copies la clave privada al
+Si usas un puerto SSH distinto, reemplaza `22` en los comandos y configura
+`AZURE_VM_SSH_PORT` en GitHub. Nunca copies la clave privada al
 `authorized_keys`.
 
-### 6. Abrir únicamente los puertos necesarios en Azure
+### 7. Abrir únicamente los puertos necesarios en Azure
 
 En Azure Portal abre la VM → **Networking** → reglas de entrada de la NSG y
 agrega:
