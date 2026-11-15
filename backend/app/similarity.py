@@ -78,11 +78,14 @@ class SimilarityService:
         with self._lock:
             if self.engine is not None:
                 return
-            from pipelines import similarity_ml as sim
             if not self.model_path.is_file():
                 raise Unavailable('El modelo del motor de similitud no está disponible en este servidor')
             if not (self.store_root / 'base').is_dir():
                 raise Unavailable('El almacén de features no está disponible en este servidor')
+            try:  # the engine code and its ML dependencies are not part of every image
+                from pipelines import similarity_ml as sim
+            except ImportError as exc:
+                raise Unavailable('El motor de similitud no está instalado en este servidor') from exc
             t0 = time.perf_counter()
             engine = sim.SimilarityEngine.load(self.model_path)
             self.pools[DEFAULT_PROFILE] = engine.build_pool(self.store_root, DEFAULT_PROFILE)
