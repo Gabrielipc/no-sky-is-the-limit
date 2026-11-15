@@ -224,5 +224,32 @@ class TestLunarSpec(unittest.TestCase):
             lunar.polar_partition(site['latitude'])
 
 
+
+class MirrorLookupTests(unittest.TestCase):
+    """`source_path` prefers a complete mirrored copy over a remote range read."""
+    SOURCE = {'asset_id': 'LDEM_80S_20MPP_ADJ.TIF', 'url': 'https://example.org/LDEM.TIF'}
+
+    def test_without_a_complete_copy_it_reads_the_url(self) -> None:
+        from unittest import mock
+        from pipelines import etl_mirror
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.dict('os.environ', {'ANALOGOS_MIRROR_DIR': tmp}):
+            self.assertEqual(lunar.source_path(self.SOURCE), '/vsicurl/https://example.org/LDEM.TIF')
+            item = next(p for p in etl_mirror.load_manifest()['products'] if p['asset_id'] == self.SOURCE['asset_id'])
+            copy = Path(tmp) / item['path']
+            copy.parent.mkdir(parents=True)
+            copy.write_bytes(b'incompleto')  # wrong size: ignored
+            self.assertTrue(lunar.source_path(self.SOURCE).startswith('/vsicurl/'))
+
+    def test_a_complete_copy_overrides_the_url(self) -> None:
+        from unittest import mock
+        from pipelines import etl_mirror
+        manifest = {'products': [{'id': 'x', 'asset_id': 'LDEM_80S_20MPP_ADJ.TIF', 'bytes': 4, 'path': 'a/b.tif'}]}
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.dict('os.environ', {'ANALOGOS_MIRROR_DIR': tmp}):
+            (Path(tmp) / 'a').mkdir()
+            (Path(tmp) / 'a/b.tif').write_bytes(b'1234')
+            with mock.patch.object(etl_mirror, 'load_manifest', return_value=manifest):
+                self.assertEqual(lunar.source_path(self.SOURCE), str(Path(tmp) / 'a/b.tif'))
+
+
 if __name__ == '__main__':
     unittest.main()
