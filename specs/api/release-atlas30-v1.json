@@ -1,0 +1,509 @@
+{
+  "contract_id": "atlas30-release-v1",
+  "stability": "estable; solo se añaden columnas (nunca se renombran ni se quitan)",
+  "producer": "pipelines/etl_publish.py (publish_release)",
+  "consumer": "backend/app/atlas_store.py -> /api/atlas/*",
+  "layout": {
+    "releases/atlas30/current": "Nombre de la versión activa (texto)",
+    "releases/atlas30/<version>/manifest.json": "Metadatos: release_contract, version, counts, profile, normalization, eligibility_counts, cover_counts, coverage_status, similarity (opcional)",
+    "releases/atlas30/<version>/windows/windows.parquet": "Una fila por ventana terrestre (columnas abajo)",
+    "releases/atlas30/<version>/sources.json": "asset_id -> {product, sha256_or_etag, native_resolution_m, observation_period, doi, product_version}",
+    "releases/atlas30/<version>/batches.json": "Lotes del barrido con estado y número de ventanas",
+    "releases/atlas30/<version>/similarity/<referencia>.json": "Opcional: respuesta del motor (specs/api/motor-busqueda-v1.schema.json) para jezero, haworth-fondo y de-gerlache-cresta con pesos por defecto"
+  },
+  "windows_columns": [
+    {
+      "name": "region_id",
+      "type": "VARCHAR",
+      "nullable": false,
+      "description": "Clave estable de la ventana (rejilla utm-ups-v1). Une release, motor y /api/atlas/candidates"
+    },
+    {
+      "name": "batch",
+      "type": "VARCHAR",
+      "nullable": true,
+      "description": "Lote del barrido que produjo la ventana"
+    },
+    {
+      "name": "area",
+      "type": "VARCHAR",
+      "nullable": true,
+      "description": "Ámbito de la release (mundial)"
+    },
+    {
+      "name": "zone",
+      "type": "INTEGER",
+      "nullable": true,
+      "description": "EPSG de la zona UTM/UPS de la ventana"
+    },
+    {
+      "name": "x",
+      "type": "INTEGER",
+      "nullable": true,
+      "description": "Coordenada X del centro en su zona (m)",
+      "unit": "m"
+    },
+    {
+      "name": "y",
+      "type": "INTEGER",
+      "nullable": true,
+      "description": "Coordenada Y del centro en su zona (m)",
+      "unit": "m"
+    },
+    {
+      "name": "longitude",
+      "type": "DOUBLE",
+      "nullable": false,
+      "description": "Longitud del centro (WGS84)",
+      "unit": "deg"
+    },
+    {
+      "name": "latitude",
+      "type": "DOUBLE",
+      "nullable": false,
+      "description": "Latitud del centro (WGS84)",
+      "unit": "deg"
+    },
+    {
+      "name": "cell_m",
+      "type": "INTEGER",
+      "nullable": true,
+      "description": "Celda del DEM (30 m)",
+      "unit": "m"
+    },
+    {
+      "name": "status",
+      "type": "VARCHAR",
+      "nullable": false,
+      "description": "Estado QA de la topografía: rankable, dem_unavailable, dem_fetch_failed, insufficient_land, ..."
+    },
+    {
+      "name": "asset_ids",
+      "type": "VARCHAR[]",
+      "nullable": true,
+      "description": "Teselas GLO-30 usadas (claves de sources.json)"
+    },
+    {
+      "name": "worldcover_assets",
+      "type": "VARCHAR[]",
+      "nullable": true,
+      "description": "Teselas WorldCover usadas (claves de sources.json)"
+    },
+    {
+      "name": "water_assets",
+      "type": "VARCHAR[]",
+      "nullable": true,
+      "description": "Teselas JRC usadas (claves de sources.json)"
+    },
+    {
+      "name": "land_fraction",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Fracción de tierra en la huella de 3 km",
+      "unit": "fraction"
+    },
+    {
+      "name": "valid_elevation",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Fracción de celdas DEM válidas",
+      "unit": "fraction"
+    },
+    {
+      "name": "valid_slope",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Fracción de celdas con pendiente válida",
+      "unit": "fraction"
+    },
+    {
+      "name": "valid_roughness",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Cobertura de la rugosidad",
+      "unit": "fraction"
+    },
+    {
+      "name": "relief_m",
+      "type": "DOUBLE",
+      "nullable": true,
+      "description": "Relieve P95-P5 de la elevación",
+      "unit": "m"
+    },
+    {
+      "name": "roughness_m",
+      "type": "DOUBLE",
+      "nullable": true,
+      "description": "Rugosidad P50 a 360 m",
+      "unit": "m"
+    },
+    {
+      "name": "slope_p50_deg",
+      "type": "DOUBLE",
+      "nullable": true,
+      "description": "Pendiente P50 a base de 240 m",
+      "unit": "deg"
+    },
+    {
+      "name": "slope_p90_deg",
+      "type": "DOUBLE",
+      "nullable": true,
+      "description": "Pendiente P90 a base de 240 m",
+      "unit": "deg"
+    },
+    {
+      "name": "slope_histogram",
+      "type": "INTEGER[]",
+      "nullable": true,
+      "description": "Histograma de pendiente (solo releases atlas30 antiguas; NULL en las del ETL)"
+    },
+    {
+      "name": "slope_cdf",
+      "type": "DOUBLE[]",
+      "nullable": true,
+      "description": "CDF de pendiente (solo releases atlas30 antiguas; NULL en las del ETL)"
+    },
+    {
+      "name": "bare_fraction",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "WorldCover desnudo o escaso",
+      "unit": "fraction"
+    },
+    {
+      "name": "vegetation_fraction",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "WorldCover árboles",
+      "unit": "fraction"
+    },
+    {
+      "name": "urban_fraction",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "WorldCover construido",
+      "unit": "fraction"
+    },
+    {
+      "name": "ice_fraction",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "WorldCover nieve o hielo",
+      "unit": "fraction"
+    },
+    {
+      "name": "worldcover_water_fraction",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "WorldCover agua permanente",
+      "unit": "fraction"
+    },
+    {
+      "name": "worldcover_valid_fraction",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Fracción válida de WorldCover",
+      "unit": "fraction"
+    },
+    {
+      "name": "water_occurrence_pct",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Ocurrencia media de agua JRC",
+      "unit": "pct"
+    },
+    {
+      "name": "water_valid_fraction",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Reservado (NULL)",
+      "unit": "fraction"
+    },
+    {
+      "name": "cover_status",
+      "type": "VARCHAR",
+      "nullable": true,
+      "description": "Estado de la cobertura: measured, no_cover_tile, cover_fetch_failed, ..."
+    },
+    {
+      "name": "eligibility",
+      "type": "VARCHAR",
+      "nullable": true,
+      "description": "Elegibilidad bajo el perfil publicado"
+    },
+    {
+      "name": "eligibility_profile",
+      "type": "VARCHAR",
+      "nullable": true,
+      "description": "Perfil de elegibilidad publicado"
+    },
+    {
+      "name": "hypsometric_integral",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Integral hipsométrica de la huella",
+      "unit": "fraction"
+    },
+    {
+      "name": "aspect_240m_resultant_length",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Concentración de orientación de pendientes (0 dispersa, 1 una sola dirección)",
+      "unit": "fraction"
+    },
+    {
+      "name": "framing_status",
+      "type": "VARCHAR",
+      "nullable": true,
+      "description": "Estado del mejor encuadre (solo candidatas refinadas)"
+    },
+    {
+      "name": "hi_center",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Integral hipsométrica en el encuadre centrado",
+      "unit": "fraction"
+    },
+    {
+      "name": "hi_best",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Integral hipsométrica en el mejor encuadre",
+      "unit": "fraction"
+    },
+    {
+      "name": "best_offset_east_m",
+      "type": "INTEGER",
+      "nullable": true,
+      "description": "Desplazamiento este del mejor encuadre",
+      "unit": "m"
+    },
+    {
+      "name": "best_offset_north_m",
+      "type": "INTEGER",
+      "nullable": true,
+      "description": "Desplazamiento norte del mejor encuadre",
+      "unit": "m"
+    },
+    {
+      "name": "elevation_skew_p95_p05",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Asimetría de elevación P95/P5"
+    },
+    {
+      "name": "slope_240m_gt15_fraction",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Fracción con pendiente > 15°",
+      "unit": "fraction"
+    },
+    {
+      "name": "slope_240m_gt25_fraction",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Fracción con pendiente > 25°",
+      "unit": "fraction"
+    },
+    {
+      "name": "precip_annual_mm_cmg",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Precipitación media anual (IMERG mensual)",
+      "unit": "mm/año",
+      "range": [
+        0.0,
+        15000.0
+      ],
+      "tier": "context_coarse"
+    },
+    {
+      "name": "dry_months_fraction_cmg",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Fracción de meses climatológicos con < 5 mm",
+      "unit": "fraction",
+      "range": [
+        0.0,
+        1.0
+      ],
+      "tier": "context_coarse"
+    },
+    {
+      "name": "snow_cover_mean_pct_cmg",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Cobertura de nieve mensual media (MOD10CM)",
+      "unit": "pct",
+      "range": [
+        0.0,
+        100.0
+      ],
+      "tier": "context_coarse"
+    },
+    {
+      "name": "snow_months_fraction_cmg",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Fracción de meses con nieve >= 50 %",
+      "unit": "fraction",
+      "range": [
+        0.0,
+        1.0
+      ],
+      "tier": "context_coarse"
+    },
+    {
+      "name": "lst_day_night_delta_k_cmg",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Amplitud térmica día-noche (MYD11C3)",
+      "unit": "K",
+      "range": [
+        0.0,
+        80.0
+      ],
+      "tier": "context_coarse"
+    },
+    {
+      "name": "albedo_wsa_cmg",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Albedo de cielo blanco (MCD43C3)",
+      "unit": "fraction",
+      "range": [
+        0.0,
+        1.0
+      ],
+      "tier": "context_coarse"
+    },
+    {
+      "name": "ati_cmg_per_k",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Inercia térmica aparente gruesa",
+      "unit": "1/K",
+      "range": [
+        0.0,
+        1.0
+      ],
+      "tier": "context_coarse"
+    },
+    {
+      "name": "emis_mean_b10_b14_cmg",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Emisividad media bandas 10-14 (AG1km)",
+      "range": [
+        0.5,
+        1.0
+      ],
+      "tier": "context_coarse"
+    },
+    {
+      "name": "emis_quartz_index_cmg",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Índice de cuarzo b11²/(b10·b12)",
+      "range": [
+        0.5,
+        1.5
+      ],
+      "tier": "context_coarse"
+    },
+    {
+      "name": "emis_carbonate_index_cmg",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Índice de carbonato b13/b14",
+      "range": [
+        0.5,
+        1.5
+      ],
+      "tier": "context_coarse"
+    },
+    {
+      "name": "emis_mafic_index_cmg",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Índice máfico (b10+b11)/(b12+b13)",
+      "range": [
+        0.5,
+        1.5
+      ],
+      "tier": "context_coarse"
+    },
+    {
+      "name": "soil_moisture_mean_cmg",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Humedad del suelo media (SMAP L3, AM)",
+      "unit": "m3/m3",
+      "range": [
+        0.0,
+        0.65
+      ],
+      "tier": "context_coarse"
+    },
+    {
+      "name": "soil_moisture_obs_fraction_cmg",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Fracción de días con recuperación válida",
+      "unit": "fraction",
+      "range": [
+        0.0,
+        1.0
+      ],
+      "tier": "context_coarse"
+    },
+    {
+      "name": "permafrost_fraction_cmg",
+      "type": "FLOAT",
+      "nullable": true,
+      "description": "Fracción de permafrost (ESA CCI)",
+      "unit": "fraction",
+      "range": [
+        0.0,
+        1.0
+      ],
+      "tier": "context_coarse"
+    },
+    {
+      "name": "imerg_cmg_status",
+      "type": "VARCHAR",
+      "nullable": true,
+      "description": "Estado de la capa global imerg: measured, insufficient_coverage, unobserved_by_product, on_demand_fetchable (capa aún no construida)"
+    },
+    {
+      "name": "snow_cmg_status",
+      "type": "VARCHAR",
+      "nullable": true,
+      "description": "Estado de la capa global snow: measured, insufficient_coverage, unobserved_by_product, on_demand_fetchable (capa aún no construida)"
+    },
+    {
+      "name": "ati_cmg_status",
+      "type": "VARCHAR",
+      "nullable": true,
+      "description": "Estado de la capa global ati: measured, insufficient_coverage, unobserved_by_product, on_demand_fetchable (capa aún no construida)"
+    },
+    {
+      "name": "emissivity_cmg_status",
+      "type": "VARCHAR",
+      "nullable": true,
+      "description": "Estado de la capa global emissivity: measured, insufficient_coverage, unobserved_by_product, on_demand_fetchable (capa aún no construida)"
+    },
+    {
+      "name": "soil_moisture_cmg_status",
+      "type": "VARCHAR",
+      "nullable": true,
+      "description": "Estado de la capa global soil_moisture: measured, insufficient_coverage, unobserved_by_product, on_demand_fetchable (capa aún no construida)"
+    },
+    {
+      "name": "permafrost_cmg_status",
+      "type": "VARCHAR",
+      "nullable": true,
+      "description": "Estado de la capa global permafrost: measured, insufficient_coverage, unobserved_by_product, on_demand_fetchable (capa aún no construida)"
+    }
+  ]
+}
