@@ -66,31 +66,162 @@ Se asume una VM Linux (por ejemplo, Ubuntu 22.04/24.04), con Docker Engine y el
 plugin `docker compose` instalados desde la documentación oficial de Docker.
 No instales ni configures Nginx para este despliegue.
 
-1. Crea un usuario de despliegue dedicado. Dale acceso al daemon de Docker
-   siguiendo la política de tu organización. Pertenecer al grupo `docker`
-   equivale prácticamente a tener privilegios de root; limita el acceso a esa
-   cuenta.
-2. Crea los directorios persistentes. Ajusta el dueño del directorio de la app
-   al usuario SSH de despliegue y el de publicaciones al UID/GID `10001`, que es
-   el usuario del proceso dentro del contenedor:
+### 1. Crear la VM y reservar sus datos de conexión
 
-   ```bash
-   sudo mkdir -p /opt/analogos
-   sudo mkdir -p /srv/analogos/releases/atlas30
-   sudo chown deploy:deploy /opt/analogos
-   sudo chown 10001:10001 /srv/analogos/releases/atlas30
-   ```
+1. En Azure Portal, crea una VM Linux con Ubuntu 22.04 o 24.04. Asígnale una
+   IP pública estática o configura un nombre DNS estable; `AZURE_VM_HOST` debe
+   seguir apuntando a la VM después de reinicios.
+2. Durante la creación, habilita SSH y usa una clave pública SSH. Limita el
+   acceso administrativo a tu IP siempre que sea posible. No habilites SSH con
+   contraseña para facilitar Actions.
+3. En **Networking**, confirma que la VM tenga una Network Security Group (NSG)
+   asociada. Más adelante agregarás reglas para SSH y para el puerto de la app.
+4. Anota la IP pública o el DNS, el usuario inicial de Ubuntu y el puerto SSH
+   (normalmente `22`). No pongas esos valores en el código.
 
-   Sustituye `deploy:deploy` por el usuario y grupo reales.
-3. Instala la clave pública SSH de despliegue en `~deploy/.ssh/authorized_keys`.
-   Protege la clave privada y guarda su contenido únicamente como secreto de
-   GitHub; no la pongas en el repositorio ni en esta guía.
-4. En la Network Security Group (NSG) de Azure permite:
-   - TCP `8000` desde los rangos que realmente deban acceder a la aplicación.
-   - SSH (normalmente TCP `22`) solo desde las IP de administración o del runner
-     autorizado. Los runners hospedados por GitHub no tienen una IP de salida
-     fija sencilla de mantener en una allowlist; para restringir más el acceso,
-     usa un runner self-hosted dentro de la red de Azure, VPN o un bastion.
+### 2. Instalar Docker y comprobar el acceso
+
+Conéctate a la VM usando la clave administrativa que configuraste al crearla:
+
+```bash
+ssh -i RUTA_A_TU_CLAVE_ADMIN usuario-inicial@IP_O_DNS_DE_LA_VM
+```
+
+Instala Docker Engine y el complemento Compose siguiendo la guía oficial para
+Ubuntu: [Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu/).
+Luego verifica:
+
+```bash
+sudo docker --version
+sudo docker compose version
+```
+
+No continúes hasta que ambos comandos muestren una versión instalada.
+
+### 3. Crear la cuenta SSH de despliegue
+
+Desde la sesión administrativa de la VM, crea el usuario `deploy` y permite que
+ejecute Docker:
+
+```bash
+sudo adduser --disabled-password --gecos "" deploy
+sudo usermod -aG docker deploy
+```
+
+El acceso al grupo `docker` equivale prácticamente a privilegios de `root`.
+Usa una cuenta dedicada, protege su clave y no la reutilices como cuenta
+administrativa personal. La pertenencia al grupo se aplica en una sesión nueva.
+
+### 4. Crear carpetas y permisos persistentes
+
+En la VM ejecuta:
+
+```bash
+sudo mkdir -p /opt/analogos
+sudo chown deploy:deploy /opt/analogos
+sudo mkdir -p /srv/analogos/releases/atlas30
+sudo chown 10001:10001 /srv/analogos/releases/atlas30
+```
+
+`/opt/analogos` contendrá el Compose y `.env`, que Actions actualizará. La ruta
+`/srv/analogos/releases/atlas30` conserva los datos Atlas entre despliegues. El
+UID/GID `10001` corresponde al usuario sin privilegios dentro de la imagen; no
+cambies ese propietario si quieres que la API pueda crear `searches.sqlite`.
+
+Si todavía no tienes una publicación Atlas, la carpeta puede quedar vacía: el
+resto de la aplicación puede iniciar, pero las rutas del Atlas no tendrán un
+índice disponible.
+
+Abre una sesión SSH nueva como `deploy` y comprueba el acceso a Docker, el
+directorio de despliegue y la existencia del directorio Atlas:
+
+```bash
+docker version
+docker compose version
+test -w /opt/analogos && echo "/opt/analogos escribible"
+test -d /srv/analogos/releases/atlas30 && echo "Directorio Atlas existe"
+```
+
+Si `docker version` indica permiso denegado, confirma que `deploy` pertenece al
+grupo `docker` y vuelve a iniciar sesión. La carpeta Atlas pertenece al UID
+`10001`, no al usuario `deploy`; el job de despliegue probará que el contenedor
+pueda escribir allí antes de actualizar la aplicación.
+
+### 5. Crear una clave exclusiva para GitHub Actions
+
+Genera esta clave en tu computadora administrativa, no en el repositorio ni en
+la VM. El ejemplo usa una clave Ed25519 sin frase de contraseña, necesaria para
+que el runner de Actions se autentique de forma no interactiva:
+
+```bash
+ssh-keygen -t ed25519 -C "github-actions-deploy" -f ~/.ssh/analogos_azure_deploy
+```
+
+Si pregunta por una frase de contraseña, déjala vacía solo para esta clave
+dedicada al despliegue; protégela con permisos locales y no la compartas. El
+workflow no configura un agente para desbloquear claves con frase de contraseña.
+El comando crea:
+
+- `~/.ssh/analogos_azure_deploy`: clave **privada**, se guardará como el Secret
+  `AZURE_VM_SSH_KEY`.
+- `~/.ssh/analogos_azure_deploy.pub`: clave **pública**, se instala en la VM.
+
+Protege la clave privada en tu equipo:
+
+```bash
+chmod 600 ~/.ssh/analogos_azure_deploy
+```
+
+Para instalar la clave pública, conéctate a la VM usando el usuario inicial y
+la clave administrativa que configuraste al crearla. En la VM prepara el
+directorio de SSH para `deploy`:
+
+```bash
+sudo install -d -o deploy -g deploy -m 700 /home/deploy/.ssh
+sudo nano /home/deploy/.ssh/authorized_keys
+```
+
+En tu equipo muestra **solo la clave pública**:
+
+```bash
+cat ~/.ssh/analogos_azure_deploy.pub
+```
+
+Copia la línea completa que empieza con `ssh-ed25519`, pégala en
+`authorized_keys` (una línea) y guarda el archivo. Luego, en la VM, ejecuta:
+
+```bash
+sudo chown deploy:deploy /home/deploy/.ssh/authorized_keys
+sudo chmod 600 /home/deploy/.ssh/authorized_keys
+```
+
+Prueba la clave antes de configurar GitHub:
+
+```bash
+ssh -i ~/.ssh/analogos_azure_deploy -o IdentitiesOnly=yes \
+  -p 22 deploy@IP_O_DNS_DE_LA_VM 'docker compose version'
+```
+
+Si usas un puerto SSH distinto, reemplaza `22` por ese puerto en las pruebas y
+configura `AZURE_VM_SSH_PORT` en GitHub. Nunca copies la clave privada al
+`authorized_keys`.
+
+### 6. Abrir únicamente los puertos necesarios en Azure
+
+En Azure Portal abre la VM → **Networking** → reglas de entrada de la NSG y
+agrega:
+
+1. Una regla TCP para SSH, normalmente puerto `22`. Como origen, elige tu IP
+   administrativa o una red de confianza. El runner hospedado por GitHub no
+   tiene una IP de salida fija sencilla de mantener en una allowlist. Para
+   restringir SSH de forma estricta, considera un runner self-hosted en Azure,
+   VPN o bastion.
+2. Una regla TCP para el puerto de aplicación que usarás, por defecto `8000`.
+   Restringe el origen a las redes que necesiten acceder. Evita `Any` si la
+   aplicación no debe ser pública.
+
+Si cambias el puerto de SSH, tanto la NSG como `AZURE_VM_SSH_PORT` deben usar el
+mismo valor. El puerto de aplicación debe coincidir con `AZURE_VM_APP_PORT`.
 
 La app se sirve por HTTP directo en `http://<IP-o-DNS-de-la-VM>:8000`. Sin un
 proxy TLS, la conexión pública **no está cifrada**. Es una limitación importante
@@ -109,32 +240,109 @@ las publicaciones permanecen en el volumen de la VM.
 
 ## Configurar GitHub Actions
 
-En **Settings → Secrets and variables → Actions**, crea los siguientes valores.
+Configura estos valores en el repositorio de GitHub
+**Gabrielipc/no-sky-is-the-limit**:
+
+1. Abre **Settings** del repositorio.
+2. En la barra lateral, abre **Secrets and variables → Actions**.
+3. Usa **New repository secret** para cada secreto y **Variables → New repository
+   variable** para cada variable. Respeta exactamente los nombres (mayúsculas y
+   guiones bajos); el workflow los busca literalmente.
+4. Configúralos como valores del repositorio, no como secretos de una cuenta
+   personal. Así estarán disponibles para el workflow de este repositorio.
+
+No pegues valores secretos en commits, archivos `.env`, incidencias, capturas ni
+mensajes. GitHub oculta un Secret después de guardarlo: si no recuerdas su valor,
+reemplázalo por uno nuevo.
 
 ### Secrets
 
 | Nombre | Valor |
 |---|---|
-| `AZURE_VM_HOST` | IP pública o nombre DNS de la VM, sin esquema ni puerto. |
-| `AZURE_VM_USER` | Usuario SSH dedicado para despliegues. |
-| `AZURE_VM_SSH_KEY` | Clave privada que corresponde a la clave pública instalada en la VM. No compartirla por chat. |
-| `AZURE_VM_KNOWN_HOSTS` | Línea de `known_hosts` para esa VM; valida su huella por un canal confiable antes de guardarla. |
-| `GHCR_USERNAME` | Cuenta GitHub que puede descargar el paquete del contenedor. |
-| `GHCR_PULL_TOKEN` | PAT clásico de alcance mínimo con `read:packages` y acceso al paquete privado de GHCR. No compartirlo por chat. |
+| `AZURE_VM_HOST` | IP pública estática o DNS de la VM, por ejemplo `20.30.40.50` o `mi-vm.eastus.cloudapp.azure.com`. No incluyas `https://`, usuario ni puerto. |
+| `AZURE_VM_USER` | Usuario SSH creado en la VM; en estos pasos es `deploy`. |
+| `AZURE_VM_SSH_KEY` | Contenido completo de la clave privada `analogos_azure_deploy`, incluyendo las líneas `-----BEGIN OPENSSH PRIVATE KEY-----` y `-----END OPENSSH PRIVATE KEY-----`. Nunca uses el archivo `.pub`. |
+| `AZURE_VM_KNOWN_HOSTS` | Línea de host SSH obtenida y verificada por un canal confiable. Debe corresponder al host y puerto configurados. |
+| `GHCR_USERNAME` | Nombre de usuario de GitHub propietario del PAT que puede leer el paquete; no es el correo ni un nombre para mostrar. |
+| `GHCR_PULL_TOKEN` | PAT clásico con permiso mínimo `read:packages` y acceso de lectura al paquete de GHCR. No uses `GITHUB_TOKEN` aquí: este secreto lo usa la VM para descargar la imagen. |
+
+#### Cómo llenar cada Secret
+
+1. **`AZURE_VM_HOST`**: copia la IP pública estática o el DNS desde la vista
+   **Overview** de la VM en Azure. Verifica desde tu equipo que corresponde a
+   esa VM. Guarda solo el host, por ejemplo `20.30.40.50`.
+2. **`AZURE_VM_USER`**: escribe `deploy` si seguiste los pasos anteriores.
+3. **`AZURE_VM_SSH_KEY`**: en tu computadora abre el archivo privado con un
+   editor local (`~/.ssh/analogos_azure_deploy`), copia todo su contenido y
+   pégalo en el campo del Secret. No compartas ni imprimas ese contenido en
+   logs. La clave pública termina en `.pub` y no se pega en este Secret.
+4. **`AZURE_VM_KNOWN_HOSTS`**: primero verifica la identidad SSH de la VM:
+   - En Azure Portal usa la consola/Run Command de la VM para obtener la clave
+     pública del servidor, por ejemplo:
+     `sudo cat /etc/ssh/ssh_host_ed25519_key.pub`.
+   - En tu equipo compara la huella de esa clave con la huella que presenta la
+     VM. Para una clave pública guardada en `vm_host_ed25519.pub`, ejecuta
+     `ssh-keygen -lf vm_host_ed25519.pub`.
+   - Solo después de que coincidan, genera la línea conocida con
+     `ssh-keyscan -p 22 -t ed25519 IP_O_DNS_DE_LA_VM`. `ssh-keyscan` por sí solo
+     **no verifica** la identidad; la verificación previa es obligatoria.
+   - Copia la línea resultante completa, que empieza con el host o
+     `[host]:puerto`, y guárdala como `AZURE_VM_KNOWN_HOSTS`. Para el puerto
+     estándar `22` normalmente aparece el host sin corchetes. Si usas otro
+     puerto, debe aparecer `[IP_O_DNS]:PUERTO`.
+5. **`GHCR_USERNAME` y `GHCR_PULL_TOKEN`**:
+   - Usa la cuenta GitHub con acceso de lectura al paquete
+     `ghcr.io/gabrielipc/no-sky-is-the-limit`.
+   - En GitHub abre **Settings → Developer settings → Personal access tokens →
+     Tokens (classic) → Generate new token (classic)**.
+   - Ponle una nota identificable, elige una fecha de expiración y marca
+     únicamente `read:packages`. Si el paquete es privado y pertenece a una
+     organización, confirma que la cuenta/token tenga acceso a ese paquete y
+     cumple las políticas de SSO de la organización, si aplican.
+   - Genera el token y cópialo inmediatamente a `GHCR_PULL_TOKEN`; GitHub no
+     volverá a mostrar su valor completo. Copia el nombre de la cuenta dueña del
+     token a `GHCR_USERNAME`.
+   - No marques `write:packages` ni `delete:packages` para esta descarga. Si el
+     paquete es privado, puedes probar las mismas credenciales desde la VM con
+     `docker login ghcr.io`; no las envíes por chat.
+
+En la página **Actions secrets and variables**, para guardar un Secret, pulsa
+**New repository secret**, escribe el nombre exacto de la tabla, pega el valor y
+pulsa **Add secret**. Repite por cada uno. Para una Variable abre la pestaña
+**Variables**, pulsa **New repository variable**, completa el nombre y valor y
+pulsa **Add variable**.
 
 El workflow usa `GITHUB_TOKEN` automáticamente para publicar la imagen; no crees
 un token de publicación adicional. GHCR suele crear el paquete como privado.
-Conserva el token de descarga solo en GitHub Secrets y en el almacén Docker de la
-cuenta de despliegue de la VM.
+El token de descarga se conserva en GitHub Secrets y el workflow inicia sesión
+en GHCR durante el despliegue; al terminar cierra la sesión de Docker en la VM.
 
 ### Variables
 
 | Nombre | Ejemplo | Uso |
 |---|---|---|
-| `AZURE_VM_SSH_PORT` | `22` | Puerto SSH; si se omite, usa `22`. |
-| `AZURE_VM_APP_DIR` | `/opt/analogos` | Directorio remoto del Compose y `.env`. |
-| `AZURE_VM_APP_PORT` | `8000` | Puerto de la VM que se publica hacia Internet. |
-| `ATLAS_RELEASES_PATH` | `/srv/analogos/releases/atlas30` | Directorio persistente del Atlas dentro de la VM. |
+| `AZURE_VM_SSH_PORT` | `22` | Puerto SSH de la VM. Opcional; si no existe, el workflow usa `22`. |
+| `AZURE_VM_APP_DIR` | `/opt/analogos` | Ruta absoluta donde Actions copiará `docker-compose.yml` y creará `.env`. Obligatoria. |
+| `AZURE_VM_APP_PORT` | `8000` | Puerto del host publicado hacia el puerto `8000` del contenedor. Opcional; predeterminado `8000`. |
+| `ATLAS_RELEASES_PATH` | `/srv/analogos/releases/atlas30` | Ruta absoluta del volumen Atlas en la VM. Obligatoria. |
+
+#### Cómo llenar cada Variable
+
+1. `AZURE_VM_SSH_PORT`: escribe `22`, salvo que hayas configurado otro puerto
+   SSH tanto en `sshd` como en la NSG.
+2. `AZURE_VM_APP_DIR`: escribe `/opt/analogos`, igual a la ruta creada en la
+   VM. Actions creará ahí el archivo Compose y `.env`.
+3. `AZURE_VM_APP_PORT`: escribe `8000`, o el puerto que abriste para la app en
+   la NSG. Si decides omitir la variable, asegúrate de que la NSG permita el
+   puerto predeterminado `8000`.
+4. `ATLAS_RELEASES_PATH`: escribe
+   `/srv/analogos/releases/atlas30`, exactamente igual a la carpeta persistente
+   creada en la VM.
+
+Para crear cada una, abre la pestaña **Variables**, pulsa **New repository
+variable**, escribe el nombre y valor, y guarda. Ambas rutas deben ser absolutas
+y no contener espacios ni comillas. Los puertos deben ser números entre `1` y
+`65535`.
 
 Los dos directorios deben ser rutas absolutas sin espacios ni comillas. No agregues
 al repositorio `.env` de producción, claves SSH, tokens, contraseñas ni datos
@@ -145,20 +353,33 @@ canal confiable (por ejemplo, la consola de Azure) y compara su huella. No uses
 una salida de `ssh-keyscan` sin verificarla como si fuera identidad autenticada.
 El workflow mantiene `StrictHostKeyChecking=yes`.
 
-## Primera publicación y comprobación
+## Primera publicación y comprobación paso a paso
 
-1. Sube esta configuración en una pull request hacia `main` y espera a que pasen
-   los jobs de CI.
-2. Crea los secrets y variables, prepara los directorios y permisos de la VM, y
-   confirma que Docker Compose puede ejecutarse con el usuario SSH.
-3. Fusiona la pull request en `main`. El job de despliegue fallará indicando el
-   secret o variable ausente si falta configuración.
-4. Al terminar, abre:
+1. Guarda y verifica todos los Secrets y Variables de las secciones anteriores.
+2. Desde tu equipo, confirma la conexión SSH como `deploy` y la ejecución de
+   `docker compose version`, usando la clave privada de despliegue.
+3. Confirma que las reglas de entrada de la NSG permiten el SSH del runner y que
+   la ruta del Atlas existe y tiene propietario UID/GID `10001`.
+4. Sube la configuración en una pull request hacia `main` y espera a que pasen
+   `Backend tests`, `Frontend tests and build` y `Docker image smoke test`.
+5. Fusiona la pull request en `main`. En **Actions**, abre la ejecución creada
+   por el `push` y revisa en orden `Publish image to GHCR` y `Deploy production
+   on Azure VM`. El despliegue solo empieza si las comprobaciones y la
+   publicación de imagen terminan correctamente.
+6. Si falla el paso **Validate deployment settings and prepare SSH**, revisa el
+   nombre y tipo de cada Secret/Variable que reporta el error; las credenciales
+   requeridas deben estar en **Secrets** y las rutas/puertos en **Variables**.
+   Después puedes seleccionar **Re-run failed jobs** en esa ejecución.
+7. Si la validación pasa pero falla la conexión, revisa IP/DNS, puerto SSH,
+   regla NSG, permisos de la clave y coincidencia de `AZURE_VM_KNOWN_HOSTS`.
+   Si falla el `docker pull`, verifica `GHCR_USERNAME`, el PAT y el acceso de la
+   cuenta al paquete.
+8. Al terminar, abre:
    - `http://<IP-o-DNS-de-la-VM>:8000/` para el frontend.
    - `http://<IP-o-DNS-de-la-VM>:8000/docs` para Swagger.
    - `http://<IP-o-DNS-de-la-VM>:8000/openapi.json` para comprobar el contrato
      OpenAPI.
-5. En la VM comprueba estado y logs:
+9. En la VM comprueba estado y logs:
 
    ```bash
    cd /opt/analogos
