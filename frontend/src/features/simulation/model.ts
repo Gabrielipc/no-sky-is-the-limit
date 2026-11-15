@@ -1,7 +1,7 @@
 export const references = [
   {id:'jezero',name:'Jezero',detail:'Marte · abanico sedimentario',body:'Mars',longitude:77.41,latitude:18.49},
-  {id:'haworth-fondo',name:'Haworth',detail:'Luna · fondo polar',body:'Moon'},
-  {id:'de-gerlache-cresta',name:'De Gerlache',detail:'Luna · cresta polar',body:'Moon'},
+  {id:'haworth-fondo',name:'Haworth',detail:'Luna · fondo polar',body:'Moon',longitude:-5,latitude:-87.45},
+  {id:'de-gerlache-cresta',name:'De Gerlache',detail:'Luna · cresta polar',body:'Moon',longitude:-68.7,latitude:-88.71},
 ] as const;
 export type ReferenceId = typeof references[number]['id'];
 export type Feature = {candidate:number;reference?:number|null;z_delta:number;share:number};
