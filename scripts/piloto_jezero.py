@@ -231,30 +231,77 @@ def diagnostic_spec(plan: dict | None = None) -> dict:
 
 
 def stability(store, spec, profile, reference, ids=None, observations=None, sample_size=None) -> dict:
-    current = deepcopy(spec)
-    current['fit'].pop('covariance_by_view', None)
-    variants = {'r2c_method': (current, True), 'fixed': (spec, True), 'fixed_without_gmm': (spec, False)}
-    report = {name: {} for name in variants} | ({'combined': {}} if observations is not None else {})
-    baseline = {}
-    for seed in [evaluation.SEED, *evaluation.STABILITY_SEEDS]:
-        print(f'Ajuste de estabilidad para semilla {seed}', file=sys.stderr, flush=True)
-        models = [sim.SimilarityEngine(sim.fit_model(store, s, seed=seed, sample_size=sample_size), s)
-                  for s in (current, spec)]
-        for name, (cfg, with_gmm) in variants.items():
-            top = distance_map(scores(models[0 if cfg is current else 1], store, profile, reference, ids, with_gmm))
-            if name == 'fixed_without_gmm':
-                stable_top = top
-            save_stability_rank(name, seed, top, baseline, report)
-        if observations is not None:
-            metric, _ = evaluation.fit_spectral(observations, seed)
-            earth = [r for r in observations if r['body'] == 'Earth' and r['role'] == 'background']
-            distances = metric.score(earth) if metric else np.full(len(earth), np.nan)
-            spectral_scores = {r['region_id']: float(d) for r, d in zip(earth, distances) if np.isfinite(d)}
-            save_stability_rank('combined', seed, evaluation.combine(stable_top, spectral_scores), baseline, report)
-    target = 'combined' if observations is not None else 'fixed_without_gmm'
-    return {'pass': all(v['top100'] >= 80 and v['ranked'] >= 100 for v in report[target].values()),
-            'sample_size': sample_size, 'by_variant': report, 'required_top100_overlap': 80}
+    # Reuse the fitted marginal transformations and GMM across ablations.
+    # Only the escabrosidad covariance differs between the first two variants.
+    from pipelines.etl_eligibility import get_profile
 
+    current = deepcopy(spec)
+    current['views'] = {v: current['views'][v] for v in evaluation.TOP_WEIGHTS}
+    current['fit'].pop('covariance_by_view', None)
+    fcfg = current['fit']
+    options = {name: {} for name in ('r2c_method', 'fixed', 'fixed_without_gmm')}
+    if observations is not None:
+        options['combined'] = {}
+    baseline = {}
+    features = sim.parse_features(current)
+    columns = ', '.join(dict.fromkeys(f.column('Earth') for f in features.values()))
+    where = ' AND '.join('NOT ' + sim._bbox_sql(b['bbox']) for b in fcfg['holdout_basins']) or 'true'
+    size = fcfg['sample_size'] if sample_size is None else sample_size
+    if size < 1:
+        raise ValueError('La muestra de estabilidad debe ser positiva')
+    eligible_status = get_profile(profile).eligible_status
+    with sim.connect(store) as conn:
+        conn.execute(f"""CREATE TEMP TABLE pilot_topography AS
+            SELECT region_id, longitude, latitude, utm_zone_band,
+                   ({eligibility_expression(profile)}) AS scenario_eligibility, {columns}
+            FROM features_unified WHERE body = 'Earth' AND qa_status = 'rankable'""")
+        query = 'SELECT * FROM pilot_topography WHERE scenario_eligibility = ?'
+        params = [eligible_status]
+        if ids is not None:
+            query += ' AND region_id IN (SELECT unnest(?::VARCHAR[]))'
+            params.append(ids)
+        frame = sim._fetch(conn, query + ' ORDER BY region_id', params)
+        candidate_count = len(frame['region_id'])
+        for seed in (evaluation.SEED, *evaluation.STABILITY_SEEDS):
+            print(f'Ajuste de estabilidad para semilla {seed}', file=sys.stderr, flush=True)
+            data = sim._fetch(conn, f"""SELECT {columns} FROM pilot_topography WHERE {where}
+                ORDER BY hash(region_id, {seed}), region_id LIMIT {size}""")
+            values = {fid: sim._float(data[f.column('Earth')]) for fid, f in features.items()}
+            original = sim.build_model(current, values, seed=seed)
+            view = original['views']['escabrosidad']
+            fixed = original
+            if view['fitted'] and view['n_complete'] >= fcfg['min_fit_rows']:
+                z = np.column_stack([original['features'][fid]['transform'].normal(values[fid])
+                                     for fid in view['features']])
+                cfg = fcfg['covariance'] | spec['fit']['covariance_by_view']['escabrosidad']
+                covariance, estimator = sim.robust_covariance(z[np.isfinite(z).all(axis=1)], cfg, seed)
+                new_view = view | {'covariance': covariance, 'covariance_estimator': estimator}
+                fixed = original | {'views': original['views'] | {'escabrosidad': new_view}}
+            base_engine = sim.SimilarityEngine(original, current)
+            fixed_engine = sim.SimilarityEngine(fixed, current)
+            raw, normal = base_engine.candidate_scores(frame)
+            pool = sim.CandidatePool(profile, conn, set(frame), frame, raw, normal,
+                                     np.ones(candidate_count, dtype=bool))
+            for name, engine, with_gmm in (('r2c_method', base_engine, True), ('fixed', fixed_engine, True),
+                                           ('fixed_without_gmm', fixed_engine, False)):
+                ranking = engine.search(store, reference, profile=profile, pool=pool,
+                                        limit=candidate_count if ids is not None else 100,
+                                        weights=evaluation.topo_weights(current, with_gmm))
+                top = distance_map(ranking)
+                save_stability_rank(name, seed, top, baseline, options)
+                if seed != evaluation.SEED:
+                    gmm = [r['views']['regimen_morfologico']['distance'] for r in ranking['results']
+                           if r['views'].get('regimen_morfologico', {}).get('available')]
+                    options[name][str(seed)]['gmm_ties_in_results'] = len(gmm) - len(set(gmm))
+            if observations is not None:
+                metric, _ = evaluation.fit_spectral(observations, seed)
+                earth = [r for r in observations if r['body'] == 'Earth' and r['role'] == 'background']
+                distances = metric.score(earth) if metric else np.full(len(earth), np.nan)
+                spectrum = {r['region_id']: float(d) for r, d in zip(earth, distances) if np.isfinite(d)}
+                save_stability_rank('combined', seed, evaluation.combine(top, spectrum), baseline, options)
+    target = 'combined' if observations is not None else 'fixed_without_gmm'
+    return {'pass': all(v['top100'] >= 80 and v['ranked'] >= 100 for v in options[target].values()),
+            'sample_size': size, 'candidates': candidate_count, 'by_variant': options, 'required_top100_overlap': 80}
 
 def save_stability_rank(name, seed, distances, baseline, report):
     ranked = evaluation.rank(distances)

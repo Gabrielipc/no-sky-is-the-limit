@@ -443,5 +443,231 @@
         "note": "La fracción de afloramientos proviene de SCAR; la elevación de superficie procede de REMA."
       }
     ]
+  },
+  "topography_stability": {
+    "pass": true,
+    "sample_size": 5000,
+    "candidates": 174595,
+    "by_variant": {
+      "r2c_method": {
+        "1": {
+          "top10": 9,
+          "top100": 91,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 71
+        },
+        "2": {
+          "top10": 9,
+          "top100": 85,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "3": {
+          "top10": 9,
+          "top100": 85,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "4": {
+          "top10": 8,
+          "top100": 86,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "5": {
+          "top10": 8,
+          "top100": 87,
+          "ranked": 100,
+          "ties": 1,
+          "gmm_ties_in_results": 92
+        },
+        "6": {
+          "top10": 9,
+          "top100": 86,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "7": {
+          "top10": 8,
+          "top100": 88,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "8": {
+          "top10": 9,
+          "top100": 92,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "9": {
+          "top10": 9,
+          "top100": 85,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 73
+        },
+        "10": {
+          "top10": 9,
+          "top100": 90,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        }
+      },
+      "fixed": {
+        "1": {
+          "top10": 9,
+          "top100": 91,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 71
+        },
+        "2": {
+          "top10": 9,
+          "top100": 88,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "3": {
+          "top10": 9,
+          "top100": 88,
+          "ranked": 100,
+          "ties": 2,
+          "gmm_ties_in_results": 99
+        },
+        "4": {
+          "top10": 8,
+          "top100": 86,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "5": {
+          "top10": 8,
+          "top100": 87,
+          "ranked": 100,
+          "ties": 1,
+          "gmm_ties_in_results": 92
+        },
+        "6": {
+          "top10": 9,
+          "top100": 86,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "7": {
+          "top10": 8,
+          "top100": 88,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "8": {
+          "top10": 9,
+          "top100": 92,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "9": {
+          "top10": 9,
+          "top100": 85,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 73
+        },
+        "10": {
+          "top10": 9,
+          "top100": 90,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        }
+      },
+      "fixed_without_gmm": {
+        "1": {
+          "top10": 9,
+          "top100": 91,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 67
+        },
+        "2": {
+          "top10": 9,
+          "top100": 89,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "3": {
+          "top10": 9,
+          "top100": 89,
+          "ranked": 100,
+          "ties": 1,
+          "gmm_ties_in_results": 99
+        },
+        "4": {
+          "top10": 8,
+          "top100": 87,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "5": {
+          "top10": 8,
+          "top100": 87,
+          "ranked": 100,
+          "ties": 1,
+          "gmm_ties_in_results": 89
+        },
+        "6": {
+          "top10": 9,
+          "top100": 88,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "7": {
+          "top10": 8,
+          "top100": 89,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "8": {
+          "top10": 9,
+          "top100": 93,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        },
+        "9": {
+          "top10": 9,
+          "top100": 88,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 68
+        },
+        "10": {
+          "top10": 9,
+          "top100": 91,
+          "ranked": 100,
+          "ties": 0,
+          "gmm_ties_in_results": 99
+        }
+      }
+    },
+    "required_top100_overlap": 80,
+    "status": "diagnostic",
+    "reference": "jezero"
   }
 }
