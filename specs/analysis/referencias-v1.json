@@ -10,7 +10,7 @@
     "jezero": {
       "kind": "landing_site",
       "status": "measured",
-      "center": {"longitude": 77.45, "latitude": 18.44},
+      "center": {"longitude": 77.41, "latitude": 18.49},
       "sources": ["hirise-dtm-jezero", "hirise-ortho-jezero"],
       "limitations": [
         "Referencia de un solo sector del abanico deltaico de Jezero, medido con el DTM HiRISE (~1 m) agregado a celdas de 30 m.",
