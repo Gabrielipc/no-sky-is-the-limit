@@ -116,5 +116,6 @@ Si se han medido referencias lunares nuevas, añade el paso `luna` delante (`--s
 | Vista `radar` | Sin mediciones terrestres. RCM solo tiene cobertura pública en Canadá | Una fuente con cobertura global, o aceptar una población de fondo sesgada |
 | Antártida | WorldCover no cubre al sur de 60° S: 122 949 ventanas sin cobertura | Otra fuente de cobertura de suelo |
 | Lunar: Tmin, amplitud, rocas, H y S1 | No existen en los polos, o no tienen calibración en dB documentada | Otras fuentes; ver `specs/sources/luna-polar-sur-v1.json` |
-| Reproducibilidad del ajuste | Dos ajustes con la misma semilla dieron un top 100 de Jezero con 27 resultados distintos | Comprobar si el orden de lectura del almacén cambia la muestra de 200 000 ventanas |
+| Reajuste con el código corregido | La muestra de ajuste dependía del orden de lectura y la covarianza de `escabrosidad` salió degenerada en r1b, r2 y r2b. Ya está corregido en el código | Reajustar, publicar una release nueva y comprobar con `scripts/estabilidad_motor.py`. Ver [Reproducibilidad del motor y filtro de clima frío](../01-vigentes/etapa-actual-armonizacion/Reproducibilidad%20del%20motor%20y%20filtro%20de%20clima%20frio.md) |
+| Hemisferio sur en `polar_cold_v1` | Ninguna ventana del sur pasa el filtro: la Antártida no tiene cobertura de suelo y las montañas del sur casi no tienen nieve | Otra fuente de cobertura, o declarar que los análogos de Haworth son del norte |
 | Validación ciega | El motor sigue en `unsupervised_pending_blind_validation` | Ejecutar la cuenca reservada de Mojave |

@@ -37,7 +37,11 @@ Las tres respuestas siguen el contrato [`motor-busqueda-v1`](../../../specs/api/
 
 ## Limitaciones conocidas
 
-- **El ajuste puede no ser reproducible.** Entre r2 y r2b, con el mismo código del motor, el mismo pool, los mismos pesos y la misma semilla, el top 100 de Jezero coincide solo en 73 resultados (5 en el top 10). La causa no está verificada: la hipótesis es que el orden de lectura del almacén cambia la muestra de 200 000 ventanas. Hasta comprobarlo, no se debe asumir que dos ajustes dan el mismo ranking.
+- **Este modelo se ajustó con dos fallos que ya están corregidos en el código** (ver [Reproducibilidad del motor y filtro de clima frío](../../../docs/01-vigentes/etapa-actual-armonizacion/Reproducibilidad%20del%20motor%20y%20filtro%20de%20clima%20frio.md)):
+  - la muestra de ajuste dependía del orden de lectura del almacén, así que dos ajustes con la misma semilla daban muestras distintas (el top 100 de Jezero coincidió solo en 73 resultados entre r2 y r2b);
+  - la covarianza robusta de `escabrosidad` salió degenerada: la variable `slope_240m_gt25_fraction` tiene varianza cero y el motor la descarta en silencio.
+
+  Hay que reajustar y publicar una release nueva para que los rankings de este directorio reflejen la corrección. La corrección no se ha probado todavía sobre el barrido mundial.
 - **De Gerlache queda fuera de su propia compuerta de base:** pendiente P90 de 22,4° frente al umbral inicial de 15° (`excluded_steep`). El ranking de análogos terrestres sí se calcula.
 - **El filtro de clima es burdo.** Un resultado del top 6 de Haworth está en Mongolia (43,9° N, 103,1° E), una zona de montaña de frío continental que cumple el criterio de nieve o permafrost.
 
