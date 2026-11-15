@@ -2,6 +2,22 @@
 
 Fecha: 15 de noviembre de 2026. Estado: **propuesta aprobada en lo esencial (camino B)**; las decisiones abiertas están en la sección 9.
 
+## Estado de implementación (15 de noviembre de 2026)
+
+| Fase | Estado | Detalle |
+|---|---|---|
+| 0. Línea base | Hecha (`47c9ee0`) | [`scripts/benchmark_motor.py`](../../../scripts/benchmark_motor.py) compara el camino SQL con el pool y puede simular 1,5 M filas. |
+| 1. Motor residente | Hecha (`47c9ee0`) | `CandidatePool` y `search(pool=...)`; el test de equivalencia da la misma respuesta que el camino SQL. Con el almacén local: 1,39 s → 0,010 s (solo elegibles) y 1,71 s → 0,26 s (todas). Pool simulado de 1,5 M filas: ~2,1 s. |
+| 2. Espejo de datos | Hecha (`64ffa79`) | Manifiesto de 11 productos (8,3 GB de nivel 1), descarga reanudable con verificación y CLI. El ETL lunar usa la copia local si está completa. Probada en real con THEMIS y la iluminación lunar; el resto del nivel 1 **no se ha descargado**. |
+| 3. Catálogo | Parcial (`a5c2568`) | Metadatos (tipo, limitaciones, fuentes, centro) de las tres referencias actuales. **Faltan los sitios nuevos**: requieren fijar la lista con fuentes oficiales y coordenadas. |
+| 4. API | Hecha (`d47d888`, `442a5af`) | Cuatro rutas, caché, 404/422/503 y contrato [`similitud-api-v1`](../../../specs/api/similitud-api-v1.schema.json) validado contra las respuestas reales. Con el almacén real: ~11 ms (solo elegibles), ~260 ms (188 mil ventanas). |
+| 5. Frontend | **Solo el contrato** (`73570d6`) | El frontend del repositorio está desactualizado respecto al del equipo, así que se entregan tipos, cliente y pruebas contra los esquemas, y una vista de ejemplo desacoplada en [`docs/contratos/ejemplo-frontend-similitud`](../../contratos/ejemplo-frontend-similitud/README.md). No se tocó el shell ni el estado de la aplicación. |
+| 6. Rendimiento y operación | Parcial | Benchmark simulado a 1,5 M filas; **pendiente** medir con el almacén real de la nube. |
+| 7. Documentación | Hecha (`73570d6`) | Guías de backend y frontend y README de contratos actualizados. |
+| 8. Ventanas arbitrarias | No iniciada | Sigue fuera de alcance. |
+
+**Nube.** Los trabajos `scripts/etl_referencias.py luna|marte` y `cloud/unir-almacen-azure-gcs.sh` están listos para correr un trabajo por nube y unir en GCS, pero **no se lanzó ninguna VM**: las VM clonan el repositorio desde GitHub, así que antes hay que publicar la rama, y la medición de DTM de sitios nuevos de Marte no existe hasta fijar los sitios. El trabajo `marte` solo espeja hoy.
+
 ## 1. Objetivo y alcance
 
 Permitir que el frontend envíe una petición con una **referencia lunar o marciana** y reciba, en menos de 20 s (objetivo real: menos de 1 s para referencias del catálogo), las ventanas terrestres más parecidas, con la explicación por vista y por feature que ya produce el motor ([`pipelines/similarity_ml.py`](../../../pipelines/similarity_ml.py)).
