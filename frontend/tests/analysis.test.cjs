@@ -328,3 +328,16 @@ test('automatic marker framing accounts for nearby points, narrow panels and the
  const polar = {longitude: -5, latitude: -87.45};
  assert.ok(Number.isFinite(unified.markerCameraRange(polar, [{longitude: -68.7, latitude: -88.71}], 1737400, 1)));
 });
+
+test('country lookup handles real locations, ocean, islands, and polygon holes', () => {
+  const { countryAt } = load('src/domain/countries.ts');
+  const countries = JSON.parse(fs.readFileSync(path.join(base, 'public/geography/countries.json'), 'utf8'));
+  assert.equal(countryAt(countries, 12.14, -86.25), 'Nicaragua');
+  assert.equal(countryAt(countries, -10.48, 150.08), 'Papúa Nueva Guinea');
+  assert.equal(countryAt(countries, 0, -140), undefined);
+  const withHole = [{ name: 'Example', geometry: { type: 'Polygon', coordinates: [
+    [[0,0],[10,0],[10,10],[0,10],[0,0]], [[2,2],[8,2],[8,8],[2,8],[2,2]]
+  ] } }];
+  assert.equal(countryAt(withHole, 1, 1), 'Example');
+  assert.equal(countryAt(withHole, 5, 5), undefined);
+});

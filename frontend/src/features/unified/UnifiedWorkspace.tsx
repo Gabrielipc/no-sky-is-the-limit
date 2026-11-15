@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import { countryAt } from "../../domain/countries";
+import { loadCountries } from "../../data/countries";
 import type { AtlasState } from "../../app/useAtlasState";
 import {
   references,
@@ -73,6 +75,10 @@ export function UnifiedWorkspace({
     data = loaded?.data,
     row = selectedMatch(data, state.regionId),
     rows = data?.results ?? EMPTY;
+  const [countries, setCountries] = useState<Awaited<ReturnType<typeof loadCountries>>>([]);
+  useEffect(() => { loadCountries().then(setCountries).catch(() => {}); }, []);
+  const countryNames = useMemo(() => new Map(rows.map(r => [r.region_id, countryAt(countries, r.latitude, r.longitude)])), [countries, rows]);
+  const country = row ? countryNames.get(row.region_id) : undefined;
   // --- scenes
   const [overview, setOverview] = useState(false),
     catalog = useCatalog(),
@@ -211,7 +217,7 @@ export function UnifiedWorkspace({
             </span>
             <span>
               <i className="u-dot u-Earth" />
-              {row ? earthName : "Tierra"}
+              {row ? earthName : "Tierra"}{country && ` · ${country}`}
               <small>
                 {row
                   ? science
@@ -286,7 +292,7 @@ export function UnifiedWorkspace({
             {science ? (
               <ScienceInspector refInfo={ref} row={row} loaded={loaded} search={search} leftSite={leftSite} rightSite={rightSite} />
             ) : (
-              <SimpleInspector refInfo={ref} row={row} loaded={loaded} search={search} />
+              <SimpleInspector refInfo={ref} row={row} loaded={loaded} search={search} country={country} />
             )}
           </aside>
         </div>
@@ -310,8 +316,8 @@ export function UnifiedWorkspace({
                   {science ? (
                     <>
                       <span>
-                        {location(r)}
-                        <small>{eligibility(r.scenario_eligibility)}</small>
+                        {countryNames.get(r.region_id) || location(r)}
+                        <small>{countryNames.get(r.region_id) ? `${location(r)} · ` : ''}{eligibility(r.scenario_eligibility)}</small>
                       </span>
                       <strong>
                         {distance(r.score)}
@@ -320,7 +326,7 @@ export function UnifiedWorkspace({
                     </>
                   ) : (
                     <>
-                      <span>{placeLabel(r.latitude, r.longitude)}</span>
+                      <span>{countryNames.get(r.region_id) || placeLabel(r.latitude, r.longitude)}{countryNames.get(r.region_id) && <small>{placeLabel(r.latitude, r.longitude)}</small>}</span>
                       <strong>
                         {pct(similarity(r.score))}
                         <small>parecido</small>
@@ -339,6 +345,7 @@ export function UnifiedWorkspace({
                   : "La búsqueda no encontró lugares con estos parámetros."}
             </p>
           )}
+          {countries.length > 0 && <small>Países: límites aproximados de <a href="https://www.naturalearthdata.com/" target="_blank" rel="noreferrer">Natural Earth</a>.</small>}
         </section>
       </div>
     </section>
@@ -363,11 +370,13 @@ function SimpleInspector({
   row,
   loaded,
   search,
+  country,
 }: {
   refInfo: Reference;
   row?: Match;
   loaded?: LoadedSearch;
   search: EngineSearch;
+  country?: string;
 }) {
   return (
     <>
@@ -378,7 +387,7 @@ function SimpleInspector({
       <SearchState search={search} simple />
       {row && (
         <div key={`${refInfo.id}/${row.region_id}`} className="u-comparison" aria-live="polite">
-          <p className="u-place">{placeLabel(row.latitude, row.longitude)}</p>
+          <p className="u-place">{country && `${country} · `}{placeLabel(row.latitude, row.longitude)}</p>
           <div className="u-similarity">
             <strong>{pct(similarity(row.score))}</strong>
             <span>de parecido en la forma del terreno</span>
