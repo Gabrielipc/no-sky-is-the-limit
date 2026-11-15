@@ -97,7 +97,7 @@ export function LandingPage({ onStart }: { onStart: () => void }) {
         <div className="rl-nav-inner">
           <a href="#inicio" className="rl-logo-link" aria-label={t('Regolith, inicio', 'Regolith, home')}>
             <img
-              src={`${import.meta.env.BASE_URL}regolith-lockup-noche.png`}
+              src={`${import.meta.env.BASE_URL}assets/logos/regolith-lockup-noche-600px.png`}
               alt="Regolith"
               className="rl-official-logo"
             />
@@ -332,7 +332,7 @@ export function LandingPage({ onStart }: { onStart: () => void }) {
           <div className="rl-container rl-footer-row">
             <div className="rl-footer-brand">
               <img
-                src={`${import.meta.env.BASE_URL}regolith-lockup-noche.png`}
+                src={`${import.meta.env.BASE_URL}assets/logos/regolith-lockup-noche-600px.png`}
                 alt="Regolith"
                 className="rl-footer-logo"
               />

@@ -54,13 +54,41 @@ app.include_router(similarity.router)
 
 FRONTEND_DIST = Path(__file__).resolve().parents[2] / 'frontend' / 'dist'
 if (FRONTEND_DIST / 'index.html').is_file():
-    for directory in ('assets', 'analysis', 'regions', 'textures', 'cesium', 'surface'):
+    for directory in (
+        'assets',
+        'analysis',
+        'brand',
+        'cesium',
+        'geography',
+        'regions',
+        'simulation',
+        'surface',
+        'textures',
+    ):
         static_directory = FRONTEND_DIST / directory
         if static_directory.is_dir():
             app.mount(
                 f'/{directory}',
                 StaticFiles(directory=static_directory),
                 name=f'frontend-{directory}',
+            )
+
+    for filename in (
+        'regolith-lockup-noche.png',
+        'regolith-lockup-noche-1200.png',
+        'regolith-icon.png',
+        'regolith-mark-noche.png',
+    ):
+        static_file = FRONTEND_DIST / filename
+        if static_file.is_file():
+            def _serve_root_asset(file_path: Path = static_file):
+                return FileResponse(file_path)
+
+            app.add_api_route(
+                f'/{filename}',
+                _serve_root_asset,
+                methods=['GET'],
+                include_in_schema=False,
             )
 
     @app.get('/', include_in_schema=False)
