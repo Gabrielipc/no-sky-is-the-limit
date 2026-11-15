@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { UnifiedWorkspace } from "../features/unified/UnifiedWorkspace";
 import { useAtlasState } from "./useAtlasState";
 import { CompareWorkspace } from "../features/compare/CompareWorkspace";
@@ -16,7 +16,12 @@ import { useSimulation } from "../features/simulation/useSimulation";
 import { location, references } from "../features/simulation/model";
 import { AtlasReview } from "../features/simulation/AtlasReview";
 import "../features/simulation/simulation.css";
-import { LandingPage } from "../features/landing/LandingPage";
+import { loadCesium } from "../data/loadCesium";
+// Cesium is a global script in production: the landing loads it before importing its globe.
+const LandingPage = lazy(async () => {
+  await loadCesium();
+  return import("../features/landing/LandingPage").then((m) => ({ default: m.LandingPage }));
+});
 
 export function AtlasShell() {
   const { state, update, adjusted, dismissAdjustment } = useAtlasState();
@@ -44,6 +49,13 @@ export function AtlasShell() {
   const selected = resource.loaded?.data.results.find(
     (r) => r.region_id === state.regionId,
   );
+  const tools = [
+    { view: "world", method: "atlas", label: "Atlas global a 30 m" },
+    { view: "compare", method: "local", label: "Controles locales" },
+    { view: "sensitivity", method: "local", label: "Sensibilidad de resolución" },
+    { view: "dimensions", method: "local", label: "Dimensiones de Jezero" },
+    { view: "explore", method: "local", label: "Muestreo regional" },
+  ] as const;
   const masthead = (
     <header className="regolith-header">
       <a
@@ -52,7 +64,7 @@ export function AtlasShell() {
         aria-label="Regolith, inicio"
         onClick={(e) => {
           e.preventDefault();
-          update({ view: "unified", method: "engine" });
+          update({ view: "landing" });
         }}
       >
         <img
@@ -65,62 +77,56 @@ export function AtlasShell() {
           aria-current={state.view === "unified" ? "page" : undefined}
           onClick={() => update({ view: "unified", method: "engine" })}
         >
-          Explorar y comparar
+          Explorar
         </button>
-        <details className="regolith-tools">
-          <summary>Otros análisis</summary>
-          <div>
-            {(
-              [
-                {
-                  view: "world",
-                  method: "atlas",
-                  label: "Atlas global a 30 m",
-                },
-                {
-                  view: "compare",
-                  method: "local",
-                  label: "Controles locales",
-                },
-                {
-                  view: "sensitivity",
-                  method: "local",
-                  label: "Sensibilidad de resolución",
-                },
-                {
-                  view: "dimensions",
-                  method: "local",
-                  label: "Dimensiones de Jezero",
-                },
-                {
-                  view: "explore",
-                  method: "local",
-                  label: "Muestreo regional",
-                },
-              ] as const
-            ).map((t) => (
-              <button
-                key={t.view}
-                onClick={(e) => {
-                  e.currentTarget.closest("details")?.removeAttribute("open");
-                  update({
-                    view: t.view,
-                    method: t.method,
-                    reference: "jezero",
-                  });
-                }}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
-        </details>
+        {state.science && (
+          <details className="regolith-tools">
+            <summary>Otros análisis</summary>
+            <div>
+              {tools.map((t) => (
+                <button
+                  key={t.view}
+                  aria-current={state.view === t.view ? "page" : undefined}
+                  onClick={(e) => {
+                    e.currentTarget.closest("details")?.removeAttribute("open");
+                    update({ view: t.view, method: t.method, reference: "jezero" });
+                  }}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          </details>
+        )}
       </nav>
-      <span className="regolith-descriptor">NO SKY IS THE LIMIT</span>
+      <label className="regolith-mode">
+        <span>
+          Modo científico
+          <small>{state.science ? "Datos completos y pesos" : "Vista sencilla"}</small>
+        </span>
+        <input
+          type="checkbox"
+          role="switch"
+          checked={state.science}
+          aria-checked={state.science}
+          onChange={(e) =>
+            update(
+              e.target.checked
+                ? { science: true }
+                : { science: false, view: "unified", method: "engine", exaggeration: 1, visualLayer: "elevation" },
+            )
+          }
+        />
+        <i aria-hidden="true" />
+      </label>
     </header>
   );
   if (state.view === "landing")
-    return <LandingPage onStart={() => update({ view: "unified", method: "engine" })} />;
+    return (
+      <Suspense fallback={<div className="landing-loading" role="status">Cargando Regolith…</div>}>
+        <LandingPage onStart={() => update({ view: "unified", method: "engine" })} />
+      </Suspense>
+    );
   if (state.view === "unified")
     return (
       <>
@@ -135,13 +141,11 @@ export function AtlasShell() {
               <button onClick={dismissAdjustment}>Entendido</button>
             </div>
           )}
-          <UnifiedWorkspace state={state} update={update} resource={resource} />
+          <UnifiedWorkspace state={state} update={update} />
         </main>
         <footer className="regolith-footer">
-          <span>REGOLITH · EXPLORACIÓN CON CONTEXTO</span>
-          <span>
-            Datos medidos · límites visibles · resultados exploratorios
-          </span>
+          <span>REGOLITH · NO SKY IS THE LIMIT</span>
+          <span>Resultados experimentales basados en datos de NASA</span>
         </footer>
       </>
     );

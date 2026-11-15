@@ -14,7 +14,7 @@ export type SearchResponse = {
   weights_requested:Record<string,number>;weights_effective:Record<string,number>;views:Record<string,ViewReport>;
   warnings:string[];results:Match[];candidates_in_pool:number;candidates_ranked:number;only_eligible:boolean;fusion:string;profile:string;
 };
-export type LoadedSearch = {data:SearchResponse;source:'published'|'demo';notice:string;version?:string};
+export type LoadedSearch = {data:SearchResponse;source:'published'|'demo'|'live';notice:string;version?:string;queryId?:string;timings?:{engine_ms:number;total_ms:number;cache_hit:boolean}};
 export const viewNames:Record<string,string> = {escabrosidad:'Escabrosidad',forma_hipsometrica:'Forma del relieve',organizacion:'Organización del terreno',regimen_morfologico:'Familia morfológica',espectral:'Composición espectral',termica:'Propiedades térmicas',radar:'Radar',entorno_superficial:'Entorno superficial',emisividad_cmg:'Emisividad'};
 export const features:Record<string,{label:string;unit:string}> = {
   relief_p95_p05_m:{label:'Relieve p95–p5',unit:'m'},slope_240m_p50_deg:{label:'Pendiente mediana · base 240 m',unit:'°'},
