@@ -10,7 +10,7 @@ export function useSimulation(state:AtlasState) {
   useEffect(()=>{
     if(!enabled)return;
     const controller=new AbortController();
-    loadSearch(state.reference,state.release,state.engineSource,import.meta.env.BASE_URL,controller.signal)
+    loadSearch(state.reference,state.release,state.engineSource,`${import.meta.env.BASE_URL}analysis/`,controller.signal)
       .then(value=>{if(!controller.signal.aborted)setResult({key,attempt,value});})
       .catch(e=>{if(!controller.signal.aborted)setResult({key,attempt,error:e.message});});
     return ()=>controller.abort();

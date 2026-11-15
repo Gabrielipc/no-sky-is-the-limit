@@ -1,0 +1,61 @@
+{
+  "source": "docs/evidencia-fase-2/procesamiento.json",
+  "source_sha256": "1a1c4e7cbd83c631de2e7d95a00d79c26d5fb22faafa59fa2b5c2294e56f53c9",
+  "sites": {
+    "mars-jezero-fan": {
+      "product_id": "DTEEC_002387_1985_003798_1985_A01",
+      "version": "1.0",
+      "vertical_reference": "Mars 2000 equipotential surface, label",
+      "observation_dates": [
+        "2007-01-29",
+        "2007-05-19"
+      ],
+      "url": "https://www.uahirise.org/PDS/DTM/PSP/ORB_002300_002399/PSP_002387_1985_PSP_003798_1985/DTEEC_002387_1985_003798_1985_A01.IMG",
+      "limitations": [
+        "DTM estéreo, resolución efectiva y precisión local no cuantificadas",
+        "Posibles interpolaciones, facetas y costuras",
+        "La escala de imagen no es la escala del DTM"
+      ],
+      "native_step_at_center_m": [
+        0.9913065997631977,
+        1.009647646747531
+      ]
+    },
+    "earth-utah": {
+      "product_id": "N38W111.tif",
+      "version": "SRTM GL1 v3 según distribuidor; versión de esta copia no inscrita en TIFF",
+      "vertical_reference": "Metros EGM96 según documentación SRTM; asignación por procedencia, sin transformación vertical",
+      "observation_dates": [
+        "2000-02-11/2000-02-22; fechas de rellenos desconocidas"
+      ],
+      "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/N38W111.tif",
+      "limitations": [
+        "Modelo radar de superficie; vegetación y estructuras no descartadas",
+        "Máscara de rellenos y precisión local no disponibles",
+        "No es un sitio de ensayo de rover validado"
+      ],
+      "native_step_at_center_m": [
+        24.197784916673335,
+        30.83551750303764
+      ]
+    },
+    "earth-atacama": {
+      "product_id": "S24W068.tif",
+      "version": "SRTM GL1 v3 según distribuidor; versión de esta copia no inscrita en TIFF",
+      "vertical_reference": "Metros EGM96 según documentación SRTM; asignación por procedencia, sin transformación vertical",
+      "observation_dates": [
+        "2000-02-11/2000-02-22; fechas de rellenos desconocidas"
+      ],
+      "url": "https://opentopography.s3.sdsc.edu/raster/SRTM_GL1/SRTM_GL1_srtm/S24W068.tif",
+      "limitations": [
+        "Modelo radar de superficie, posibles rellenos",
+        "El polígono no se identificó con una huella ARADS",
+        "Precisión local no cuantificada"
+      ],
+      "native_step_at_center_m": [
+        28.307891196302535,
+        30.765371661201833
+      ]
+    }
+  }
+}

@@ -52,6 +52,7 @@ export function parseState(search: string): { state: AtlasState; adjusted: boole
     if (raw !== null) { if (/^(?:utah|mojave|atacama)-\d{3}-\d{3}$|^control-(?:utah|mojave|atacama)$|^$/.test(raw)) state[key] = raw; else adjusted = true; }
   }
   if (!q.has('method') && ['compare','dimensions','sensitivity','explore'].includes(state.view)) state.method='local';
+  if (!q.has('explorePanel') && state.view==='surface' && state.surfaceSite!=='mars-jezero-fan') {state.explorePanel='controls';state.method='local';state.site=state.surfaceSite;}
   if (state.view==='world')state.method='atlas';
   if (state.regionalSite && !state.regionalSite.startsWith(state.area + '-') && state.regionalSite !== `control-${state.area}`) { state.regionalSite = ''; adjusted = true; }
   return { state, adjusted };

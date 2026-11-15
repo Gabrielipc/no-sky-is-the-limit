@@ -187,3 +187,44 @@ test('metric rulers fit their viewport and profile uses exactly the mesh centre 
   assert.deepEqual(Array.from(row,r=>r.distance),[0,30,60]);assert.equal(row[0].height,10);assert.ok(Number.isNaN(row[1].height));
   assert.deepEqual(Array.from(surface.elevationColor(0,0,100)),[28,91,112]);assert.deepEqual(Array.from(surface.elevationColor(100,0,100)),[255,249,229]);
 });
+
+test('service outage still opens evidence, while HTTP authorization errors stay explicit',async t=>{
+  let count=0;t.mock.method(globalThis,'fetch',async()=>++count===1?{ok:false,status:502}:{ok:true,json:async()=>example});
+  const result=await motorSource.loadSearch('jezero','','auto','/',new AbortController().signal);
+  assert.equal(result.source,'demo');assert.match(result.notice,/no está disponible/);
+  t.mock.method(globalThis,'fetch',async()=>({ok:false,status:401}));
+  await assert.rejects(motorSource.loadSearch('jezero','','auto','/',new AbortController().signal),/401/);
+});
+test('tiny nonzero motor distances remain distinct from exact zero',()=>{
+  assert.notEqual(motor.distance(1e-8),motor.distance(0));
+  assert.equal(motor.number(null),'Sin datos');
+});
+test('packaged CTX preview keeps the exact tile footprint and image identity',()=>{
+  const crypto=require('node:crypto');
+  const m=JSON.parse(fs.readFileSync(path.resolve(base,'public/surface/regional-preview.json'),'utf8'));
+  const bytes=fs.readFileSync(path.resolve(base,'public/surface',m.file));
+  assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),m.sha256);
+  assert.equal(bytes.readUInt32BE(16),m.width);assert.equal(bytes.readUInt32BE(20),m.height);
+  const tiles=m.sources.map(s=>s.url.split('/').slice(-3).map(Number));
+  assert.equal(new Set(m.sources.map(s=>s.url)).size,9);
+  assert.deepEqual(m.rectangle_degrees,[-180+Math.min(...tiles.map(t=>t[2]))*180/256,90-(Math.max(...tiles.map(t=>t[1]))+1)*180/256,-180+(Math.max(...tiles.map(t=>t[2]))+1)*180/256,90-Math.min(...tiles.map(t=>t[1]))*180/256]);
+  assert.ok(m.rectangle_degrees[0]<77.41&&m.rectangle_degrees[2]>77.41&&m.rectangle_degrees[1]<18.49&&m.rectangle_degrees[3]>18.49);
+});
+test('explicitly absent reference values are not replaced by a raw value from another comparison domain',()=>{
+  const row={...example.results[0],views:{termica:{distance:null,available:false,weight:0,features:{relief_p95_p05_m:{candidate:5,reference:null,z_delta:0,share:0}}}}};
+  assert.equal(motor.featureRows(example,row)[0].reference,null);
+});
+test('environment context keeps measured zero distinct from pending, null and out-of-coverage values',()=>{
+  assert.equal(motor.contextValue(0,'measured','mm/año'),'0 mm/año');
+  assert.equal(motor.contextValue(null,'measured','mm/año'),'Sin dato publicado');
+  assert.equal(motor.contextValue(1,'on_demand_fetchable','fracción'),'Pendiente de procesar');
+  assert.equal(motor.contextValue(null,'unobserved_by_product','fracción'),'Fuera de la cobertura del producto');
+});
+test('malformed successful service responses and cancelled queries never fall back to a different dataset',async t=>{
+  let calls=0;t.mock.method(globalThis,'fetch',async()=>{calls++;return {ok:true,json:async()=>{throw new TypeError('Malformed response');}};});
+  await assert.rejects(motorSource.loadSearch('jezero','','auto','/',new AbortController().signal),/Malformed response/);
+  assert.equal(calls,1);
+  const controller=new AbortController();controller.abort();
+  t.mock.method(globalThis,'fetch',async()=>{throw new Error('cancelled');});
+  await assert.rejects(motorSource.loadSearch('jezero','','auto','/',controller.signal),/cancelled/);
+});

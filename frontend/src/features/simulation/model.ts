@@ -23,7 +23,7 @@ export const features:Record<string,{label:string;unit:string}> = {
 };
 export const number = (n:number|null|undefined,digits=3) => n==null||!Number.isFinite(n)?'Sin datos':n.toLocaleString('es',{maximumFractionDigits:digits});
 export const pct = (n:number|null|undefined) => n==null?'Sin datos':`${number(n*100,1)} %`;
-export const distance = (n:number|null|undefined) => n==null?'Sin datos':n.toLocaleString('es',{maximumFractionDigits:6});
+export const distance = (n:number|null|undefined) => n==null?'Sin datos':n!==0&&Math.abs(n)<0.000001?n.toExponential(2).replace('.',','):n.toLocaleString('es',{maximumFractionDigits:6});
 export const signed = (n:number|null|undefined) => n==null?'Sin datos':`${n>0?'+':''}${number(n,4)}`;
 export const location = (r:{latitude:number;longitude:number})=>`${number(r.latitude,3)}°, ${number(r.longitude,3)}°`;
 export const eligibility = (status:string) => ({excluded_permanent_water:'Excluida: agua permanente',excluded_dense_canopy:'Excluida: vegetación densa',pending_on_demand_cover_check:'Cobertura pendiente de comprobar',eligible_arid_exposed:'Cumple el filtro árido'}[status] || status || 'Elegibilidad sin información');
@@ -38,12 +38,17 @@ export function adaptSearch(raw:unknown):SearchResponse {
   const d=raw as SearchResponse;
   if(!d||d.engine_id!=='motor-similitud-ml-v1'||!d.reference?.id||!Array.isArray(d.results)||!d.views||!d.weights_requested||!d.weights_effective||!Array.isArray(d.warnings))throw new Error('La respuesta no corresponde al contrato del motor de similitud.');
   for(const r of d.results) {
-    if(!r.region_id||!Number.isFinite(r.longitude)||Math.abs(r.longitude)>180||!Number.isFinite(r.latitude)||Math.abs(r.latitude)>90||![r.score,r.score_low,r.score_high,r.coverage].every(n=>Number.isFinite(n)&&n>=0&&n<=1)||r.score_low>r.score_high||!r.views||!Array.isArray(r.missing_views))throw new Error('El motor devolvió una candidata con datos inválidos.');
+    if(!r||!Number.isInteger(r.rank)||r.rank<1||!r.region_id||!Number.isFinite(r.longitude)||Math.abs(r.longitude)>180||!Number.isFinite(r.latitude)||Math.abs(r.latitude)>90||![r.score,r.score_low,r.score_high,r.coverage].every(n=>Number.isFinite(n)&&n>=0&&n<=1)||r.score_low>r.score_high||!r.views||!Array.isArray(r.missing_views))throw new Error('El motor devolvió una candidata con datos inválidos.');
   }
   return {...d,views:Object.fromEntries(Object.entries(d.views).map(([id,v])=>[id,{...v,coverage_fraction:v.coverage_fraction ?? (d.candidates_in_pool>0&&v.candidates_with_view!=null ? v.candidates_with_view/d.candidates_in_pool:undefined)}]))};
 }
 /** Only the matching ID can carry over: never silently replace a selected window. */
 export function selectedMatch(data:SearchResponse|undefined,id:string) {return id?data?.results.find(r=>r.region_id===id):data?.results[0];}
 export function featureRows(data:SearchResponse,row:Match) {
-  return Object.entries(row.views).flatMap(([view,v])=>Object.entries(v.features||{}).map(([id,f])=>({view,id,...f,reference:f.reference ?? data.reference.features[id]?.value ?? null})));
+  return Object.entries(row.views).flatMap(([view,v])=>Object.entries(v.features||{}).map(([id,f])=>({view,id,...f,reference:f.reference === undefined ? data.reference.features[id]?.value ?? null : f.reference})));
+}
+
+export function contextValue(value:unknown,status:unknown,unit:string) {
+  if(status==='measured'&&typeof value==='number'&&Number.isFinite(value))return unit==='fracción'?pct(value):`${number(value)} ${unit}`;
+  return ({insufficient_coverage:'Sin dato válido en esta zona',unobserved_by_product:'Fuera de la cobertura del producto',on_demand_fetchable:'Pendiente de procesar'}[String(status)] || 'Sin dato publicado');
 }

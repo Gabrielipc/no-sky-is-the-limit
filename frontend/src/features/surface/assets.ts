@@ -1,4 +1,4 @@
-export const asset = (file: string) => `${import.meta.env.BASE_URL}surface/${file}`;
+export const asset = (file: string) => `${import.meta.env.BASE_URL}analysis/surface/${file}`;
 
 /** Decode as data, without color conversion or premultiplied alpha. */
 export async function pixels(url: string, signal: AbortSignal, width: number, height: number) {

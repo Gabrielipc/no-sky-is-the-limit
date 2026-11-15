@@ -4,22 +4,24 @@ const demoFiles:Partial<Record<ReferenceId,string>>={'jezero':'jezero.json','haw
 export async function loadSearch(reference:ReferenceId,version:string,source:'auto'|'demo',base:string,signal:AbortSignal):Promise<LoadedSearch> {
   let notice='Demostración seleccionada: resultados precalculados del repositorio.';
   if(source==='auto') {
+    let response:Response|undefined;
+    const query=version?`?version=${encodeURIComponent(version)}`:'';
     try {
-      const query=version?`?version=${encodeURIComponent(version)}`:'';
-      const response=await fetch(`/api/atlas/similarity/${encodeURIComponent(reference)}${query}`,{signal});
+      response=await fetch(`/api/atlas/similarity/${encodeURIComponent(reference)}${query}`,{signal});
+    } catch(error) {
+      if(signal.aborted)throw error;
+      notice='No hay conexión con el servicio de similitud. Se muestra la demostración del repositorio.';
+    }
+    if(response) {
+      // Parse/identity failures remain errors. Only transport/unavailability allows the explicit demo.
       if(response.ok) {
         const data=adaptSearch(await response.json());
         if(data.reference.id!==reference)throw new Error('La respuesta pertenece a otra referencia.');
         if(version&&data.version!==version)throw new Error('La respuesta no confirma la publicación solicitada.');
         return {data,source:'published',notice:'Resultados publicados por la API del atlas.',version:data.version||version||undefined};
       }
-      if(![404,503].includes(response.status))throw new Error(`El servicio respondió con estado ${response.status}.`);
+      if(response.status!==404 && response.status<500)throw new Error(`El servicio respondió con estado ${response.status}.`);
       notice=response.status===404?'El servicio no ofrece resultados para esta referencia. Se muestra la demostración del repositorio.':'El servicio de similitud no está disponible. Se muestra la demostración del repositorio.';
-    } catch(error) {
-      if(signal.aborted)throw error;
-      // Invalid scientific responses must remain errors instead of silently substituting demo data.
-      if(error instanceof Error && !(error instanceof TypeError))throw error;
-      notice='No hay conexión con el servicio de similitud. Se muestra la demostración del repositorio.';
     }
   }
   const file=demoFiles[reference];
