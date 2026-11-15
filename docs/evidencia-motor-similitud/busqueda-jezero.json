@@ -1,0 +1,699 @@
+{
+  "engine_id": "motor-similitud-ml-v1",
+  "model_fitted_at": "2026-11-14T23:06:08+00:00",
+  "status": "unsupervised_pending_blind_validation",
+  "reference": {
+    "id": "jezero",
+    "name": "Jezero — abanico sedimentario (HiRISE, 3 km centrado)",
+    "body": "Mars",
+    "region_id": null,
+    "features": {
+      "relief_p95_p05_m": {
+        "value": 120.27283167455244,
+        "earth_percentile": 0.7618255578259646,
+        "outside_earth_range": false
+      },
+      "slope_240m_p50_deg": {
+        "value": 3.0744021305133282,
+        "earth_percentile": 0.6969048327800609,
+        "outside_earth_range": false
+      },
+      "slope_240m_p90_deg": {
+        "value": 9.239335472760809,
+        "earth_percentile": 0.7382516797610092,
+        "outside_earth_range": false
+      },
+      "roughness_360m_p50_m": {
+        "value": 7.570537569757946,
+        "earth_percentile": 0.7365678840754354,
+        "outside_earth_range": false
+      }
+    }
+  },
+  "weights_requested": {
+    "escabrosidad": 0.35,
+    "forma_hipsometrica": 0.25,
+    "organizacion": 0.1,
+    "espectral": 0.1,
+    "termica": 0.05,
+    "radar": 0.0,
+    "regimen_morfologico": 0.15
+  },
+  "weights_effective": {
+    "escabrosidad": 0.7,
+    "regimen_morfologico": 0.3
+  },
+  "missing_policy": "neutral",
+  "fusion": "weighted",
+  "profile": "arid_mars_surface_v2",
+  "only_eligible": false,
+  "candidates_in_pool": 1453571,
+  "candidates_ranked": 1453571,
+  "views": {
+    "escabrosidad": {
+      "weight": 0.35,
+      "kind": "metric",
+      "status": "used",
+      "features": [
+        "relief_p95_p05_m",
+        "slope_240m_p50_deg",
+        "slope_240m_p90_deg",
+        "roughness_360m_p50_m"
+      ],
+      "reference_features": [
+        "relief_p95_p05_m",
+        "slope_240m_p50_deg",
+        "slope_240m_p90_deg",
+        "roughness_360m_p50_m"
+      ],
+      "candidates_with_view": 1453571
+    },
+    "forma_hipsometrica": {
+      "weight": 0.25,
+      "kind": "metric",
+      "status": "not_fitted",
+      "reason": "no_fitted_features"
+    },
+    "organizacion": {
+      "weight": 0.1,
+      "kind": "metric",
+      "status": "not_fitted",
+      "reason": "no_fitted_features"
+    },
+    "espectral": {
+      "weight": 0.1,
+      "kind": "metric",
+      "status": "not_fitted",
+      "reason": "no_fitted_features"
+    },
+    "termica": {
+      "weight": 0.05,
+      "kind": "metric",
+      "status": "not_fitted",
+      "reason": "no_fitted_features"
+    },
+    "radar": {
+      "weight": 0.0,
+      "kind": "metric",
+      "status": "not_fitted",
+      "reason": "no_fitted_features"
+    },
+    "regimen_morfologico": {
+      "weight": 0.15,
+      "kind": "gmm",
+      "reference_posterior": [
+        0.0774,
+        0.0285,
+        0.0012,
+        0.1621,
+        0.0,
+        0.0,
+        0.5703,
+        0.1605
+      ],
+      "reference_component": 6,
+      "status": "used",
+      "features": [
+        "relief_p95_p05_m",
+        "slope_240m_p50_deg",
+        "slope_240m_p90_deg",
+        "roughness_360m_p50_m"
+      ],
+      "reference_features": [
+        "relief_p95_p05_m",
+        "slope_240m_p50_deg",
+        "slope_240m_p90_deg",
+        "roughness_360m_p50_m"
+      ],
+      "candidates_with_view": 1453571
+    }
+  },
+  "warnings": [
+    "Vista forma_hipsometrica con peso 0.25 excluida: not_fitted",
+    "Vista organizacion con peso 0.1 excluida: not_fitted",
+    "Vista espectral con peso 0.1 excluida: not_fitted",
+    "Vista termica con peso 0.05 excluida: not_fitted"
+  ],
+  "results": [
+    {
+      "rank": 1,
+      "region_id": "utm-ups-v1-10000-32756-884-18",
+      "longitude": 150.07696889494233,
+      "latitude": -10.48027605435178,
+      "utm_zone_band": "S09",
+      "scenario_eligibility": "excluded_permanent_water",
+      "score": 5.9e-05,
+      "score_low": 5.9e-05,
+      "score_high": 5.9e-05,
+      "rrf_score": 0.01464026,
+      "coverage": 1.0,
+      "missing_views": [],
+      "views": {
+        "escabrosidad": {
+          "distance": 5e-06,
+          "weight": 0.7,
+          "available": true,
+          "pool_percentile": 8e-06,
+          "features": {
+            "relief_p95_p05_m": {
+              "candidate": 113.033272,
+              "reference": 120.27283167455244,
+              "z_delta": -0.0301,
+              "share": 0.9574
+            },
+            "slope_240m_p50_deg": {
+              "candidate": 3.042856,
+              "reference": 3.0744021305133282,
+              "z_delta": -0.0057,
+              "share": -0.0144
+            },
+            "slope_240m_p90_deg": {
+              "candidate": 9.230339,
+              "reference": 9.239335472760809,
+              "z_delta": -0.0004,
+              "share": -0.0063
+            },
+            "roughness_360m_p50_m": {
+              "candidate": 7.633064,
+              "reference": 7.570537569757946,
+              "z_delta": 0.0045,
+              "share": 0.0633
+            }
+          }
+        },
+        "regimen_morfologico": {
+          "distance": 0.000186,
+          "weight": 0.3,
+          "available": true,
+          "pool_percentile": 1e-06,
+          "component": 6,
+          "posterior": 0.5817
+        }
+      }
+    },
+    {
+      "rank": 2,
+      "region_id": "utm-ups-v1-10000-32616-533-28",
+      "longitude": -89.95425024056038,
+      "latitude": 48.085269477335295,
+      "utm_zone_band": "N02",
+      "scenario_eligibility": "excluded_dense_canopy",
+      "score": 7.4e-05,
+      "score_low": 7.4e-05,
+      "score_high": 7.4e-05,
+      "rrf_score": 0.01612903,
+      "coverage": 1.0,
+      "missing_views": [],
+      "views": {
+        "escabrosidad": {
+          "distance": 1e-06,
+          "weight": 0.7,
+          "available": true,
+          "pool_percentile": 1e-06,
+          "features": {
+            "relief_p95_p05_m": {
+              "candidate": 119.312302,
+              "reference": 120.27283167455244,
+              "z_delta": -0.0038,
+              "share": 0.1932
+            },
+            "slope_240m_p50_deg": {
+              "candidate": 3.119332,
+              "reference": 3.0744021305133282,
+              "z_delta": 0.008,
+              "share": -0.0416
+            },
+            "slope_240m_p90_deg": {
+              "candidate": 9.467035,
+              "reference": 9.239335472760809,
+              "z_delta": 0.0127,
+              "share": 0.4168
+            },
+            "roughness_360m_p50_m": {
+              "candidate": 7.773304,
+              "reference": 7.570537569757946,
+              "z_delta": 0.0146,
+              "share": 0.4316
+            }
+          }
+        },
+        "regimen_morfologico": {
+          "distance": 0.000245,
+          "weight": 0.3,
+          "available": true,
+          "pool_percentile": 1e-06,
+          "component": 6,
+          "posterior": 0.5759
+        }
+      }
+    },
+    {
+      "rank": 3,
+      "region_id": "utm-ups-v1-10000-32612-496-30",
+      "longitude": -113.5272797822288,
+      "latitude": 44.76542632377312,
+      "utm_zone_band": "N01",
+      "scenario_eligibility": "pending_on_demand_cover_check",
+      "score": 0.000168,
+      "score_low": 0.000168,
+      "score_high": 0.000168,
+      "rrf_score": 0.01402083,
+      "coverage": 1.0,
+      "missing_views": [],
+      "views": {
+        "escabrosidad": {
+          "distance": 6e-06,
+          "weight": 0.7,
+          "available": true,
+          "pool_percentile": 1e-05,
+          "features": {
+            "relief_p95_p05_m": {
+              "candidate": 111.343689,
+              "reference": 120.27283167455244,
+              "z_delta": -0.0374,
+              "share": 1.2375
+            },
+            "slope_240m_p50_deg": {
+              "candidate": 3.025962,
+              "reference": 3.0744021305133282,
+              "z_delta": -0.0089,
+              "share": -0.1267
+            },
+            "slope_240m_p90_deg": {
+              "candidate": 9.113112,
+              "reference": 9.239335472760809,
+              "z_delta": -0.0068,
+              "share": -0.1115
+            },
+            "roughness_360m_p50_m": {
+              "candidate": 7.479283,
+              "reference": 7.570537569757946,
+              "z_delta": -0.0064,
+              "share": 0.0007
+            }
+          }
+        },
+        "regimen_morfologico": {
+          "distance": 0.000546,
+          "weight": 0.3,
+          "available": true,
+          "pool_percentile": 3e-06,
+          "component": 6,
+          "posterior": 0.5531
+        }
+      }
+    },
+    {
+      "rank": 4,
+      "region_id": "utm-ups-v1-10000-32631-323-71",
+      "longitude": 5.1595679968054835,
+      "latitude": 29.181276634326103,
+      "utm_zone_band": "N05",
+      "scenario_eligibility": "eligible_arid_exposed",
+      "score": 0.000207,
+      "score_low": 0.000207,
+      "score_high": 0.000207,
+      "rrf_score": 0.01602086,
+      "coverage": 1.0,
+      "missing_views": [],
+      "views": {
+        "escabrosidad": {
+          "distance": 0.0,
+          "weight": 0.7,
+          "available": true,
+          "pool_percentile": 1e-06,
+          "features": {
+            "relief_p95_p05_m": {
+              "candidate": 118.323181,
+              "reference": 120.27283167455244,
+              "z_delta": -0.0082,
+              "share": 0.1376
+            },
+            "slope_240m_p50_deg": {
+              "candidate": 3.04608,
+              "reference": 3.0744021305133282,
+              "z_delta": -0.0051,
+              "share": 0.2197
+            },
+            "slope_240m_p90_deg": {
+              "candidate": 9.1686,
+              "reference": 9.239335472760809,
+              "z_delta": -0.0036,
+              "share": 0.1074
+            },
+            "roughness_360m_p50_m": {
+              "candidate": 7.65252,
+              "reference": 7.570537569757946,
+              "z_delta": 0.0059,
+              "share": 0.5353
+            }
+          }
+        },
+        "regimen_morfologico": {
+          "distance": 0.00069,
+          "weight": 0.3,
+          "available": true,
+          "pool_percentile": 4e-06,
+          "component": 6,
+          "posterior": 0.6024
+        }
+      }
+    },
+    {
+      "rank": 5,
+      "region_id": "utm-ups-v1-10000-32637-554-42",
+      "longitude": 37.88355426141675,
+      "latitude": 50.00694454450314,
+      "utm_zone_band": "N06",
+      "scenario_eligibility": "pending_on_demand_cover_check",
+      "score": 0.000226,
+      "score_low": 0.000226,
+      "score_high": 0.000226,
+      "rrf_score": 0.01558872,
+      "coverage": 1.0,
+      "missing_views": [],
+      "views": {
+        "escabrosidad": {
+          "distance": 2e-06,
+          "weight": 0.7,
+          "available": true,
+          "pool_percentile": 2e-06,
+          "features": {
+            "relief_p95_p05_m": {
+              "candidate": 111.722206,
+              "reference": 120.27283167455244,
+              "z_delta": -0.0359,
+              "share": 0.8251
+            },
+            "slope_240m_p50_deg": {
+              "candidate": 2.94751,
+              "reference": 3.0744021305133282,
+              "z_delta": -0.0237,
+              "share": 0.0437
+            },
+            "slope_240m_p90_deg": {
+              "candidate": 8.774658,
+              "reference": 9.239335472760809,
+              "z_delta": -0.027,
+              "share": 0.6734
+            },
+            "roughness_360m_p50_m": {
+              "candidate": 7.394268,
+              "reference": 7.570537569757946,
+              "z_delta": -0.0127,
+              "share": -0.5423
+            }
+          }
+        },
+        "regimen_morfologico": {
+          "distance": 0.00075,
+          "weight": 0.3,
+          "available": true,
+          "pool_percentile": 5e-06,
+          "component": 6,
+          "posterior": 0.5948
+        }
+      }
+    },
+    {
+      "rank": 6,
+      "region_id": "utm-ups-v1-10000-32721-884-74",
+      "longitude": -54.80729409374447,
+      "latitude": -10.486151333428106,
+      "utm_zone_band": "S03",
+      "scenario_eligibility": "excluded_dense_canopy",
+      "score": 0.000422,
+      "score_low": 0.000422,
+      "score_high": 0.000422,
+      "rrf_score": 0.01059358,
+      "coverage": 1.0,
+      "missing_views": [],
+      "views": {
+        "escabrosidad": {
+          "distance": 1.6e-05,
+          "weight": 0.7,
+          "available": true,
+          "pool_percentile": 3e-05,
+          "features": {
+            "relief_p95_p05_m": {
+              "candidate": 117.095551,
+              "reference": 120.27283167455244,
+              "z_delta": -0.0134,
+              "share": 0.0376
+            },
+            "slope_240m_p50_deg": {
+              "candidate": 3.061582,
+              "reference": 3.0744021305133282,
+              "z_delta": -0.0023,
+              "share": 0.0026
+            },
+            "slope_240m_p90_deg": {
+              "candidate": 8.962714,
+              "reference": 9.239335472760809,
+              "z_delta": -0.0156,
+              "share": 0.4321
+            },
+            "roughness_360m_p50_m": {
+              "candidate": 7.79798,
+              "reference": 7.570537569757946,
+              "z_delta": 0.0163,
+              "share": 0.5278
+            }
+          }
+        },
+        "regimen_morfologico": {
+          "distance": 0.001371,
+          "weight": 0.3,
+          "available": true,
+          "pool_percentile": 1.3e-05,
+          "component": 6,
+          "posterior": 0.5856
+        }
+      }
+    },
+    {
+      "rank": 7,
+      "region_id": "utm-ups-v1-10000-32612-469-58",
+      "longitude": -110.02855991735474,
+      "latitude": 42.358155233823496,
+      "utm_zone_band": "N01",
+      "scenario_eligibility": "pending_on_demand_cover_check",
+      "score": 0.000428,
+      "score_low": 0.000428,
+      "score_high": 0.000428,
+      "rrf_score": 0.00570175,
+      "coverage": 1.0,
+      "missing_views": [],
+      "views": {
+        "escabrosidad": {
+          "distance": 0.000199,
+          "weight": 0.7,
+          "available": true,
+          "pool_percentile": 0.000272,
+          "features": {
+            "relief_p95_p05_m": {
+              "candidate": 107.568298,
+              "reference": 120.27283167455244,
+              "z_delta": -0.0545,
+              "share": 0.6828
+            },
+            "slope_240m_p50_deg": {
+              "candidate": 3.12997,
+              "reference": 3.0744021305133282,
+              "z_delta": 0.0099,
+              "share": 0.029
+            },
+            "slope_240m_p90_deg": {
+              "candidate": 9.471675,
+              "reference": 9.239335472760809,
+              "z_delta": 0.013,
+              "share": 0.0319
+            },
+            "roughness_360m_p50_m": {
+              "candidate": 8.069624,
+              "reference": 7.570537569757946,
+              "z_delta": 0.034,
+              "share": 0.2564
+            }
+          }
+        },
+        "regimen_morfologico": {
+          "distance": 0.000962,
+          "weight": 0.3,
+          "available": true,
+          "pool_percentile": 8e-06,
+          "component": 6,
+          "posterior": 0.5415
+        }
+      }
+    },
+    {
+      "rank": 8,
+      "region_id": "utm-ups-v1-10000-32755-814-21",
+      "longitude": 144.2791966350833,
+      "latitude": -16.80522413580483,
+      "utm_zone_band": "S09",
+      "scenario_eligibility": "pending_on_demand_cover_check",
+      "score": 0.000485,
+      "score_low": 0.000485,
+      "score_high": 0.000485,
+      "rrf_score": 0.01147963,
+      "coverage": 1.0,
+      "missing_views": [],
+      "views": {
+        "escabrosidad": {
+          "distance": 1.1e-05,
+          "weight": 0.7,
+          "available": true,
+          "pool_percentile": 2e-05,
+          "features": {
+            "relief_p95_p05_m": {
+              "candidate": 105.067993,
+              "reference": 120.27283167455244,
+              "z_delta": -0.0671,
+              "share": 1.412
+            },
+            "slope_240m_p50_deg": {
+              "candidate": 2.858878,
+              "reference": 3.0744021305133282,
+              "z_delta": -0.0413,
+              "share": -0.1973
+            },
+            "slope_240m_p90_deg": {
+              "candidate": 8.466929,
+              "reference": 9.239335472760809,
+              "z_delta": -0.0448,
+              "share": 0.2689
+            },
+            "roughness_360m_p50_m": {
+              "candidate": 7.179148,
+              "reference": 7.570537569757946,
+              "z_delta": -0.0293,
+              "share": -0.4836
+            }
+          }
+        },
+        "regimen_morfologico": {
+          "distance": 0.001593,
+          "weight": 0.3,
+          "available": true,
+          "pool_percentile": 1.6e-05,
+          "component": 6,
+          "posterior": 0.5915
+        }
+      }
+    },
+    {
+      "rank": 9,
+      "region_id": "utm-ups-v1-10000-32637-69-60",
+      "longitude": 39.90396101137153,
+      "latitude": 6.241623097995911,
+      "utm_zone_band": "N06",
+      "scenario_eligibility": "pending_on_demand_cover_check",
+      "score": 0.000519,
+      "score_low": 0.000519,
+      "score_high": 0.000519,
+      "rrf_score": 0.01438578,
+      "coverage": 1.0,
+      "missing_views": [],
+      "views": {
+        "escabrosidad": {
+          "distance": 2e-06,
+          "weight": 0.7,
+          "available": true,
+          "pool_percentile": 3e-06,
+          "features": {
+            "relief_p95_p05_m": {
+              "candidate": 115.086617,
+              "reference": 120.27283167455244,
+              "z_delta": -0.0219,
+              "share": -0.2251
+            },
+            "slope_240m_p50_deg": {
+              "candidate": 2.936424,
+              "reference": 3.0744021305133282,
+              "z_delta": -0.026,
+              "share": -0.6733
+            },
+            "slope_240m_p90_deg": {
+              "candidate": 8.664048,
+              "reference": 9.239335472760809,
+              "z_delta": -0.0334,
+              "share": 0.1613
+            },
+            "roughness_360m_p50_m": {
+              "candidate": 7.029015,
+              "reference": 7.570537569757946,
+              "z_delta": -0.0411,
+              "share": 1.7371
+            }
+          }
+        },
+        "regimen_morfologico": {
+          "distance": 0.001724,
+          "weight": 0.3,
+          "available": true,
+          "pool_percentile": 1.9e-05,
+          "component": 6,
+          "posterior": 0.5477
+        }
+      }
+    },
+    {
+      "rank": 10,
+      "region_id": "utm-ups-v1-10000-32613-391-51",
+      "longitude": -104.8899650626197,
+      "latitude": 35.33319775791048,
+      "utm_zone_band": "N02",
+      "scenario_eligibility": "pending_on_demand_cover_check",
+      "score": 0.000527,
+      "score_low": 0.000527,
+      "score_high": 0.000527,
+      "rrf_score": 0.01015504,
+      "coverage": 1.0,
+      "missing_views": [],
+      "views": {
+        "escabrosidad": {
+          "distance": 1.6e-05,
+          "weight": 0.7,
+          "available": true,
+          "pool_percentile": 3.1e-05,
+          "features": {
+            "relief_p95_p05_m": {
+              "candidate": 115.885315,
+              "reference": 120.27283167455244,
+              "z_delta": -0.0184,
+              "share": 0.4012
+            },
+            "slope_240m_p50_deg": {
+              "candidate": 3.165376,
+              "reference": 3.0744021305133282,
+              "z_delta": 0.0163,
+              "share": 0.1491
+            },
+            "slope_240m_p90_deg": {
+              "candidate": 9.451257,
+              "reference": 9.239335472760809,
+              "z_delta": 0.0118,
+              "share": -0.0332
+            },
+            "roughness_360m_p50_m": {
+              "candidate": 7.965769,
+              "reference": 7.570537569757946,
+              "z_delta": 0.0278,
+              "share": 0.4829
+            }
+          }
+        },
+        "regimen_morfologico": {
+          "distance": 0.001721,
+          "weight": 0.3,
+          "available": true,
+          "pool_percentile": 1.8e-05,
+          "component": 6,
+          "posterior": 0.5259
+        }
+      }
+    }
+  ]
+}

@@ -25,3 +25,4 @@ data/manifests/
 batches/
 *.parquet
 
+data/global_layers/

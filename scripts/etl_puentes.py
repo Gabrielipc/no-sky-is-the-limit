@@ -34,6 +34,7 @@ from pipelines import atlas_topography as topo
 from pipelines import etl_altimetry as altimetry
 from pipelines import etl_lunar as lunar
 from pipelines import etl_radar as radar
+from pipelines import etl_sampling as sampling
 from pipelines.etl_store import FeatureStore
 from scripts.etl_luna import reference_vector
 from scripts.etl_pipeline import JEZERO_REF
@@ -190,8 +191,9 @@ def _known_sites_map(
                 "slope_240m_p90_deg, analog_surface_eligibility AS scenario_eligibility "
                 f"FROM base_windows WHERE region_id IN ({escaped})"
             ).to_arrow_table().to_pylist()
+        background = set(sampling.background_weights(store))
         for r in rows:
-            by_id[r['region_id']] = {**r, 'kind': 'candidate'}
+            by_id[r['region_id']] = {**r, 'kind': 'background' if r['region_id'] in background else 'candidate'}
     return by_id
 
 
@@ -245,6 +247,21 @@ def run_icesat2(args: argparse.Namespace) -> None:
     store = FeatureStore(Path(args.store_dir), memory_limit=args.memory_limit, threads=args.threads)
     sites = [] if args.controls_only else candidate_sites(store, args.arid_limit, args.polar_limit)
     sites += control_sites(spec, 'icesat2', args.site)
+    now = datetime.now(timezone.utc)
+    if sites:
+        store.append_enrichment('selection', sampling.selection_rows(
+            [{'region_id': s['region_id']} for s in sites if s.get('kind') == 'candidate'],
+            'candidates-topographic-v1', 'candidate', now) + sampling.selection_rows(
+            [{'region_id': s['region_id']} for s in sites if s.get('kind') == 'control'],
+            f"controls-{spec['spec_id']}", 'control', now))
+    if args.background_sample and not args.controls_only:
+        # Unbiased population for the laser bridge (selection bias mitigation plan, phase B).
+        items = sampling.stratified_sample(sampling.load_frame(store), args.background_sample, args.background_seed)
+        design = sampling.stratified_design_id(args.background_sample, args.background_seed)
+        store.append_enrichment('selection', sampling.selection_rows(items, design, 'background', now,
+                                                                     seed=args.background_seed))
+        known = {s['region_id'] for s in sites}
+        sites += [it | {'kind': 'background'} for it in items if it['region_id'] not in known]
     if args.skip_measured:
         done = measured_regions(store, 'altimetry', 'altimetry_status')
         sites = [s for s in sites if s['region_id'] not in done]
@@ -354,6 +371,9 @@ def main() -> None:
     p_ice.add_argument('--site', action='append', help='Id de sitio de control (repetible)')
     p_ice.add_argument('--controls-only', action='store_true')
     p_ice.add_argument('--skip-measured', action='store_true', help='Omitir ventanas ya guardadas')
+    p_ice.add_argument('--background-sample', type=int, default=0,
+                       help='Ventanas de fondo estratificadas (población sin sesgo topográfico)')
+    p_ice.add_argument('--background-seed', type=int, default=20261114)
     p_ice.add_argument('--workers', type=int, default=16, help='Granulos leídos en paralelo')
     p_ice.add_argument('--max-granules', type=int, default=None, help='Solo los N granulos más recientes')
     p_ice.add_argument('--access', choices=altimetry.ACCESS_MODES, default='harmony',

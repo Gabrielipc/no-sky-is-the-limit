@@ -7,7 +7,7 @@ Esta carpeta contiene la configuración mínima para ejecutar los pipelines de r
 - `Dockerfile`: imagen reproducible basada en `pixi.toml` + `requirements-minerales.txt` (`h5py`, instalado mediante `scripts/preparar_minerales.sh` y ejecutado con `scripts/ejecutar_minerales.sh`) con verificación de CRS planetarios (`IAU_2015:49900` y `IAU_2015:30100`). Útil si luego quieres usar **Cloud Run Jobs** o **Azure Container Apps**.
 - `run-etl-spot.sh`: script que corre dentro de la VM, instala `pixi` y `.tools/minerales` (`h5py`), restaura `feature_store_v1`, `releases/` y `docs/evidencia-puentes-laser-radar/` desde GCS, ejecuta `ETL_SCRIPT` (por defecto `scripts/etl_pipeline.py`) usando caché temporal en `/tmp/atlas30_cache`, sube los resultados a GCS y **auto-elimina la VM** al finalizar (`AUTO_DELETE=1`).
 - `launch-spot.sh`: script para lanzar la VM Spot desde tu Mac usando `gcloud`.
-- `sync-outputs.sh`: sube a GCS el Feature Store, `releases/` y `docs/evidencia-*`. Se ejecuta cada `SYNC_INTERVAL_S` segundos (600 por defecto; `0` lo desactiva), desde el `shutdown-script` de la VM cuando Google la interrumpe (≈30 s de aviso) y una última vez al terminar. Excluye los directorios temporales `tmp*` donde el almacén prepara cada delta antes de moverlo, así que en GCS solo quedan lotes completos y la VM siguiente retoma con `completed_batch_ids` o `--skip-measured`.
+- `sync-outputs.sh`: sube a GCS el Feature Store, `releases/`, `data/global_layers/` y `docs/evidencia-*`. Se ejecuta cada `SYNC_INTERVAL_S` segundos (600 por defecto; `0` lo desactiva), desde el `shutdown-script` de la VM cuando Google la interrumpe (≈30 s de aviso) y una última vez al terminar. Excluye los directorios temporales `tmp*` donde el almacén prepara cada delta antes de moverlo, así que en GCS solo quedan lotes completos y la VM siguiente retoma con `completed_batch_ids` o `--skip-measured`.
 
 ## Seguridad y reproducibilidad
 
@@ -80,6 +80,52 @@ ETL_ARGS="--skip-measured --batch-size 10 --workers 16" \
 ETL_ARGS="--dimension apparent_thermal_inertia --ati-year 2023 --skip-measured --workers 16"
 ```
 
+## Mitigación del sesgo de selección topográfica
+
+Implementa el [plan](../../docs/01-vigentes/etapa-actual-armonizacion/Plan%20de%20mitigacion%20del%20sesgo%20de%20seleccion%20topografica.md). Requiere el barrido mundial ya en el bucket (`base/` con la identidad actual). Todo corre en `us-west1-a`, junto a los DAAC de Earthdata. El orden es:
+
+**1. Capa global barata (fase A).** `build` reduce cada producto a un ráster global en `data/global_layers/`, que también se sube al bucket. Necesita unos 30 GB de transferencia y unas horas. La ATI mantiene 12 meses de LST y albedo en memoria (~6 GB), así que conviene `e2-standard-8` o mayor. Una capa con `layer.json` no se reconstruye, y si un producto falla (por ejemplo IMERG sin autorización de GES DISC) los demás siguen:
+
+```bash
+ZONE="us-west1-a" DISK_SIZE_GB=100 \
+ETL_SCRIPT="scripts/etl_capa_global.py" ETL_ARGS="build --workers 8" \
+  bash cloud/gcp/launch-spot.sh
+
+# Cuando estén las capas (minutos): muestrear todas las ventanas -> enrichment_global
+ZONE="us-west1-a" ETL_SCRIPT="scripts/etl_capa_global.py" ETL_ARGS="sample" \
+  bash cloud/gcp/launch-spot.sh
+```
+
+Para construir una sola capa: `ETL_ARGS="build --layer emissivity"`. Para ver qué hay construido: `ETL_ARGS="status"`.
+
+**2. Muestra de fondo y listas cortas (fases B y C).** Se enriquecen igual que las candidatas, y cada ventana queda registrada en `enrichment_selection` con su motivo:
+
+```bash
+# Muestra estratificada (todas las dimensiones menos la ATI fina) + ATI fina por conglomerados
+ZONE="us-west1-a" ETL_SCRIPT="scripts/etl_superficie.py" \
+ETL_ARGS="--background-sample 1000 --background-cluster-tiles 40 --background-per-tile 5 --skip-measured --workers 16" \
+  bash cloud/gcp/launch-spot.sh
+
+# Listas cortas por vista, repartidas según los pesos de la consulta (topografía en 0)
+ETL_ARGS="--no-topographic-candidates --retrieval-total 60 --weight escabrosidad=0 --weight forma_hipsometrica=0 \
+--weight organizacion=0 --weight regimen_morfologico=0 --weight termica=0.5 --weight entorno_superficial=0.5 \
+--target termica:ati_cmg_per_k=0.7 --skip-measured --workers 16"
+
+# Puente láser sobre la misma población de fondo
+ETL_SCRIPT="scripts/etl_puentes.py" ETL_ARGS="icesat2 --background-sample 300 --skip-measured"
+```
+
+**3. Ajuste y recall (fase D), en local.** El modelo se guarda en `data/features/` y no se sube al bucket, así que conviene traer el almacén y ajustar en tu Mac (unos 40 s):
+
+```bash
+gcloud storage rsync -r "$GCS_BUCKET/data/feature_store_v1" ./data/feature_store_v1
+pixi run python scripts/motor_similitud.py fit
+bash scripts/ejecutar_minerales.sh scripts/motor_similitud.py recall --reference jezero \
+  --retriever topografica=20 --retriever entorno=20 --retriever espectral=20
+```
+
+`fit` registra en cada vista puente su población de ajuste: `background_weighted`, o `biased_enriched_only` si faltan ventanas de fondo. `search` avisa cuando una vista con mucho peso cubre menos del 1 % de las candidatas. `recall` escribe `docs/evidencia-sesgo-seleccion/recall.json`.
+
 ## Elección de región para minimizar latencia y costo
 
 - **`europe-west3-a` (Fráncfort, por defecto):** ideal para `atlas30` / `etl_pipeline.py` (Copernicus GLO-30, ESA WorldCover y JRC Surface Water están en Europa / `eu-central-1`).
@@ -100,3 +146,4 @@ gcloud storage rsync -r "$GCS_BUCKET/docs/evidencia-puentes-laser-radar" ./docs/
 - `ATLAS_CACHE_DIR`: carpeta para caché temporal de rasters (por defecto `data/raw/atlas30`).
 - `ATLAS_MANIFESTS_DIR`: carpeta para manifests de assets (por defecto `data/manifests/atlas30`).
 - `ANALOGOS_FEATURE_STORE_DIR`: ruta del Feature Store Parquet/DuckDB (por defecto `data/feature_store_v1`).
+- `ANALOGOS_GLOBAL_LAYERS_DIR`: rásteres de la capa global de superficie (por defecto `data/global_layers`; en la VM se restaura del bucket solo para `etl_capa_global.py`).
