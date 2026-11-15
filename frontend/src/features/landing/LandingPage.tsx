@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Viewer, Cartesian3, Color, Ellipsoid, Globe, ImageryLayer, SingleTileImageryProvider, EllipsoidTerrainProvider, HeadingPitchRange, Math as CesiumMath } from 'cesium';
+import { Viewer, Cartesian3, Color, Ellipsoid, Globe, ImageryLayer, SingleTileImageryProvider, EllipsoidTerrainProvider, EasingFunction } from 'cesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import './LandingPage.css';
 
+const base = import.meta.env.BASE_URL;
 const PLANETS = [
-  { name: 'Earth', texture: '/textures/earth.png', color: '#315c67', radius: 6378137, lat: 38.4, lon: -110.9, label: 'TIERRA (Utah)' },
-  { name: 'Mars', texture: '/textures/mars.png', color: '#8d4936', radius: 3394839.8, lat: 18.4, lon: 77.4, label: 'MARTE (Jezero)' },
-  { name: 'Moon', texture: '/textures/mars.png', color: '#444444', radius: 1737400, lat: -85.0, lon: 0.0, label: 'LUNA (Polo Sur)' }
+  { name: 'Earth', texture: `${base}textures/earth.png`, color: '#315c67', radius: 6378137, lat: 38.4, lon: -110.9, label: 'TIERRA (Utah)' },
+  { name: 'Mars', texture: `${base}textures/mars.png`, color: '#8d4936', radius: 3394839.8, lat: 18.4, lon: 77.4, label: 'MARTE (Jezero)' },
+  { name: 'Moon', texture: `${base}analysis/surface/unified/moon-color.jpg`, color: '#8a857c', radius: 1737400, lat: -85.0, lon: 0.0, label: 'LUNA (Polo Sur)' }
 ];
 
 export function LandingPage({ onStart }: { onStart: () => void }) {
@@ -70,7 +71,7 @@ export function LandingPage({ onStart }: { onStart: () => void }) {
           viewer.camera.flyTo({
             destination: Cartesian3.fromDegrees(planet.lon, planet.lat, planet.radius * 2.5, ellipsoid),
             duration: 4,
-            easingFunction: CesiumMath.linear
+            easingFunction: EasingFunction.LINEAR_NONE
           });
         }
       });
@@ -92,7 +93,7 @@ export function LandingPage({ onStart }: { onStart: () => void }) {
       <nav className="ultra-nav">
         <div className="container nav-wrap">
           <a href="/" className="nav-logo">
-            <img src="/assets/logos/regolith-lockup-noche-600px.png" alt="Regolith" />
+            <img src={`${base}assets/logos/regolith-lockup-noche-600px.png`} alt="Regolith" />
           </a>
           <div className="nav-actions">
             <div className="planet-status">
@@ -118,7 +119,7 @@ export function LandingPage({ onStart }: { onStart: () => void }) {
           </p>
           <div className="hero-cta-group">
             <button className="btn-glow-gold" onClick={onStart}>Comenzar Exploración</button>
-            <button className="btn-outline" onClick={() => document.getElementById('story').scrollIntoView()}>Nuestra Historia</button>
+            <button className="btn-outline" onClick={() => document.getElementById('story')?.scrollIntoView({ behavior: 'smooth' })}>Nuestra Historia</button>
           </div>
         </div>
       </section>
@@ -226,7 +227,7 @@ export function LandingPage({ onStart }: { onStart: () => void }) {
         <div className="container">
           <div className="footer-grid">
             <div className="footer-brand-large">
-              <img src="/assets/logos/regolith-lockup-noche-600px.png" alt="Regolith" />
+              <img src={`${base}assets/logos/regolith-lockup-noche-600px.png`} alt="Regolith" />
               <p className="tagline">Nuestro sistema no pregunta qué lugar es famoso, sino cuál es análogo de verdad.</p>
             </div>
             <div className="footer-credits">
