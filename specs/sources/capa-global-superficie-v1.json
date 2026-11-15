@@ -1,0 +1,99 @@
+{
+  "spec_id": "capa-global-superficie-v1",
+  "schema_version": 1,
+  "version": "global-layers-v1",
+  "description": "Capa global barata de contexto de superficie (fase A del plan de mitigación del sesgo de selección topográfica). Cada producto se reduce una sola vez a un ráster climatológico global y se muestrea en el centro (o la huella de 3 km) de cada ventana terrestre. Columnas _cmg, nivel context_coarse: nunca sustituyen a las medidas finas de enrichment_surface.",
+  "plan": "docs/01-vigentes/etapa-actual-armonizacion/Plan de mitigacion del sesgo de seleccion topografica.md",
+  "checked_on": "2026-11-14",
+  "checked_note": "Colecciones, número de gránulos y tamaños consultados en CMR (solo metadatos). Las capas HDF4 (MOD10CM, MYD11C3, MCD43C3) y AG1km no se abrieron aquí: los lectores comprueban los nombres de capa y fallan de forma explícita si no coinciden.",
+  "tier": "context_coarse",
+  "layers": {
+    "imerg": {
+      "product_id": "GPM_3IMERGM.07",
+      "doi": "10.5067/GPM/IMERG/3B-MONTH/07",
+      "product_version": "07",
+      "provider": "NASA GES DISC (requiere autorizar la aplicación GES DISC en el perfil Earthdata)",
+      "grid": "EPSG:4326 0.1°, Grid/precipitation (time, lon 3600, lat 1800), mm/h",
+      "native_resolution_m": 11132.0,
+      "period": {"start": "2019-01-01", "end": "2023-12-31"},
+      "granule_size_mb": 18.2,
+      "dry_month_threshold_mm": 5.0,
+      "outputs": {"precip_annual_mm": "Media anual (mm/año) de los totales mensuales", "dry_months_fraction": "Fracción de meses climatológicos con media < 5 mm (mismo criterio que enrichment_surface)"}
+    },
+    "snow": {
+      "product_id": "MOD10CM.061",
+      "collection_version": "61",
+      "doi": "10.5067/MODIS/MOD10CM.061",
+      "product_version": "061",
+      "provider": "NASA NSIDC DAAC",
+      "grid": "CMG 0.05° (3600 x 7200), Snow_Cover_Monthly_CMG uint8 0-100 %, >100 = máscaras",
+      "native_resolution_m": 5566.0,
+      "period": {"start": "2019-01-01", "end": "2023-12-31"},
+      "granule_size_mb": 2.0,
+      "snow_month_threshold_pct": 50.0,
+      "outputs": {"snow_cover_mean_pct": "Media de la cobertura mensual válida (%)", "snow_months_fraction": "Fracción de meses válidos con cobertura >= 50 %"}
+    },
+    "ati": {
+      "product_id": "MYD11C3.061",
+      "albedo_product_id": "MCD43C3.061",
+      "doi": "10.5067/MODIS/MYD11C3.061",
+      "albedo_doi": "10.5067/MODIS/MCD43C3.061",
+      "product_version": "061",
+      "provider": "NASA LP DAAC",
+      "grid": "CMG 0.05°: LST_Day_CMG / LST_Night_CMG (uint16 x0.02 K, QC_Day / QC_Night) y Albedo_WSA_shortwave (int16 x0.001, BRDF_Quality)",
+      "native_resolution_m": 5566.0,
+      "year": 2023,
+      "albedo_step_days": 8,
+      "granule_size_mb": {"MYD11C3.061": 73.0, "MCD43C3.061": 205.0},
+      "max_lst_error_k": 2.0,
+      "max_brdf_quality": 2,
+      "min_day_night_delta_k": 1.0,
+      "min_valid_months": 4,
+      "memory_note": "La construcción mantiene 12 meses de LST y albedo en memoria (~6 GB): usar e2-standard-8 o mayor.",
+      "outputs": {"lst_day_night_delta_k": "Mediana mensual de LST día - noche (K)", "albedo_wsa": "Mediana mensual del albedo de cielo blanco", "ati": "Mediana mensual de (1 - albedo) / (LST día - LST noche) (1/K). Amplitud entre medias mensuales: no equivale a la ATI fina de pares diarios despejados"}
+    },
+    "emissivity": {
+      "product_id": "AG1km.003",
+      "doi": "10.5067/Community/ASTER_GED/AG1km.003",
+      "product_version": "003",
+      "provider": "NASA LP DAAC",
+      "grid": "Teselas de 1° (AG1km.v003.<lat norte>.<lon oeste>.0010), Emissivity/Mean (5 bandas, int16 x0.001)",
+      "native_resolution_m": 1000.0,
+      "pixels_per_degree": 100,
+      "granules": 24873,
+      "granule_size_mb": 0.46,
+      "period": {"start": "2000-01-01", "end": "2008-12-31"},
+      "valid_range": [0.4, 1.05],
+      "indices": {"mafic_index": "(b10 + b11) / (b12 + b13), igual que enrichment_surface", "quartz_index": "b11² / (b10 · b12) (Ninomiya)", "carbonate_index": "b13 / b14 (Ninomiya)"}
+    },
+    "soil_moisture": {
+      "product_id": "SPL3SMP_E.006",
+      "doi": "10.5067/4DQ54OUIJ9DL",
+      "product_version": "006",
+      "provider": "NASA NSIDC DAAC",
+      "grid": "EASE-Grid 2.0 9 km (EPSG:6933, 1624 x 3856), Soil_Moisture_Retrieval_Data_AM/soil_moisture",
+      "native_resolution_m": 9008.0,
+      "period": {"start": "2019-01-01", "end": "2023-12-31"},
+      "step_days": 8,
+      "granule_size_mb": 610.0,
+      "access_note": "Solo se leen soil_moisture y retrieval_qual_flag por rangos HTTP (~25 MB por día), no el gránulo entero.",
+      "outputs": {"soil_moisture_mean": "Media de las recuperaciones de calidad recomendada (bit 0 = 0) (m³/m³)", "soil_moisture_obs_fraction": "Fracción de días muestreados con recuperación válida"}
+    },
+    "permafrost": {
+      "product_id": "ESA_CCI_PERMAFROST_v5.0",
+      "doi": "10.5285/6ef1a60b678f4048a20b5c8d94d665c9",
+      "product_version": "v05.0",
+      "provider": "ESA CCI / CEDA (público, sin token)",
+      "grid": "Estereográfica polar 1 km por hemisferio (northern_hemisphere, Antarctica), variable PFR (%)",
+      "native_resolution_m": 1000.0,
+      "year": 2023,
+      "outputs": {"permafrost_fraction": "PFR / 100: fracción de permafrost de la celda"}
+    }
+  },
+  "sampling": {
+    "window_half_m": 1500.0,
+    "nearest_cell_when_cell_exceeds_window": true,
+    "footprint_mean_layers": ["emissivity", "permafrost"],
+    "out_of_range_policy": "Un valor fuera del rango del contrato se descarta (NaN) y la capa queda insufficient_coverage en esa ventana; se informa el recuento."
+  }
+}
