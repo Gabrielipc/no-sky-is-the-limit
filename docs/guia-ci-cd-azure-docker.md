@@ -273,24 +273,37 @@ defecto de `ANALOGOS_SIMILARITY_MODEL` y `ANALOGOS_FEATURE_STORE_DIR`:
 └── feature_store_v1/               ← data/feature_store_v1/ (base, enrichment, manifests)
 ```
 
-Desde tu computadora, en la raíz del repositorio (sustituye usuario, host y
-puerto por los de tu VM):
+Se usa la cuenta **administradora** de la VM (la del paso 2), porque `deploy` no
+tiene `sudo` y la carpeta pertenece al UID 10001. `IP_O_DNS_DE_LA_VM` es el mismo
+valor que el Secret `AZURE_VM_HOST`.
+
+**1. En tu computadora**, desde la raíz del repositorio, sube los archivos a una
+carpeta temporal en el home del administrador (~98 MB):
 
 ```bash
-ssh -p 22 deploy@HOST 'sudo install -d -o 10001 -g 10001 /srv/analogos/releases/atlas30/similarity'
-rsync -az --delete --exclude duckdb_spill -e 'ssh -p 22' --rsync-path='sudo rsync' \
+rsync -az --exclude duckdb_spill -e 'ssh -i RUTA_A_TU_CLAVE_ADMIN' \
   data/feature_store_v1 data/features/modelos-similitud/motor-similitud-ml-v1.joblib \
-  deploy@HOST:/srv/analogos/releases/atlas30/similarity/
-ssh -p 22 deploy@HOST 'sudo chown -R 10001:10001 /srv/analogos/releases/atlas30/similarity'
+  usuario-inicial@IP_O_DNS_DE_LA_VM:similarity-upload/
 ```
 
-Si `deploy` no tiene `sudo`, haz el `rsync` con la cuenta administradora. No hace
-falta reiniciar: el motor se carga en la primera consulta (unos segundos) y
-queda en memoria (~750 MB con los tres perfiles). Para comprobarlo:
+**2. Dentro de la VM** (`ssh -i RUTA_A_TU_CLAVE_ADMIN usuario-inicial@IP_O_DNS_DE_LA_VM`),
+muévelos a su sitio y entrégaselos al usuario del contenedor:
 
 ```bash
-curl -s http://HOST:8000/api/similarity/status
-curl -s -o /dev/null -w '%{http_code}\n' http://HOST:8000/api/similarity/references
+sudo mkdir -p /srv/analogos/releases/atlas30/similarity
+sudo rsync -a --delete ~/similarity-upload/ /srv/analogos/releases/atlas30/similarity/
+sudo chown -R 10001:10001 /srv/analogos/releases/atlas30/similarity
+rm -rf ~/similarity-upload
+```
+
+Si tu Variable `ATLAS_RELEASES_PATH` no es `/srv/analogos/releases/atlas30`, usa
+esa ruta seguida de `/similarity`. No hace falta reiniciar: el motor se carga en
+la primera consulta (unos segundos) y queda en memoria (~750 MB con los tres
+perfiles). Para comprobarlo, todavía dentro de la VM:
+
+```bash
+curl -s http://127.0.0.1:8000/api/similarity/status
+curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8000/api/similarity/references
 ```
 
 `200` indica que el motor está activo; `503` significa que falta el modelo o el
