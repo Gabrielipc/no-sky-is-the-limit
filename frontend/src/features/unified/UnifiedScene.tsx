@@ -730,16 +730,17 @@ export default function UnifiedScene(p: SceneProps) {
       a = meshArrays(h, s, p.exaggeration),
       e = v.scene.globe.ellipsoid;
     let matrix = Matrix4.IDENTITY;
-    // Regional Jezero mesh: drape the finest baked patch covering the whole window,
-    // else the original 81 m CTX crop. UVs follow each vertex's geographic position.
+    // Drape the same imagery used by the globe onto regional planetary meshes.
+    // UVs follow each vertex geographically, including near the lunar pole.
     let drape = {
       image: asset("jezero-ctx-regional.png"),
       rect: [76.640625, 17.578125, 78.75, 19.6875],
     };
-    if (regional && p.body === "Mars") {
+    if (p.body === "Moon") drape = { image: asset("unified/moon-color.jpg"), rect: [-180, -90, 180, 90] };
+    if (regional && p.body !== "Earth") {
       const [w0, s0] = offsetDegrees(s.longitude, s.latitude, -s.window_m / 2, -s.window_m / 2, e.maximumRadius),
         [e0, n0] = offsetDegrees(s.longitude, s.latitude, s.window_m / 2, s.window_m / 2, e.maximumRadius);
-      const patch = patchCovering(detail, "Mars", w0, s0, e0, n0);
+      const patch = patchCovering(detail, p.body, w0, s0, e0, n0);
       if (patch) drape = { image: asset(patch.file), rect: patch.rectangle };
     }
     if (regional) {
@@ -760,7 +761,7 @@ export default function UnifiedScene(p: SceneProps) {
           e,
         );
         a.positions.set([point.x, point.y, point.z], i * 3);
-        if (p.body === "Mars")
+        if (p.body !== "Earth")
           a.uv.set(
             [
               (lon - drape.rect[0]) / (drape.rect[2] - drape.rect[0]),
@@ -813,7 +814,7 @@ export default function UnifiedScene(p: SceneProps) {
         }),
         appearance: new MaterialAppearance({
           material: Material.fromType("Image", {
-            image: regional && p.body === "Mars" ? drape.image : canvas,
+            image: regional && p.body !== "Earth" ? drape.image : canvas,
           }),
           translucent: false,
           faceForward: true,
