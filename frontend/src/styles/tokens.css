@@ -1,13 +1,18 @@
 :root {
   color-scheme: dark;
-  --bg: #101817;
+  /* Palette: Noche de regolito */
+  --bg: #101817; /* Original platform bg */
+  --bg-regolith: #1C1511; /* Noche de regolito */
   --surface: #17231e;
   --surface-raised: #202e26;
+  --surface-regolith: #34261C; /* Color Elevado */
   --selected: #2c402c;
   --text: #e9ede5;
   --muted: #aab9ab;
   --line: #3e5144;
-  --accent: #c5e59e;
+  --accent: #c5e59e; /* Original accent */
+  --accent-amber: #F2A64E; /* Acento ámbar */
+  --accent-amber-glow: rgba(242, 166, 78, 0.3);
   --candidate: #efb38a;
   --error: #ffc0ac;
   --nodata: #727e7a;
