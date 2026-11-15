@@ -1,0 +1,60 @@
+{
+  "spec_id": "recuperacion-por-vista-v1",
+  "version": 1,
+  "description": "Listas cortas por vista (fase C del plan de mitigación del sesgo de selección topográfica). Cada vista propone sus propias candidatas con una señal barata y global (capa enrichment_global o la base), y se enriquece la unión. Así una consulta con peso topográfico 0 recibe candidatas de las vistas que sí pesan.",
+  "plan": "docs/01-vigentes/etapa-actual-armonizacion/Plan de mitigacion del sesgo de seleccion topografica.md",
+  "min_proxy_fraction": 0.5,
+  "coverage_candidates_factor": 5,
+  "targets_resolution": "--target vista:columna=percentil > percentiles de la referencia (--retrieval-ref-json, por id de feature del motor) > valores del perfil. Sin objetivo: la vista se omite (termica) o pasa a exploración (espectral).",
+  "views": {
+    "topografica": {
+      "method": "topographic_rank",
+      "engine_views": ["escabrosidad", "forma_hipsometrica", "organizacion", "regimen_morfologico"],
+      "description": "Ranking actual por relieve y pendientes frente a Jezero (perfil árido) o el fondo de Haworth (perfil polar)."
+    },
+    "termica": {
+      "method": "proxy_target",
+      "engine_views": ["termica"],
+      "proxies": {"ati_cmg_per_k": {"status": "ati_cmg_status", "reference_feature": "thermal_inertia_rank"}},
+      "description": "Distancia en percentil terrestre de la ATI gruesa al percentil de la referencia en su cuerpo. Sin percentil de referencia ni --target, la vista no propone candidatas."
+    },
+    "espectral": {
+      "method": "proxy_target_or_exploration",
+      "engine_views": ["espectral"],
+      "proxies": {
+        "emis_quartz_index_cmg": {"status": "emissivity_cmg_status"},
+        "emis_mafic_index_cmg": {"status": "emissivity_cmg_status"},
+        "emis_carbonate_index_cmg": {"status": "emissivity_cmg_status"}
+      },
+      "exploration_filter": {"bare_or_sparse_fraction_min": 0.6, "precip_annual_mm_cmg_max": 500.0},
+      "coverage_product": "EMITL2ARFL",
+      "description": "Los índices de emisividad no tienen equivalente directo en los complejos de absorción EMIT/CRISM: con objetivos explícitos se usan como señal; sin ellos, exploración estratificada entre ventanas desnudas y secas (donde EMIT observa), opcionalmente comprobada en CMR."
+    },
+    "entorno": {
+      "method": "proxy_target",
+      "engine_views": ["entorno_superficial"],
+      "proxies": {
+        "precip_annual_mm_cmg": {"status": "imerg_cmg_status"},
+        "dry_months_fraction_cmg": {"status": "imerg_cmg_status"},
+        "snow_cover_mean_pct_cmg": {"status": "snow_cmg_status"},
+        "snow_months_fraction_cmg": {"status": "snow_cmg_status"},
+        "soil_moisture_mean_cmg": {"status": "soil_moisture_cmg_status"},
+        "permafrost_fraction_cmg": {"status": "permafrost_cmg_status"}
+      },
+      "description": "Perfil de entorno del escenario (seco y sin nieve para el árido; nieve y permafrost para el polar)."
+    }
+  },
+  "profiles": {
+    "arid_mars_surface_v2": {
+      "body": "Mars",
+      "entorno": {"precip_annual_mm_cmg": 0.05, "dry_months_fraction_cmg": 0.95, "soil_moisture_mean_cmg": 0.05, "snow_cover_mean_pct_cmg": 0.0}
+    },
+    "polar_cold_v1": {
+      "body": "Moon",
+      "entorno": {"snow_months_fraction_cmg": 0.95, "permafrost_fraction_cmg": 0.95, "precip_annual_mm_cmg": 0.2}
+    }
+  },
+  "no_retrieval": {
+    "radar": "RCM solo cubre los sitios de control y OPERA solo Norteamérica: no hay señal barata global para proponer candidatas."
+  }
+}

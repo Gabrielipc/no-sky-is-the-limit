@@ -14,6 +14,7 @@ import pyarrow as pa
 import pyarrow.compute as pc
 
 from pipelines import etl_bridges_schema as bridges_schema
+from pipelines import etl_global_schema as global_schema
 from pipelines import etl_eligibility as eligibility
 from pipelines import etl_lunar_schema as lunar_schema
 from pipelines import etl_surface_schema as surface_schema
@@ -195,8 +196,13 @@ ENRICHMENT_LUNAR_SCHEMA = lunar_schema.ENRICHMENT_LUNAR_SCHEMA
 ENRICHMENT_ALTIMETRY_SCHEMA = bridges_schema.ENRICHMENT_ALTIMETRY_SCHEMA
 ENRICHMENT_RADAR_SCHEMA = bridges_schema.ENRICHMENT_RADAR_SCHEMA
 ENRICHMENT_SURFACE_SCHEMA = surface_schema.ENRICHMENT_SURFACE_SCHEMA
+ENRICHMENT_GLOBAL_SCHEMA = global_schema.ENRICHMENT_GLOBAL_SCHEMA
+ENRICHMENT_SELECTION_SCHEMA = global_schema.ENRICHMENT_SELECTION_SCHEMA
 
-ENRICHMENT_SUBSETS = ('spectral', 'temporal', 'framing', 'cover', 'lunar', 'altimetry', 'radar', 'surface')
+ENRICHMENT_SUBSETS = ('spectral', 'temporal', 'framing', 'cover', 'lunar', 'altimetry', 'radar', 'surface',
+                      'global', 'selection')
+# Latest row per key of each subset; `selection` keeps one row per window and sampling design.
+ENRICHMENT_KEYS = {subset: ('region_id',) for subset in ENRICHMENT_SUBSETS} | {'selection': ('region_id', 'design_id')}
 
 SOURCE_MANIFESTS_SCHEMA = pa.schema([
     pa.field('source_manifest_id', pa.string(), nullable=False),
@@ -227,6 +233,8 @@ TABLE_SCHEMAS: dict[str, pa.Schema] = {
     'enrichment_altimetry': ENRICHMENT_ALTIMETRY_SCHEMA,
     'enrichment_radar': ENRICHMENT_RADAR_SCHEMA,
     'enrichment_surface': ENRICHMENT_SURFACE_SCHEMA,
+    'enrichment_global': ENRICHMENT_GLOBAL_SCHEMA,
+    'enrichment_selection': ENRICHMENT_SELECTION_SCHEMA,
     'source_manifests': SOURCE_MANIFESTS_SCHEMA,
 }
 
@@ -311,6 +319,10 @@ def validate_table(table: pa.Table, table_name: str) -> pa.Table:
         bridges_schema.validate_bridge_table(table, table_name, _check_enum, _check_range, FEATURE_STATUS_ENUM)
     elif table_name == 'enrichment_surface':
         surface_schema.validate_surface_table(table, _check_enum, _check_range, FEATURE_STATUS_ENUM)
+    elif table_name == 'enrichment_global':
+        global_schema.validate_global_table(table, _check_enum, _check_range, FEATURE_STATUS_ENUM)
+    elif table_name == 'enrichment_selection':
+        global_schema.validate_selection_table(table, _check_enum, _check_range)
     elif table_name == 'source_manifests':
         _check_enum(table, 'planetary_frame', (*PLANETARY_FRAME_ENUM, None))
     elif table_name == 'enrichment_framing':
@@ -336,6 +348,7 @@ def configure_duckdb(conn: duckdb.DuckDBPyConnection, spill_dir: Path, memory_li
 _SQL_TYPES = {
     pa.string(): 'VARCHAR',
     pa.int32(): 'INTEGER',
+    pa.int64(): 'BIGINT',
     pa.float32(): 'FLOAT',
     pa.float64(): 'DOUBLE',
     pa.timestamp('us', tz='UTC'): 'TIMESTAMPTZ',
@@ -397,15 +410,18 @@ def register_unified_views(conn: duckdb.DuckDBPyConnection, store_root: Path) ->
         ('altimetry', 'enrichment_altimetry_latest', ENRICHMENT_ALTIMETRY_SCHEMA),
         ('radar', 'enrichment_radar_latest', ENRICHMENT_RADAR_SCHEMA),
         ('surface', 'enrichment_surface_latest', ENRICHMENT_SURFACE_SCHEMA),
+        ('global', 'enrichment_global_latest', ENRICHMENT_GLOBAL_SCHEMA),
+        ('selection', 'enrichment_selection_latest', ENRICHMENT_SELECTION_SCHEMA),
     ):
         edir = store_root / 'enrichment' / sub
         if _has_parquet(edir):
             pattern = str(edir / '*.parquet').replace("'", "''")
+            keys = ', '.join(ENRICHMENT_KEYS[sub])
             conn.execute(
                 f"""
                 CREATE OR REPLACE VIEW {view_name} AS
                 SELECT * FROM read_parquet('{pattern}', union_by_name=true)
-                QUALIFY row_number() OVER (PARTITION BY region_id ORDER BY updated_at DESC) = 1
+                QUALIFY row_number() OVER (PARTITION BY {keys} ORDER BY updated_at DESC) = 1
                 """
             )
         else:
@@ -456,7 +472,8 @@ def register_unified_views(conn: duckdb.DuckDBPyConnection, store_root: Path) ->
             COALESCE(f.framing_status, 'on_demand_fetchable') AS framing_status,
             {lunar_schema.unified_lunar_columns_sql('b', 'l')},
             {bridges_schema.unified_bridge_columns_sql('b', 'a', 'r')},
-            {surface_schema.unified_surface_columns_sql('b', 'surf')}
+            {surface_schema.unified_surface_columns_sql('b', 'surf')},
+            {global_schema.unified_global_columns_sql('b', 'g')}
         FROM base_windows b
         LEFT JOIN enrichment_spectral_latest s USING (region_id)
         LEFT JOIN enrichment_temporal_latest t USING (region_id)
@@ -465,6 +482,7 @@ def register_unified_views(conn: duckdb.DuckDBPyConnection, store_root: Path) ->
         LEFT JOIN enrichment_altimetry_latest a USING (region_id)
         LEFT JOIN enrichment_radar_latest r USING (region_id)
         LEFT JOIN enrichment_surface_latest surf USING (region_id)
+        LEFT JOIN enrichment_global_latest g USING (region_id)
         """
     )
 

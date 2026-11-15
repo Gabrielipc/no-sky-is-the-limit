@@ -170,6 +170,23 @@
         "updated_at"
       ],
       "description": "Seis dimensiones de superficie bajo demanda con fuentes oficiales (auditoría 2026-11-14 §3): aridez (IMERG/GSMaP), humedad del suelo (SMAP L3), persistencia de nieve (MOD10A1/SICE), permafrost (ESA CCI Permafrost v5.0), emisividad térmica de silicatos (ASTER GED v3) y retrodispersión SAR en banda C (Sentinel-1 RTC / OPERA-S1). Especificación en specs/sources/dimensiones-superficie-oficiales-v1.json."
+    },
+    "enrichment_global": {
+      "path_pattern": "enrichment/global/delta_*.parquet",
+      "primary_key": [
+        "region_id",
+        "updated_at"
+      ],
+      "description": "Capa global barata de contexto de superficie para todas las ventanas terrestres, muestreada de rásteres climatológicos construidos una sola vez (IMERG mensual, MOD10CM, MYD11C3 + MCD43C3, AG1km, SMAP L3, ESA CCI Permafrost). Columnas con sufijo _cmg y nivel context_coarse: nunca se mezclan con las finas de enrichment_surface. Especificación en specs/sources/capa-global-superficie-v1.json."
+    },
+    "enrichment_selection": {
+      "path_pattern": "enrichment/selection/delta_*.parquet",
+      "primary_key": [
+        "region_id",
+        "design_id",
+        "updated_at"
+      ],
+      "description": "Motivo de enriquecimiento de cada ventana (candidata topográfica, muestra de fondo estratificada o por conglomerados, lista corta por vista, control) con su probabilidad de inclusión, para ajustar las vistas puente sin sesgo de selección."
     }
   },
   "eligibility_profiles": {

@@ -22,6 +22,7 @@ export HOME="${HOME:-/root}"
 export PATH="$HOME/.pixi/bin:$PATH"
 export ATLAS_CACHE_DIR="$SCRATCH_DIR"
 export ANALOGOS_FEATURE_STORE_DIR="$WORKDIR/data/feature_store_v1"
+export ANALOGOS_GLOBAL_LAYERS_DIR="$WORKDIR/data/global_layers"
 export GCS_BUCKET WORKDIR
 
 log() { echo "[$(date -u '+%Y-%m-%dT%H:%M:%SZ')] $*"; }
@@ -99,6 +100,12 @@ for evidence in $(gcloud storage ls "${GCS_BUCKET}/docs/" 2>/dev/null | grep -o 
     mkdir -p "$WORKDIR/docs/$evidence"
     gcloud storage rsync -r "${GCS_BUCKET}/docs/$evidence" "$WORKDIR/docs/$evidence" || true
 done
+# Global surface layers (several GB with AG1km) are only needed to build or sample them.
+if [[ "$ETL_SCRIPT" == *"etl_capa_global.py"* ]]; then
+    log "Restoring global surface layers from ${GCS_BUCKET} (if any)..."
+    mkdir -p "$ANALOGOS_GLOBAL_LAYERS_DIR"
+    gcloud storage rsync -r "${GCS_BUCKET}/data/global_layers" "$ANALOGOS_GLOBAL_LAYERS_DIR" || true
+fi
 
 if [[ "$SYNC_INTERVAL_S" -gt 0 ]]; then
     log "Periodic sync every ${SYNC_INTERVAL_S} s"
