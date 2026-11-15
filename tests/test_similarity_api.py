@@ -7,6 +7,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 from fastapi.testclient import TestClient
 
@@ -209,6 +210,21 @@ class SimilarityAPITest(unittest.TestCase):
         similarity.configure(Path(self.tmp.name) / 'no-hay-almacen', self.model_path)
         self.assertEqual(self.post({'reference': 'jezero'}).status_code, 503)
         self.assertFalse(self.client.get('/api/similarity/status').json()['loaded'])
+
+    def test_engine_code_missing_from_the_image_is_503(self) -> None:
+        """The production image ships without `pipelines/`: a 503 lets the frontend fall back."""
+        real_import = __import__
+
+        def no_pipelines(name, *args, **kwargs):
+            if name == 'pipelines' or name.startswith('pipelines.'):
+                raise ModuleNotFoundError("No module named 'pipelines'")
+            return real_import(name, *args, **kwargs)
+
+        with mock.patch('builtins.__import__', no_pipelines):
+            res = self.client.get('/api/similarity/references')
+            self.assertEqual(res.status_code, 503)
+            self.assertIn('no está instalado', res.json()['detail'])
+            self.assertEqual(self.post({'reference': 'jezero'}).status_code, 503)
 
     def test_status_reports_the_loaded_engine(self) -> None:
         self.post({'reference': 'jezero', 'only_eligible': False})

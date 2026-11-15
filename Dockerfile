@@ -26,6 +26,7 @@ RUN groupadd --system --gid 10001 app \
     && chown 10001:10001 /workspace/releases/atlas30
 
 COPY backend/app/ /workspace/backend/app/
+COPY pipelines/ /workspace/pipelines/
 COPY data/regions.json /workspace/data/regions.json
 COPY docs/ /workspace/docs/
 COPY specs/ /workspace/specs/

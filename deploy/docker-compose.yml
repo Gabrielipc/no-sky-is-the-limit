@@ -7,6 +7,10 @@ services:
       - "${APP_PORT:-8000}:8000"
     environment:
       REGOLITH_JEZERO_PILOT_DIR: "${REGOLITH_JEZERO_PILOT_DIR:-}"
+      # Similarity engine: model and feature store copied to ATLAS_RELEASES_PATH/similarity on the VM.
+      ANALOGOS_SIMILARITY_MODEL: "${ANALOGOS_SIMILARITY_MODEL:-/workspace/releases/atlas30/similarity/motor-similitud-ml-v1.joblib}"
+      ANALOGOS_FEATURE_STORE_DIR: "${ANALOGOS_FEATURE_STORE_DIR:-/workspace/releases/atlas30/similarity/feature_store_v1}"
+      ANALOGOS_DUCKDB_TEMP_DIR: /tmp/duckdb_spill
     volumes:
       - "${ATLAS_RELEASES_PATH:?Set ATLAS_RELEASES_PATH in the deployment .env file}:/workspace/releases/atlas30"
     read_only: true

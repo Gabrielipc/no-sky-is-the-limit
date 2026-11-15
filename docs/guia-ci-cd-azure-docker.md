@@ -259,6 +259,58 @@ leer las publicaciones y escribir `searches.sqlite`. Haz respaldo de esta
 carpeta antes de actualizar datos. El código y la imagen se despliegan desde Git;
 las publicaciones permanecen en el volumen de la VM.
 
+### Motor de similitud (búsqueda en vivo)
+
+La imagen ya incluye el código del motor (`pipelines/`) y sus dependencias de ML,
+pero **no** el modelo ni el almacén de features: no están en Git (`*.parquet` está
+ignorado), así que CI no puede incorporarlos. Se copian una vez a la VM, dentro de
+la carpeta que Compose ya monta, y el contenedor los encuentra en las rutas por
+defecto de `ANALOGOS_SIMILARITY_MODEL` y `ANALOGOS_FEATURE_STORE_DIR`:
+
+```text
+/srv/analogos/releases/atlas30/similarity/
+├── motor-similitud-ml-v1.joblib    ← data/features/modelos-similitud/
+└── feature_store_v1/               ← data/feature_store_v1/ (base, enrichment, manifests)
+```
+
+Se usa la cuenta **administradora** de la VM (la del paso 2), porque `deploy` no
+tiene `sudo` y la carpeta pertenece al UID 10001. `IP_O_DNS_DE_LA_VM` es el mismo
+valor que el Secret `AZURE_VM_HOST`.
+
+**1. En tu computadora**, desde la raíz del repositorio, sube los archivos a una
+carpeta temporal en el home del administrador (~98 MB):
+
+```bash
+rsync -az --exclude duckdb_spill -e 'ssh -i RUTA_A_TU_CLAVE_ADMIN' \
+  data/feature_store_v1 data/features/modelos-similitud/motor-similitud-ml-v1.joblib \
+  usuario-inicial@IP_O_DNS_DE_LA_VM:similarity-upload/
+```
+
+**2. Dentro de la VM** (`ssh -i RUTA_A_TU_CLAVE_ADMIN usuario-inicial@IP_O_DNS_DE_LA_VM`),
+muévelos a su sitio y entrégaselos al usuario del contenedor:
+
+```bash
+sudo mkdir -p /srv/analogos/releases/atlas30/similarity
+sudo rsync -a --delete ~/similarity-upload/ /srv/analogos/releases/atlas30/similarity/
+sudo chown -R 10001:10001 /srv/analogos/releases/atlas30/similarity
+rm -rf ~/similarity-upload
+```
+
+Si tu Variable `ATLAS_RELEASES_PATH` no es `/srv/analogos/releases/atlas30`, usa
+esa ruta seguida de `/similarity`. No hace falta reiniciar: el motor se carga en
+la primera consulta (unos segundos) y queda en memoria (~750 MB con los tres
+perfiles). Para comprobarlo, todavía dentro de la VM:
+
+```bash
+curl -s http://127.0.0.1:8000/api/similarity/status
+curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:8000/api/similarity/references
+```
+
+`200` indica que el motor está activo; `503` significa que falta el modelo o el
+almacén en esa ruta, y el frontend muestra el ejemplo del repositorio. Si se
+reentrena el modelo o se regenera el almacén, repite el `rsync` y reinicia el
+contenedor (`docker compose restart app`) para que lo vuelva a cargar.
+
 ## Configurar GitHub Actions
 
 Configura estos valores en el repositorio de GitHub

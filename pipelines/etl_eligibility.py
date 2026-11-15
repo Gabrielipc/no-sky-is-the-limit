@@ -224,3 +224,19 @@ def sql_case(profile_id: str = DEFAULT_PROFILE, climate: bool = True) -> str:
         WHEN {exposed} >= {p.min_exposed!r} THEN {exposed_then}
         ELSE 'excluded_vegetated_non_tree'
     END"""
+
+
+def eligibility_expression(profile_id: str, climate: bool = True) -> str:
+    """Eligibility of each stored window under `profile_id`.
+
+    Rows already gated with that profile keep their stored label (computed in float64
+    at extraction); other rows are re-gated in SQL from their stored cover fractions.
+    A profile with a cold-climate gate is always re-gated, because the label stored at
+    extraction cannot know the global layers. `climate=False` is for queries over
+    `base_windows`, which has no global columns.
+    """
+    profile = get_profile(profile_id)
+    sql = sql_case(profile_id, climate)
+    if profile.cold_climate is not None:
+        return sql
+    return f"CASE WHEN eligibility_profile = '{profile_id}' THEN analog_surface_eligibility ELSE {sql} END"

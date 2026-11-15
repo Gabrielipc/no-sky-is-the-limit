@@ -81,6 +81,8 @@ jobs:
           curl --fail --silent http://127.0.0.1:8000/assets/logos/regolith-lockup-noche-600px.png >/dev/null
           curl --fail --silent http://127.0.0.1:8000/regolith-lockup-noche.png >/dev/null
           curl --fail --silent http://127.0.0.1:8000/analysis/terrain.json >/dev/null
+          similarity_status="$(curl --silent --output /dev/null --write-out '%{http_code}' http://127.0.0.1:8000/api/similarity/references)"
+          test "$similarity_status" = 200 -o "$similarity_status" = 503
           curl --fail --silent http://127.0.0.1:8000/surface/manifest.json | grep -q '"description": "Visual derivatives only; not new scientific measurements."'
           curl --fail --silent http://127.0.0.1:8000/api/scenarios | grep -q 'relieve-regional'
           curl --fail --silent 'http://127.0.0.1:8000/api/scenarios/relieve-regional/comparison?reference_id=mars-jezero-fan&cell_m=60' >/dev/null
