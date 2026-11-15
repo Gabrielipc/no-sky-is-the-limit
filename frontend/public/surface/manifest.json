@@ -338,6 +338,11 @@
       "bytes": 4228
     },
     {
+      "file": "mars-globe.png",
+      "sha256": "fdbc215cf265c35bad99963ec6cc7fd34ed67e7eba012036dd7de025c3c65fc8",
+      "bytes": 918366
+    },
+    {
       "file": "mars-jezero-fan-height.png",
       "sha256": "556d4d712d6eebf55a3a1436d56b2825ae66600e1af25bb7dd061db352ff003f",
       "bytes": 7092
@@ -4732,5 +4737,12 @@
       "sha256": "20fe738455b9cc12dfa253a0c65796055757c6742e9331460a737b62dec2a767",
       "bytes": 2187
     }
-  ]
+  ],
+  "mars_globe": {
+    "file": "mars-globe.png",
+    "source": "NASA MGS MOLA MEGR90N000CB elevation tiles",
+    "display": "Natural-tone shaded elevation; not a natural-colour photograph",
+    "width": 2048,
+    "height": 1024
+  }
 }

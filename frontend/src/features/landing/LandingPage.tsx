@@ -1,249 +1,395 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Viewer, Cartesian3, Color, Ellipsoid, Globe, ImageryLayer, SingleTileImageryProvider, EllipsoidTerrainProvider, EasingFunction } from 'cesium';
-import 'cesium/Build/Cesium/Widgets/widgets.css';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  ChevronRight, MapPin, Info, Shield,
+  BarChart3, Layers, Zap, ArrowRight, Globe2,
+  Orbit, Compass
+} from 'lucide-react';
+import { CinematicJourney } from './CinematicJourney';
+import { MockMatchPanel } from './MockMatchPanel';
 import './LandingPage.css';
 
-const base = import.meta.env.BASE_URL;
-const PLANETS = [
-  { name: 'Earth', texture: `${base}textures/earth.png`, color: '#315c67', radius: 6378137, lat: 38.4, lon: -110.9, label: 'TIERRA (Utah)' },
-  { name: 'Mars', texture: `${base}textures/mars.png`, color: '#8d4936', radius: 3394839.8, lat: 18.4, lon: 77.4, label: 'MARTE (Jezero)' },
-  { name: 'Moon', texture: `${base}analysis/surface/unified/moon-color.jpg`, color: '#8a857c', radius: 1737400, lat: -85.0, lon: 0.0, label: 'LUNA (Polo Sur)' }
+// ── Ciclo de Misión Automático: Tierra -> Marte -> Luna -> Tierra ──
+const MISSION_LEGS = [
+  {
+    id: 'earth',
+    planet: 'earth' as const,
+    legTag: '1 · TIERRA · ORIGEN',
+    titleMain: 'Antes de ir al espacio,',
+    titleAcc: 'todo se prueba aquí.',
+    desc: 'Los rovers y hábitats deben probarse en la Tierra antes de volar. Regolith mide la forma del terreno y los minerales para encontrar análogos cuantitativos exactos.',
+    siteName: 'Desierto de Utah (Morrison) y Atacama (Chile)',
+    siteMission: 'Evaluar tracción, pendientes y movilidad antes de construir una misión.',
+    accentColor: '#4a9eff',
+  },
+  {
+    id: 'mars',
+    planet: 'mars' as const,
+    legTag: '2 · MARTE · DESTINO',
+    titleMain: 'Cráter Jezero,',
+    titleAcc: 'donde opera Perseverance.',
+    desc: 'Buscamos rastros de vida pasada en el delta del cráter marciano. La inclinación de sus laderas exige rovers probados en pendientes rigurosamente equivalentes.',
+    siteName: 'Delta del Cráter Jezero · 18.4°N, 77.7°E',
+    siteMission: 'Medir diferencias de pendiente con datos de NASA HiRISE y MOLA.',
+    accentColor: '#e05222',
+  },
+  {
+    id: 'moon',
+    planet: 'moon' as const,
+    legTag: '3 · LA LUNA · ARTEMIS',
+    titleMain: 'Polo Sur Lunar,',
+    titleAcc: 'misión Artemis.',
+    desc: 'Cráteres profundos y sombras permanentes donde se oculta hielo de agua. Caracterizamos la rugosidad del regolito polar para los próximos pasos humanos.',
+    siteName: 'Cráter Shackleton · Polo Sur Lunar 89.9°S',
+    siteMission: 'Entrenar astronautas y sensores ópticos en análogos terrestres.',
+    accentColor: '#d0d4d8',
+  },
+];
+
+// 6 Instrumentos espaciales integrados
+const INSTRUMENTS = [
+  { name: 'NASA HiRISE', role: 'Imágenes métricas de ultra-resolución marciana' },
+  { name: 'NASA MOLA', role: 'Topografía láser orbital del planeta Marte' },
+  { name: 'NASA LRO LOLA', role: 'Altímetro láser polar lunar' },
+  { name: 'NASA CRISM', role: 'Espectrometría de minerales y arcillas' },
+  { name: 'NASA EMIT (ISS)', role: 'Firmas espectrales terrestres desde la estación espacial' },
+  { name: 'Copernicus GLO-30', role: 'Modelo digital de elevación global ESA' },
 ];
 
 export function LandingPage({ onStart }: { onStart: () => void }) {
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const backgroundGlobe = useRef<HTMLDivElement>(null);
-  const viewerRef = useRef<Viewer | null>(null);
-  const [currentPlanetIdx, setCurrentPlanetIdx] = useState(0);
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [isTraveling, setIsTraveling] = useState(false);
 
+  const step = MISSION_LEGS[currentStepIndex];
+
+  // ── INICIO AUTOMÁTICO INMEDIATO AL CARGAR LA WEB (SIN BOTONES) ──
   useEffect(() => {
-    // Scroll reveal
-    observerRef.current = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
-      });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => observerRef.current?.observe(el));
+    const timer = setInterval(() => {
+      setIsTraveling(true);
+      setTimeout(() => {
+        setCurrentStepIndex(prev => (prev + 1) % MISSION_LEGS.length);
+        setTimeout(() => {
+          setIsTraveling(false);
+        }, 900);
+      }, 1400);
+    }, 7200);
 
-    // Background Cycle Globe
-    if (backgroundGlobe.current && !viewerRef.current) {
-      try {
-        const viewer = new Viewer(backgroundGlobe.current, {
-          baseLayer: false, baseLayerPicker: false, geocoder: false, homeButton: false,
-          sceneModePicker: false, navigationHelpButton: false, animation: false, timeline: false,
-          fullscreenButton: false, infoBox: false, selectionIndicator: false,
-          creditContainer: document.createElement('div'),
-          scene3DOnly: true,
-        });
-        viewerRef.current = viewer;
-        viewer.scene.backgroundColor = Color.TRANSPARENT;
-        viewer.scene.globe.showGroundAtmosphere = true;
-        
-        // Auto-rotation
-        viewer.scene.postRender.addEventListener(() => {
-          viewer.camera.rotate(Cartesian3.UNIT_Z, 0.001);
-        });
-      } catch (e) { console.error(e); }
-    }
-
-    return () => {
-      observerRef.current?.disconnect();
-      viewerRef.current?.destroy(); viewerRef.current = null;
-    };
+    return () => clearInterval(timer);
   }, []);
 
-  // Planet Cycling Logic
-  useEffect(() => {
-    const viewer = viewerRef.current;
-    if (!viewer) return;
-
-    const planet = PLANETS[currentPlanetIdx];
-    const ellipsoid = new Ellipsoid(planet.radius, planet.radius, planet.radius);
-    
-    // Smooth transition
-    viewer.imageryLayers.removeAll();
-    viewer.scene.globe.baseColor = Color.fromCssColorString(planet.color);
-    
-    SingleTileImageryProvider.fromUrl(planet.texture, { ellipsoid })
-      .then(provider => {
-        if (!viewer.isDestroyed()) {
-          viewer.imageryLayers.add(new ImageryLayer(provider));
-          viewer.camera.flyTo({
-            destination: Cartesian3.fromDegrees(planet.lon, planet.lat, planet.radius * 2.5, ellipsoid),
-            duration: 4,
-            easingFunction: EasingFunction.LINEAR_NONE
-          });
-        }
-      });
-
-    const timer = setTimeout(() => {
-      setCurrentPlanetIdx((prev) => (prev + 1) % PLANETS.length);
-    }, 12000); // Change planet every 12s
-
-    return () => clearTimeout(timer);
-  }, [currentPlanetIdx]);
-
   return (
-    <div className="regolith-landing-premium">
-      {/* Background Cinematic Engine */}
-      <div className="cinematic-background" ref={backgroundGlobe}></div>
-      <div className="cinematic-overlay"></div>
+    <div className="rl-landing">
+      {/* ── FONDO CINEMÁTICO 3D EN CICLO AUTOMÁTICO INMEDIATO ── */}
+      <div className="rl-canvas-bg">
+        <CinematicJourney
+          activePlanet={step.planet}
+          isTraveling={isTraveling}
+        />
+        <div className="rl-canvas-vignette" />
+      </div>
 
-      {/* Navigation */}
-      <nav className="ultra-nav">
-        <div className="container nav-wrap">
-          <a href="/" className="nav-logo">
-            <img src={`${base}assets/logos/regolith-lockup-noche-600px.png`} alt="Regolith" />
-          </a>
-          <div className="nav-actions">
-            <div className="planet-status">
-              <span className="pulse-dot"></span>
-              {PLANETS[currentPlanetIdx].label}
-            </div>
-            <button className="nav-btn-main" onClick={onStart}>Entrar al Atlas</button>
+      {/* ── BARRA DE NAVEGACIÓN CON LOGO Y ESLOGAN ── */}
+      <nav className="rl-nav">
+        <div className="rl-nav-inner">
+          <div className="rl-logo-wrap">
+            <img
+              src="/regolith-lockup-noche.png"
+              alt="Regolith Atlas · No sky is the limit"
+              className="rl-official-logo"
+            />
+            <span className="rl-slogan-badge">
+              Tres cuerpos, un mismo suelo.
+            </span>
           </div>
+
+          <div className="rl-nav-links">
+            <a href="#gancho">EL RETO</a>
+            <a href="#matching">MOTOR DE ANÁLOGOS</a>
+            <a href="#solucion">SOLUCIÓN</a>
+            <a href="#impacto">IMPACTO</a>
+          </div>
+
+          <button className="rl-btn-launch" onClick={onStart}>
+            INICIAR ATLAS <ChevronRight size={15} />
+          </button>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="hero-premium">
-        <div className="container hero-inner reveal">
-          <div className="hero-badge">NASA SPACE APPS CHALLENGE 2026</div>
-          <h1 className="hero-title-main">
-            Tres cuerpos, <br />
-            <span className="gradient-text">un mismo suelo.</span>
-          </h1>
-          <p className="hero-sub">
-            Midiendo la Tierra, la Luna y Marte bajo una misma regla. <br />
-            La ciencia de análogos, rediseñada para la próxima frontera.
-          </p>
-          <div className="hero-cta-group">
-            <button className="btn-glow-gold" onClick={onStart}>Comenzar Exploración</button>
-            <button className="btn-outline" onClick={() => document.getElementById('story')?.scrollIntoView({ behavior: 'smooth' })}>Nuestra Historia</button>
+      {/* ═══════════════════════════════════════════
+          HERO: CICLO CINEMÁTICO AUTOMÁTICO
+      ═══════════════════════════════════════════ */}
+      <section className="rl-hero">
+        <div className="rl-hero-inner">
+          <div className="rl-hero-text">
+            {/* Indicador de misión automática */}
+            <div className="rl-mission-cycle-bar">
+              <div className="rl-cycle-label">
+                <Orbit size={13} className="text-gold" />
+                <span>VIAJE INTERPLANETARIO AUTOMÁTICO</span>
+              </div>
+
+              <div className="rl-cycle-steps">
+                {MISSION_LEGS.map((leg, idx) => {
+                  const isActive = idx === currentStepIndex;
+                  return (
+                    <div
+                      key={leg.id}
+                      className={`rl-cycle-step-btn ${isActive ? 'rl-cycle-step-btn--active' : ''}`}
+                    >
+                      <span className="step-num">{idx + 1}</span>
+                      <span className="step-name">{leg.planet.toUpperCase()}</span>
+                      {isActive && (
+                        <motion.div
+                          className="step-progress-indicator"
+                          layoutId="step-prog"
+                          style={{ background: leg.accentColor }}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Texto animado del Hero */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={step.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.5 }}
+                className="rl-hero-anim-block"
+              >
+                <div className="rl-status-badge">
+                  <span className="rl-pulse" style={{ background: step.accentColor }} />
+                  <span style={{ color: step.accentColor }}>{step.legTag}</span>
+                </div>
+
+                <h1 className="rl-title">
+                  {step.titleMain} <br />
+                  <span style={{ color: step.accentColor }}>{step.titleAcc}</span>
+                </h1>
+
+                <p className="rl-desc">{step.desc}</p>
+
+                {/* Tarjeta de contexto del lugar */}
+                <div className="rl-meta-card">
+                  <div className="rl-meta-item">
+                    <MapPin size={16} style={{ color: step.accentColor, flexShrink: 0 }} />
+                    <div>
+                      <span className="rl-meta-label">LUGAR Y COORDENADAS</span>
+                      <span className="rl-meta-value">{step.siteName}</span>
+                    </div>
+                  </div>
+                  <div className="rl-meta-divider" />
+                  <div className="rl-meta-item">
+                    <Info size={16} style={{ color: step.accentColor, flexShrink: 0 }} />
+                    <div>
+                      <span className="rl-meta-label">OBJETIVO DE MISIÓN</span>
+                      <span className="rl-meta-value">{step.siteMission}</span>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* CTAs */}
+            <div className="rl-ctas">
+              <button className="rl-btn-primary" onClick={onStart}>
+                EXPLORAR ANÁLOGOS
+              </button>
+              <button
+                className="rl-btn-secondary"
+                onClick={() => document.getElementById('matching')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                VER CÓMO FUNCIONA EL MOTOR
+              </button>
+            </div>
+          </div>
+
+          {/* Estadísticas visuales del Atlas */}
+          <div className="rl-hero-stats">
+            <div className="rl-stat-card">
+              <BarChart3 size={24} className="text-gold" />
+              <div>
+                <span className="rl-stat-num text-gold">3.000+</span>
+                <span className="rl-stat-desc">Zonas planetarias revisadas</span>
+              </div>
+            </div>
+            <div className="rl-stat-card">
+              <Layers size={24} className="text-gold" />
+              <div>
+                <span className="rl-stat-num text-gold">6</span>
+                <span className="rl-stat-desc">Instrumentos NASA y ESA fusionados</span>
+              </div>
+            </div>
+            <div className="rl-stat-card">
+              <Zap size={24} className="text-gold" />
+              <div>
+                <span className="rl-stat-num text-gold">Δ 1.5°</span>
+                <span className="rl-stat-desc">Diferencia de pendiente Utah vs Jezero</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Story / Pitch Section */}
-      <section id="story" className="section-story">
-        <div className="container grid-2 reveal">
-          <div className="story-content">
-            <div className="eyebrow">El Gancho</div>
-            <h2>Nicaragua y el espacio nunca estuvieron tan cerca.</h2>
+      {/* ═══════════════════════════════════════════
+          SLIDE 1 & 2 · EL GANCHO Y EL RETO CIENTÍFICO
+      ═══════════════════════════════════════════ */}
+      <section id="gancho" className="rl-problem-section">
+        <div className="rl-container">
+          <div className="rl-section-header">
+            <span className="rl-eyebrow">EL DESAFÍO CIENTÍFICO</span>
+            <h2>La fama no garantiza la <span className="rl-gold">exactitud.</span></h2>
             <p>
-              Desde el <strong>Cerro Negro</strong> hasta el <strong>Desierto de Atacama</strong>, hemos buscado a Marte en casa. Pero la fama no es precisión.
-            </p>
-            <div className="data-comparison">
-              <div className="data-card error">
-                <span className="val">Δ 5.0°</span>
-                <span className="lbl">Atacama vs Jezero</span>
-                <div className="bar"><div className="fill" style={{width: '100%'}}></div></div>
-              </div>
-              <div className="data-card success">
-                <span className="val">Δ 1.5°</span>
-                <span className="lbl">Utah vs Jezero</span>
-                <div className="bar"><div className="fill" style={{width: '30%'}}></div></div>
-              </div>
-            </div>
-            <p className="story-conclusion">
-              Una diferencia de 5 grados puede invalidar meses de pruebas. <strong>Regolith mide antes de ensayar.</strong>
+              Antes de ir a Marte, todo se prueba primero aquí, en la Tierra. Pero si el terreno difiere al evaluar cómo se desempeña un rover, lo aprendido aquí no servirá allá.
             </p>
           </div>
-          <div className="story-visual">
-            <div className="abstract-3d-box">
-              <div className="face f1"></div>
-              <div className="face f2"></div>
-              <div className="face f3"></div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Solución / Tres Pilares */}
-      <section className="section-pillars">
-        <div className="container">
-          <div className="text-center mb-6 reveal">
-            <div className="eyebrow amber">Metodología</div>
-            <h2 className="title-large">Comparaciones rigurosas, <br />datos a la vista.</h2>
-          </div>
-          <div className="grid-3 reveal">
-            <div className="pillar-premium">
-              <div className="pillar-num">01</div>
-              <h3>Misma Escala</h3>
-              <p>Rampa unificada y ventanas espaciales idénticas para evitar sesgos de percepción entre mundos.</p>
-            </div>
-            <div className="pillar-premium">
-              <div className="pillar-num">02</div>
-              <h3>Multicriterio</h3>
-              <p>Inclinación, rugosidad y composición mineralógica bajo un mismo análisis riguroso de 30m/60m.</p>
-            </div>
-            <div className="pillar-premium">
-              <div className="pillar-num">03</div>
-              <h3>Honestidad Técnica</h3>
-              <p>Declaramos abiertamente qué se evaluó y qué se ignoró. Sin datos falsos, solo ciencia abierta.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Impacto & Sostenibilidad */}
-      <section className="section-impact">
-        <div className="container reveal">
-          <div className="impact-box">
-            <div className="grid-2">
-              <div className="impact-text">
-                <div className="eyebrow">Impacto Social & Científico</div>
-                <h2>Sostenible. Abierto. Nicaragüense.</h2>
-                <p>
-                  Regolith funciona como una organización sin fines de lucro. Mantener la ciencia planetaria abierta cuesta menos de <strong>$1,700 al año</strong>.
-                </p>
-                <div className="impact-list">
-                  <div className="impact-item">
-                    <strong>Misiones:</strong> Optimización de sitios de ensayo para rovers y hábitats.
-                  </div>
-                  <div className="impact-item">
-                    <strong>Academia:</strong> Datos reproducibles para investigación planetaria global.
-                  </div>
-                  <div className="impact-item">
-                    <strong>Naciones:</strong> Nuevas oportunidades para países emergentes en la exploración espacial.
-                  </div>
-                </div>
+          <div className="rl-pitch-cards-grid">
+            <div className="rl-pitch-card">
+              <div className="pitch-badge pitch-badge--warning">EL MÁS FAMOSO (ALTO ERROR)</div>
+              <h3>Desierto de Atacama, Chile</h3>
+              <p>
+                Mundialmente citado por su aridez. Pero comparándolo con el sector del cráter donde aterrizó el rover Perseverance, <strong>la inclinación de sus laderas se alejó en promedio 5 grados</strong> del cráter marciano, dificultando la misión.
+              </p>
+              <div className="pitch-delta-visual error">
+                <span>Diferencia de laderas:</span>
+                <strong>Δ 5.0°</strong>
               </div>
-              <div className="impact-stats-circle">
-                <div className="circle-wrap">
-                  <div className="circle-inner">
-                    <span className="big">100%</span>
-                    <span className="small">OPEN SOURCE</span>
-                  </div>
-                </div>
+            </div>
+
+            <div className="rl-pitch-card rl-pitch-card--highlight">
+              <div className="pitch-badge pitch-badge--success">EL MÁS EXACTO (DESCUBIERTO)</div>
+              <h3>Desierto de Utah, EE.UU.</h3>
+              <p>
+                Menos famoso que Atacama, pero sus laderas se alejan <strong>solo 1.5 grados de Jezero</strong>. Ofrece las condiciones cuantitativas precisas para evaluar tracción y movilidad antes de enviar un rover al espacio.
+              </p>
+              <div className="pitch-delta-visual success">
+                <span>Diferencia de laderas:</span>
+                <strong>Δ 1.5°</strong>
+              </div>
+            </div>
+
+            <div className="rl-pitch-card">
+              <div className="pitch-badge pitch-badge--info">ANÁLOGOS VOLCÁNICOS</div>
+              <h3>Volcán Cerro Negro, Nicaragua</h3>
+              <p>
+                En Nicaragua: científicos con apoyo de la NASA han estudiado el volcán Cerro Negro porque sus rocas y piroclastos basálticos se parecen a los de Marte, aportando datos clave sobre tipos de roca y regolito.
+              </p>
+              <div className="pitch-delta-visual info">
+                <span>Aporte geológico:</span>
+                <strong>Basaltos análogos</strong>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer Final */}
-      <footer className="footer-premium reveal">
-        <div className="container">
-          <div className="footer-grid">
-            <div className="footer-brand-large">
-              <img src={`${base}assets/logos/regolith-lockup-noche-600px.png`} alt="Regolith" />
-              <p className="tagline">Nuestro sistema no pregunta qué lugar es famoso, sino cuál es análogo de verdad.</p>
-            </div>
-            <div className="footer-credits">
-              <div className="team-badge">
-                <small>DESARROLLADO POR</small>
-                <strong>NO SKY IS THE LIMIT</strong>
-                <p>UAM, Nicaragua · 2026</p>
+      {/* ═══════════════════════════════════════════
+          MOTOR DE COINCIDENCIAS (TAL COMO ESTABA PERO LO MÁS REALISTA POSIBLE)
+      ═══════════════════════════════════════════ */}
+      <section id="matching" className="matching-section">
+        <div className="rl-container">
+          <div className="rl-section-header">
+            <span className="rl-eyebrow">TECNOLOGÍA REGOLITH</span>
+            <h2>Motor de <span className="rl-gold">Coincidencias</span></h2>
+            <p>Algoritmos avanzados que conectan mundos a través de su geología real.</p>
+          </div>
+
+          {/* Componente del motor como estaba, con imágenes de satélite y escáner láser */}
+          <MockMatchPanel />
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════
+          SLIDE 3 · SOLUCIÓN: FUSIÓN DE 6 INSTRUMENTOS
+      ═══════════════════════════════════════════ */}
+      <section id="solucion" className="rl-instruments-section">
+        <div className="rl-container">
+          <div className="rl-section-header">
+            <span className="rl-eyebrow">LA SOLUCIÓN</span>
+            <h2>Tres cuerpos medidos con las <span className="rl-gold">mismas reglas</span></h2>
+            <p>
+              Fusionamos cientos de datos de seis instrumentos de la NASA (en sus misiones a Marte, la Luna y la ISS) junto con modelos de la Agencia Espacial Europea.
+            </p>
+          </div>
+
+          <div className="rl-instruments-grid">
+            {INSTRUMENTS.map((inst) => (
+              <div key={inst.name} className="rl-instrument-card">
+                <div className="inst-icon-wrap">🛰️</div>
+                <h4>{inst.name}</h4>
+                <p>{inst.role}</p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════
+          SLIDE 4 & 5 · RESULTADO E IMPACTO
+      ═══════════════════════════════════════════ */}
+      <section id="impacto" className="rl-pillars-section">
+        <div className="rl-container">
+          <div className="rl-section-header">
+            <span className="rl-eyebrow">IMPACTO Y SOSTENIBILIDAD</span>
+            <h2>Ciencia abierta para <span className="rl-gold">misiones reales</span></h2>
+          </div>
+          <div className="rl-pillars-grid">
+            <div className="rl-pillar">
+              <div className="rl-pillar-icon">🚀</div>
+              <h3>Equipos de Misión y Universidades</h3>
+              <p>
+                Diseñado para científicos que planifican rutas de rovers, universidades que estudian geología planetaria y países como el nuestro que pueden aportar sitios y datos.
+              </p>
+            </div>
+            <div className="rl-pillar">
+              <div className="rl-pillar-icon">🌐</div>
+              <h3>Código Abierto y Sostenible</h3>
+              <p>
+                Funciona como una organización sin fines de lucro. Mantener la plataforma en línea cuesta menos de 1.700 dólares al año, financiada mediante convenios con agencias y universidades.
+              </p>
+            </div>
+            <div className="rl-pillar">
+              <div className="rl-pillar-icon">⚖️</div>
+              <h3>Rigor y Transparencia</h3>
+              <p>
+                Sin cajas negras ni notas arbitrarias. Declaramos lo medido y somos honestos con lo que falta: rocas, polvo, hielo y análisis más fino de la Luna.
+              </p>
             </div>
           </div>
-          <div className="footer-legal-bar">
-            <span>NASA Space Apps Challenge · Ciencia Planetaria y de la Tierra</span>
-            <div className="legal-links">
-              <a href="#">Datos</a>
-              <a href="#">GitHub</a>
-              <a href="#">Metodología</a>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════
+          SLIDE 6 · CIERRE CON EL ESLOGAN OFICIAL
+      ═══════════════════════════════════════════ */}
+      <footer className="rl-footer">
+        <div className="rl-footer-cta">
+          <span className="rl-footer-motto">TRES CUERPOS, UN MISMO SUELO.</span>
+          <h2>Nuestro sistema no pregunta qué lugar es famoso, sino cuál es análogo de verdad.</h2>
+          <p>Proyecto de código abierto · NASA Space Apps Challenge</p>
+          <button className="rl-btn-launch-lg" onClick={onStart}>
+            ACCEDER AL ATLAS COMPLETO <ChevronRight size={18} />
+          </button>
+        </div>
+
+        <div className="rl-footer-bottom">
+          <div className="rl-container">
+            <div className="rl-footer-row">
+              <div className="rl-footer-brand">
+                <img src="/regolith-lockup-noche.png" alt="Regolith" className="rl-footer-logo" />
+                <span>© 2026 REGOLITH ATLAS · TRES CUERPOS, UN MISMO SUELO.</span>
+              </div>
+              <div className="rl-footer-links">
+                <a href="#gancho">EL RETO</a>
+                <a href="#matching">MOTOR DE ANÁLOGOS</a>
+                <a href="#solucion">SOLUCIÓN</a>
+                <button className="rl-link-btn" onClick={onStart}>INICIAR ATLAS</button>
+              </div>
             </div>
           </div>
         </div>

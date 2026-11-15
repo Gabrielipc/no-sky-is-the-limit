@@ -16,12 +16,10 @@ import { useSimulation } from "../features/simulation/useSimulation";
 import { location, references } from "../features/simulation/model";
 import { AtlasReview } from "../features/simulation/AtlasReview";
 import "../features/simulation/simulation.css";
-import { loadCesium } from "../data/loadCesium";
-// Cesium is a global script in production: the landing loads it before importing its globe.
-const LandingPage = lazy(async () => {
-  await loadCesium();
-  return import("../features/landing/LandingPage").then((m) => ({ default: m.LandingPage }));
-});
+// The landing brings its own 3D stack (three.js): load it only when the landing is shown.
+const LandingPage = lazy(() =>
+  import("../features/landing/LandingPage").then((m) => ({ default: m.LandingPage })),
+);
 
 export function AtlasShell() {
   const { state, update, adjusted, dismissAdjustment } = useAtlasState();
