@@ -378,8 +378,11 @@ def register_unified_views(conn: duckdb.DuckDBPyConnection, store_root: Path) ->
         present = {r[0] for r in conn.execute('DESCRIBE base_windows_files').fetchall()}
         missing = ', '.join(f'CAST(NULL AS {_SQL_TYPES[f.type]}) AS {f.name}'
                             for f in BASE_WINDOWS_SCHEMA if f.name not in present)
+        # A window measured by two batches (e.g. a pilot batch and the world sweep share the grid)
+        # appears in two parts: keep the latest row per region_id.
         conn.execute(f"CREATE OR REPLACE VIEW base_windows_raw AS SELECT *{', ' + missing if missing else ''} "
-                     "FROM base_windows_files")
+                     "FROM base_windows_files "
+                     "QUALIFY row_number() OVER (PARTITION BY region_id ORDER BY updated_at DESC, batch_id DESC) = 1")
     else:
         conn.execute(_empty_view_sql('base_windows_raw', BASE_WINDOWS_SCHEMA))
 

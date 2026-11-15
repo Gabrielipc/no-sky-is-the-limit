@@ -87,6 +87,14 @@ def run_build(args: argparse.Namespace) -> None:
         spec['layers']['ati']['albedo_step_days'] = args.albedo_step_days
     report = gl.build_layers(layers, ctx, spec, force=args.force)
     print(json.dumps(report, ensure_ascii=False, indent=2), flush=True)
+    if args.report:
+        # Merge with earlier runs so the file shows the latest status of every layer.
+        path = Path(args.report)
+        merged = json.loads(path.read_text(encoding='utf-8')) if path.exists() else {}
+        stamp = gl.utc_now().isoformat(timespec='seconds')
+        merged.update({k: v | {'at': stamp} for k, v in report.items()})
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(merged, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     if any(r['status'] == 'failed' for r in report.values()) and args.strict:
         sys.exit(1)
 
@@ -153,6 +161,8 @@ def main(argv: list[str] | None = None) -> None:
     p_build.add_argument('--albedo-step-days', type=int)
     p_build.add_argument('--force', action='store_true', help='Reconstruir capas ya construidas')
     p_build.add_argument('--strict', action='store_true', help='Salir con error si falla alguna capa')
+    p_build.add_argument('--report', default=str(ROOT / 'docs/evidencia-capa-global/build.json'),
+                         help="Estado por capa ('' para omitir)")
 
     p_sample = sub.add_parser('sample', help='Muestrear las capas en todas las ventanas terrestres')
     p_sample.add_argument('--store-dir', default=str(DEFAULT_STORE))

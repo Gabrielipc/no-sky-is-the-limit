@@ -1,12 +1,13 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { useResource } from '../../data/api';
 import './world.css';
+import type { AtlasState } from '../../app/useAtlasState';
 
 type Profile = {
   site: string; slope_p50_deg: number; relief_m: number; roughness_m: number;
   slope_baseline_m: number; roughness_radius_m: number;
 };
-type Release = {
+export type Release = {
   version: string; cell_m: number; stride_m: number; window_m: number; scope: 'pilot' | 'world';
   coverage_status: string; batch_count: number; planned_batches: number; counts: Record<string, number>;
   profile: Profile; expedients: string[]; context_counts: { bare: number; water: number };
@@ -25,7 +26,7 @@ type Case = {
   sensitivity: { cell_m: number; status: string; comparison: Distances | null }[];
   source_contrast: { product?: string; reason?: string; distances?: Distances };
 };
-type Candidate = {
+export type Candidate = {
   window: Match & {
     valid_slope: number; valid_elevation: number; valid_roughness: number; land_fraction: number;
     slope_p50_deg: number; relief_m: number; roughness_m: number;
@@ -37,8 +38,8 @@ type Candidate = {
 type Criteria = { slope: string; relief: string; roughness: string; bare: string; water: string };
 const initial: Criteria = { slope: '50', relief: '30', roughness: '20', bare: '', water: '' };
 const labels = { slope: 'Pendiente', relief: 'Relieve', roughness: 'Rugosidad' };
-const format = (value: number, decimals = 2) => value.toLocaleString('es', { maximumFractionDigits: decimals });
-const percent = (fraction: number) => format(fraction * 100, 1) + ' %';
+const format = (value: number | null | undefined, decimals = 2) => value==null?'Sin datos':value.toLocaleString('es', { maximumFractionDigits: decimals });
+const percent = (fraction: number|null|undefined) => fraction==null?'Sin datos':format(fraction * 100, 1) + ' %';
 const signed = (value: number) => (value > 0 ? '+' : '') + format(value);
 const location = ({ latitude, longitude }: { latitude: number; longitude: number }) =>
   `${format(Math.abs(latitude), 3)}° ${latitude >= 0 ? 'N' : 'S'}, ${format(Math.abs(longitude), 3)}° ${longitude >= 0 ? 'E' : 'O'}`;
@@ -62,7 +63,7 @@ function WorldMap({ bins, matches, selected, choose }: { bins: Bin[]; matches: M
   </figure>;
 }
 
-function CandidateDetail({ version, regionId }: { version: string; regionId: string }) {
+export function CandidateDetail({ version, regionId }: { version: string; regionId: string }) {
   const { data, loading, error } = useResource<Candidate>(`/api/atlas/candidates/${encodeURIComponent(regionId)}?version=${encodeURIComponent(version)}`);
   if (error) return <p role="alert">{error}</p>;
   if (loading || !data) return <p role="status">Cargando ventana…</p>;
@@ -86,15 +87,16 @@ function CandidateDetail({ version, regionId }: { version: string; regionId: str
   </section>;
 }
 
-export function WorldWorkspace() {
-  const [version, setVersion] = useState('');
-  const [draft, setDraft] = useState(initial);
-  const [criteria, setCriteria] = useState(initial);
+export function WorldWorkspace({state,update}:{state:AtlasState;update:(patch:Partial<AtlasState>)=>void}) {
+  const version=state.release;const setVersion=(release:string)=>update({release,regionId:''});
+  const [draft, setDraft] = useState({...initial,slope:String(state.atlasSlope),relief:String(state.atlasRelief),roughness:String(state.atlasRoughness)});
+  const [criteria, setCriteria] = useState({...initial,slope:String(state.atlasSlope),relief:String(state.atlasRelief),roughness:String(state.atlasRoughness)});
   const [offset, setOffset] = useState(0);
-  const [selected, setSelected] = useState('');
+  const selected=state.regionId;const setSelected=(regionId:string)=>update({regionId});
   const summary = useResource<Release>('/api/atlas' + (version ? '?version=' + encodeURIComponent(version) : ''));
   const { data: releases } = useResource<string[]>('/api/atlas/versions');
   const release = summary.data;
+  useEffect(()=>{if(release&&!state.release)update({release:release.version});},[release,state.release,update]);
   const parameters = new URLSearchParams({ version: release?.version || '', slope: criteria.slope, relief: criteria.relief,
     roughness: criteria.roughness, offset: String(offset), limit: String(limit) });
   if (criteria.bare) parameters.set('bare_min', String(Number(criteria.bare) / 100));
@@ -105,10 +107,10 @@ export function WorldWorkspace() {
   const active = selected || matches[0]?.region_id;
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setCriteria({ ...draft }); setOffset(0); setSelected('');
+    update({atlasSlope:Number(draft.slope),atlasRelief:Number(draft.relief),atlasRoughness:Number(draft.roughness)}); setCriteria({ ...draft }); setOffset(0); setSelected('');
   };
   return <section className="world-workspace" aria-labelledby="world-title">
-    <header><p className="world-kicker">JEZERO / TIERRA · TOPOGRAFÍA</p><h1 id="world-title">Búsqueda mundial a 30 m</h1>
+    <header><p className="world-kicker">JEZERO / TIERRA · TOPOGRAFÍA</p><h1 id="world-title">Búsqueda mundial a 30 m</h1><p className="sim-badge">Método del atlas · topografía ponderada</p>
       <p>Explora ventanas terrestres de 3 × 3 km que se acercan a la forma del terreno del abanico de Jezero.</p></header>
     {summary.error && <p role="alert">{summary.error} <button onClick={summary.retry}>Reintentar</button></p>}
     {summary.loading && <p role="status">Cargando índice…</p>}
@@ -153,7 +155,7 @@ export function WorldWorkspace() {
       </section>}
       {!!release.expedients.length && <section className="world-cases"><h2>Expedientes disponibles</h2>
         <div>{release.expedients.map((id, index) => <button key={id} aria-pressed={id === active} onClick={() => setSelected(id)}>Expediente {index + 1}</button>)}</div></section>}
-      {active && <CandidateDetail version={release.version} regionId={active} />}
+      {active && <><div className="journey-actions"><button onClick={()=>update({view:'compare',method:'atlas',regionId:active,release:release.version})}>Comparar esta candidata →</button><button onClick={()=>update({view:'sensitivity',method:'atlas',regionId:active,release:release.version})}>Revisar sensibilidad</button></div><CandidateDetail version={release.version} regionId={active} /></>}
       <p className="world-note">El DEM GLO‑30 mide la superficie e incluye vegetación y construcciones. Las candidatas son hipótesis de comparación topográfica. Datos de cobertura de ESA WorldCover y agua de EC JRC/Google.</p>
     </>}
   </section>;

@@ -24,7 +24,7 @@ import numpy as np  # noqa: E402
 from pipelines import etl_eligibility as eligibility  # noqa: E402
 from pipelines import similarity_ml as sim  # noqa: E402
 
-DEFAULT_STORE = ROOT / 'data/feature_store_v1'
+DEFAULT_STORE = Path(__import__('os').environ.get('ANALOGOS_FEATURE_STORE_DIR') or (ROOT / 'data/feature_store_v1'))
 DEFAULT_MODEL = sim.DEFAULT_MODEL_DIR / 'motor-similitud-ml-v1.joblib'
 
 

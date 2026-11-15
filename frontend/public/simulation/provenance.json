@@ -1,0 +1,22 @@
+{
+  "kind": "reviewable_repository_examples",
+  "release": null,
+  "window_m": 3000,
+  "cell_m": 30,
+  "slope_baseline_m": 240,
+  "roughness_radius_m": 360,
+  "files": [
+    {
+      "reference": "jezero",
+      "file": "jezero.json",
+      "source": "docs/evidencia-motor-similitud/busqueda-jezero.json",
+      "sha256": "164cee50a8e0e4172e3e2191710439a231b9e39e8e6e577a58425a8175c9e095"
+    },
+    {
+      "reference": "haworth-fondo",
+      "file": "haworth-fondo.json",
+      "source": "docs/evidencia-motor-similitud/busqueda-haworth.json",
+      "sha256": "81067724184b9d7f2aedd07ec5a4079437b78946c83fabcf7b87de638ceb21c2"
+    }
+  ]
+}

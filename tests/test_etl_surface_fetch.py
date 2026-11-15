@@ -307,3 +307,26 @@ class TestStoreIntegration(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class RetryTest(unittest.TestCase):
+    def test_transient_errors_are_retried_and_permanent_ones_are_not(self) -> None:
+        import urllib.error
+        from pipelines import etl_surface_fetch as f
+        calls, sleeps = [], []
+
+        def flaky():
+            calls.append(1)
+            if len(calls) < 3:
+                raise urllib.error.URLError('[Errno -3] Temporary failure in name resolution')
+            return 'ok'
+
+        self.assertEqual(f.with_retries(flaky, sleep=sleeps.append), 'ok')
+        self.assertEqual(sleeps, [5.0, 10.0])
+
+        def forbidden():
+            raise urllib.error.HTTPError('u', 403, 'Forbidden', {}, None)
+
+        with self.assertRaises(urllib.error.HTTPError):
+            f.with_retries(forbidden, sleep=sleeps.append)
+        self.assertEqual(len(sleeps), 2)  # 403 is not retried

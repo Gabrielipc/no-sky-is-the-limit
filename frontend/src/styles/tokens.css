@@ -1,3 +1,4 @@
+@font-face { font-family:'DM Sans'; src:url('../assets/dm-sans.ttf') format('truetype'); font-weight:100 1000; font-display:swap; }
 :root {
   color-scheme: dark;
   /* Palette: Noche de regolito */
@@ -15,14 +16,15 @@
   --accent-amber-glow: rgba(242, 166, 78, 0.3);
   --candidate: #efb38a;
   --error: #ffc0ac;
-  --nodata: #727e7a;
+  --nodata: #9A8B7B;
   font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   font-synthesis: none;
+  font-variant-numeric: tabular-nums;
   background: var(--bg);
   color: var(--text);
 }
 * { box-sizing: border-box; }
-body { margin: 0; font-size: 14px; line-height: 1.5; }
+body { margin: 0; font-size: 15px; line-height: 1.467; }
 button, input, select { font: inherit; }
 button, select, input[type='checkbox'], input[type='range'], summary { cursor: pointer; }
 button { color: var(--text); background: var(--surface); border: 1px solid var(--line); padding: 8px 13px; border-radius: 6px; min-height: 38px; }

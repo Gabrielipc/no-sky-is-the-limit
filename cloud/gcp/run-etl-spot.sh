@@ -17,9 +17,17 @@ ETL_ARGS="${ETL_ARGS:-stream --scope world --stride 10000 --max-batches 50 --wor
 AUTO_DELETE="${AUTO_DELETE:-1}"
 SYNC_INTERVAL_S="${SYNC_INTERVAL_S:-600}"
 EARTHDATA_SECRET="${EARTHDATA_SECRET:-}"
+# The store has ~65k small files (one base part, batch record and source manifest per batch) and a
+# per-object rsync takes most of an hour. Each run therefore leaves a single-object snapshot at the
+# end, and the next run restores it in seconds and only rsyncs what is newer.
+STORE_SNAPSHOT="${STORE_SNAPSHOT:-${GCS_BUCKET}/snapshots/feature_store_v1.tar}"
+WRITE_SNAPSHOT="${WRITE_SNAPSHOT:-1}"
 
 export HOME="${HOME:-/root}"
 export PATH="$HOME/.pixi/bin:$PATH"
+# Many small objects: transfers are latency bound, so use many parallel requests.
+export CLOUDSDK_STORAGE_PROCESS_COUNT="${CLOUDSDK_STORAGE_PROCESS_COUNT:-$(nproc)}"
+export CLOUDSDK_STORAGE_THREAD_COUNT="${CLOUDSDK_STORAGE_THREAD_COUNT:-32}"
 export ATLAS_CACHE_DIR="$SCRATCH_DIR"
 export ANALOGOS_FEATURE_STORE_DIR="$WORKDIR/data/feature_store_v1"
 export ANALOGOS_GLOBAL_LAYERS_DIR="$WORKDIR/data/global_layers"
@@ -38,6 +46,12 @@ cleanup_and_exit() {
     log "Final sync to ${GCS_BUCKET} (exit code: ${code})..."
     mkdir -p "$WORKDIR/data/feature_store_v1" "$WORKDIR/releases"
     SYNC_LOCK_WAIT_S=300 bash "$WORKDIR/cloud/gcp/sync-outputs.sh" || true
+    if [[ "$WRITE_SNAPSHOT" == "1" && -d "$WORKDIR/data/feature_store_v1/base" ]]; then
+        log "Writing store snapshot ${STORE_SNAPSHOT}..."
+        tar -C "$WORKDIR/data" --exclude='duckdb_spill' --exclude='.stream_tmp' --exclude='tmp*' --exclude='._*' --format=gnu -cf - feature_store_v1 \
+            | gcloud storage cp - "${STORE_SNAPSHOT}.part-$(hostname)" \
+            && gcloud storage mv "${STORE_SNAPSHOT}.part-$(hostname)" "$STORE_SNAPSHOT" || log "WARNING: snapshot not written"
+    fi
     gcloud storage cp /var/log/analogos-etl.log "${GCS_BUCKET}/logs/etl-$(hostname)-$(date -u +%Y%m%d-%H%M%S).log" || true
 
     if [[ "$AUTO_DELETE" == "1" ]]; then
@@ -94,7 +108,23 @@ fi
 
 log "Restoring existing Feature Store / manifests from ${GCS_BUCKET} (if any)..."
 mkdir -p "$WORKDIR/data/feature_store_v1" "$WORKDIR/releases"
-gcloud storage rsync -r "${GCS_BUCKET}/data/feature_store_v1" "$WORKDIR/data/feature_store_v1" || true
+if gcloud storage ls "$STORE_SNAPSHOT" >/dev/null 2>&1; then
+    log "Restoring store snapshot ${STORE_SNAPSHOT} (single object)..."
+    # Archives made on macOS carry com.apple.* extended headers: GNU tar warns once per file and the
+    # serial console (~70 lines/s) then paces the whole extraction. Drop those warnings.
+    gcloud storage cat "$STORE_SNAPSHOT" | tar -x --warning=no-unknown-keyword -C "$WORKDIR/data" 2>/dev/null \
+        || log "WARNING: snapshot not restored"
+fi
+log "Completing the store with files newer than the snapshot..."
+# gcloud matches --exclude from the start of the relative path: keep the leading `(.*/)?`.
+APPLEDOUBLE='(.*/)?\._.*'
+gcloud storage rsync -r --no-clobber --exclude="$APPLEDOUBLE" "${GCS_BUCKET}/data/feature_store_v1" "$WORKDIR/data/feature_store_v1" 2>&1 \
+    | grep -v '^Copying\|^\.Copying' || true
+gcloud storage rsync -r --exclude="$APPLEDOUBLE" "${GCS_BUCKET}/data/feature_store_v1/enrichment" "$WORKDIR/data/feature_store_v1/enrichment" 2>&1 \
+    | grep -v '^Copying\|^\.Copying' || true
+# macOS archives carry AppleDouble `._*` files next to every file (and a faulty run uploaded some to the
+# bucket); DuckDB would read `._part_*.parquet` as Parquet. They hold no data: drop them all.
+find "$WORKDIR/data/feature_store_v1" -name '._*' -delete
 gcloud storage rsync -r "${GCS_BUCKET}/releases" "$WORKDIR/releases" || true
 for evidence in $(gcloud storage ls "${GCS_BUCKET}/docs/" 2>/dev/null | grep -o 'evidencia-[^/]*' | sort -u); do
     mkdir -p "$WORKDIR/docs/$evidence"
