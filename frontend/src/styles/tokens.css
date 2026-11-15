@@ -1,15 +1,20 @@
 @font-face { font-family:'DM Sans'; src:url('../assets/dm-sans.ttf') format('truetype'); font-weight:100 1000; font-display:swap; }
 :root {
   color-scheme: dark;
-  --bg: #1C1511;
-  --surface: #271D16;
-  --surface-raised: #34261C;
-  --selected: #4B3523;
-  --text: #F6EDE0;
-  --muted: #CDBBA4;
-  --line: #85705A;
-  --accent: #F2A64E;
-  --candidate: #72AED6;
+  /* Palette: Noche de regolito */
+  --bg: #101817; /* Original platform bg */
+  --bg-regolith: #1C1511; /* Noche de regolito */
+  --surface: #17231e;
+  --surface-raised: #202e26;
+  --surface-regolith: #34261C; /* Color Elevado */
+  --selected: #2c402c;
+  --text: #e9ede5;
+  --muted: #aab9ab;
+  --line: #3e5144;
+  --accent: #c5e59e; /* Original accent */
+  --accent-amber: #F2A64E; /* Acento ámbar */
+  --accent-amber-glow: rgba(242, 166, 78, 0.3);
+  --candidate: #efb38a;
   --error: #ffc0ac;
   --nodata: #9A8B7B;
   font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;

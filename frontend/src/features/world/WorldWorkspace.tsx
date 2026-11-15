@@ -48,7 +48,7 @@ const limit = 25;
 function WorldMap({ bins, matches, selected, choose }: { bins: Bin[]; matches: Match[]; selected: string; choose: (id: string) => void }) {
   return <figure className="world-map">
     <svg viewBox="0 0 720 360" aria-label="Mapa mundial de cobertura y resultados" role="group">
-      <image href="/textures/earth.png" width="720" height="360" opacity=".48" />
+      <image href={`${import.meta.env.BASE_URL}surface/blue-marble.png`} width="720" height="360" opacity=".48" />
       {bins.map(bin => <rect key={`${bin.west}/${bin.south}`} x={(bin.west + 180) * 2} y={(88 - bin.south) * 2}
         width="4" height="4" className={bin.gaps ? 'world-map-gap' : bin.rankable ? 'world-map-sampled' : 'world-map-excluded'}>
         <title>{bin.sampled} ventanas muestreadas, {bin.rankable} clasificables, {bin.gaps} con huecos del DEM, {bin.excluded} con poca tierra</title>
