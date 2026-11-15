@@ -62,7 +62,7 @@ export function LandingPage({ onStart }: { onStart: () => void }) {
     }
   }, [isMatchingAuto]);
 
-  const planetInfo = PLANETS_DATA[currentPlanet as keyof typeof PLANETS_DATA];
+  const planetInfo = PLANETS_DATA[currentPlanet as keyof typeof PLANETS_DATA] || PLANETS_DATA.earth;
 
   return (
     <div className="regolith-landing-v4">
@@ -246,7 +246,7 @@ export function LandingPage({ onStart }: { onStart: () => void }) {
                   <div className="display-side earth">
                     <div className="side-tag">TIERRA</div>
                     <div className="side-img-container">
-                      <img src="/analysis/utah-context.png" alt="Earth site" />
+                      <img src="/analysis/utah-context.png" alt="Earth site" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       <div className="scan-effect" />
                     </div>
                     <h4>{MATCH_EXAMPLES[activeMatch].earth}</h4>
