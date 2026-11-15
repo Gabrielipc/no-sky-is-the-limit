@@ -23,10 +23,7 @@ export function ContextGlobe({ site }: { site: Location }) {
         infoBox: false, selectionIndicator: false });
       viewerRef.current = viewer;
       viewer.scene.globe.baseColor = Color.fromCssColorString(mars ? '#8d4936' : '#315c67');
-      SingleTileImageryProvider.fromUrl(
-        mars ? `${import.meta.env.BASE_URL}surface/mars-globe.png` : `${import.meta.env.BASE_URL}surface/blue-marble.png`,
-        { ellipsoid },
-      )
+      SingleTileImageryProvider.fromUrl(mars ? '/textures/mars.png' : '/textures/earth.png', { ellipsoid })
         .then(provider => { if (!viewer.isDestroyed()) viewer.imageryLayers.add(new ImageryLayer(provider)); })
         .catch(() => { if (!viewer.isDestroyed()) setError('No se pudo cargar la textura global; se muestra un fondo uniforme.'); });
       viewer.entities.add({ position: Cartesian3.fromDegrees(site.longitude, site.latitude, 0, ellipsoid),
