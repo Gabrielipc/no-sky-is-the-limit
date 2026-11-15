@@ -132,8 +132,16 @@ Si todavía no tienes una publicación Atlas, la carpeta puede quedar vacía: el
 resto de la aplicación puede iniciar, pero las rutas del Atlas no tendrán un
 índice disponible.
 
-Abre una sesión SSH nueva como `deploy` y comprueba el acceso a Docker, el
-directorio de despliegue y la existencia del directorio Atlas:
+El usuario `deploy` no tiene contraseña: se crea para autenticarse con una
+clave SSH. Primero completa el paso 5 para instalar y probar esa clave; después
+conéctate como `deploy` y comprueba Docker y los directorios:
+
+```bash
+ssh -i ~/.ssh/analogos_azure_deploy -o IdentitiesOnly=yes \
+  -p 22 deploy@IP_O_DNS_DE_LA_VM
+```
+
+Ya dentro de la VM, ejecuta:
 
 ```bash
 docker version
@@ -145,7 +153,9 @@ test -d /srv/analogos/releases/atlas30 && echo "Directorio Atlas existe"
 Si `docker version` indica permiso denegado, confirma que `deploy` pertenece al
 grupo `docker` y vuelve a iniciar sesión. La carpeta Atlas pertenece al UID
 `10001`, no al usuario `deploy`; el job de despliegue probará que el contenedor
-pueda escribir allí antes de actualizar la aplicación.
+pueda escribir allí antes de actualizar la aplicación. No intentes iniciar
+sesión con una contraseña de `deploy`; si aún no has instalado la clave, usa
+temporalmente la cuenta administrativa de la VM para completar el paso 5.
 
 ### 5. Crear una clave exclusiva para GitHub Actions
 
@@ -195,12 +205,23 @@ sudo chown deploy:deploy /home/deploy/.ssh/authorized_keys
 sudo chmod 600 /home/deploy/.ssh/authorized_keys
 ```
 
-Prueba la clave antes de configurar GitHub:
+Prueba la clave antes de configurar GitHub. Este comando inicia una sesión
+interactiva como `deploy`; no pide una contraseña:
 
 ```bash
 ssh -i ~/.ssh/analogos_azure_deploy -o IdentitiesOnly=yes \
-  -p 22 deploy@IP_O_DNS_DE_LA_VM 'docker compose version'
+  -p 22 deploy@IP_O_DNS_DE_LA_VM
 ```
+
+Cuando veas el prompt remoto, valida Docker y el directorio de despliegue:
+
+```bash
+docker version
+docker compose version
+test -w /opt/analogos && echo "/opt/analogos escribible"
+```
+
+Al terminar, escribe `exit` para cerrar la sesión.
 
 Si usas un puerto SSH distinto, reemplaza `22` por ese puerto en las pruebas y
 configura `AZURE_VM_SSH_PORT` en GitHub. Nunca copies la clave privada al
