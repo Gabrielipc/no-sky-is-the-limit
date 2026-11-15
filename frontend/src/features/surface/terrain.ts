@@ -1,6 +1,6 @@
 /** Data math kept independent of WebGL so orientation, units and holes are testable. */
 export type SurfaceSite = {
-  id: string; name: string; body: 'Mars' | 'Earth'; longitude: number; latitude: number;
+  id: string; name: string; body: 'Mars' | 'Earth' | 'Moon'; longitude: number; latitude: number;
   width: number; height: number; cell_m: number; window_m: number;
   offset_m: number; scale_m: number; nodata: number; center_m: number; min_m: number; max_m: number;
   coverage: number; heightmap: string; texture: string; source: string; source_url: string;
@@ -52,8 +52,8 @@ export function layerURL(input: string, base: string): string {
   return url.href;
 }
 
-/** Shared legend/texture palette: low teal, mid sand, high ivory. */
-export const elevationStops = [[28,91,112],[78,151,150],[201,190,128],[238,220,176],[255,249,229]];
+/** Official Regolith sequential ramp, shared by both terrain views. */
+export const elevationStops = [[43,29,20],[92,53,26],[148,74,32],[208,103,43],[242,166,78],[248,211,143],[253,241,214]];
 export function elevationColor(value: number, min: number, max: number): number[] {
   const t = Math.max(0,Math.min(1,(value-min)/(max-min || 1)))*(elevationStops.length-1);
   const i = Math.min(elevationStops.length-2,Math.floor(t)), f=t-i;
