@@ -8,6 +8,7 @@ import unittest
 
 import pyarrow.parquet as pq
 
+from pipelines import contract_check as check
 from pipelines import etl_publish as publish
 from pipelines import similarity_ml as sim
 from scripts import exportar_contratos as exporter
@@ -15,61 +16,10 @@ from tests.test_selection_engine import EngineSelectionTest
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA = json.loads((ROOT / 'specs/api/motor-busqueda-v1.schema.json').read_text(encoding='utf-8'))
-TYPES = {'object': dict, 'array': list, 'string': str, 'boolean': bool, 'null': type(None)}
 
 
 def validate(value, schema: dict, path: str = '$', root: dict = SCHEMA) -> list[str]:
-    """Small JSON Schema subset (type, required, properties, additionalProperties, items, enum, const,
-    minimum/maximum, minItems/maxItems, oneOf, local $ref, propertyNames.enum)."""
-    if '$ref' in schema:
-        target = root
-        for part in schema['$ref'].lstrip('#/').split('/'):
-            target = target[part]
-        return validate(value, target, path, root)
-    if 'oneOf' in schema:
-        matches = [validate(value, s, path, root) for s in schema['oneOf']]
-        return [] if any(not m for m in matches) else matches[0]
-    errors = []
-    types = schema.get('type')
-    if types:
-        types = [types] if isinstance(types, str) else types
-        ok = any((t == 'number' and isinstance(value, (int, float)) and not isinstance(value, bool))
-                 or (t == 'integer' and isinstance(value, int) and not isinstance(value, bool))
-                 or (t in TYPES and isinstance(value, TYPES[t])) for t in types)
-        if not ok:
-            return [f'{path}: tipo {type(value).__name__} no es {types}']
-    if 'const' in schema and value != schema['const']:
-        errors.append(f'{path}: {value!r} != {schema["const"]!r}')
-    if 'enum' in schema and value not in schema['enum']:
-        errors.append(f'{path}: {value!r} fuera de {schema["enum"]}')
-    if isinstance(value, (int, float)) and not isinstance(value, bool):
-        if 'minimum' in schema and value < schema['minimum'] - 1e-9:
-            errors.append(f'{path}: {value} < {schema["minimum"]}')
-        if 'maximum' in schema and value > schema['maximum'] + 1e-9:
-            errors.append(f'{path}: {value} > {schema["maximum"]}')
-    if isinstance(value, dict):
-        for key in schema.get('required', []):
-            if key not in value:
-                errors.append(f'{path}: falta {key}')
-        props = schema.get('properties', {})
-        for key, item in value.items():
-            if 'propertyNames' in schema and 'enum' in schema['propertyNames'] and key not in schema['propertyNames']['enum']:
-                errors.append(f'{path}: clave {key} no permitida')
-            if key in props:
-                errors += validate(item, props[key], f'{path}.{key}', root)
-            elif isinstance(schema.get('additionalProperties'), dict):
-                errors += validate(item, schema['additionalProperties'], f'{path}.{key}', root)
-            elif schema.get('additionalProperties') is False:
-                errors.append(f'{path}: propiedad no declarada {key}')
-    if isinstance(value, list):
-        if 'minItems' in schema and len(value) < schema['minItems']:
-            errors.append(f'{path}: menos de {schema["minItems"]} elementos')
-        if 'maxItems' in schema and len(value) > schema['maxItems']:
-            errors.append(f'{path}: más de {schema["maxItems"]} elementos')
-        if 'items' in schema:
-            for i, item in enumerate(value):
-                errors += validate(item, schema['items'], f'{path}[{i}]', root)
-    return errors
+    return check.validate(value, schema, path, root)
 
 
 class ContractFilesTest(unittest.TestCase):
@@ -127,6 +77,21 @@ class EngineOutputTest(EngineSelectionTest):
             data = json.loads((release / jezero['file']).read_text())
             self.assertEqual(validate(data, SCHEMA['$defs']['SearchResponse']), [])
             self.assertEqual(manifest['similarity']['references']['haworth-fondo']['status'], 'failed')
+            self.assertTrue((release / 'similarity' / 'model.joblib').is_file())
+            self.assertTrue(sim.SimilarityEngine.load(release / 'similarity' / 'model.joblib'))
+
+            report = check.verify_release(release)
+            self.assertEqual(report['errors'], [], report)
+            self.assertEqual(report['summary']['similarity']['jezero']['results'], 5)
+            self.assertTrue(any('haworth-fondo' in w for w in report['warnings']))
+            # A broken similarity file is caught.
+            broken = json.loads((release / jezero['file']).read_text())
+            broken['results'][0]['region_id'] = 'no-existe'
+            del broken['warnings']
+            (release / jezero['file']).write_text(json.dumps(broken))
+            errors = check.verify_release(release)['errors']
+            self.assertTrue(any('falta warnings' in e for e in errors))
+            self.assertTrue(any('no están en windows.parquet' in e for e in errors))
 
 
 if __name__ == '__main__':

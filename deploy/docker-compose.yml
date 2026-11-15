@@ -5,6 +5,8 @@ services:
     restart: unless-stopped
     ports:
       - "${APP_PORT:-8000}:8000"
+    environment:
+      REGOLITH_JEZERO_PILOT_DIR: "${REGOLITH_JEZERO_PILOT_DIR:-}"
     volumes:
       - "${ATLAS_RELEASES_PATH:?Set ATLAS_RELEASES_PATH in the deployment .env file}:/workspace/releases/atlas30"
     read_only: true

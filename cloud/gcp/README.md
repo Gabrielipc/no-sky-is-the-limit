@@ -101,10 +101,16 @@ Para construir una sola capa: `ETL_ARGS="build --layer emissivity"`. Para ver qu
 **2. Muestra de fondo y listas cortas (fases B y C).** Se enriquecen igual que las candidatas, y cada ventana queda registrada en `enrichment_selection` con su motivo:
 
 ```bash
-# Muestra estratificada (todas las dimensiones menos la ATI fina) + ATI fina por conglomerados
+# ATI fina por conglomerados: es la única dimensión de superficie que entra en una vista puente
+# del motor (termica). 40 teselas x ~6 GB ≈ 240 GB de descarga, varias horas.
 ZONE="us-west1-a" ETL_SCRIPT="scripts/etl_superficie.py" \
-ETL_ARGS="--background-sample 1000 --background-cluster-tiles 40 --background-per-tile 5 --skip-measured --workers 16" \
+ETL_ARGS="--dimension apparent_thermal_inertia --no-topographic-candidates --background-cluster-tiles 40 --background-per-tile 5 --skip-measured --workers 16" \
   bash cloud/gcp/launch-spot.sh
+
+# Opcional: validar la capa global frente a las medidas finas en una muestra estratificada pequeña.
+# Ojo: MOD10A1 y SMAP finos leen cientos de gránulos por ventana; aridez, nieve, humedad y permafrost
+# ya están en todas las ventanas por la capa global.
+ETL_ARGS="--dimension thermal_emissivity --dimension permafrost --no-topographic-candidates --background-sample 200 --skip-measured --workers 16"
 
 # Listas cortas por vista, repartidas según los pesos de la consulta (topografía en 0)
 ETL_ARGS="--no-topographic-candidates --retrieval-total 60 --weight escabrosidad=0 --weight forma_hipsometrica=0 \

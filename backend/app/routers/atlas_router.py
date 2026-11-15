@@ -99,6 +99,33 @@ def replay(query_id: str, limit: int = Query(25, ge=1, le=100), offset: int = Qu
     return search_result(query_id, json.loads(row[0]), limit, offset)
 
 
+@router.get('/similarity')
+def similarity_index(version: Optional[str] = None):
+    """Similarity results published with the release (`manifest.similarity`), one entry per reference."""
+    _, manifest = release_for(version)
+    published = manifest.get('similarity')
+    if not published:
+        raise HTTPException(404, 'Esta versión no incluye resultados del motor de similitud')
+    return published
+
+
+@router.get('/similarity/{reference}')
+def similarity(reference: str, version: Optional[str] = None,
+               limit: int = Query(25, ge=1, le=100), offset: int = Query(0, ge=0)):
+    """Precomputed `motor-busqueda-v1` response of a named reference, paged. Never computed on request."""
+    path, manifest = release_for(version)
+    entry = (manifest.get('similarity') or {}).get('references', {}).get(reference)
+    if not store.TOKEN.fullmatch(reference) or not entry or entry.get('status') != 'published':
+        raise HTTPException(404, 'Referencia sin resultados publicados')
+    release = path.resolve()
+    file = (path / str(entry.get('file', ''))).resolve()
+    if release not in file.parents or not file.is_file():  # the manifest must not point outside the release
+        raise HTTPException(404, 'Referencia sin resultados publicados')
+    data = json.loads(file.read_text(encoding='utf-8'))
+    data['results'] = data['results'][offset:offset + limit]
+    return {**data, 'version': manifest['version'], 'limit': limit, 'offset': offset}
+
+
 @router.get('/candidates/{region_id}')
 def candidate(region_id: str, version: Optional[str] = None):
     path, manifest = release_for(version)

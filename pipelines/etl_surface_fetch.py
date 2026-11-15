@@ -36,6 +36,7 @@ import os
 from pathlib import Path
 import re
 import tempfile
+import time
 from typing import Any, Callable, Iterable
 import urllib.parse
 import urllib.request
@@ -92,10 +93,17 @@ TO_SIN = Transformer.from_crs('EPSG:4326', MODIS_SIN, always_xy=True)
 CCI_BASE = 'https://dap.ceda.ac.uk/neodc/esacci/permafrost/data'
 CCI_FILES = {
     'PFR': '{base}/permafrost_extent/L4/area4/pp/v05.0/{hemi}/{year}/'
-           'ESACCI-PERMAFROST-L4-PFR-MODISLST_CRYOGRID-AREA4_PP-{year}-fv05.0.nc',
+           'ESACCI-PERMAFROST-L4-PFR-MODISLST_CRYOGRID-{area}_PP-{year}-fv05.0.nc',
     'ALT': '{base}/active_layer_thickness/L4/area4/pp/v05.0/{hemi}/{year}/'
-           'ESACCI-PERMAFROST-L4-ALT-MODISLST_CRYOGRID-AREA4_PP-{year}-fv05.0.nc',
+           'ESACCI-PERMAFROST-L4-ALT-MODISLST_CRYOGRID-{area}_PP-{year}-fv05.0.nc',
 }
+# Checked on CEDA 2026-11-15: both files are WGS84 lat/lon grids of 0.01° (`lat`, `lon`,
+# `spatial_ref`); northern hemisphere = AREA4 (lat 25..85), Antarctica = AREA27 (lat -85..-60).
+CCI_AREAS = {'northern_hemisphere': 'AREA4', 'Antarctica': 'AREA27'}
+
+
+def cci_url(var: str, hemi: str, year: int) -> str:
+    return CCI_FILES[var].format(base=CCI_BASE, hemi=hemi, year=year, area=CCI_AREAS[hemi])
 # OPERA RTC-S1 layover/shadow mask: 0 = clear; 1 shadow, 2 layover, 3 both; 255 = no data.
 OPERA_MASK_CLEAR = 0
 
@@ -134,6 +142,22 @@ class FetchResult:
 # ---------------------------------------------------------------------------
 # Access helpers (injected in tests)
 # ---------------------------------------------------------------------------
+def with_retries(fn: Callable, *, attempts: int = 4, base_delay_s: float = 5.0, sleep=time.sleep):
+    """Call `fn()` retrying transient network failures (DNS, resets, timeouts, HTTP 5xx/429)."""
+    import http.client
+    import urllib.error
+    for attempt in range(1, attempts + 1):
+        try:
+            return fn()
+        except urllib.error.HTTPError as exc:
+            if exc.code not in (429, 500, 502, 503, 504) or attempt == attempts:
+                raise
+        except (urllib.error.URLError, http.client.RemoteDisconnected, ConnectionError, TimeoutError):
+            if attempt == attempts:
+                raise
+        sleep(base_delay_s * 2 ** (attempt - 1))
+
+
 def search_cmr(collection: dict, bbox: tuple[float, float, float, float] | None = None,
                start: date | None = None, end: date | None = None, page_size: int = 2000,
                max_pages: int = 20) -> list[dict]:
@@ -149,9 +173,12 @@ def search_cmr(collection: dict, bbox: tuple[float, float, float, float] | None 
     for _ in range(max_pages):
         headers = {'CMR-Search-After': search_after} if search_after else {}
         req = urllib.request.Request(f'{CMR_GRANULES}?{urllib.parse.urlencode(params)}', headers=headers)
-        with urllib.request.urlopen(req, timeout=60) as response:
-            entries = json.load(response)['feed']['entry']
-            search_after = response.headers.get('CMR-Search-After')
+
+        def page(req=req):
+            with urllib.request.urlopen(req, timeout=60) as response:
+                return json.load(response)['feed']['entry'], response.headers.get('CMR-Search-After')
+
+        entries, search_after = with_retries(page)
         for e in entries:
             links = [l['href'] for l in e.get('links', []) if l.get('href', '').startswith('https://')
                      and urllib.parse.urlsplit(l['href']).hostname in EARTHDATA_HOSTS]
@@ -195,12 +222,16 @@ class _RangeFile(http.RangeFile):
 def download(url: str, target: Path, chunk: int = 1 << 20) -> Path:
     """Stream a protected granule to `target` (HDF4 cannot be read over ranges)."""
     http._check_host(url, EARTHDATA_HOSTS)
-    req = urllib.request.Request(url, headers=http._token_header())
     target.parent.mkdir(parents=True, exist_ok=True)
     staged = target.with_suffix(target.suffix + '.part')
-    with http._OPENER.open(req, timeout=300) as r, open(staged, 'wb') as fh:
-        while block := r.read(chunk):
-            fh.write(block)
+
+    def fetch_once():
+        req = urllib.request.Request(url, headers=http._token_header())
+        with http._OPENER.open(req, timeout=300) as r, open(staged, 'wb') as fh:
+            while block := r.read(chunk):
+                fh.write(block)
+
+    with_retries(fetch_once, attempts=3)
     staged.replace(target)
     return target
 
@@ -369,7 +400,7 @@ def fetch_emissivity(sites: list[Site], *, workers: int = 4, search=search_cmr, 
 
 
 # ---------------------------------------------------------------------------
-# Permafrost: ESA CCI v5.0 (CEDA, public NetCDF4, polar stereographic 1 km)
+# Permafrost: ESA CCI v5.0 (CEDA, public NetCDF4, WGS84 lat/lon 0.01°)
 # ---------------------------------------------------------------------------
 def _cci_crs(h5, var: str) -> CRS:
     mapping = h5[var].attrs.get('grid_mapping')
@@ -388,13 +419,27 @@ def _cci_crs(h5, var: str) -> CRS:
     raise ValueError(f'La variable {var} del CCI no declara una proyección legible')
 
 
+def cci_coords(h5) -> tuple[str, str]:
+    """Names of the (x, y) coordinate variables: `lon`/`lat` (v5.0) or projected `x`/`y`."""
+    for xname, yname in (('lon', 'lat'), ('x', 'y'), ('longitude', 'latitude')):
+        if xname in h5 and yname in h5:
+            return xname, yname
+    raise KeyError(f'El NetCDF del CCI no tiene coordenadas reconocibles: {list(h5.keys())}')
+
+
 def _cci_window(h5, var: str, site: Site) -> np.ndarray:
     crs = _cci_crs(h5, var)
-    x = h5['x'][:].astype(float)
-    y = h5['y'][:].astype(float)
-    cx, cy = Transformer.from_crs('EPSG:4326', crs, always_xy=True).transform(site.longitude, site.latitude)
-    cols = np.flatnonzero(np.abs(x - cx) <= HALF_M)
-    rows = np.flatnonzero(np.abs(y - cy) <= HALF_M)
+    xname, yname = cci_coords(h5)
+    x = h5[xname][:].astype(float)
+    y = h5[yname][:].astype(float)
+    if crs.is_geographic:
+        w, so, e, no = site.bbox()
+        cols = np.flatnonzero((x >= w) & (x <= e))
+        rows = np.flatnonzero((y >= so) & (y <= no))
+    else:
+        cx, cy = Transformer.from_crs('EPSG:4326', crs, always_xy=True).transform(site.longitude, site.latitude)
+        cols = np.flatnonzero(np.abs(x - cx) <= HALF_M)
+        rows = np.flatnonzero(np.abs(y - cy) <= HALF_M)
     dset = h5[var]
     if cols.size == 0 or rows.size == 0:
         return np.full((0,), np.nan)
@@ -414,7 +459,7 @@ def fetch_permafrost(sites: list[Site], year: int = 2023, *, opener=open_h5) -> 
                          ('Antarctica', [s for s in sites if s.latitude < 0])):
         if not chosen:
             continue
-        urls = {k: v.format(base=CCI_BASE, hemi=hemi, year=year) for k, v in CCI_FILES.items()}
+        urls = {k: cci_url(k, hemi, year) for k in CCI_FILES}
         with opener(urls['PFR']) as pfr_h5, opener(urls['ALT']) as alt_h5:
             result.granules += [f'{hemi}/{Path(u).name}' for u in urls.values()]
             for s in chosen:

@@ -1,0 +1,44 @@
+{
+  "spec_id": "referencias-v1",
+  "description": "Metadatos de las referencias de la Luna y Marte que la API ofrece como punto de partida de una búsqueda. Los valores de features no están aquí: salen de `motor-similitud-ml-v1.json` (references) o del almacén. Cada referencia nueva debe tener su entrada, fuentes del manifiesto de espejo y limitaciones explícitas.",
+  "kinds": {
+    "landing_site": "Sitio de aterrizaje o exploración de Marte.",
+    "base_candidate": "Región candidata para una base o un aterrizaje lunar.",
+    "control": "Sitio de contraste: no es un candidato, sirve para ver cómo cambia el ranking."
+  },
+  "references": {
+    "jezero": {
+      "kind": "landing_site",
+      "status": "measured",
+      "center": {"longitude": 77.41, "latitude": 18.49},
+      "sources": ["hirise-dtm-jezero", "hirise-ortho-jezero"],
+      "limitations": [
+        "Referencia de un solo sector del abanico deltaico de Jezero, medido con el DTM HiRISE (~1 m) agregado a celdas de 30 m.",
+        "Solo se comparan hoy las vistas topográficas: THEMIS y CRISM de Jezero existen, pero esas vistas no están ajustadas en el motor.",
+        "El relieve absoluto de Marte y la Tierra no es comparable; se usan percentiles terrestres y distancias estandarizadas."
+      ]
+    },
+    "haworth-fondo": {
+      "kind": "base_candidate",
+      "status": "measured",
+      "center": {"longitude": -5.0, "latitude": -87.45},
+      "sources": ["lola-ldem-80s-20mpp", "lola-lpsr-80s-20mpp", "lola-illumination-85s-60m", "diviner-prp-south", "minirf-cpr-global-128ppd"],
+      "limitations": [
+        "Fondo de cráter 100 % en sombra permanente: la compuerta lunar lo clasifica como objetivo de volátiles, no como sitio de operación con luz.",
+        "El DEM lunar de 20 m interpola entre trazas: la comparación es directa en operador, no en resolución efectiva.",
+        "Las vistas térmica y de radar dependen de productos de resolución gruesa (Diviner, Mini-RF) y no están ajustadas en el motor."
+      ]
+    },
+    "de-gerlache-cresta": {
+      "kind": "control",
+      "status": "measured",
+      "center": {"longitude": -68.7, "latitude": -88.71},
+      "sources": ["lola-ldem-80s-20mpp", "lola-lpsr-80s-20mpp", "lola-illumination-85s-60m"],
+      "limitations": [
+        "Cresta iluminada usada como contraste del fondo de Haworth (punto C de Bussey et al., 2010); las coordenadas se leyeron de una tabla secundaria porque el artículo original no pudo abrirse.",
+        "Con la huella de 3 km resulta muy escarpado (P90 de pendiente 22,4°): la compuerta provisional de 15° lo excluye por pendiente.",
+        "El DEM lunar de 20 m interpola entre trazas: la comparación es directa en operador, no en resolución efectiva."
+      ]
+    }
+  }
+}

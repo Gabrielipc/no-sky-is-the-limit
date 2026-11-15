@@ -121,12 +121,12 @@ class BuildTests(unittest.TestCase):
                 qc = np.zeros(shape, dtype='uint8')
                 return {'LST_Day_CMG': raw_day, 'LST_Night_CMG': raw_night, 'QC_Day': qc, 'QC_Night': qc}, None
             return {'Albedo_WSA_shortwave': np.full(shape, 250, dtype='int16'),
-                    'BRDF_Quality': np.zeros(shape, dtype='uint8')}, None
+                    'Albedo_Quality': np.zeros(shape, dtype='uint8')}, None
 
         def search(collection, *a, **k):
             if collection['short_name'] == 'MYD11C3':
                 return [granule(f'MYD11C3.{d:%Y%m}', d) for d in months(2023)]
-            return [granule(f'MCD43C3.{d:%Y%m%d}', d) for d in (date(2023, m, 1) for m in range(1, 13))]
+            return [granule('MCD43C3.A2022359', date(2022, 12, 25))] + [granule(f'MCD43C3.{d:%Y%m%d}', d) for d in (date(2023, m, 1) for m in range(1, 13))]
 
         cfg = self.spec['layers']['ati'] | {'albedo_step_days': 1}
         gl.build_ati(cfg, self.ctx(search=search, reader=reader, downloader=lambda u, t: t.touch()))
@@ -200,6 +200,32 @@ class BuildTests(unittest.TestCase):
             data = src.read(1)
             self.assertAlmostEqual(float(data[0, 0]), 0.7)   # north row first
             self.assertAlmostEqual(src.transform.c, -500.0)
+
+    def test_permafrost_geographic_v5_layout(self) -> None:
+        # Layout read from CEDA: WGS84 lat/lon 0.01°, `lat` ascending, PFR uint8 %, fill 255.
+        wkt = CRS.from_epsg(4326).to_wkt()
+        urls = []
+
+        def opener(url):
+            urls.append(url)
+            lat = np.array([25.005, 25.015, 25.025])
+            lon = np.array([-179.995, -179.985])
+            pfr = np.array([[[0, 10], [20, 255], [100, 50]]], dtype='uint8')
+            return FakeH5({'lat': lat, 'lon': lon, 'spatial_ref': FakeDataset(0, {'spatial_ref': wkt}),
+                           'PFR': FakeDataset(pfr, {'grid_mapping': b'spatial_ref', '_FillValue': np.array([255])})})
+
+        gl.build_permafrost(self.spec['layers']['permafrost'], self.ctx(opener=opener))
+        self.assertTrue(any('AREA4' in u for u in urls) and any('AREA27' in u and 'Antarctica' in u for u in urls))
+        with rasterio.open(self.layers / 'permafrost' / 'permafrost_fraction_northern_hemisphere.tif') as src:
+            data = src.read(1)
+            self.assertTrue(CRS.from_user_input(src.crs).is_geographic)
+            self.assertAlmostEqual(src.transform.c, -180.0, places=6)
+            self.assertAlmostEqual(src.transform.f, 25.03, places=6)
+        self.assertAlmostEqual(float(data[0, 0]), 1.0)        # north row first (lat 25.025)
+        self.assertTrue(np.isnan(data[1, 1]))                  # fill value 255
+        vals, inside = gl.sample_raster(self.layers / 'permafrost' / 'permafrost_fraction_northern_hemisphere.tif',
+                                        np.array([-179.99]), np.array([25.012]))
+        self.assertTrue(inside[0])
 
     def test_build_layers_skips_existing_and_reports_failures(self) -> None:
         def opener(url):

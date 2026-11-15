@@ -8,6 +8,8 @@ La **fase 4** añade «Ampliar búsqueda»: 970 ventanas nuevas de 3 × 3 km en 
 
 La **fase 5** añade «Reconocimiento · fuente y escala»: un segundo escenario que examina diez ventanas de fase 4, con siete evaluadas y tres pendientes. Contrasta GMTED y SRTM a 300/600 m y muestra SRTM frente a Jezero a 60/120/300/600 m. Expone la selección y sus sesgos; conserva los filtros solo en las escalas regionales. Se reproduce sin descargas con `./.pixi/envs/default/bin/python scripts/evaluar_expansion.py`. Consulta [la entrega de fase 5](docs/Fase%205%20-%20expansion%20condicionada.md).
 
+La vista **Nicaragua** (`/?view=nicaragua`) busca análogos de Marte y la Luna dentro del país, con foco en sus 13 volcanes holocenos. Muestra los análogos ya publicados (Cerro Negro, Momotombo, Telica y San Jacinto) y propone lugares nuevos con el motor de similitud, sobre ventanas densificadas cada 2 km cerca de los volcanes. Consulta [método, límites y comandos](docs/Analogos%20en%20Nicaragua.md).
+
 ## Inicio
 
 El recorrido **Superficie 3D** (`/?view=surface`) añade un visor CesiumJS para pasar de órbita a relieve regional y abrir mallas locales de Jezero, Utah y Atacama. Incluye teselas MOLA de NASA PDS, Blue Marble de NASA y PNG de alturas que JavaScript convierte en geometría. Permite ajustar la exageración, alternar textura y conectar servicios de terreno o 3D Tiles. Se ejecuta sin backend ni token; el relieve mundial terrestre requiere conexión a Esri. Ver [uso, arquitectura y límites del visor](docs/Superficie%203D%20-%20Cesium.md).

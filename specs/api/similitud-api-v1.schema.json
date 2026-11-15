@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "similitud-api-v1",
+  "title": "API de similitud: catálogo de referencias, búsqueda y errores (v1)",
+  "description": "Contrato HTTP de `backend/app/similarity.py`. La búsqueda devuelve la respuesta del motor (`motor-busqueda-v1`, `SearchResponse`) más `query_id` y `timings`; la petición es el `SearchRequest` de ese mismo esquema. Estructura estable: los campos solo se añaden.",
+  "oneOf": [{"$ref": "#/$defs/SearchEnvelope"}],
+  "x-endpoints": [
+    {"method": "GET", "path": "/api/similarity/references", "response": "ReferencesResponse", "errors": [503]},
+    {"method": "GET", "path": "/api/similarity/references/{reference_id}", "response": "ReferenceDetail", "errors": [404, 503]},
+    {"method": "POST", "path": "/api/similarity/search", "request": "motor-busqueda-v1#/$defs/SearchRequest", "response": "SearchEnvelope", "errors": [404, 422, 503]},
+    {"method": "GET", "path": "/api/similarity/status", "response": "ServiceStatus", "errors": []},
+    {"method": "GET", "path": "/api/similarity/jezero-pilot", "response": "JezeroPilot", "errors": [422, 503]}
+  ],
+  "x-errors": {
+    "404": "Referencia desconocida, o conocida pero no disponible en este servidor (`detail` es texto).",
+    "422": "Petición inválida: pesos desconocidos o negativos, todos a 0, límite fuera de 1–1000, bbox mal formado, referencia explícita con features desconocidas o percentiles fuera de [0, 1]. `detail` es texto o una lista de errores de validación.",
+    "503": "El servidor no tiene el modelo o el almacén del motor. `detail` es texto. El resto de la API sigue funcionando."
+  },
+  "x-client-rules": [
+    "Resolver la referencia una vez (GET /references) y reenviar solo su id en cada búsqueda.",
+    "Enviar `weights` solo si el usuario los cambió: omitirlos aplica los pesos por defecto del cuerpo (`default_weights`).",
+    "Una sola búsqueda viva: cancelar la anterior al cambiar los controles (AbortController) y esperar ~300 ms tras el último cambio.",
+    "Tiempo máximo del cliente: 30 s. Una respuesta con `timings.cache_hit` true es la misma consulta ya calculada.",
+    "Mostrar siempre `warnings` y `status`; una vista con estado `not_fitted` o `reference_missing` no puntúa."
+  ],
+  "$defs": {
+    "JezeroPilot": {
+      "type": "object",
+      "description": "Piloto opcional de Jezero. Parámetros de consulta mode (combined, topography) y limit (1–100).",
+      "required": ["version", "status", "mode", "profile", "reference", "coverage", "weights", "candidates_ranked", "results", "warnings"],
+      "properties": {
+        "version": {"type": "string", "pattern": "^jezero-r3-"},
+        "status": {"const": "experimental"},
+        "mode": {"enum": ["combined", "topography"]},
+        "profile": {"enum": ["arid_mars_surface_v2", "paleolake_margin_v1"]},
+        "reference": {
+          "type": "object",
+          "required": ["id", "longitude", "latitude", "spectral_side_m", "topographic_side_m"],
+          "properties": {
+            "id": {"const": "jezero"},
+            "longitude": {"type": "number", "minimum": -180, "maximum": 180},
+            "latitude": {"type": "number", "minimum": -90, "maximum": 90},
+            "spectral_side_m": {"const": 1800},
+            "topographic_side_m": {"const": 3000}
+          }
+        },
+        "coverage": {
+          "type": "object",
+          "required": ["windows", "spectral_windows", "bounds"],
+          "properties": {
+            "windows": {"type": "integer", "minimum": 0},
+            "spectral_windows": {"type": "integer", "minimum": 0},
+            "bounds": {"type": "array", "items": {
+              "type": "object", "required": ["id", "bbox"],
+              "properties": {"id": {"type": "string"}, "bbox": {
+                "type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number"}
+              }}
+            }}
+          }
+        },
+        "weights": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}},
+        "candidates_ranked": {"type": "integer", "minimum": 0},
+        "results": {"type": "array", "items": {
+          "type": "object", "required": ["region_id", "longitude", "latitude", "score", "block", "views"],
+          "properties": {
+            "region_id": {"type": "string"}, "block": {"type": "string"},
+            "longitude": {"type": "number"}, "latitude": {"type": "number"},
+            "score": {"type": "number", "minimum": 0, "maximum": 1},
+            "views": {"type": "object", "additionalProperties": {"type": ["number", "null"]}}
+          }
+        }},
+        "warnings": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "ViewId": {
+      "type": "string",
+      "enum": ["escabrosidad", "forma_hipsometrica", "organizacion", "espectral", "termica", "radar", "entorno_superficial", "emisividad_cmg", "regimen_morfologico"]
+    },
+    "ViewStatus": {
+      "type": "string",
+      "description": "Estado de una vista para una referencia: `reference_has_data` (usable), `reference_missing` (la referencia no tiene ninguna de sus features) o `not_fitted` (el modelo no la ajustó).",
+      "enum": ["reference_has_data", "reference_missing", "not_fitted"]
+    },
+    "Center": {
+      "type": ["object", "null"],
+      "properties": {
+        "longitude": {"type": "number", "minimum": -180, "maximum": 180},
+        "latitude": {"type": "number", "minimum": -90, "maximum": 90}
+      },
+      "required": ["longitude", "latitude"]
+    },
+    "ReferenceEntry": {
+      "type": "object",
+      "required": ["id", "name", "body", "available", "source", "views", "kind", "status", "center", "sources", "limitations"],
+      "properties": {
+        "id": {"type": "string"},
+        "name": {"type": "string"},
+        "body": {"type": "string", "enum": ["Mars", "Moon"]},
+        "available": {"type": "boolean", "description": "false si la referencia no se puede resolver en este servidor (por ejemplo, su ventana no está en el almacén); entonces `reason` lo explica."},
+        "reason": {"type": "string"},
+        "source": {"type": ["string", "null"]},
+        "views": {"type": "object", "propertyNames": {"$ref": "#/$defs/ViewId"}, "additionalProperties": {"$ref": "#/$defs/ViewStatus"}},
+        "kind": {"type": ["string", "null"], "enum": ["landing_site", "base_candidate", "control", null]},
+        "status": {"type": ["string", "null"]},
+        "center": {"$ref": "#/$defs/Center"},
+        "sources": {"type": "array", "items": {"type": "string"}, "description": "Ids de productos del manifiesto de espejo (specs/sources/espejo-referencias-v1.json)."},
+        "limitations": {"type": "array", "items": {"type": "string"}, "description": "Dónde se rompe la analogía. Mostrar siempre."}
+      }
+    },
+    "ReferenceDetail": {
+      "type": "object",
+      "required": ["id", "name", "body", "available", "views", "kind", "limitations", "features", "percentiles"],
+      "properties": {
+        "id": {"type": "string"},
+        "name": {"type": "string"},
+        "body": {"type": "string", "enum": ["Mars", "Moon"]},
+        "available": {"type": "boolean"},
+        "views": {"type": "object", "additionalProperties": {"$ref": "#/$defs/ViewStatus"}},
+        "kind": {"type": ["string", "null"], "enum": ["landing_site", "base_candidate", "control", null]},
+        "limitations": {"type": "array", "items": {"type": "string"}},
+        "features": {"type": "object", "additionalProperties": {"type": "number"}, "description": "id de feature del motor -> valor en las unidades del cuerpo."},
+        "percentiles": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}}
+      }
+    },
+    "ReferencesResponse": {
+      "type": "object",
+      "required": ["references", "default_weights", "views", "engine_status"],
+      "properties": {
+        "references": {"type": "array", "items": {"$ref": "#/$defs/ReferenceEntry"}},
+        "default_weights": {
+          "type": "object",
+          "required": ["Mars", "Moon"],
+          "properties": {
+            "Mars": {"type": "object", "propertyNames": {"$ref": "#/$defs/ViewId"}, "additionalProperties": {"type": "number", "minimum": 0}},
+            "Moon": {"type": "object", "propertyNames": {"$ref": "#/$defs/ViewId"}, "additionalProperties": {"type": "number", "minimum": 0}}
+          }
+        },
+        "views": {
+          "type": "object",
+          "propertyNames": {"$ref": "#/$defs/ViewId"},
+          "additionalProperties": {
+            "type": "object", "required": ["fitted", "kind"],
+            "properties": {"fitted": {"type": "boolean"}, "kind": {"type": "string", "enum": ["metric", "gmm"]}}
+          }
+        },
+        "engine_status": {"type": "string", "description": "Mientras sea `unsupervised_pending_blind_validation`, etiquetar el ranking como experimental."}
+      }
+    },
+    "Timings": {
+      "type": "object",
+      "required": ["engine_ms", "total_ms", "cache_hit"],
+      "properties": {
+        "engine_ms": {"type": "number", "minimum": 0},
+        "total_ms": {"type": "number", "minimum": 0},
+        "cache_hit": {"type": "boolean"}
+      }
+    },
+    "SearchEnvelope": {
+      "type": "object",
+      "description": "`SearchResponse` de motor-busqueda-v1 más estos dos campos.",
+      "required": ["query_id", "timings"],
+      "properties": {
+        "query_id": {"type": "string", "pattern": "^[0-9a-f]{64}$", "description": "SHA-256 de la petición normalizada: peticiones equivalentes (por ejemplo, pesos proporcionales) comparten id."},
+        "timings": {"$ref": "#/$defs/Timings"}
+      }
+    },
+    "ServiceStatus": {
+      "type": "object",
+      "required": ["loaded", "load_seconds", "model_fitted_at", "engine_status", "profiles_loaded", "cached_queries", "references"],
+      "properties": {
+        "loaded": {"type": "boolean"},
+        "load_seconds": {"type": ["number", "null"]},
+        "model_fitted_at": {"type": ["string", "null"]},
+        "engine_status": {"type": ["string", "null"]},
+        "profiles_loaded": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "cached_queries": {"type": "integer", "minimum": 0},
+        "references": {"type": "integer", "minimum": 0}
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "required": ["detail"],
+      "properties": {
+        "detail": {
+          "oneOf": [
+            {"type": "string"},
+            {"type": "array", "items": {"type": "object", "required": ["loc", "msg", "type"],
+              "properties": {"loc": {"type": "array"}, "msg": {"type": "string"}, "type": {"type": "string"}}}}
+          ]
+        }
+      }
+    }
+  }
+}

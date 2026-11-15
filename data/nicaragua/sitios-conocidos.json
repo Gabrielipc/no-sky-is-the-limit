@@ -1,0 +1,86 @@
+{
+  "spec_id": "nicaragua-sitios-conocidos-v1",
+  "description": "Sitios de Nicaragua estudiados en la literatura como análogos planetarios. Solo se incluyen sitios con publicación o proyecto revisable; la condición de análogo procede de esa literatura (mineralogía y procesos), no del motor, que compara forma del relieve.",
+  "sources": {
+    "hynek-2013": {
+      "citation": "Hynek, B. M., McCollom, T. M., Marcucci, E. C., Brugman, K. y Rogers, K. L. (2013). Assessment of environmental controls on acid-sulfate alteration at active volcanoes in Nicaragua: Applications to relic hydrothermal systems on Mars. Journal of Geophysical Research: Planets, 118(10), 2083-2104.",
+      "url": "https://doi.org/10.1002/jgre.20140"
+    },
+    "marcucci-2013": {
+      "citation": "Marcucci, E. C., Hynek, B. M. et al. (2013). Visible-near-infrared reflectance spectroscopy of volcanic acid-sulfate alteration in Nicaragua: Analogs for early Mars. Journal of Geophysical Research: Planets, 118.",
+      "url": "https://doi.org/10.1002/jgre.20159"
+    },
+    "hynek-2007": {
+      "citation": "Hynek, B. M. et al. (2007). Resumen sobre Cerro Negro (Nicaragua) como análogo terrestre de la meteorización ácido-sulfática de basaltos parecidos a los de Marte. GSA Annual Meeting, Denver, trabajo 129449.",
+      "url": "https://gsa.confex.com/gsa/2007AM/webprogram/Paper129449.html"
+    },
+    "nai-cerro-negro": {
+      "citation": "NASA Exobiology: Cerro Negro, Nicaragua: an analog for assessing the potential for life on early Mars (proyecto 282, archivo 2008).",
+      "url": "https://webarchive.library.unt.edu/eot2008/20090514175243/http://astrobiology.nasa.gov/exobiology/projects/(282)cerro-negro,-nicaragua--an-analog-for-assessing-the-potential-for"
+    }
+  },
+  "sites": [
+    {
+      "id": "cerro-negro",
+      "name": "Cerro Negro",
+      "volcano_number": 344070,
+      "longitude": -86.702,
+      "latitude": 12.506,
+      "coordinates_source": "GVP (Smithsonian), centro del volcán",
+      "analog_of": "Marte temprano",
+      "process": "Alteración ácido-sulfática de basalto en fumarolas: sulfatos (yeso, natroalunita), sílice, hematita esferoidal y goethita, filosilicatos.",
+      "why": "Basalto joven de química parecida a la marciana alterado por gases sulfurosos; la hematita asociada a natroalunita sugiere una vía de formación para depósitos de hematita en Marte.",
+      "sources": [
+        "hynek-2007",
+        "hynek-2013",
+        "marcucci-2013",
+        "nai-cerro-negro"
+      ]
+    },
+    {
+      "id": "momotombo",
+      "name": "Momotombo",
+      "volcano_number": 344090,
+      "longitude": -86.539,
+      "latitude": 12.423,
+      "coordinates_source": "GVP (Smithsonian), centro del volcán",
+      "analog_of": "Marte temprano",
+      "process": "Sistema hidrotermal ácido activo: azufre, sílice, yeso y sulfatos hidratados según la temperatura y la acidez de cada fumarola.",
+      "why": "Uno de los tres volcanes activos del estudio de alteración ácido-sulfática como análogo de sistemas hidrotermales fósiles de Marte.",
+      "sources": [
+        "hynek-2013",
+        "marcucci-2013"
+      ]
+    },
+    {
+      "id": "telica",
+      "name": "Telica",
+      "volcano_number": 344040,
+      "longitude": -86.84,
+      "latitude": 12.606,
+      "coordinates_source": "GVP (Smithsonian), centro del volcán",
+      "analog_of": "Marte temprano",
+      "process": "Fumarolas ácidas con sulfatos, sílice y filosilicatos.",
+      "why": "Incluido en el mismo estudio de alteración ácido-sulfática junto con Cerro Negro y Momotombo.",
+      "sources": [
+        "hynek-2013",
+        "marcucci-2013"
+      ]
+    },
+    {
+      "id": "san-jacinto",
+      "name": "Hervideros de San Jacinto",
+      "volcano_number": null,
+      "longitude": -86.7776,
+      "latitude": 12.5821,
+      "coordinates_source": "Aproximadas (Atlas Obscura); campo geotérmico al pie del Telica",
+      "analog_of": "Marte temprano",
+      "process": "Ollas de lodo hirviente y fumarolas de baja temperatura: sulfatos hidratados y filosilicatos.",
+      "why": "Campo de lodos hidrotermales estudiado como análogo de alteración ácido-sulfática más fría y menos ácida.",
+      "sources": [
+        "hynek-2013",
+        "marcucci-2013"
+      ]
+    }
+  ]
+}

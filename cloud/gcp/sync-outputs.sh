@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Uploads the Feature Store, releases, global surface layers and evidence from the VM to GCS.
+# Uploads the Feature Store, releases, global surface layers, the Moon/Mars mirror and evidence from the VM to GCS.
 # Called periodically while the ETL runs, by the VM shutdown-script (Spot preemption)
 # and once more when the ETL ends. Only files already moved into place are uploaded:
 # the store writes each delta into a `tmp*` directory and then renames it, so those
@@ -11,7 +11,14 @@ GCS_BUCKET="${GCS_BUCKET:?Set GCS_BUCKET}"
 WORKDIR="${WORKDIR:-/opt/analogos}"
 LOCK_FILE="${SYNC_LOCK_FILE:-/tmp/analogos-sync.lock}"
 LOCK_WAIT_S="${SYNC_LOCK_WAIT_S:-20}"
-EXCLUDE='(^|/)(tmp[^/]*|\.stream_tmp)(/|$)|\.part(\.tif)?$'
+# Matched from the start of the relative path (gcloud) or anywhere (azcopy): both work.
+EXCLUDE='(.*/)?(tmp[^/]*|\.stream_tmp)(/.*)?$|.*\.part(\.tif)?$|(.*/)?\._.*'
+
+# `releases/atlas30/current` says which release is served. A VM that restored an old copy of it must
+# not upload that copy over the one another run just set, so only a run started with --set-current
+# (SYNC_CURRENT=1, set by run-etl-spot.sh) uploads it.
+RELEASES_EXCLUDE="$EXCLUDE"
+[[ "${SYNC_CURRENT:-0}" == "1" ]] || RELEASES_EXCLUDE="${EXCLUDE}|(.*/)?atlas30/current\$"
 
 log() { echo "[$(date -u '+%Y-%m-%dT%H:%M:%SZ')] sync: $*"; }
 
@@ -23,14 +30,16 @@ fi
 
 status=0
 sync_dir() {
-    local src="$1" dst="$2"
+    local src="$1" dst="$2" exclude="${3:-$EXCLUDE}"
     [[ -d "$src" ]] || return 0
-    gcloud storage rsync -r --exclude="$EXCLUDE" "$src" "$dst" || status=1
+    gcloud storage rsync -r --exclude="$exclude" "$src" "$dst" || status=1
 }
 
 sync_dir "$WORKDIR/data/feature_store_v1" "${GCS_BUCKET}/data/feature_store_v1"
-sync_dir "$WORKDIR/releases" "${GCS_BUCKET}/releases"
+sync_dir "$WORKDIR/releases" "${GCS_BUCKET}/releases" "$RELEASES_EXCLUDE"
 sync_dir "$WORKDIR/data/global_layers" "${GCS_BUCKET}/data/global_layers"
+# Verified mirror of the Moon/Mars rasters (scripts/etl_referencias.py espejo); `.part` downloads are excluded.
+sync_dir "$WORKDIR/data/raw/espejo" "${GCS_BUCKET}/data/raw/espejo"
 for evidence in "$WORKDIR"/docs/evidencia-*; do
     [[ -d "$evidence" ]] && sync_dir "$evidence" "${GCS_BUCKET}/docs/$(basename "$evidence")"
 done

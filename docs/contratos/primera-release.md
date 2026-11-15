@@ -1,0 +1,124 @@
+# Releases del atlas: ajuste del motor y empaquetado
+
+> **Estado al 15 de noviembre de 2026.** La release activa es **`etl-30m-r2c`**, con tres referencias (Jezero, Haworth y de Gerlache), 7 de las 9 vistas ajustadas y verificación sin errores. Es reproducible (misma semilla, mismo ranking) pero no del todo estable entre semillas, y el ranking de de Gerlache es poco fiable: ver su [README](../../ml/modelos/etl-30m-r2c/README.md), donde están el modelo, las respuestas y los sesgos conocidos. Las secciones de abajo describen el procedimiento con el ejemplo de r1; para repetirlo usa el comando de [«Releases publicadas»](#releases-publicadas).
+
+Procedimiento para publicar `etl-30m-r1`: el atlas mundial de 30 m con el motor de similitud ajustado y sus resultados para Jezero. Todo corre en una VM efímera junto al bucket. A tu Mac no llega nada pesado.
+
+## Qué contiene
+
+| Pieza | Estado en r1 |
+|---|---|
+| `windows/windows.parquet` | ~1,8 M ventanas terrestres: topografía, forma, cobertura, elegibilidad. Columnas `*_cmg` presentes pero vacías (`on_demand_fetchable`) |
+| Motor: vistas ajustadas | `escabrosidad`, `forma_hipsometrica`, `organizacion`, `regimen_morfologico` (topografía del barrido nuevo) |
+| Motor: vistas sin ajustar | `termica`, `espectral`, `radar`, `entorno_superficial`, `emisividad_cmg` aparecen como `not_fitted` hasta las releases siguientes |
+| `similarity/jezero.json` | Top 100 de análogos con pesos por defecto, perfil árido |
+| `similarity/haworth-fondo.json`, `de-gerlache-cresta.json` | **No se generan** (`failed`): el almacén del bucket solo tiene ventanas terrestres. Hacen falta las ventanas lunares (`scripts/etl_luna.py`) |
+| `similarity/model.joblib` | El modelo ajustado: el backend lo usa para búsquedas con pesos personalizados |
+| `manifest.json` | `release_contract: atlas30-release-v1`, conteos, normalización, bloque `similarity` |
+
+Estado del motor: `unsupervised_pending_blind_validation`. El frontend lo muestra como experimental.
+
+## Paso 0: requisitos
+
+1. **El barrido mundial terminó.** Debe haber 22 303 lotes:
+   ```bash
+   gcloud storage ls gs://regolith-analogos-gabi0808/data/feature_store_v1/manifests/batches/ | wc -l
+   ```
+   Y no debe quedar ninguna VM `analogos-etl-*` en `gcloud compute instances list`.
+   El orquestador sube el límite de archivos abiertos antes de ejecutar: `publish` lee unos 20 800 manifiestos Parquet en una sola consulta y, sin ese límite, falló con `Too many open files`.
+2. **El código está en la rama que clona la VM** (`etl-30m-r2` para r2b; `fuentes-de-datos` ya no se usa): contratos, `publish --similarity-model`, pasos `fit`/`publish`/`verify` del orquestador y `verificar_release.py`.
+
+## Paso 1: ajustar y publicar (una VM, ~15–25 min)
+
+En `europe-west3`, la región del bucket: el almacén se restaura sin salir de la región y no hace falta Earthdata.
+
+```bash
+PROJECT_ID="adroit-hall-514719-d5" GCS_BUCKET="gs://regolith-analogos-gabi0808" \
+REPO_URL="https://github.com/Gabrielipc/no-sky-is-the-limit.git" REPO_BRANCH="fuentes-de-datos" \
+ZONE="europe-west3-a" ETL_SCRIPT="scripts/etl_secuencia.py" \
+ETL_ARGS="--steps fit,publish,verify --release-version etl-30m-r1 --set-current" \
+  bash cloud/gcp/launch-spot.sh
+```
+
+Qué hace la VM:
+1. **Restaura** el almacén desde el bucket.
+2. **`fit`:**
+   - muestra 200 000 ventanas terrestres rankables fuera de la cuenca reservada de Mojave;
+   - ajusta las transformaciones cuantil-normal, las covarianzas robustas por vista y la GMM de regímenes;
+   - guarda `data/features/modelos-similitud/motor-similitud-ml-v1.joblib`.
+3. **`publish`:**
+   - escribe `releases/atlas30/etl-30m-r1/` (ventanas, procedencia, lotes);
+   - ejecuta el motor para cada referencia con nombre y copia el modelo a `similarity/`;
+   - marca la versión como activa (`current`).
+4. **`verify`:** comprueba la release contra `specs/api/` y deja el informe en `docs/evidencia-capa-global/verificacion-etl-30m-r1.json`.
+5. **Cierre:** sube `releases/` y `docs/evidencia-*` al bucket y se borra.
+
+Para seguirla:
+
+```bash
+gcloud compute instances get-serial-port-output <vm> --zone=europe-west3-a --project=adroit-hall-514719-d5 | grep startup-script | tail -30
+```
+
+## Paso 2: comprobar sin descargar la release
+
+```bash
+gcloud storage cat gs://regolith-analogos-gabi0808/docs/evidencia-capa-global/secuencia.json
+gcloud storage cat gs://regolith-analogos-gabi0808/docs/evidencia-capa-global/verificacion-etl-30m-r1.json | head -60
+```
+
+- **`errors` debe estar vacío.**
+- **Avisos esperados en r1:**
+  - `similitud haworth-fondo: failed` y `de-gerlache-cresta: failed` (sin ventanas lunares);
+  - columnas `*_cmg` todas `on_demand_fetchable`.
+- **`summary.similarity.jezero`:** debe traer 100 resultados, los avisos del motor y las 3 primeras ventanas.
+
+## Paso 3: entregar al equipo
+
+La release vive en `gs://regolith-analogos-gabi0808/releases/atlas30/etl-30m-r1/`. Para el servidor del backend:
+
+```bash
+gcloud storage rsync -r gs://regolith-analogos-gabi0808/releases/atlas30/etl-30m-r1 releases/atlas30/etl-30m-r1
+echo etl-30m-r1 > releases/atlas30/current
+python scripts/verificar_release.py releases/atlas30/etl-30m-r1
+```
+
+- **Endpoints que funcionan sin cambios:** `/api/atlas`, `/coverage`, `/search` y `/candidates/{id}` leen la release. La ficha de candidata ya muestra las columnas nuevas.
+- **Similitud:** `similarity/jezero.json` se expone con el endpoint `GET /api/atlas/similarity/{referencia}` de la [guía de backend](guia-backend.md#1-similitud-precalculada-recomendado-para-empezar).
+- **Búsquedas con pesos personalizados:** usad `similarity/model.joblib` de la misma release y el almacén del bucket ([guía](guia-backend.md#2-motor-en-tiempo-de-consulta-pesos-personalizados)).
+- **Si la quieres en tu Mac:** `PROVIDER=gcp GCS_BUCKET=gs://regolith-analogos-gabi0808 WITH_RELEASES=1 bash cloud/descargar-resultados.sh`. Son cientos de MB.
+
+## Releases publicadas
+
+| Release | Qué añadió | Estado |
+|---|---|---|
+| `etl-30m-r1` | Atlas mundial de 30 m. Vistas de topografía ajustadas. Solo Jezero | Publicada |
+| `etl-30m-r1b` | Reajuste sobre el barrido completo, 1 459 164 ventanas rankables | Publicada |
+| `etl-30m-r2` | Capas globales muestreadas (`*_cmg` con valores), ATI fina, referencias lunares con iluminación, PSR, Tmax de Diviner y CPR de Mini‑RF. Vistas `termica`, `entorno_superficial` y `emisividad_cmg` ajustadas | Publicada; **sustituida**: su perfil `polar_cold_v1` aceptaba desiertos cálidos |
+| `etl-30m-r2b` | Lo de r2, más el filtro de clima frío en `polar_cold_v1` (nieve ≥ 3 de 12 meses o permafrost ≥ 10 %) | Publicada; **sustituida**: muestra dependiente del orden y covarianza degenerada |
+| **`etl-30m-r2c`** | Lo de r2b, con muestra reproducible por hash y covarianza robusta con respaldo cuando degenera | **Activa** |
+
+Para publicar una release nueva:
+
+```bash
+PROJECT_ID="adroit-hall-514719-d5" GCS_BUCKET="gs://regolith-analogos-gabi0808" \
+REPO_URL="https://github.com/Gabrielipc/no-sky-is-the-limit.git" REPO_BRANCH="etl-30m-r2" \
+ZONE="europe-west3-a" ETL_SCRIPT="scripts/etl_secuencia.py" \
+ETL_ARGS="--steps fit,publish,verify --release-version <nueva-version> --set-current" \
+  bash cloud/gcp/launch-spot.sh
+```
+
+Si se han medido referencias lunares nuevas, añade el paso `luna` delante (`--steps luna,fit,publish,verify`). Las releases son inmutables: una corrección exige una versión nueva, y la anterior queda disponible para volver atrás (basta con reescribir `releases/atlas30/current`).
+
+Dos VM a la vez no deben compartir bucket sin cuidado: las dos restauran y sincronizan `releases/` y `docs/evidencia-*`, y la que no publica pisaba `current` con la copia vieja. Ahora solo sube `current` una corrida lanzada con `--set-current` (`SYNC_CURRENT=1`). Los límites de cuota de vCPU del proyecto también impiden lanzar dos máquinas de 8.
+
+## Pendiente
+
+| Qué | Por qué | Requisito |
+|---|---|---|
+| Vista `espectral` | Sin mediciones terrestres | Conectar `puente_espectral.py` al almacén y medir una muestra de fondo (EMIT) |
+| Vista `radar` | Sin mediciones terrestres. RCM solo tiene cobertura pública en Canadá | Una fuente con cobertura global, o aceptar una población de fondo sesgada |
+| Antártida | WorldCover no cubre al sur de 60° S: 122 949 ventanas sin cobertura | Otra fuente de cobertura de suelo |
+| Lunar: Tmin, amplitud, rocas, H y S1 | No existen en los polos, o no tienen calibración en dB documentada | Otras fuentes; ver `specs/sources/luna-polar-sur-v1.json` |
+| Estabilidad entre semillas | En r2c, Jezero y Haworth coinciden en 79–100 de 100 y de Gerlache en 34–96. La semilla que difirió fue la única con `MinCovDet` en `escabrosidad` | Fijar un estimador único o endurecer la guarda, publicar un ranking de consenso entre ajustes y medir de nuevo. Ver [Reproducibilidad del motor y filtro de clima frío](../01-vigentes/etapa-actual-armonizacion/Reproducibilidad%20del%20motor%20y%20filtro%20de%20clima%20frio.md) |
+| Hemisferio sur en `polar_cold_v1` | Ninguna ventana del sur pasa el filtro: la Antártida no tiene cobertura de suelo y las montañas del sur casi no tienen nieve | Otra fuente de cobertura, o declarar que los análogos de Haworth son del norte |
+| Validación ciega | El motor sigue en `unsupervised_pending_blind_validation` | Ejecutar la cuenca reservada de Mojave |

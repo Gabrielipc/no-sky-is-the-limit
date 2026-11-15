@@ -1,0 +1,13 @@
+import {useState} from 'react';
+import {useResource} from '../../data/api';
+import type {AtlasState} from '../../app/useAtlasState';
+import type {Comparison} from '../../domain/analysis';
+import {fmt,shortName} from '../../domain/analysis';
+import {SensitivityWorkspace} from '../sensitivity/SensitivityWorkspace';
+export function LocalScaleReview({state,update}:{state:AtlasState;update:(patch:Partial<AtlasState>)=>void}) {
+  const [sample,setSample]=useState(false);
+  const resource=useResource<Comparison>(`/api/scenarios/relieve-regional/comparison?reference_id=mars-jezero-fan&cell_m=${state.cell}`);
+  const choice=resource.data?.candidates.find(c=>c.site.id===state.site);
+  if(sample)return <><div className="simulation-state"><p>Muestra ampliada de 3 km. Sus ventanas son distintas del control local {state.site} de 1,8 km y de la candidata del motor {state.regionId||'sin seleccionar'}.</p><button onClick={()=>setSample(false)}>Volver a la candidata local</button></div><SensitivityWorkspace state={state} update={update}/></>;
+  return <section className="simulation-workspace"><header className="sim-heading"><p className="eyebrow">04 / SENSIBILIDAD A LA ESCALA</p><h1>Mismo lugar, distinta celda.</h1><p>Jezero y {state.site==='earth-utah'?'Utah':'Atacama'} · ventana de 1,8 × 1,8 km. Cada resolución recalcula ambas superficies con el mismo método.</p></header>{resource.loading&&<p role="status">Cargando las escalas medidas…</p>}{resource.error&&<p role="alert">{resource.error} <button onClick={resource.retry}>Reintentar</button></p>}{choice&&<><h2>{shortName(choice.site.name)} frente a Jezero</h2><div className="table-wrap"><table><caption>Medidas publicadas de la misma candidata</caption><thead><tr><th>Celda</th><th>Base de pendiente</th><th>Distancia de pendientes</th><th>Diferencia de relieve</th></tr></thead><tbody>{choice.sensitivity.map(m=><tr key={m.cell_m}><th><button aria-pressed={state.cell===m.cell_m} onClick={()=>update({cell:m.cell_m as 60|120})}>{m.cell_m} m</button></th><td>{m.cell_m*2} m</td><td>{fmt(m.slope_wasserstein_deg,'°',3)}</td><td>{fmt(m.candidate_minus_reference_relief_m,' m',3,true)}</td></tr>)}</tbody></table></div><p className="simulation-state">La distancia resume distribuciones de pendientes. La diferencia de relieve es candidata − Jezero; un valor negativo indica menor relieve. No son el score del motor de similitud.</p></>}<div className="journey-actions"><button onClick={()=>update({view:'compare',method:'local'})}>Volver a la comparación · {state.cell} m</button><button onClick={()=>setSample(true)}>Revisar contraste GMTED / SRTM y muestra ampliada</button></div></section>;
+}

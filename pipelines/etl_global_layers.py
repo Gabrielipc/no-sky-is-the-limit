@@ -12,7 +12,7 @@ only for the topographic candidates.
 | ati           | MYD11C3.061 + MCD43C3.061 HDF4 (LP DAAC)            | lst_day_night_delta_k, albedo_wsa, ati     |
 | emissivity    | AG1km.003 HDF5 1° tiles, HTTP ranges (LP DAAC)      | emissivity_b10_b14 (5 bands, int16 x0.001) |
 | soil_moisture | SPL3SMP_E.006 HDF5, two datasets by ranges (NSIDC)  | soil_moisture_mean, soil_moisture_obs_fraction |
-| permafrost    | ESA CCI Permafrost v5.0 NetCDF4 (CEDA, public)      | permafrost_fraction_<hemisphere>           |
+| permafrost    | ESA CCI Permafrost v5.0 NetCDF4 (CEDA, public)      | permafrost_fraction_<hemisphere> (lat/lon) |
 
 Rasters are GeoTIFF (deflate, tiled) in `<layers_dir>/<layer>/` with a `layer.json` that lists
 products, granules, parameters and the SHA-256 of every output; a layer whose `layer.json`
@@ -290,7 +290,9 @@ def build_snow(cfg: dict, ctx: BuildContext) -> dict:
 # ati: MYD11C3 monthly LST day/night + MCD43C3 white-sky albedo -> coarse ATI
 # ---------------------------------------------------------------------------
 LST_LAYERS = ('LST_Day_CMG', 'LST_Night_CMG', 'QC_Day', 'QC_Night')
-ALBEDO_LAYERS = ('Albedo_WSA_shortwave', 'BRDF_Quality')
+# Variable names listed in CMR (UMM-Var of MCD43C3.061, 2026-11-15). Albedo_Quality:
+# 0 best (all full inversions) .. 4 mostly fill; 255 fill.
+ALBEDO_LAYERS = ('Albedo_WSA_shortwave', 'Albedo_Quality')
 
 
 def albedo_cmg(raw: np.ndarray, quality: np.ndarray, max_quality: int) -> np.ndarray:
@@ -321,7 +323,8 @@ def build_ati(cfg: dict, ctx: BuildContext) -> dict:
     year = int(cfg['year'])
     start, end = date(year, 1, 1), date(year, 12, 31)
     lst_granules = [g for g in ctx.search(COLLECTIONS['myd11c3'], None, start, end) if _granule_month(g).year == year]
-    alb_granules = fetch._every(ctx.search(COLLECTIONS['mcd43c3'], None, start, end), int(cfg.get('albedo_step_days', 8)))
+    alb_granules = fetch._every([g for g in ctx.search(COLLECTIONS['mcd43c3'], None, start, end)
+                                 if fetch._granule_date(g).year == year], int(cfg.get('albedo_step_days', 8)))
     if not lst_granules or not alb_granules:
         raise RuntimeError('ATI: faltan gránulos MYD11C3 o MCD43C3 en el año')
     max_err = float(cfg.get('max_lst_error_k', 2.0))
@@ -337,7 +340,7 @@ def build_ati(cfg: dict, ctx: BuildContext) -> dict:
     def read_alb(g: dict):
         a = _hdf4_job(g, ALBEDO_LAYERS, ctx.cache_dir, ctx.downloader, ctx.reader)
         return (fetch._granule_date(g).month, g['id'],
-                albedo_cmg(a['Albedo_WSA_shortwave'], a['BRDF_Quality'], int(cfg.get('max_brdf_quality', 2))))
+                albedo_cmg(a['Albedo_WSA_shortwave'], a['Albedo_Quality'], int(cfg.get('max_albedo_quality', 2))))
 
     used = []
     for month, gid, d_k, n_k in _stream(read_lst, lst_granules, ctx.workers):
@@ -370,7 +373,7 @@ def build_ati(cfg: dict, ctx: BuildContext) -> dict:
     d = ctx.layer_dir('ati')
     for name, arr in results.items():
         write_raster(d / f'{name}.tif', arr, WGS84, geo_transform(shape), description=name)
-    params = {k: cfg[k] for k in ('albedo_step_days', 'max_lst_error_k', 'max_brdf_quality',
+    params = {k: cfg[k] for k in ('albedo_step_days', 'max_lst_error_k', 'max_albedo_quality',
                                   'min_day_night_delta_k', 'min_valid_months') if k in cfg}
     return {'layer': 'ati', 'products': [cfg['product_id'], cfg['albedo_product_id']], 'granules': sorted(used),
             'period': str(year), 'params': params, 'outputs': {k: f'{k}.tif' for k in outputs}}
@@ -513,13 +516,14 @@ def build_soil_moisture(cfg: dict, ctx: BuildContext) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# permafrost: ESA CCI PFR per hemisphere, native polar stereographic grid
+# permafrost: ESA CCI PFR per hemisphere, native WGS84 0.01° grid
 # ---------------------------------------------------------------------------
 def cci_grid(h5, var: str) -> tuple[CRS, Any, np.ndarray]:
     """CRS, affine transform (north-up) and fraction array of a CCI PFR variable."""
     crs = fetch._cci_crs(h5, var)
-    x = np.asarray(h5['x'][:], dtype='float64')
-    y = np.asarray(h5['y'][:], dtype='float64')
+    xname, yname = fetch.cci_coords(h5)
+    x = np.asarray(h5[xname][:], dtype='float64')
+    y = np.asarray(h5[yname][:], dtype='float64')
     dset = h5[var]
     block = np.asarray(dset[0] if dset.ndim == 3 else dset[:], dtype='float64')
     fill = dset.attrs.get('_FillValue')
@@ -542,7 +546,7 @@ def build_permafrost(cfg: dict, ctx: BuildContext) -> dict:
     d = ctx.layer_dir('permafrost')
     outputs, granules = {}, []
     for hemi in ('northern_hemisphere', 'Antarctica'):
-        url = fetch.CCI_FILES['PFR'].format(base=fetch.CCI_BASE, hemi=hemi, year=year)
+        url = fetch.cci_url('PFR', hemi, year)
         with ctx.opener(url) as h5:
             crs, transform, frac = cci_grid(h5, 'PFR')
         name = f'permafrost_fraction_{hemi}'

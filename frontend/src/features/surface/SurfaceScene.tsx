@@ -4,7 +4,7 @@ import {
   Color, ComponentDatatype, CustomHeightmapTerrainProvider, Ellipsoid, EllipsoidTerrainProvider,
   GeographicProjection, GeographicTilingScheme, Geometry, GeometryAttribute, GeometryAttributes, GeometryInstance, GeometryPipeline,
   Globe, HeadingPitchRange, HeightReference, ImageryLayer, Material, MaterialAppearance, Math as CesiumMath,
-  Matrix4, Primitive, PrimitiveType, SingleTileImageryProvider, Transforms, UrlTemplateImageryProvider, Viewer,
+  Matrix4, Primitive, PrimitiveType, Rectangle, SingleTileImageryProvider, Transforms, Viewer,
 } from 'cesium';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { asset, pixels } from './assets';
@@ -33,6 +33,7 @@ export default function SurfaceScene({ site, manifest, mode, exaggeration, textu
   const guidesRef = useRef<CustomDataSource | null>(null);
   const detailRef = useRef<ImageryLayer | null>(null);
   const modeRef = useRef(mode); modeRef.current = mode;
+  const [topView,setTopView]=useState(false);
   const [frame, setFrame] = useState(0);
   const remoteTerrainURL = remote?.kind === 'terrain' ? remote.url : null;
   const mars = site.body === 'Mars';
@@ -76,7 +77,7 @@ export default function SurfaceScene({ site, manifest, mode, exaggeration, textu
         if(modeRef.current==='regional') {
           const canvas=viewer.scene.canvas, cx=canvas.clientWidth/2, cy=canvas.clientHeight*.65;
           const a=viewer.camera.getPickRay(new Cartesian2(cx-60,cy)), b=viewer.camera.getPickRay(new Cartesian2(cx+60,cy));
-          const p=a&&viewer.scene.globe.pick(a,viewer.scene), q=b&&viewer.scene.globe.pick(b,viewer.scene);
+          const p=a&&viewer.scene.globe.pick(a,viewer.scene) || viewer.camera.pickEllipsoid(new Cartesian2(cx-60,cy),viewer.scene.globe.ellipsoid), q=b&&viewer.scene.globe.pick(b,viewer.scene) || viewer.camera.pickEllipsoid(new Cartesian2(cx+60,cy),viewer.scene.globe.ellipsoid);
           if(p&&q){const e=viewer.scene.globe.ellipsoid; const distance=new EllipsoidGeodesic(Cartographic.fromCartesian(p,e),Cartographic.fromCartesian(q,e),e).surfaceDistance;setScale(metricScale(distance/120));}
           else setScale(null);
         }
@@ -85,8 +86,8 @@ export default function SurfaceScene({ site, manifest, mode, exaggeration, textu
       removeRenderError = viewer.scene.renderError.addEventListener(() => {
         if (!disposed) setError('El dispositivo no pudo renderizar la escena. Reintenta el visor o revisa la aceleración WebGL.');
       });
-      SingleTileImageryProvider.fromUrl(mars ? `${import.meta.env.BASE_URL}textures/mars.png` : asset('blue-marble.png'), { ellipsoid,
-        credit: mars ? 'NASA / Mars Trek · MOLA, color de elevación' : 'NASA Earth Observatory / GIBS · Blue Marble (2004)' })
+      SingleTileImageryProvider.fromUrl(mars ? `${import.meta.env.BASE_URL}surface/mars-globe.png` : asset('blue-marble.png'), { ellipsoid,
+        credit: mars ? 'NASA MOLA · relieve en tonos naturales' : 'NASA Earth Observatory / GIBS · Blue Marble (2004)' })
         .then(provider => { if (!disposed && viewer && !viewer.isDestroyed()) { viewer.imageryLayers.add(new ImageryLayer(provider),0); viewer.scene.requestRender(); } })
         .catch(() => { if (!disposed) setError('La textura global no está disponible. Se conserva el relieve con un fondo uniforme.'); });
       pixels(asset(site.heightmap),controller.signal,site.width,site.height)
@@ -105,15 +106,14 @@ export default function SurfaceScene({ site, manifest, mode, exaggeration, textu
     const viewer=viewerRef.current;if(!ready||!viewer)return;
     let disposed=false, layer:ImageryLayer|undefined;let removeError:(()=>void)|undefined;
     setImageryStatus('Cargando imagen regional…');
-    const task=mars ? Promise.resolve(new UrlTemplateImageryProvider({
-      url:'https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/{z}/{y}/{x}',
-      tilingScheme:new GeographicTilingScheme({ellipsoid:viewer.scene.globe.ellipsoid}),
-      tileWidth:512,tileHeight:512,maximumLevel:11,credit:'NASA/JPL/MSSS · CTX / Caltech Murray Lab · mosaico no controlado',
+    const task=mars ? fetch(asset('regional-preview.json')).then(response=>{if(!response.ok)throw new Error('CTX metadata');return response.json();}).then(metadata=>SingleTileImageryProvider.fromUrl(asset(metadata.file),{
+      rectangle:Rectangle.fromDegrees(...metadata.rectangle_degrees as [number,number,number,number]),ellipsoid:viewer.scene.globe.ellipsoid,
+      credit:metadata.credit,
     })) : ArcGisMapServerImageryProvider.fromUrl('https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer');
     task.then(provider=>{
       if(disposed||viewer.isDestroyed())return;
       layer=new ImageryLayer(provider,{show:modeRef.current==='regional'});viewer.imageryLayers.add(layer);detailRef.current=layer;
-      setImageryStatus(mars?'CTX · imagen orbital':'Esri · imagen satelital');
+      setImageryStatus(mars?'CTX · recorte regional ~81 m/píxel':'Esri · imagen satelital');
       removeError=provider.errorEvent.addEventListener(()=>{if(!disposed)setImageryStatus('Imagen regional incompleta · revisa la conexión');});
       viewer.scene.requestRender();
     }).catch(()=>{if(!disposed)setImageryStatus('Imagen regional no disponible · se muestra contexto global');});
@@ -213,11 +213,11 @@ export default function SurfaceScene({ site, manifest, mode, exaggeration, textu
     viewer.camera.cancelFlight(); viewer.camera.lookAtTransform(Matrix4.IDENTITY);
     const ellipsoid=viewer.scene.globe.ellipsoid;
     const center=Cartesian3.fromDegrees(site.longitude,site.latitude,0,ellipsoid);
-    if (local) viewer.camera.lookAtTransform(Transforms.eastNorthUpToFixedFrame(center,ellipsoid),new HeadingPitchRange(CesiumMath.toRadians(0),CesiumMath.toRadians(-48),3700));
+    if (local) viewer.camera.lookAtTransform(Transforms.eastNorthUpToFixedFrame(center,ellipsoid),new HeadingPitchRange(CesiumMath.toRadians(0),CesiumMath.toRadians(topView?-90:-48),3700));
     else if (mode==='space') viewer.camera.flyTo({destination:Cartesian3.fromDegrees(site.longitude,site.latitude,ellipsoid.maximumRadius*1.8,ellipsoid),duration:duration()});
     else viewer.camera.flyToBoundingSphere(new BoundingSphere(center,22000),{offset:new HeadingPitchRange(0,CesiumMath.toRadians(-45),mars?65000:16000),duration:duration()});
     viewer.scene.requestRender();
-  }, [ready, mode, site, mars, attempt, frame]);
+  }, [ready, mode, site, mars, attempt, frame, topView]);
 
   useEffect(() => { const v=viewerRef.current; if (ready && v) { v.scene.verticalExaggeration=exaggeration; v.scene.requestRender(); } },[ready,exaggeration]);
 
@@ -242,7 +242,7 @@ export default function SurfaceScene({ site, manifest, mode, exaggeration, textu
     <div className="surface-canvas" ref={container} role="region" aria-label={`Visor 3D de ${site.name}`} />
     <div className="surface-hud"><span className="surface-live-dot"/><span>{mode==='mesh' ? `${site.source} · malla local` : mode==='regional' ? imageryStatus : terrainStatus}</span></div>
     <div className="surface-altitude"><small>{mode==='mesh'?'VENTANA DEL TERRENO':'ALTURA DE LA CÁMARA'}</small><strong>{mode==='mesh'?'1,8 × 1,8 km':altitude || '—'}</strong></div>
-    <div className="surface-navigation" role="group" aria-label="Navegación 3D"><button aria-label="Restablecer encuadre" title="Restablecer encuadre" onClick={()=>setFrame(n=>n+1)}>⌖</button><button aria-label="Acercar" onClick={()=>{const v=viewerRef.current;if(v){v.camera.zoomIn(Math.max(100,(mode==='mesh'?Cartesian3.magnitude(v.camera.position):Math.abs(v.camera.positionCartographic.height))*.2));v.scene.requestRender();}}}>+</button><button aria-label="Alejar" onClick={()=>{const v=viewerRef.current;if(v){v.camera.zoomOut(Math.max(100,(mode==='mesh'?Cartesian3.magnitude(v.camera.position):Math.abs(v.camera.positionCartographic.height))*.2));v.scene.requestRender();}}}>−</button></div>
+    <div className="surface-navigation" role="group" aria-label="Navegación 3D">{mode==='mesh'&&<button aria-label={topView?'Vista oblicua del terreno':'Vista cenital, norte arriba'} title={topView?'Vista oblicua':'Vista cenital · norte arriba'} onClick={()=>setTopView(v=>!v)}>N</button>}<button aria-label="Restablecer encuadre" title="Restablecer encuadre" onClick={()=>setFrame(n=>n+1)}>⌖</button><button aria-label="Acercar" onClick={()=>{const v=viewerRef.current;if(v){v.camera.zoomIn(Math.max(100,(mode==='mesh'?Cartesian3.magnitude(v.camera.position):Math.abs(v.camera.positionCartographic.height))*.2));v.scene.requestRender();}}}>+</button><button aria-label="Alejar" onClick={()=>{const v=viewerRef.current;if(v){v.camera.zoomOut(Math.max(100,(mode==='mesh'?Cartesian3.magnitude(v.camera.position):Math.abs(v.camera.positionCartographic.height))*.2));v.scene.requestRender();}}}>−</button></div>
     {mode==='regional' && <div className="surface-map-scale">{scale && <><span style={{width:scale.pixels}}/>{scale.distance>=1000?`${(scale.distance/1000).toLocaleString('es')} km`:`${scale.distance.toLocaleString('es')} m`}<small>Distancia horizontal en el centro de la vista</small></>}</div>}
     {mode==='mesh' && <div className="surface-elevation-legend"><strong>{texture==='elevation'?'Altura del terreno':texture==='height'?'Gris → altura':'Relieve sombreado'}</strong>{texture!=='relief' && <><div className={texture==='height'?'gray-ramp':'height-ramp'}/><span>{site.min_m.toFixed(0)} m <b>{site.max_m.toFixed(0)} m</b></span></>}<p>{exaggeration===1?'Escala vertical real · 1×':`Altura exagerada ${exaggeration}× · distancias sin cambio`}</p><small>A–B: corte central · N: norte</small></div>}
     <p className="surface-gesture">Arrastrar: mover · rueda: acercar · Ctrl + arrastrar: inclinar</p>

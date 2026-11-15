@@ -1,6 +1,8 @@
 # Contratos de datos para backend y frontend
 
-Fecha: 15 de noviembre de 2026. Guías: [backend](guia-backend.md) · [frontend](guia-frontend.md).
+Fecha: 15 de noviembre de 2026. Guías: [backend](guia-backend.md) · [frontend](guia-frontend.md) · [primera release](primera-release.md).
+
+Para comprobar una release contra estos contratos: `python scripts/verificar_release.py releases/atlas30/<versión>`.
 
 ## Cómo fluyen los datos
 
@@ -13,12 +15,13 @@ ETL (GCP)  ──►  almacén (features_unified, interno)  ──►  release v
 
 El backend no lee el almacén del ETL. Lee **releases**: carpetas inmutables y versionadas que el ETL publica. Una release contiene los datos ya procesados de cada ventana y, opcionalmente, los resultados del motor de similitud para las referencias con nombre. El backend sirve esos archivos y el frontend los presenta.
 
-## Los tres contratos
+## Los cuatro contratos
 
 | Contrato | Archivo legible por máquina | Estabilidad | Quién lo produce | Quién lo consume |
 |---|---|---|---|---|
 | **Release del atlas** `atlas30-release-v1` | [`specs/api/release-atlas30-v1.json`](../../specs/api/release-atlas30-v1.json) | **Estable.** Solo se añaden columnas | `pipelines/etl_publish.py` | `backend/app/atlas_store.py` → `/api/atlas/*` |
 | **Respuesta del motor** `motor-busqueda-v1` | [`specs/api/motor-busqueda-v1.schema.json`](../../specs/api/motor-busqueda-v1.schema.json) (JSON Schema) | **Estructura estable.** Pesos y estado del motor pueden cambiar con la calibración | `SimilarityEngine.search` | `similarity/<referencia>.json` en la release, o un endpoint del motor |
+| **API de similitud** `similitud-api-v1` | [`specs/api/similitud-api-v1.schema.json`](../../specs/api/similitud-api-v1.schema.json) (JSON Schema) | **Estructura estable.** Los campos solo se añaden | `backend/app/similarity.py` | Frontend: `frontend/src/domain/similarity.ts` y `data/similarityApi.ts` |
 | **Vista del almacén** `features-unified-v1` | [`specs/api/features-unified-v1.json`](../../specs/api/features-unified-v1.json) | Interna del ETL | `pipelines/etl_contract.py` | Motor y publicación (no el backend) |
 
 Los dos archivos de columnas se **generan del código** con `scripts/exportar_contratos.py`, y `tests/test_contratos.py` falla si quedan desactualizados. La salida real del motor se valida contra el JSON Schema en los tests.

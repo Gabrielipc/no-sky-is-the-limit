@@ -8,7 +8,8 @@
   "source_status_values": {
     "confirmed": "Archivo, unidades y CRS verificados; se lee por ventana (HTTP 206) o desde una copia local.",
     "pending_identity": "Producto oficial identificado, pero sin archivo, unidades o CRS confirmados. La dimensión queda on_demand_fetchable.",
-    "pending_adapter": "Archivo localizado en un formato que aún no tiene adaptador (p. ej. tabla ASCII). La dimensión queda on_demand_fetchable."
+    "pending_adapter": "Archivo localizado en un formato que aún no tiene adaptador (p. ej. tabla ASCII). La dimensión queda on_demand_fetchable.",
+    "unavailable": "Producto verificado, pero sin la variable o sin cobertura en los polos. La columna queda vacía (on_demand_fetchable) y no se estima."
   },
   "sources": {
     "lola_ldem_80s_20mpp": {
@@ -56,72 +57,125 @@
       "checked_on": "2026-11-14"
     },
     "lola_illumination_avg": {
-      "status": "pending_identity",
-      "product_id": "pgda-lunar-polar-illumination",
-      "asset_id": null,
+      "status": "confirmed",
+      "product_id": "pgda-lola-avgvisib-85s-60m-201608",
+      "asset_id": "AVGVISIB_85S_060M_201608.TIF",
+      "url": "https://pgda.gsfc.nasa.gov/data/MoonIllumination/AVGVISIB_85S_060M_201608.TIF",
       "product_page": "https://pgda.gsfc.nasa.gov/products/69",
-      "citation": "Mazarico et al. (2011), Icarus 211, 1066; actualización PGDA 2018",
-      "note": "La página del producto no mostró el archivo de iluminación promedio al consultarla. Fijar archivo, unidades (fracción o %) y CRS antes de pasar a confirmed."
+      "citation": "Mazarico et al. (2011), Icarus 211, 1066-1081, doi:10.1016/j.icarus.2010.10.030; actualización PGDA 2016",
+      "format": "GeoTIFF por teselas de 256 px (int16, nodata -32768), polar estereográfico, esfera lunar de 1737,4 km",
+      "crs": "Moon2000_spole (esfera IAU, Polar_Stereographic, lat_0 = -90)",
+      "native_resolution_m": 60.0,
+      "units": "fracción de tiempo con el Sol visible (promedio horario de un ciclo de nutación de 18,6 años)",
+      "scale": 4e-05,
+      "offset": 0.0,
+      "valid_range": [
+        0.0,
+        1.000001
+      ],
+      "observation_period": "Geometría de iluminación de 18,6 años sobre LOLA",
+      "checked_on": "2026-11-15",
+      "limitations": [
+        "Cubre 85°S–90°S; los sitios fuera de esa banda necesitan el producto de 120 m (75°S–90°S)",
+        "El valor 1,0 equivale al entero 25000 (escala 4e-5); se comprobó en Haworth (0) y de Gerlache (máximo local 0,83)",
+        "Es una media de tiempo sobre topografía de 2016, no la iluminación de un día lunar concreto",
+        "El enlace *_COG.TIF del producto devuelve 404; se usa el GeoTIFF por teselas, que admite lecturas por rangos"
+      ]
     },
     "diviner_tmax_south": {
-      "status": "pending_adapter",
+      "status": "confirmed",
+      "reader": "pds3_polar_resource_table",
       "product_id": "LRO-L-DLRE-5-PRP-V2.0",
       "asset_id": "dlre_prp_south.tab",
       "url": "https://pds-geosciences.wustl.edu/lro/urn-nasa-pds-lro_diviner_derived1/data_derived_prp/dlre_prp_south.tab",
       "bytes": 604800210,
+      "record_bytes": 210,
+      "records": 2880000,
       "product_page": "https://pds-geosciences.wustl.edu/missions/lro/diviner.htm",
-      "format": "Tabla ASCII, 2 880 000 filas x 15 columnas (RECORD_BYTES = 210); estructura en DLRE_PRP.FMT",
-      "note": "Hace falta leer DLRE_PRP.FMT para fijar columnas (Tmax, Tmin, Tmedia), rejilla de 240 m y proyección, y rasterizar a GeoTIFF estereográfico antes de medir.",
-      "variable": "Temperatura bolométrica máxima (K), rasterizada desde la tabla PRP",
-      "units": "K"
+      "format": "Tabla ASCII de longitud fija (210 bytes por fila). Cada fila es un triángulo de la malla del polo sur con su centro (lon, lat), temperatura media anual a 2 cm y temperatura máxima anual en superficie",
+      "native_resolution_m": 500.0,
+      "observation_period": "Climatología térmica modelada con Diviner (producto de recursos polares V2)",
+      "checked_on": "2026-11-15",
+      "match_max_distance_m": 500.0,
+      "column": "temp_max",
+      "variable": "Temperatura máxima anual en superficie (K)",
+      "units": "K",
+      "valid_range": [
+        10.0,
+        450.0
+      ],
+      "limitations": [
+        "Es un producto modelado y anual, no la temperatura máxima de un día lunar medida",
+        "Cada celda de 30 m toma el triángulo más cercano (a ≤ 500 m): resolución efectiva de ~500 m",
+        "Cubre solo el polo sur; el polo norte tiene otro archivo (dlre_prp_north.tab)"
+      ],
+      "header_records": 1,
+      "records_note": "2 880 000 registros de 210 bytes: 1 de encabezado y 2 879 999 triángulos"
     },
     "diviner_tmin_south": {
-      "status": "pending_adapter",
+      "status": "unavailable",
       "product_id": "LRO-L-DLRE-5-PRP-V2.0",
       "asset_id": "dlre_prp_south.tab",
-      "url": "https://pds-geosciences.wustl.edu/lro/urn-nasa-pds-lro_diviner_derived1/data_derived_prp/dlre_prp_south.tab",
-      "bytes": 604800210,
-      "product_page": "https://pds-geosciences.wustl.edu/missions/lro/diviner.htm",
-      "format": "Tabla ASCII, 2 880 000 filas x 15 columnas (RECORD_BYTES = 210); estructura en DLRE_PRP.FMT",
-      "note": "Hace falta leer DLRE_PRP.FMT para fijar columnas (Tmax, Tmin, Tmedia), rejilla de 240 m y proyección, y rasterizar a GeoTIFF estereográfico antes de medir.",
-      "variable": "Temperatura bolométrica mínima (K), rasterizada desde la tabla PRP",
-      "units": "K"
+      "note": "El producto polar PRP trae temperatura media anual a 2 cm y máxima anual, pero no la mínima. Los mapas globales de Diviner (GHRM, bolométrica mínima) cubren solo 70°S–70°N. No se estima Tmin ni la amplitud.",
+      "variable": "Temperatura bolométrica mínima (K)",
+      "units": "K",
+      "checked_on": "2026-11-15"
     },
     "diviner_rock_abundance": {
-      "status": "pending_identity",
+      "status": "unavailable",
       "product_id": "diviner-rock-abundance-h-parameter",
       "asset_id": null,
       "citation": "Bandfield et al. (2011) para abundancia de rocas; Hayne et al. (2017) para el parámetro H",
-      "note": "No figuran por nombre en los paquetes Diviner de PDS Geosciences consultados. Verificar versión y ubicación.",
+      "note": "Abundancia de rocas y parámetro H de Diviner solo se distribuyen en los mapas globales GHRM (70°S–70°N, PDS urn-nasa-pds-lro_diviner_derived1/data_derived_ghrm), que no llegan a Haworth (87,45°S) ni a de Gerlache (88,71°S). La columna queda vacía.",
       "variable": "Abundancia de rocas (fracción de área)",
-      "units": "fracción"
+      "units": "fracción",
+      "checked_on": "2026-11-15"
     },
     "diviner_h_parameter": {
-      "status": "pending_identity",
+      "status": "unavailable",
       "product_id": "diviner-rock-abundance-h-parameter",
       "asset_id": null,
       "citation": "Bandfield et al. (2011) para abundancia de rocas; Hayne et al. (2017) para el parámetro H",
-      "note": "No figuran por nombre en los paquetes Diviner de PDS Geosciences consultados. Verificar versión y ubicación.",
+      "note": "Abundancia de rocas y parámetro H de Diviner solo se distribuyen en los mapas globales GHRM (70°S–70°N, PDS urn-nasa-pds-lro_diviner_derived1/data_derived_ghrm), que no llegan a Haworth (87,45°S) ni a de Gerlache (88,71°S). La columna queda vacía.",
       "variable": "Parámetro H de la termofísica del regolito",
-      "units": "m"
+      "units": "m",
+      "checked_on": "2026-11-15"
     },
     "minirf_cpr": {
-      "status": "pending_identity",
-      "product_id": "LRO-L-MRFLRO-4-CDR-V1 (CDR-MOSAIC)",
-      "asset_id": null,
+      "status": "confirmed",
+      "reader": "pds3_simple_cylindrical_f32",
+      "product_id": "LRO-L-MRFLRO-5-GLOBAL-MOSAIC-V1.0",
+      "asset_id": "GLOBAL_CPR_128PPD_SIMP_0C.IMG",
+      "url": "https://pds-geosciences.wustl.edu/lro/lro-l-mrflro-5-global-mosaic-v1/lromrf_1001/data/128ppd/global_cpr_128ppd_simp_0c.img",
       "product_page": "https://pds-geosciences.wustl.edu/missions/lro/mrf.htm",
-      "note": "Mosaicos polares en DATA/SAR/MOSAICS de los volúmenes LROMRF_0001-0005; falta fijar archivo, bandas S1/CPR y CRS.",
-      "variable": "Razón de polarización circular (CPR)",
-      "units": "adimensional"
+      "format": "Imagen PDS3 sin comprimir, float32 little-endian, proyección cilíndrica simple, 128 píxeles por grado",
+      "lines": 23040,
+      "line_samples": 46080,
+      "pixels_per_degree": 128.0,
+      "missing_constant": -1.7976931e+308,
+      "native_resolution_m": 236.9,
+      "units": "adimensional (CPR = SC/OS)",
+      "valid_range": [
+        0.0,
+        10.0
+      ],
+      "observation_period": "Mini-RF modo ZOOM_S, 2009-07-19 a 2010-12-26 (banda S, 2,38 GHz)",
+      "checked_on": "2026-11-15",
+      "limitations": [
+        "Mosaico global sin control geodésico: la posición puede desplazarse varios píxeles",
+        "A 87°S–89°S un píxel mide ~237 m en latitud y solo ~10 m en longitud: la resolución efectiva es la de latitud",
+        "Hay valores de CPR por encima de 10 (ruido o lóbulos); se excluyen del resumen"
+      ]
     },
     "minirf_s1": {
-      "status": "pending_identity",
+      "status": "unavailable",
       "product_id": "LRO-L-MRFLRO-4-CDR-V1 (CDR-MOSAIC)",
       "asset_id": null,
       "product_page": "https://pds-geosciences.wustl.edu/missions/lro/mrf.htm",
-      "note": "Mosaicos polares en DATA/SAR/MOSAICS de los volúmenes LROMRF_0001-0005; falta fijar archivo, bandas S1/CPR y CRS.",
+      "note": "El mosaico global S1 (global_s1_128ppd_simp_0c.img) existe, pero S1 = |ERH| + |ERV| se entrega sin unidades ni calibración en dB documentadas. No se convierte a dB sin una fuente que lo respalde. La columna queda vacía.",
       "variable": "Primer parámetro de Stokes S1",
-      "units": "dB"
+      "units": "dB",
+      "checked_on": "2026-11-15"
     }
   },
   "dimensions": {

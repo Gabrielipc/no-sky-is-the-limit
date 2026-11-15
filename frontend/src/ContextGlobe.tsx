@@ -23,7 +23,7 @@ export function ContextGlobe({ site }: { site: Location }) {
         infoBox: false, selectionIndicator: false });
       viewerRef.current = viewer;
       viewer.scene.globe.baseColor = Color.fromCssColorString(mars ? '#8d4936' : '#315c67');
-      SingleTileImageryProvider.fromUrl(mars ? '/textures/mars.png' : '/textures/earth.png', { ellipsoid })
+      SingleTileImageryProvider.fromUrl(mars ? `${import.meta.env.BASE_URL}surface/mars-globe.png` : '/textures/earth.png', { ellipsoid })
         .then(provider => { if (!viewer.isDestroyed()) viewer.imageryLayers.add(new ImageryLayer(provider)); })
         .catch(() => { if (!viewer.isDestroyed()) setError('No se pudo cargar la textura global; se muestra un fondo uniforme.'); });
       viewer.entities.add({ position: Cartesian3.fromDegrees(site.longitude, site.latitude, 0, ellipsoid),
@@ -47,6 +47,6 @@ export function ContextGlobe({ site }: { site: Location }) {
   }
   return <><div className="globe-wrap"><div className="globe" ref={container} aria-label={`Ubicación contextual de ${site.name}`} />
     <div className="globe-tools"><button onClick={() => move(false)}>Vista global</button><button onClick={() => move(true)}>Ver polígono de {windowKm} km</button></div></div>
-    <p className="muted small">{site.body === 'Mars' ? 'Fondo MOLA en colores falsos · NASA Mars Trek.' : 'Fondo Blue Marble · NASA/Goddard SVS.'} Contorno de la ventana analizada. La textura es contexto regional; el globo no muestra terreno 3D ni el detalle del análisis.</p>
+    <p className="muted small">{site.body === 'Mars' ? 'Relieve MOLA en tonos naturales · NASA; no es una fotografía en color.' : 'Fondo Blue Marble · NASA/Goddard SVS.'} Contorno de la ventana analizada. La textura es contexto regional; el globo no muestra terreno 3D ni el detalle del análisis.</p>
     {error && <p role="alert" className="error small">{error}</p>}</>;
 }

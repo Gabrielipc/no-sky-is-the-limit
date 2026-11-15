@@ -29,7 +29,19 @@ Procedencia: `assets` de la misma respuesta (producto, DOI, versión, periodo), 
 
 ## 2. Resultados del motor de similitud
 
-Formato: [`motor-busqueda-v1`](../../specs/api/motor-busqueda-v1.schema.json). Llega de `/api/atlas/similarity/{referencia}` (precalculado) o de `POST /api/similarity/search` (pesos personalizados), según implemente el backend ([guía](guia-backend.md)). Mientras tanto se puede desarrollar con los ejemplos de `docs/evidencia-motor-similitud/` (formato anterior, sin `coverage_fraction`) o con una respuesta generada por `tests/test_contratos.py`.
+Formato: [`motor-busqueda-v1`](../../specs/api/motor-busqueda-v1.schema.json) dentro del sobre de [`similitud-api-v1`](../../specs/api/similitud-api-v1.schema.json). Llega de `POST /api/similarity/search` (pesos personalizados) o, precalculado, de `/api/atlas/similarity/{referencia}` si la release lo incluye ([guía de backend](guia-backend.md)).
+
+**Qué hay en `frontend/src`:** [`domain/similarity.ts`](../../frontend/src/domain/similarity.ts) (tipos y funciones puras del contrato) y [`data/similarityApi.ts`](../../frontend/src/data/similarityApi.ts) (cliente: `postSearch`, `useSimilaritySearch`, `useReferenceCatalog` y el error `SearchUnavailable` para 503 o sin conexión). `frontend/tests/similarity.test.cjs` comprueba que no se desvían de los esquemas. La vista «Explorar» los usa en sus dos modos a través de [`features/search/useEngineSearch.ts`](../../frontend/src/features/search/useEngineSearch.ts): el modo sencillo envía solo la referencia (pesos del servidor, 10 resultados) y el modo científico envía pesos, perfil, fusión, política de ausentes, filtro de elegibilidad y límite desde [`SearchControls.tsx`](../../frontend/src/features/search/SearchControls.tsx). Si el servidor no tiene motor, se muestra el ejemplo precalculado del repositorio, marcado como tal. Una vista de ejemplo, desacoplada, está en [`ejemplo-frontend-similitud/`](ejemplo-frontend-similitud/README.md).
+
+### Cómo enviar la petición
+
+1. `GET /api/similarity/references` una vez. Devuelve las referencias, sus limitaciones, qué vistas tienen datos (`views`: `reference_has_data`, `reference_missing`, `not_fitted`) y `default_weights` por cuerpo para inicializar los controles.
+2. `POST /api/similarity/search` con `{reference: <id>, ...}`. Reenviad solo el id de la referencia, no sus features.
+3. **Pesos:** enviad `weights` solo si el usuario los cambió; si se omiten, el servidor aplica los pesos por defecto del cuerpo. Un peso 0 apaga la vista. Si todos los pesos son 0 la API responde 422: evitadlo en la interfaz.
+4. **Cadencia:** una sola búsqueda viva. Esperad ~300 ms tras el último cambio de un control y cancelad la anterior con `AbortController`. Mientras llega la nueva, atenuad la tabla en lugar de vaciarla. Tiempo máximo del cliente: 30 s.
+5. **Respuesta:** además de los campos del motor trae `query_id` (igual para peticiones equivalentes) y `timings` (`engine_ms`, `total_ms`, `cache_hit`).
+6. **Errores:** `detail` es texto o una lista de errores de validación (422). 404: referencia desconocida o `available: false`. 503: el servidor no tiene el motor; el resto de la aplicación funciona.
+7. **Referencia explícita:** el campo `reference` también acepta `{body, features, percentiles}` (ver `ReferenceInput`); `percentiles` solo para features puente y dentro de [0, 1].
 
 ### Cabecera
 - **`status`:** mientras sea `unsupervised_pending_blind_validation`, etiquetad el ranking como **experimental**.
