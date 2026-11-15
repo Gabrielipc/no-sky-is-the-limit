@@ -8,7 +8,8 @@
     {"method": "GET", "path": "/api/similarity/references", "response": "ReferencesResponse", "errors": [503]},
     {"method": "GET", "path": "/api/similarity/references/{reference_id}", "response": "ReferenceDetail", "errors": [404, 503]},
     {"method": "POST", "path": "/api/similarity/search", "request": "motor-busqueda-v1#/$defs/SearchRequest", "response": "SearchEnvelope", "errors": [404, 422, 503]},
-    {"method": "GET", "path": "/api/similarity/status", "response": "ServiceStatus", "errors": []}
+    {"method": "GET", "path": "/api/similarity/status", "response": "ServiceStatus", "errors": []},
+    {"method": "GET", "path": "/api/similarity/jezero-pilot", "response": "JezeroPilot", "errors": [422, 503]}
   ],
   "x-errors": {
     "404": "Referencia desconocida, o conocida pero no disponible en este servidor (`detail` es texto).",
@@ -23,6 +24,54 @@
     "Mostrar siempre `warnings` y `status`; una vista con estado `not_fitted` o `reference_missing` no puntúa."
   ],
   "$defs": {
+    "JezeroPilot": {
+      "type": "object",
+      "description": "Piloto opcional de Jezero. Parámetros de consulta mode (combined, topography) y limit (1–100).",
+      "required": ["version", "status", "mode", "profile", "reference", "coverage", "weights", "candidates_ranked", "results", "warnings"],
+      "properties": {
+        "version": {"type": "string", "pattern": "^jezero-r3-"},
+        "status": {"const": "experimental"},
+        "mode": {"enum": ["combined", "topography"]},
+        "profile": {"enum": ["arid_mars_surface_v2", "paleolake_margin_v1"]},
+        "reference": {
+          "type": "object",
+          "required": ["id", "longitude", "latitude", "spectral_side_m", "topographic_side_m"],
+          "properties": {
+            "id": {"const": "jezero"},
+            "longitude": {"type": "number", "minimum": -180, "maximum": 180},
+            "latitude": {"type": "number", "minimum": -90, "maximum": 90},
+            "spectral_side_m": {"const": 1800},
+            "topographic_side_m": {"const": 3000}
+          }
+        },
+        "coverage": {
+          "type": "object",
+          "required": ["windows", "spectral_windows", "bounds"],
+          "properties": {
+            "windows": {"type": "integer", "minimum": 0},
+            "spectral_windows": {"type": "integer", "minimum": 0},
+            "bounds": {"type": "array", "items": {
+              "type": "object", "required": ["id", "bbox"],
+              "properties": {"id": {"type": "string"}, "bbox": {
+                "type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number"}
+              }}
+            }}
+          }
+        },
+        "weights": {"type": "object", "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}},
+        "candidates_ranked": {"type": "integer", "minimum": 0},
+        "results": {"type": "array", "items": {
+          "type": "object", "required": ["region_id", "longitude", "latitude", "score", "block", "views"],
+          "properties": {
+            "region_id": {"type": "string"}, "block": {"type": "string"},
+            "longitude": {"type": "number"}, "latitude": {"type": "number"},
+            "score": {"type": "number", "minimum": 0, "maximum": 1},
+            "views": {"type": "object", "additionalProperties": {"type": ["number", "null"]}}
+          }
+        }},
+        "warnings": {"type": "array", "items": {"type": "string"}}
+      }
+    },
     "ViewId": {
       "type": "string",
       "enum": ["escabrosidad", "forma_hipsometrica", "organizacion", "espectral", "termica", "radar", "entorno_superficial", "emisividad_cmg", "regimen_morfologico"]

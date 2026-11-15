@@ -1,5 +1,11 @@
 """Routes of the similarity search (`/api/similarity`)."""
+import json
+import os
+from pathlib import Path
+from typing import Literal
+
 from fastapi import APIRouter, HTTPException
+from fastapi import Query
 from fastapi.concurrency import run_in_threadpool
 
 from app.schemas.similarity import SearchRequest
@@ -20,6 +26,33 @@ async def available_service() -> SimilarityService:
 @router.get('/status')
 async def status():
     return service().status()
+
+
+def read_jezero_pilot(mode: str, limit: int) -> dict:
+    directory = os.getenv('REGOLITH_JEZERO_PILOT_DIR')
+    if not directory:
+        raise HTTPException(503, 'El piloto espectral de Jezero está pendiente de validación.')
+    try:
+        report = json.loads((Path(directory) / 'jezero.json').read_text(encoding='utf-8'))
+        if (report['format'] != 'jezero-multivista-v1' or report['status'] != 'experimental'
+                or not all(report[key]['pass'] for key in ('support', 'relevance', 'retrieval', 'stability'))):
+            raise ValueError('El piloto aún no cumple los criterios de publicación')
+        results = report['rankings'][mode]
+        return {
+            'version': report['version'], 'status': report['status'], 'mode': mode,
+            'reference': report['reference'], 'profile': report['profile'], 'coverage': report['coverage'],
+            'weights': report['weights'] if mode == 'combined' else {'topografia': 1.0},
+            'candidates_ranked': len(results), 'results': results[:limit],
+            'warnings': ['Piloto de similitud de materiales dentro de la cobertura EMIT evaluada.'],
+        }
+    except (OSError, KeyError, TypeError, ValueError) as exc:
+        raise HTTPException(503, 'No hay una publicación válida del piloto de Jezero.') from exc
+
+
+@router.get('/jezero-pilot')
+async def jezero_pilot(mode: Literal['combined', 'topography'] = 'combined',
+                       limit: int = Query(25, ge=1, le=100)):
+    return await run_in_threadpool(read_jezero_pilot, mode, limit)
 
 
 @router.get('/references')

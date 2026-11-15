@@ -11,8 +11,8 @@
       "kind": "landing_site",
       "status": "measured",
       "center": {
-        "longitude": 77.45,
-        "latitude": 18.44
+        "longitude": 77.41,
+        "latitude": 18.49
       },
       "sources": [
         "hirise-dtm-jezero",
@@ -60,7 +60,7 @@
       ],
       "limitations": [
         "Cresta iluminada usada como contraste del fondo de Haworth (punto C de Bussey et al., 2010); las coordenadas se leyeron de una tabla secundaria porque el artículo original no pudo abrirse.",
-        "Con la huella de 3 km resulta muy escarpado (P90 de pendiente 22,4°): la compuerta provisional de 15° lo marca `excluded_steep`.",
+        "Con la huella de 3 km resulta muy escarpado (P90 de pendiente 22,4°): la compuerta provisional de 15° lo marca `excluded_steep`. La cresta sirve como referencia morfológica y su ranking de Release 2 tiene baja estabilidad.",
         "El DEM lunar de 20 m interpola entre trazas: la comparación es directa en operador, no en resolución efectiva.",
         "Mide iluminación, PSR, temperatura máxima de Diviner y CPR de Mini-RF; las mismas dimensiones del polo sur sin producto quedan sin dato.",
         "Qué vistas puntúan para esta referencia lo dice en cada momento `views` de la API (ajustada, sin ajustar o sin dato de la referencia); una vista sin dato no puntúa."

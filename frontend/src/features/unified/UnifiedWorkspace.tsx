@@ -31,6 +31,7 @@ import { SIMPLE_CONTROLS, useEngineSearch, type EngineSearch } from "../search/u
 import { SearchControls } from "../search/SearchControls";
 import { ScenePanel } from "./ScenePanel";
 import { Profiles } from "./Profiles";
+import { JezeroPilot } from "./JezeroPilot";
 import {
   candidateFocus,
   exactSite,
@@ -347,6 +348,7 @@ export function UnifiedWorkspace({
           )}
         </section>
       </div>
+      {science && ref.id === "jezero" && <JezeroPilot />}
     </section>
   );
 }
