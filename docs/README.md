@@ -32,6 +32,7 @@ La documentación está organizada por **vigencia y etapa** para distinguir ráp
 | Documento | Estado | Rol |
 |---|---|---|
 | [Atlas de 30 m - operacion.md](01-vigentes/operacion-y-datos/Atlas%20de%2030%20m%20-%20operacion.md) | **Vigente** | Operación de `/?view=world`, publicación `mundial-30m-r1` (3.782 ventanas) y reanudación. |
+| [Barrido mundial - robustez cobertura costo y publicacion.md](01-vigentes/operacion-y-datos/Barrido%20mundial%20-%20robustez%20cobertura%20costo%20y%20publicacion.md) | **Vigente** · 14 nov 2026 | Fallos con causa, reanudación por identidad, relleno de cobertura, benchmark ([`evidencia-barrido/`](evidencia-barrido/)) y publicación del ETL al mapa. |
 | [Atlas de 30 m - preparacion multidimensional.md](01-vigentes/operacion-y-datos/Atlas%20de%2030%20m%20-%20preparacion%20multidimensional.md) | **Vigente** | Preparación reproducible de WorldCover, JRC, HLS y Landsat. |
 | [Guia de recoleccion.md](01-vigentes/operacion-y-datos/Guia%20de%20recoleccion.md) | **Vigente** | Uso actual de `scripts/recolectar_datos.py` y recuperación de descargas. |
 | [Adquisicion CRISM de Marte.md](01-vigentes/operacion-y-datos/Adquisicion%20CRISM%20de%20Marte.md) | **Vigente** | Uso de `scripts/adquirir_marte.py` y adquisición CRISM `FRT000047A3`. |
@@ -47,6 +48,10 @@ La documentación está organizada por **vigencia y etapa** para distinguir ráp
 | [Tercera entrega - muestreo estratificado y puentes entre cuerpos.md](01-vigentes/etapa-actual-armonizacion/Tercera%20entrega%20-%20muestreo%20estratificado%20y%20puentes%20entre%20cuerpos.md) | **Vigente (última entrega)** | [`evidencia-entrega-3/`](evidencia-entrega-3/) |
 | [Contraste de fuentes del challenge 2026](01-vigentes/etapa-actual-armonizacion/Contraste%20de%20fuentes%20del%20challenge%202026.md) | 12 nov 2026 · Investigación | Fuentes oficiales, encaje con el ETL y propuesta de piloto lunar-terrestre. |
 | [Elección de fuentes y costo de cobertura mundial](01-vigentes/etapa-actual-armonizacion/Eleccion%20de%20fuentes%20y%20costo%20de%20cobertura%20mundial.md) | 13 nov 2026 · Evaluación | Validez de GLO‑30 y las características, enriquecimientos y presupuesto de procesamiento. |
+| [Auditoría de armonización y features frente a fuentes del challenge](01-vigentes/etapa-actual-armonizacion/Auditoria%20de%20armonizacion%20y%20features%20frente%20a%20fuentes%20del%20challenge.md) | 14 nov 2026 · Auditoría | Vacíos de método, features propuestas y prioridades; compuerta por escenario implementada. |
+| [Descriptores de forma y redundancia del vector topográfico](01-vigentes/etapa-actual-armonizacion/Descriptores%20de%20forma%20y%20redundancia%20del%20vector%20topografico.md) | 14 nov 2026 · **Vigente** | [`evidencia-descriptores-forma/`](evidencia-descriptores-forma/) |
+| [Puente espectral con un solo operador en tres cuerpos](01-vigentes/etapa-actual-armonizacion/Puente%20espectral%20con%20un%20solo%20operador%20en%20tres%20cuerpos.md) | 14 nov 2026 · **Vigente** | [`evidencia-puente-espectral/`](evidencia-puente-espectral/) |
+| [Puentes láser y radar polarimétrico](01-vigentes/etapa-actual-armonizacion/Puentes%20laser%20y%20radar%20polarimetrico.md) | 14 nov 2026 · **Vigente** | [`evidencia-puentes-laser-radar/`](evidencia-puentes-laser-radar/) |
 
 ---
 

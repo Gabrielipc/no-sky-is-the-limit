@@ -1,0 +1,410 @@
+{
+  "protocol_id": "nasa-worldview-blind-review-v1",
+  "date": "2024-06-15",
+  "span_km": 12.0,
+  "blind_count": 10,
+  "blind_sheet": [
+    {
+      "blind_id": "BLIND-001",
+      "worldview_url": "https://worldview.earthdata.nasa.gov/?v=-110.66897%2C38.5461%2C-110.53103%2C38.6539&t=2024-06-15-T00%3A00%3A00Z&l=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m",
+      "gibs_snapshot_url": "https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2024-06-15&BBOX=38.5461%2C-110.66897%2C38.6539%2C-110.53103&CRS=EPSG%3A4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m&FORMAT=image%2Fjpeg&WIDTH=512&HEIGHT=512",
+      "bbox_wgs84": [
+        -110.66897,
+        38.5461,
+        -110.53103,
+        38.6539
+      ],
+      "span_km": 12.0,
+      "date": "2024-06-15",
+      "layers": [
+        "VIIRS_SNPP_CorrectedReflectance_TrueColor",
+        "MODIS_Terra_CorrectedReflectance_TrueColor",
+        "Coastlines_15m"
+      ],
+      "blind_mode": true,
+      "review_fields": {
+        "cell_m": 30,
+        "relief_p95_p05_m": 33.648633141980554,
+        "slope_240m_p50_deg": 1.1356304210173214,
+        "slope_240m_p90_deg": 2.8118359292909414,
+        "window_m": 3000
+      },
+      "reviewer_assessment": {
+        "visual_class": null,
+        "artifact_flag": null,
+        "notes": ""
+      }
+    },
+    {
+      "blind_id": "BLIND-002",
+      "worldview_url": "https://worldview.earthdata.nasa.gov/?v=-82.8761%2C35.3161%2C-82.7439%2C35.4239&t=2024-06-15-T00%3A00%3A00Z&l=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m",
+      "gibs_snapshot_url": "https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2024-06-15&BBOX=35.3161%2C-82.8761%2C35.4239%2C-82.7439&CRS=EPSG%3A4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m&FORMAT=image%2Fjpeg&WIDTH=512&HEIGHT=512",
+      "bbox_wgs84": [
+        -82.8761,
+        35.3161,
+        -82.7439,
+        35.4239
+      ],
+      "span_km": 12.0,
+      "date": "2024-06-15",
+      "layers": [
+        "VIIRS_SNPP_CorrectedReflectance_TrueColor",
+        "MODIS_Terra_CorrectedReflectance_TrueColor",
+        "Coastlines_15m"
+      ],
+      "blind_mode": true,
+      "review_fields": {
+        "cell_m": 30,
+        "relief_p95_p05_m": 416.762478494338,
+        "slope_240m_p50_deg": 19.197849264931445,
+        "slope_240m_p90_deg": 26.217485632566344,
+        "window_m": 3000
+      },
+      "reviewer_assessment": {
+        "visual_class": null,
+        "artifact_flag": null,
+        "notes": ""
+      }
+    },
+    {
+      "blind_id": "BLIND-003",
+      "worldview_url": "https://worldview.earthdata.nasa.gov/?v=-67.95891%2C-23.8539%2C-67.84109%2C-23.7461&t=2024-06-15-T00%3A00%3A00Z&l=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m",
+      "gibs_snapshot_url": "https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2024-06-15&BBOX=-23.8539%2C-67.95891%2C-23.7461%2C-67.84109&CRS=EPSG%3A4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m&FORMAT=image%2Fjpeg&WIDTH=512&HEIGHT=512",
+      "bbox_wgs84": [
+        -67.95891,
+        -23.8539,
+        -67.84109,
+        -23.7461
+      ],
+      "span_km": 12.0,
+      "date": "2024-06-15",
+      "layers": [
+        "VIIRS_SNPP_CorrectedReflectance_TrueColor",
+        "MODIS_Terra_CorrectedReflectance_TrueColor",
+        "Coastlines_15m"
+      ],
+      "blind_mode": true,
+      "review_fields": {
+        "cell_m": 30,
+        "relief_p95_p05_m": 296.6708928974899,
+        "slope_240m_p50_deg": 6.75496957086405,
+        "slope_240m_p90_deg": 9.88520468433976,
+        "window_m": 3000
+      },
+      "reviewer_assessment": {
+        "visual_class": null,
+        "artifact_flag": null,
+        "notes": ""
+      }
+    },
+    {
+      "blind_id": "BLIND-004",
+      "worldview_url": "https://worldview.earthdata.nasa.gov/?v=-77.95406%2C34.0131%2C-77.82394%2C34.1209&t=2024-06-15-T00%3A00%3A00Z&l=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m",
+      "gibs_snapshot_url": "https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2024-06-15&BBOX=34.0131%2C-77.95406%2C34.1209%2C-77.82394&CRS=EPSG%3A4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m&FORMAT=image%2Fjpeg&WIDTH=512&HEIGHT=512",
+      "bbox_wgs84": [
+        -77.95406,
+        34.0131,
+        -77.82394,
+        34.1209
+      ],
+      "span_km": 12.0,
+      "date": "2024-06-15",
+      "layers": [
+        "VIIRS_SNPP_CorrectedReflectance_TrueColor",
+        "MODIS_Terra_CorrectedReflectance_TrueColor",
+        "Coastlines_15m"
+      ],
+      "blind_mode": true,
+      "review_fields": {
+        "cell_m": 30,
+        "relief_p95_p05_m": 14.824816219976633,
+        "slope_240m_p50_deg": 1.215329565289871,
+        "slope_240m_p90_deg": 2.500951789510743,
+        "window_m": 3000
+      },
+      "reviewer_assessment": {
+        "visual_class": null,
+        "artifact_flag": null,
+        "notes": ""
+      }
+    },
+    {
+      "blind_id": "BLIND-005",
+      "worldview_url": "https://worldview.earthdata.nasa.gov/?v=-70.15884%2C-23.7039%2C-70.04116%2C-23.5961&t=2024-06-15-T00%3A00%3A00Z&l=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m",
+      "gibs_snapshot_url": "https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2024-06-15&BBOX=-23.7039%2C-70.15884%2C-23.5961%2C-70.04116&CRS=EPSG%3A4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m&FORMAT=image%2Fjpeg&WIDTH=512&HEIGHT=512",
+      "bbox_wgs84": [
+        -70.15884,
+        -23.7039,
+        -70.04116,
+        -23.5961
+      ],
+      "span_km": 12.0,
+      "date": "2024-06-15",
+      "layers": [
+        "VIIRS_SNPP_CorrectedReflectance_TrueColor",
+        "MODIS_Terra_CorrectedReflectance_TrueColor",
+        "Coastlines_15m"
+      ],
+      "blind_mode": true,
+      "review_fields": {
+        "cell_m": 30,
+        "relief_p95_p05_m": 126.1544243853599,
+        "slope_240m_p50_deg": 3.4148858567072873,
+        "slope_240m_p90_deg": 6.746560073647818,
+        "window_m": 3000
+      },
+      "reviewer_assessment": {
+        "visual_class": null,
+        "artifact_flag": null,
+        "notes": ""
+      }
+    },
+    {
+      "blind_id": "BLIND-006",
+      "worldview_url": "https://worldview.earthdata.nasa.gov/?v=114.5461%2C0.5461%2C114.6539%2C0.6539&t=2024-06-15-T00%3A00%3A00Z&l=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m",
+      "gibs_snapshot_url": "https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2024-06-15&BBOX=0.5461%2C114.5461%2C0.6539%2C114.6539&CRS=EPSG%3A4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m&FORMAT=image%2Fjpeg&WIDTH=512&HEIGHT=512",
+      "bbox_wgs84": [
+        114.5461,
+        0.5461,
+        114.6539,
+        0.6539
+      ],
+      "span_km": 12.0,
+      "date": "2024-06-15",
+      "layers": [
+        "VIIRS_SNPP_CorrectedReflectance_TrueColor",
+        "MODIS_Terra_CorrectedReflectance_TrueColor",
+        "Coastlines_15m"
+      ],
+      "blind_mode": true,
+      "review_fields": {
+        "cell_m": 30,
+        "relief_p95_p05_m": 301.4312144315936,
+        "slope_240m_p50_deg": 12.729164018526165,
+        "slope_240m_p90_deg": 24.219179025897922,
+        "window_m": 3000
+      },
+      "reviewer_assessment": {
+        "visual_class": null,
+        "artifact_flag": null,
+        "notes": ""
+      }
+    },
+    {
+      "blind_id": "BLIND-007",
+      "worldview_url": "https://worldview.earthdata.nasa.gov/?v=-123.62697%2C45.4961%2C-123.47303%2C45.6039&t=2024-06-15-T00%3A00%3A00Z&l=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m",
+      "gibs_snapshot_url": "https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2024-06-15&BBOX=45.4961%2C-123.62697%2C45.6039%2C-123.47303&CRS=EPSG%3A4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m&FORMAT=image%2Fjpeg&WIDTH=512&HEIGHT=512",
+      "bbox_wgs84": [
+        -123.62697,
+        45.4961,
+        -123.47303,
+        45.6039
+      ],
+      "span_km": 12.0,
+      "date": "2024-06-15",
+      "layers": [
+        "VIIRS_SNPP_CorrectedReflectance_TrueColor",
+        "MODIS_Terra_CorrectedReflectance_TrueColor",
+        "Coastlines_15m"
+      ],
+      "blind_mode": true,
+      "review_fields": {
+        "cell_m": 30,
+        "relief_p95_p05_m": 431.23002690486794,
+        "slope_240m_p50_deg": 20.516004212746303,
+        "slope_240m_p90_deg": 31.836372817690016,
+        "window_m": 3000
+      },
+      "reviewer_assessment": {
+        "visual_class": null,
+        "artifact_flag": null,
+        "notes": ""
+      }
+    },
+    {
+      "blind_id": "BLIND-008",
+      "worldview_url": "https://worldview.earthdata.nasa.gov/?v=-0.13352%2C-80.7539%2C0.53352%2C-80.6461&t=2024-06-15-T00%3A00%3A00Z&l=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m",
+      "gibs_snapshot_url": "https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2024-06-15&BBOX=-80.7539%2C-0.13352%2C-80.6461%2C0.53352&CRS=EPSG%3A4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m&FORMAT=image%2Fjpeg&WIDTH=512&HEIGHT=512",
+      "bbox_wgs84": [
+        -0.13352,
+        -80.7539,
+        0.53352,
+        -80.6461
+      ],
+      "span_km": 12.0,
+      "date": "2024-06-15",
+      "layers": [
+        "VIIRS_SNPP_CorrectedReflectance_TrueColor",
+        "MODIS_Terra_CorrectedReflectance_TrueColor",
+        "Coastlines_15m"
+      ],
+      "blind_mode": true,
+      "review_fields": {
+        "cell_m": 30,
+        "relief_p95_p05_m": 5.2817839644499145,
+        "slope_240m_p50_deg": 0.2142977022970392,
+        "slope_240m_p90_deg": 0.3917144493346916,
+        "window_m": 3000
+      },
+      "reviewer_assessment": {
+        "visual_class": null,
+        "artifact_flag": null,
+        "notes": ""
+      }
+    },
+    {
+      "blind_id": "BLIND-009",
+      "worldview_url": "https://worldview.earthdata.nasa.gov/?v=-1.55593%2C15.4461%2C-1.44407%2C15.5539&t=2024-06-15-T00%3A00%3A00Z&l=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m",
+      "gibs_snapshot_url": "https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2024-06-15&BBOX=15.4461%2C-1.55593%2C15.5539%2C-1.44407&CRS=EPSG%3A4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m&FORMAT=image%2Fjpeg&WIDTH=512&HEIGHT=512",
+      "bbox_wgs84": [
+        -1.55593,
+        15.4461,
+        -1.44407,
+        15.5539
+      ],
+      "span_km": 12.0,
+      "date": "2024-06-15",
+      "layers": [
+        "VIIRS_SNPP_CorrectedReflectance_TrueColor",
+        "MODIS_Terra_CorrectedReflectance_TrueColor",
+        "Coastlines_15m"
+      ],
+      "blind_mode": true,
+      "review_fields": {
+        "cell_m": 30,
+        "relief_p95_p05_m": 17.366215458874024,
+        "slope_240m_p50_deg": 0.46532391386672667,
+        "slope_240m_p90_deg": 0.9735915864701326,
+        "window_m": 3000
+      },
+      "reviewer_assessment": {
+        "visual_class": null,
+        "artifact_flag": null,
+        "notes": ""
+      }
+    },
+    {
+      "blind_id": "BLIND-010",
+      "worldview_url": "https://worldview.earthdata.nasa.gov/?v=11.12155%2C46.5461%2C11.27845%2C46.6539&t=2024-06-15-T00%3A00%3A00Z&l=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m",
+      "gibs_snapshot_url": "https://wvs.earthdata.nasa.gov/api/v1/snapshot?REQUEST=GetSnapshot&TIME=2024-06-15&BBOX=46.5461%2C11.12155%2C46.6539%2C11.27845&CRS=EPSG%3A4326&LAYERS=VIIRS_SNPP_CorrectedReflectance_TrueColor%2CMODIS_Terra_CorrectedReflectance_TrueColor%2CCoastlines_15m&FORMAT=image%2Fjpeg&WIDTH=512&HEIGHT=512",
+      "bbox_wgs84": [
+        11.12155,
+        46.5461,
+        11.27845,
+        46.6539
+      ],
+      "span_km": 12.0,
+      "date": "2024-06-15",
+      "layers": [
+        "VIIRS_SNPP_CorrectedReflectance_TrueColor",
+        "MODIS_Terra_CorrectedReflectance_TrueColor",
+        "Coastlines_15m"
+      ],
+      "blind_mode": true,
+      "review_fields": {
+        "cell_m": 30,
+        "relief_p95_p05_m": 845.4047012757877,
+        "slope_240m_p50_deg": 12.732015412610686,
+        "slope_240m_p90_deg": 39.61754501122156,
+        "window_m": 3000
+      },
+      "reviewer_assessment": {
+        "visual_class": null,
+        "artifact_flag": null,
+        "notes": ""
+      }
+    }
+  ],
+  "unblinding_key": {
+    "BLIND-001": {
+      "region_id": "desierto",
+      "area_id": "arid_sedimentary_basin",
+      "rank": null,
+      "distance_score": null,
+      "split": null,
+      "longitude": -110.6,
+      "latitude": 38.6
+    },
+    "BLIND-002": {
+      "region_id": "bosque-carolina",
+      "area_id": "dense_temperate_forest",
+      "rank": null,
+      "distance_score": null,
+      "split": null,
+      "longitude": -82.81,
+      "latitude": 35.37
+    },
+    "BLIND-003": {
+      "region_id": "atacama-materiales",
+      "area_id": "hyperarid_evaporitic_fan",
+      "rank": null,
+      "distance_score": null,
+      "split": null,
+      "longitude": -67.9,
+      "latitude": -23.8
+    },
+    "BLIND-004": {
+      "region_id": "costa-carolina",
+      "area_id": "coastal_water_transition",
+      "rank": null,
+      "distance_score": null,
+      "split": null,
+      "longitude": -77.889,
+      "latitude": 34.067
+    },
+    "BLIND-005": {
+      "region_id": "costa",
+      "area_id": "arid_escarpment",
+      "rank": null,
+      "distance_score": null,
+      "split": null,
+      "longitude": -70.1,
+      "latitude": -23.65
+    },
+    "BLIND-006": {
+      "region_id": "tropico",
+      "area_id": "tropical_rainforest",
+      "rank": null,
+      "distance_score": null,
+      "split": null,
+      "longitude": 114.6,
+      "latitude": 0.6
+    },
+    "BLIND-007": {
+      "region_id": "bosque-oregon",
+      "area_id": "dense_temperate_forest",
+      "rank": null,
+      "distance_score": null,
+      "split": null,
+      "longitude": -123.55,
+      "latitude": 45.55
+    },
+    "BLIND-008": {
+      "region_id": "polar",
+      "area_id": "polar_cryosphere",
+      "rank": null,
+      "distance_score": null,
+      "split": null,
+      "longitude": 0.2,
+      "latitude": -80.7
+    },
+    "BLIND-009": {
+      "region_id": "sahara-sahel",
+      "area_id": "arid_aeolian_plain",
+      "rank": null,
+      "distance_score": null,
+      "split": null,
+      "longitude": -1.5,
+      "latitude": 15.5
+    },
+    "BLIND-010": {
+      "region_id": "montana",
+      "area_id": "alpine_high_relief",
+      "rank": null,
+      "distance_score": null,
+      "split": null,
+      "longitude": 11.2,
+      "latitude": 46.6
+    }
+  }
+}

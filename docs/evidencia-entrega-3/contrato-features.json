@@ -530,6 +530,75 @@
             }
           }
         }
+      },
+      "official_surface_dimensions_contract": {
+        "aridity": {
+          "status": "unobserved_by_product",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "GPM_3IMERGDF.07",
+          "doi": "10.5067/GPM/IMERGDF/DAY/07",
+          "valid_fraction": null,
+          "metrics": {
+            "precip_mean_annual_mm": null,
+            "dry_months_fraction": null
+          }
+        },
+        "soil_moisture": {
+          "status": "unobserved_by_product",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "SPL3SMP_E.006",
+          "doi": "10.5067/4DQ54OUIJ9DL",
+          "valid_fraction": null,
+          "metrics": {
+            "smap_sm_p50_m3m3": null,
+            "smap_sm_p90_m3m3": null
+          }
+        },
+        "snow_persistence": {
+          "status": "unobserved_by_product",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "MOD10A1.061",
+          "doi": "10.5067/MODIS/MOD10A1.061",
+          "valid_fraction": null,
+          "metrics": {
+            "mod10a1_snow_days_fraction": null,
+            "mod10a1_clear_days_fraction": null
+          }
+        },
+        "permafrost": {
+          "status": "unobserved_by_product",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "ESA_CCI_PERMAFROST_v5.0",
+          "doi": "10.5285/6ef1a60b678f4048a20b5c8d94d665c9",
+          "valid_fraction": null,
+          "metrics": {
+            "cci_permafrost_probability": null,
+            "cci_active_layer_thickness_m": null
+          }
+        },
+        "thermal_emissivity": {
+          "status": "unobserved_by_product",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "AG100.003",
+          "doi": "10.5067/Community/ASTER_GED/AG100.003",
+          "valid_fraction": null,
+          "metrics": {
+            "aster_emissivity_mafic_index": null,
+            "aster_christiansen_wb_um": null
+          }
+        },
+        "sar_backscatter": {
+          "status": "unobserved_by_product",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "OPERA_L2_RTC-S1_V1",
+          "doi": "10.5067/SNWG/OPERA_L2_RTC-S1_V1",
+          "valid_fraction": null,
+          "metrics": {
+            "s1_rtc_vv_p50_db": null,
+            "s1_rtc_vh_p50_db": null,
+            "s1_rtc_vh_vv_ratio_db": null
+          }
+        }
       }
     },
     {
@@ -1356,6 +1425,75 @@
                 }
               }
             ]
+          }
+        }
+      },
+      "official_surface_dimensions_contract": {
+        "aridity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "GPM_3IMERGDF.07",
+          "doi": "10.5067/GPM/IMERGDF/DAY/07",
+          "valid_fraction": null,
+          "metrics": {
+            "precip_mean_annual_mm": null,
+            "dry_months_fraction": null
+          }
+        },
+        "soil_moisture": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "SPL3SMP_E.006",
+          "doi": "10.5067/4DQ54OUIJ9DL",
+          "valid_fraction": null,
+          "metrics": {
+            "smap_sm_p50_m3m3": null,
+            "smap_sm_p90_m3m3": null
+          }
+        },
+        "snow_persistence": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "MOD10A1.061",
+          "doi": "10.5067/MODIS/MOD10A1.061",
+          "valid_fraction": null,
+          "metrics": {
+            "mod10a1_snow_days_fraction": null,
+            "mod10a1_clear_days_fraction": null
+          }
+        },
+        "permafrost": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "ESA_CCI_PERMAFROST_v5.0",
+          "doi": "10.5285/6ef1a60b678f4048a20b5c8d94d665c9",
+          "valid_fraction": null,
+          "metrics": {
+            "cci_permafrost_probability": null,
+            "cci_active_layer_thickness_m": null
+          }
+        },
+        "thermal_emissivity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "AG100.003",
+          "doi": "10.5067/Community/ASTER_GED/AG100.003",
+          "valid_fraction": null,
+          "metrics": {
+            "aster_emissivity_mafic_index": null,
+            "aster_christiansen_wb_um": null
+          }
+        },
+        "sar_backscatter": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "OPERA_L2_RTC-S1_V1",
+          "doi": "10.5067/SNWG/OPERA_L2_RTC-S1_V1",
+          "valid_fraction": null,
+          "metrics": {
+            "s1_rtc_vv_p50_db": null,
+            "s1_rtc_vh_p50_db": null,
+            "s1_rtc_vh_vv_ratio_db": null
           }
         }
       }
@@ -2461,6 +2599,75 @@
             ]
           }
         }
+      },
+      "official_surface_dimensions_contract": {
+        "aridity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "GPM_3IMERGDF.07",
+          "doi": "10.5067/GPM/IMERGDF/DAY/07",
+          "valid_fraction": null,
+          "metrics": {
+            "precip_mean_annual_mm": null,
+            "dry_months_fraction": null
+          }
+        },
+        "soil_moisture": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "SPL3SMP_E.006",
+          "doi": "10.5067/4DQ54OUIJ9DL",
+          "valid_fraction": null,
+          "metrics": {
+            "smap_sm_p50_m3m3": null,
+            "smap_sm_p90_m3m3": null
+          }
+        },
+        "snow_persistence": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "MOD10A1.061",
+          "doi": "10.5067/MODIS/MOD10A1.061",
+          "valid_fraction": null,
+          "metrics": {
+            "mod10a1_snow_days_fraction": null,
+            "mod10a1_clear_days_fraction": null
+          }
+        },
+        "permafrost": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "ESA_CCI_PERMAFROST_v5.0",
+          "doi": "10.5285/6ef1a60b678f4048a20b5c8d94d665c9",
+          "valid_fraction": null,
+          "metrics": {
+            "cci_permafrost_probability": null,
+            "cci_active_layer_thickness_m": null
+          }
+        },
+        "thermal_emissivity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "AG100.003",
+          "doi": "10.5067/Community/ASTER_GED/AG100.003",
+          "valid_fraction": null,
+          "metrics": {
+            "aster_emissivity_mafic_index": null,
+            "aster_christiansen_wb_um": null
+          }
+        },
+        "sar_backscatter": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "OPERA_L2_RTC-S1_V1",
+          "doi": "10.5067/SNWG/OPERA_L2_RTC-S1_V1",
+          "valid_fraction": null,
+          "metrics": {
+            "s1_rtc_vv_p50_db": null,
+            "s1_rtc_vh_p50_db": null,
+            "s1_rtc_vh_vv_ratio_db": null
+          }
+        }
       }
     },
     {
@@ -2639,6 +2846,75 @@
         "status": "on_demand_fetchable",
         "by_window": null,
         "note": "Sin escena EMIT local precargada en esta ventana; consultable bajo demanda vía CMR/LP DAAC cuando el sitio supera filtros de etapa 2."
+      },
+      "official_surface_dimensions_contract": {
+        "aridity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "GPM_3IMERGDF.07",
+          "doi": "10.5067/GPM/IMERGDF/DAY/07",
+          "valid_fraction": null,
+          "metrics": {
+            "precip_mean_annual_mm": null,
+            "dry_months_fraction": null
+          }
+        },
+        "soil_moisture": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "SPL3SMP_E.006",
+          "doi": "10.5067/4DQ54OUIJ9DL",
+          "valid_fraction": null,
+          "metrics": {
+            "smap_sm_p50_m3m3": null,
+            "smap_sm_p90_m3m3": null
+          }
+        },
+        "snow_persistence": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "MOD10A1.061",
+          "doi": "10.5067/MODIS/MOD10A1.061",
+          "valid_fraction": null,
+          "metrics": {
+            "mod10a1_snow_days_fraction": null,
+            "mod10a1_clear_days_fraction": null
+          }
+        },
+        "permafrost": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "ESA_CCI_PERMAFROST_v5.0",
+          "doi": "10.5285/6ef1a60b678f4048a20b5c8d94d665c9",
+          "valid_fraction": null,
+          "metrics": {
+            "cci_permafrost_probability": null,
+            "cci_active_layer_thickness_m": null
+          }
+        },
+        "thermal_emissivity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "AG100.003",
+          "doi": "10.5067/Community/ASTER_GED/AG100.003",
+          "valid_fraction": null,
+          "metrics": {
+            "aster_emissivity_mafic_index": null,
+            "aster_christiansen_wb_um": null
+          }
+        },
+        "sar_backscatter": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "OPERA_L2_RTC-S1_V1",
+          "doi": "10.5067/SNWG/OPERA_L2_RTC-S1_V1",
+          "valid_fraction": null,
+          "metrics": {
+            "s1_rtc_vv_p50_db": null,
+            "s1_rtc_vh_p50_db": null,
+            "s1_rtc_vh_vv_ratio_db": null
+          }
+        }
       }
     },
     {
@@ -2836,6 +3112,75 @@
         "status": "on_demand_fetchable",
         "by_window": null,
         "note": "Sin escena EMIT local precargada en esta ventana; consultable bajo demanda vía CMR/LP DAAC cuando el sitio supera filtros de etapa 2."
+      },
+      "official_surface_dimensions_contract": {
+        "aridity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "GPM_3IMERGDF.07",
+          "doi": "10.5067/GPM/IMERGDF/DAY/07",
+          "valid_fraction": null,
+          "metrics": {
+            "precip_mean_annual_mm": null,
+            "dry_months_fraction": null
+          }
+        },
+        "soil_moisture": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "SPL3SMP_E.006",
+          "doi": "10.5067/4DQ54OUIJ9DL",
+          "valid_fraction": null,
+          "metrics": {
+            "smap_sm_p50_m3m3": null,
+            "smap_sm_p90_m3m3": null
+          }
+        },
+        "snow_persistence": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "MOD10A1.061",
+          "doi": "10.5067/MODIS/MOD10A1.061",
+          "valid_fraction": null,
+          "metrics": {
+            "mod10a1_snow_days_fraction": null,
+            "mod10a1_clear_days_fraction": null
+          }
+        },
+        "permafrost": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "ESA_CCI_PERMAFROST_v5.0",
+          "doi": "10.5285/6ef1a60b678f4048a20b5c8d94d665c9",
+          "valid_fraction": null,
+          "metrics": {
+            "cci_permafrost_probability": null,
+            "cci_active_layer_thickness_m": null
+          }
+        },
+        "thermal_emissivity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "AG100.003",
+          "doi": "10.5067/Community/ASTER_GED/AG100.003",
+          "valid_fraction": null,
+          "metrics": {
+            "aster_emissivity_mafic_index": null,
+            "aster_christiansen_wb_um": null
+          }
+        },
+        "sar_backscatter": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "OPERA_L2_RTC-S1_V1",
+          "doi": "10.5067/SNWG/OPERA_L2_RTC-S1_V1",
+          "valid_fraction": null,
+          "metrics": {
+            "s1_rtc_vv_p50_db": null,
+            "s1_rtc_vh_p50_db": null,
+            "s1_rtc_vh_vv_ratio_db": null
+          }
+        }
       }
     },
     {
@@ -3024,6 +3369,75 @@
         "status": "on_demand_fetchable",
         "by_window": null,
         "note": "Sin escena EMIT local precargada en esta ventana; consultable bajo demanda vía CMR/LP DAAC cuando el sitio supera filtros de etapa 2."
+      },
+      "official_surface_dimensions_contract": {
+        "aridity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "GPM_3IMERGDF.07",
+          "doi": "10.5067/GPM/IMERGDF/DAY/07",
+          "valid_fraction": null,
+          "metrics": {
+            "precip_mean_annual_mm": null,
+            "dry_months_fraction": null
+          }
+        },
+        "soil_moisture": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "SPL3SMP_E.006",
+          "doi": "10.5067/4DQ54OUIJ9DL",
+          "valid_fraction": null,
+          "metrics": {
+            "smap_sm_p50_m3m3": null,
+            "smap_sm_p90_m3m3": null
+          }
+        },
+        "snow_persistence": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "MOD10A1.061",
+          "doi": "10.5067/MODIS/MOD10A1.061",
+          "valid_fraction": null,
+          "metrics": {
+            "mod10a1_snow_days_fraction": null,
+            "mod10a1_clear_days_fraction": null
+          }
+        },
+        "permafrost": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "ESA_CCI_PERMAFROST_v5.0",
+          "doi": "10.5285/6ef1a60b678f4048a20b5c8d94d665c9",
+          "valid_fraction": null,
+          "metrics": {
+            "cci_permafrost_probability": null,
+            "cci_active_layer_thickness_m": null
+          }
+        },
+        "thermal_emissivity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "AG100.003",
+          "doi": "10.5067/Community/ASTER_GED/AG100.003",
+          "valid_fraction": null,
+          "metrics": {
+            "aster_emissivity_mafic_index": null,
+            "aster_christiansen_wb_um": null
+          }
+        },
+        "sar_backscatter": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "OPERA_L2_RTC-S1_V1",
+          "doi": "10.5067/SNWG/OPERA_L2_RTC-S1_V1",
+          "valid_fraction": null,
+          "metrics": {
+            "s1_rtc_vv_p50_db": null,
+            "s1_rtc_vh_p50_db": null,
+            "s1_rtc_vh_vv_ratio_db": null
+          }
+        }
       }
     },
     {
@@ -3214,6 +3628,75 @@
         "status": "on_demand_fetchable",
         "by_window": null,
         "note": "Sin escena EMIT local precargada en esta ventana; consultable bajo demanda vía CMR/LP DAAC cuando el sitio supera filtros de etapa 2."
+      },
+      "official_surface_dimensions_contract": {
+        "aridity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "GPM_3IMERGDF.07",
+          "doi": "10.5067/GPM/IMERGDF/DAY/07",
+          "valid_fraction": null,
+          "metrics": {
+            "precip_mean_annual_mm": null,
+            "dry_months_fraction": null
+          }
+        },
+        "soil_moisture": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "SPL3SMP_E.006",
+          "doi": "10.5067/4DQ54OUIJ9DL",
+          "valid_fraction": null,
+          "metrics": {
+            "smap_sm_p50_m3m3": null,
+            "smap_sm_p90_m3m3": null
+          }
+        },
+        "snow_persistence": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "MOD10A1.061",
+          "doi": "10.5067/MODIS/MOD10A1.061",
+          "valid_fraction": null,
+          "metrics": {
+            "mod10a1_snow_days_fraction": null,
+            "mod10a1_clear_days_fraction": null
+          }
+        },
+        "permafrost": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "ESA_CCI_PERMAFROST_v5.0",
+          "doi": "10.5285/6ef1a60b678f4048a20b5c8d94d665c9",
+          "valid_fraction": null,
+          "metrics": {
+            "cci_permafrost_probability": null,
+            "cci_active_layer_thickness_m": null
+          }
+        },
+        "thermal_emissivity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "AG100.003",
+          "doi": "10.5067/Community/ASTER_GED/AG100.003",
+          "valid_fraction": null,
+          "metrics": {
+            "aster_emissivity_mafic_index": null,
+            "aster_christiansen_wb_um": null
+          }
+        },
+        "sar_backscatter": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "OPERA_L2_RTC-S1_V1",
+          "doi": "10.5067/SNWG/OPERA_L2_RTC-S1_V1",
+          "valid_fraction": null,
+          "metrics": {
+            "s1_rtc_vv_p50_db": null,
+            "s1_rtc_vh_p50_db": null,
+            "s1_rtc_vh_vv_ratio_db": null
+          }
+        }
       }
     },
     {
@@ -3404,6 +3887,75 @@
         "status": "on_demand_fetchable",
         "by_window": null,
         "note": "Sin escena EMIT local precargada en esta ventana; consultable bajo demanda vía CMR/LP DAAC cuando el sitio supera filtros de etapa 2."
+      },
+      "official_surface_dimensions_contract": {
+        "aridity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "GPM_3IMERGDF.07",
+          "doi": "10.5067/GPM/IMERGDF/DAY/07",
+          "valid_fraction": null,
+          "metrics": {
+            "precip_mean_annual_mm": null,
+            "dry_months_fraction": null
+          }
+        },
+        "soil_moisture": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "SPL3SMP_E.006",
+          "doi": "10.5067/4DQ54OUIJ9DL",
+          "valid_fraction": null,
+          "metrics": {
+            "smap_sm_p50_m3m3": null,
+            "smap_sm_p90_m3m3": null
+          }
+        },
+        "snow_persistence": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "MOD10A1.061",
+          "doi": "10.5067/MODIS/MOD10A1.061",
+          "valid_fraction": null,
+          "metrics": {
+            "mod10a1_snow_days_fraction": null,
+            "mod10a1_clear_days_fraction": null
+          }
+        },
+        "permafrost": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "ESA_CCI_PERMAFROST_v5.0",
+          "doi": "10.5285/6ef1a60b678f4048a20b5c8d94d665c9",
+          "valid_fraction": null,
+          "metrics": {
+            "cci_permafrost_probability": null,
+            "cci_active_layer_thickness_m": null
+          }
+        },
+        "thermal_emissivity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "AG100.003",
+          "doi": "10.5067/Community/ASTER_GED/AG100.003",
+          "valid_fraction": null,
+          "metrics": {
+            "aster_emissivity_mafic_index": null,
+            "aster_christiansen_wb_um": null
+          }
+        },
+        "sar_backscatter": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "OPERA_L2_RTC-S1_V1",
+          "doi": "10.5067/SNWG/OPERA_L2_RTC-S1_V1",
+          "valid_fraction": null,
+          "metrics": {
+            "s1_rtc_vv_p50_db": null,
+            "s1_rtc_vh_p50_db": null,
+            "s1_rtc_vh_vv_ratio_db": null
+          }
+        }
       }
     },
     {
@@ -3594,6 +4146,75 @@
         "status": "on_demand_fetchable",
         "by_window": null,
         "note": "Sin escena EMIT local precargada en esta ventana; consultable bajo demanda vía CMR/LP DAAC cuando el sitio supera filtros de etapa 2."
+      },
+      "official_surface_dimensions_contract": {
+        "aridity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "GPM_3IMERGDF.07",
+          "doi": "10.5067/GPM/IMERGDF/DAY/07",
+          "valid_fraction": null,
+          "metrics": {
+            "precip_mean_annual_mm": null,
+            "dry_months_fraction": null
+          }
+        },
+        "soil_moisture": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "SPL3SMP_E.006",
+          "doi": "10.5067/4DQ54OUIJ9DL",
+          "valid_fraction": null,
+          "metrics": {
+            "smap_sm_p50_m3m3": null,
+            "smap_sm_p90_m3m3": null
+          }
+        },
+        "snow_persistence": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "MOD10A1.061",
+          "doi": "10.5067/MODIS/MOD10A1.061",
+          "valid_fraction": null,
+          "metrics": {
+            "mod10a1_snow_days_fraction": null,
+            "mod10a1_clear_days_fraction": null
+          }
+        },
+        "permafrost": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "ESA_CCI_PERMAFROST_v5.0",
+          "doi": "10.5285/6ef1a60b678f4048a20b5c8d94d665c9",
+          "valid_fraction": null,
+          "metrics": {
+            "cci_permafrost_probability": null,
+            "cci_active_layer_thickness_m": null
+          }
+        },
+        "thermal_emissivity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "AG100.003",
+          "doi": "10.5067/Community/ASTER_GED/AG100.003",
+          "valid_fraction": null,
+          "metrics": {
+            "aster_emissivity_mafic_index": null,
+            "aster_christiansen_wb_um": null
+          }
+        },
+        "sar_backscatter": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "OPERA_L2_RTC-S1_V1",
+          "doi": "10.5067/SNWG/OPERA_L2_RTC-S1_V1",
+          "valid_fraction": null,
+          "metrics": {
+            "s1_rtc_vv_p50_db": null,
+            "s1_rtc_vh_p50_db": null,
+            "s1_rtc_vh_vv_ratio_db": null
+          }
+        }
       }
     },
     {
@@ -3772,6 +4393,75 @@
         "status": "on_demand_fetchable",
         "by_window": null,
         "note": "Sin escena EMIT local precargada en esta ventana; consultable bajo demanda vía CMR/LP DAAC cuando el sitio supera filtros de etapa 2."
+      },
+      "official_surface_dimensions_contract": {
+        "aridity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "GPM_3IMERGDF.07",
+          "doi": "10.5067/GPM/IMERGDF/DAY/07",
+          "valid_fraction": null,
+          "metrics": {
+            "precip_mean_annual_mm": null,
+            "dry_months_fraction": null
+          }
+        },
+        "soil_moisture": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "SPL3SMP_E.006",
+          "doi": "10.5067/4DQ54OUIJ9DL",
+          "valid_fraction": null,
+          "metrics": {
+            "smap_sm_p50_m3m3": null,
+            "smap_sm_p90_m3m3": null
+          }
+        },
+        "snow_persistence": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "MOD10A1.061",
+          "doi": "10.5067/MODIS/MOD10A1.061",
+          "valid_fraction": null,
+          "metrics": {
+            "mod10a1_snow_days_fraction": null,
+            "mod10a1_clear_days_fraction": null
+          }
+        },
+        "permafrost": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "ESA_CCI_PERMAFROST_v5.0",
+          "doi": "10.5285/6ef1a60b678f4048a20b5c8d94d665c9",
+          "valid_fraction": null,
+          "metrics": {
+            "cci_permafrost_probability": null,
+            "cci_active_layer_thickness_m": null
+          }
+        },
+        "thermal_emissivity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "AG100.003",
+          "doi": "10.5067/Community/ASTER_GED/AG100.003",
+          "valid_fraction": null,
+          "metrics": {
+            "aster_emissivity_mafic_index": null,
+            "aster_christiansen_wb_um": null
+          }
+        },
+        "sar_backscatter": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "OPERA_L2_RTC-S1_V1",
+          "doi": "10.5067/SNWG/OPERA_L2_RTC-S1_V1",
+          "valid_fraction": null,
+          "metrics": {
+            "s1_rtc_vv_p50_db": null,
+            "s1_rtc_vh_p50_db": null,
+            "s1_rtc_vh_vv_ratio_db": null
+          }
+        }
       }
     },
     {
@@ -3950,6 +4640,75 @@
         "status": "on_demand_fetchable",
         "by_window": null,
         "note": "Sin escena EMIT local precargada en esta ventana; consultable bajo demanda vía CMR/LP DAAC cuando el sitio supera filtros de etapa 2."
+      },
+      "official_surface_dimensions_contract": {
+        "aridity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "GPM_3IMERGDF.07",
+          "doi": "10.5067/GPM/IMERGDF/DAY/07",
+          "valid_fraction": null,
+          "metrics": {
+            "precip_mean_annual_mm": null,
+            "dry_months_fraction": null
+          }
+        },
+        "soil_moisture": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "SPL3SMP_E.006",
+          "doi": "10.5067/4DQ54OUIJ9DL",
+          "valid_fraction": null,
+          "metrics": {
+            "smap_sm_p50_m3m3": null,
+            "smap_sm_p90_m3m3": null
+          }
+        },
+        "snow_persistence": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "MOD10A1.061",
+          "doi": "10.5067/MODIS/MOD10A1.061",
+          "valid_fraction": null,
+          "metrics": {
+            "mod10a1_snow_days_fraction": null,
+            "mod10a1_clear_days_fraction": null
+          }
+        },
+        "permafrost": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "planet_specific_constraint",
+          "primary_product_id": "ESA_CCI_PERMAFROST_v5.0",
+          "doi": "10.5285/6ef1a60b678f4048a20b5c8d94d665c9",
+          "valid_fraction": null,
+          "metrics": {
+            "cci_permafrost_probability": null,
+            "cci_active_layer_thickness_m": null
+          }
+        },
+        "thermal_emissivity": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "AG100.003",
+          "doi": "10.5067/Community/ASTER_GED/AG100.003",
+          "valid_fraction": null,
+          "metrics": {
+            "aster_emissivity_mafic_index": null,
+            "aster_christiansen_wb_um": null
+          }
+        },
+        "sar_backscatter": {
+          "status": "on_demand_fetchable",
+          "comparability_tier": "functional_contract_bridge",
+          "primary_product_id": "OPERA_L2_RTC-S1_V1",
+          "doi": "10.5067/SNWG/OPERA_L2_RTC-S1_V1",
+          "valid_fraction": null,
+          "metrics": {
+            "s1_rtc_vv_p50_db": null,
+            "s1_rtc_vh_p50_db": null,
+            "s1_rtc_vh_vv_ratio_db": null
+          }
+        }
       }
     }
   ]

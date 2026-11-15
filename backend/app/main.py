@@ -1,80 +1,49 @@
 from pathlib import Path
-import json
-from typing import Dict
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
-from app.scenarios import router as scenarios_router
-from app.regional import router as regional_router
-from app.expansion import router as expansion_router
-from app.dimensions import router as dimensions_router
-from app.minerals import router as minerals_router
-from app.atlas import router as atlas_router
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
-DATA = Path(__file__).resolve().parents[2] / 'data' / 'regions.json'
+from app.routers.atlas_router import router as atlas_router
+from app.routers.dimensions_router import router as dimensions_router
+from app.routers.expansion_router import router as expansion_router
+from app.routers.minerals_router import router as minerals_router
+from app.routers.regional_router import router as regional_router
+from app.routers.regions_router import router as regions_router
+from app.routers.scenarios_router import router as scenarios_router
+
 app = FastAPI(title='Análogos planetarios · API', version='0.5.0')
-app.add_middleware(CORSMiddleware, allow_origins=['http://localhost:5173', 'http://127.0.0.1:5173'], allow_methods=['*'], allow_headers=['*'])
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['http://localhost:5173', 'http://127.0.0.1:5173'],
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
+
 app.include_router(scenarios_router)
 app.include_router(regional_router)
 app.include_router(expansion_router)
 app.include_router(dimensions_router)
 app.include_router(minerals_router)
 app.include_router(atlas_router)
+app.include_router(regions_router)
 
-class Weights(BaseModel):
-    slope_deg: float = Field(1, ge=0, le=10)
-    relief_m: float = Field(1, ge=0, le=10)
+FRONTEND_DIST = Path(__file__).resolve().parents[2] / 'frontend' / 'dist'
+if (FRONTEND_DIST / 'index.html').is_file():
+    for directory in ('assets', 'analysis', 'regions', 'textures', 'cesium'):
+        static_directory = FRONTEND_DIST / directory
+        if static_directory.is_dir():
+            app.mount(
+                f'/{directory}',
+                StaticFiles(directory=static_directory),
+                name=f'frontend-{directory}',
+            )
 
-class Search(BaseModel):
-    reference_id: str
-    weights: Weights
+    @app.get('/', include_in_schema=False)
+    def frontend_index():
+        return FileResponse(FRONTEND_DIST / 'index.html')
 
-# Fixed scales make differences interpretable, not statistically validated thresholds.
-SCALES = {'slope_deg': 10.0, 'relief_m': 300.0}
-
-def regions():
-    return json.loads(DATA.read_text(encoding='utf-8'))
-
-def get_region(region_id):
-    region = next ( (r for r in regions() if r['id'] == region_id), None)
-    if region is None:
-        raise HTTPException(404, 'Región no encontrada')
-    return region
-
-@app.get('/api/regions')
-def list_regions():
-    return regions()
-
-@app.get('/api/regions/{region_id}')
-def region_detail(region_id: str):
-    return get_region(region_id)
-
-@app.post('/api/search', deprecated=True, summary='Prototipo histórico: puntuación ilustrativa')
-def search(request: Search):
-    ref = get_region(request.reference_id)
-    if ref['body'] != 'Mars':
-        raise HTTPException(422, 'La referencia debe ser marciana')
-    weights = request.weights.model_dump()
-    if not any(weights.values()):
-        raise HTTPException(422, 'Seleccione al menos un peso positivo')
-    results = []
-    for candidate in regions():
-        if candidate['body'] != 'Earth':
-            continue
-        breakdown: Dict[str, dict] = {}
-        weighted, available_weight = 0.0, 0.0
-        for metric, scale in SCALES.items():
-            a, b, weight = ref['metrics'].get(metric), candidate['metrics'].get(metric), weights[metric]
-            similarity = None if a is None or b is None else max(0.0, 1.0 - abs(a - b) / scale)
-            if similarity is not None and weight > 0:
-                weighted += weight * similarity
-                available_weight += weight
-            breakdown[metric] = {'reference': a, 'candidate': b, 'weight': weight, 'similarity': similarity, 'scale': scale}
-        score = weighted / available_weight if available_weight else None
-        results.append({'region': candidate, 'score': score, 'breakdown': breakdown,
-                        'available_weight_fraction': available_weight / sum(weights.values())})
-    # Incomplete comparisons follow complete ones; missing values never produce a match.
-    results.sort(key=lambda x: (x['available_weight_fraction'] < 1, x['score'] is None, -(x['score'] or 0)))
-    return {'reference': ref, 'weights': weights, 'results': results,
-            'method': 'Similitud = máx(0, 1 − diferencia absoluta / escala); media ponderada de dimensiones disponibles. Comparaciones incompletas al final.'}
+# Re-exported for backwards compatibility with prototype (commit 0274759)
+from app.routers.regions_router import get_region, regions, search  # noqa: E402
+from app.schemas.search import Search, Weights  # noqa: E402

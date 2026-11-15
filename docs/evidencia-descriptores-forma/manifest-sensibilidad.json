@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "path": "scripts/sensibilidad_integral_hipsometrica.py",
+      "bytes": 11596,
+      "sha256": "98d10ba59baf1410d397a4490cb10d365e617b5b92d2093d7f8837d0540623e4"
+    },
+    {
+      "path": "pipelines/etl_extractors.py",
+      "bytes": 18287,
+      "sha256": "1acab48d66371a871b2a089ee20dcb0888106340d94dc17f3990dbcfd22c45d6"
+    },
+    {
+      "path": "scripts/evaluar_descriptores_forma.py",
+      "bytes": 11148,
+      "sha256": "6b674c01390c30677f3008481fb4fee012196a0538756bcc8fbe4447d3aa4e86"
+    },
+    {
+      "path": "docs/evidencia-descriptores-forma/sensibilidad-huella.json",
+      "bytes": 2157598,
+      "sha256": "cf56d65a3b9c20ea46ff5ffb184b0eac3f61ed63ab06cef761df1101706b5260"
+    }
+  ]
+}

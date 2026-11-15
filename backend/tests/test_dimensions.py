@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import patch
 from fastapi.testclient import TestClient
 from app.main import app
-from app import dimensions
+from app.routers import dimensions_router as dimensions
 
 
 class DimensionsTests(unittest.TestCase):

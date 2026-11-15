@@ -156,9 +156,100 @@
     ]
   },
   "spatial_partition_policy": {
+    "strategy": "whole_basin_and_buffered_block_holdout",
+    "primary_mode": "whole_basin_holdout",
+    "secondary_mode": "buffered_block_holdout",
     "block_side_km": 100,
     "min_inter_region_separation_km": 250,
     "holdout_fraction_target": 0.30,
-    "assign_rule": "Partición determinista por bloques geográficos de 100x100 km en cada región y estrato ambiental; los bloques reservados (holdout) permanecen congelados hasta la evaluación ciega de búsqueda (Paso 7)."
+    "require_zero_adjacent_dev_holdout_pairs": true,
+    "holdout_basins": ["mojave"],
+    "development_basins": ["utah", "atacama"],
+    "legacy_holdout_blocks": [
+      "utah:-110_+38",
+      "utah:-110_+39",
+      "mojave:-116_+34",
+      "mojave:-116_+35",
+      "atacama:-068_-24"
+    ],
+    "buffer_blocks_1deg_chebyshev": [
+      "utah:-111_+38",
+      "utah:-111_+39",
+      "mojave:-117_+34",
+      "mojave:-117_+35",
+      "atacama:-069_-24",
+      "atacama:-068_-25",
+      "atacama:-069_-25"
+    ],
+    "buffered_development_blocks": [
+      "utah:-112_+38",
+      "utah:-112_+39",
+      "mojave:-118_+34",
+      "mojave:-118_+35"
+    ],
+    "assign_rule": "Partición primaria por cuenca completa reservada (holdout_basins=['mojave'], 6 bloques, 279 ventanas, 0 pares adyacentes) y esquema secundario con búfer de 1 bloque de Chebyshev dentro de cuenca (4 bloques de desarrollo, 7 de búfer y 5 de holdout originales, 0 pares adyacentes y 0 bloques previos descongelados)."
+  },
+  "multi_domain_shape_selection": {
+    "domains": {
+      "arid_mars_surface_v2": {
+        "description": "Cuencas áridas expuestas análogas a Marte (Utah, Mojave, Atacama)",
+        "partition_mode": "whole_basin_and_buffered_1block",
+        "holdout_basins": ["mojave"],
+        "holdout_read": false
+      },
+      "polar_cold_v1": {
+        "description": "Dominio polar / criosférico frío (|lat| >= 68°)",
+        "stride_m": 10000,
+        "holdout_read": false,
+        "development_batches": [
+          {"basin": "taimyr", "zone": 32647, "west": 500000, "south": 8000000},
+          {"basin": "taimyr", "zone": 32647, "west": 500000, "south": 8100000},
+          {"basin": "groenlandia_can", "zone": 32616, "west": 500000, "south": 7700000},
+          {"basin": "groenlandia_can", "zone": 32621, "west": 400000, "south": 8300000},
+          {"basin": "groenlandia_can", "zone": 32622, "west": 500000, "south": 7600000},
+          {"basin": "groenlandia_can", "zone": 32623, "west": 500000, "south": 8700000}
+        ],
+        "holdout_batches": [
+          {"basin": "antartida", "zone": 32730, "west": 600000, "south": 2000000},
+          {"basin": "antartida", "zone": 32730, "west": 500000, "south": 2100000},
+          {"basin": "antartida", "zone": 32755, "west": 400000, "south": 1600000},
+          {"basin": "antartida", "zone": 32757, "west": 500000, "south": 2000000}
+        ],
+        "buffer_excluded_batches": ["32647-500000-8100000"]
+      },
+      "paleolake_margin_v1": {
+        "description": "Márgenes de paleolagos, abanicos deltaicos secos y cuencas endorreicas",
+        "stride_m": 10000,
+        "holdout_read": false,
+        "development_batches": [
+          {"basin": "makgadikgadi", "zone": 32735, "west": 100000, "south": 7800000},
+          {"basin": "makgadikgadi", "zone": 32735, "west": 200000, "south": 7800000},
+          {"basin": "makgadikgadi", "zone": 32735, "west": 200000, "south": 7900000},
+          {"basin": "sistan", "zone": 32641, "west": 400000, "south": 3500000},
+          {"basin": "sistan", "zone": 32641, "west": 400000, "south": 3600000},
+          {"basin": "balkhash", "zone": 32643, "west": 500000, "south": 5000000},
+          {"basin": "balkhash", "zone": 32643, "west": 500000, "south": 5100000}
+        ],
+        "holdout_batches": [
+          {"basin": "amadeus", "zone": 32752, "west": 700000, "south": 7300000},
+          {"basin": "amadeus", "zone": 32752, "west": 800000, "south": 7300000}
+        ],
+        "buffer_excluded_batches": ["32735-200000-7800000", "32641-400000-3500000", "32643-500000-5000000"]
+      }
+    }
+  },
+  "official_surface_dimensions": {
+    "sources_spec": "specs/sources/dimensiones-superficie-oficiales-v1.json",
+    "table": "enrichment_surface",
+    "min_valid_fraction": 0.80,
+    "dimensions": [
+      {"id": "aridity", "primary_product": "GPM_3IMERGDF.07", "comparability_tier": "planet_specific_constraint"},
+      {"id": "soil_moisture", "primary_product": "SPL3SMP_E.006", "comparability_tier": "planet_specific_constraint"},
+      {"id": "snow_persistence", "primary_product": "MOD10A1.061", "comparability_tier": "planet_specific_constraint"},
+      {"id": "permafrost", "primary_product": "ESA_CCI_PERMAFROST_v5.0", "comparability_tier": "planet_specific_constraint"},
+      {"id": "thermal_emissivity", "primary_product": "AG100.003", "comparability_tier": "functional_contract_bridge"},
+      {"id": "sar_backscatter", "primary_product": "OPERA_L2_RTC-S1_V1", "comparability_tier": "functional_contract_bridge"},
+      {"id": "apparent_thermal_inertia", "primary_product": "MOD11A1.061", "comparability_tier": "functional_contract_bridge"}
+    ]
   }
 }

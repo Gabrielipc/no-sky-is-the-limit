@@ -2,6 +2,7 @@
 import fcntl
 import hashlib
 import json
+import os
 import re
 import time
 from datetime import datetime, timezone
@@ -12,35 +13,106 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
-CACHE = ROOT / 'data/raw/atlas30'
-MANIFESTS = ROOT / 'data/manifests/atlas30'
+CACHE = Path(os.environ.get('ATLAS_CACHE_DIR') or (ROOT / 'data/raw/atlas30'))
+MANIFESTS = Path(os.environ.get('ATLAS_MANIFESTS_DIR') or (ROOT / 'data/manifests/atlas30'))
 CACHE_LIMIT = 100_000_000_000
 GLO_BUCKET = 'https://copernicus-dem-30m.s3.amazonaws.com'
 WORLDCOVER = 'https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map'
 JRC_LIST = 'https://s3.waw4-1.cloudferro.com/swift/v1/global-surface-water/'
 TILE = re.compile(r'Copernicus_DSM_COG_10_([NS])(\d{2})_00_([EW])(\d{3})_00_DEM')
 CATALOG = {
-    'land': {'product': 'Natural Earth Land 1:10m', 'version': '5.1.1',
-             'license': 'Public domain', 'crs': 'EPSG:4326', 'coverage': 'world land polygons',
+    'land': {'product': 'Natural Earth Land 1:10m', 'version': '5.1.1', 'product_version': '5.1.1',
+             'doi': None, 'license': 'Public domain', 'crs': 'EPSG:4326', 'coverage': 'world land polygons',
              'url': 'https://naturalearth.s3.amazonaws.com/10m_physical/ne_10m_land.zip'},
     'glo30': {'product': 'Copernicus DEM GLO-30 Public (DSM)', 'version': 'DGED COG public inventory',
+              'product_version': '2023_1', 'doi': '10.5270/ESA-c5d3d65',
               'license': 'Copernicus DEM GLO-30, attribution required', 'crs': 'EPSG:4326',
               'vertical_reference': 'EGM2008', 'native_resolution_m': 30,
               'coverage': 'public 1° tiles, with gaps',
               'url': GLO_BUCKET + '/tileList.txt'},
-    'worldcover': {'product': 'ESA WorldCover Map', 'version': '2021 v200', 'license': 'CC BY 4.0',
+    'worldcover': {'product': 'ESA WorldCover Map', 'version': '2021 v200', 'product_version': 'v200',
+                   'doi': '10.5281/zenodo.7254221', 'license': 'CC BY 4.0',
                    'native_resolution_m': 10, 'crs': 'EPSG:4326', 'period': '2021',
                    'url': 'https://esa-worldcover.org/en/data-access'},
-    'jrc': {'product': 'JRC Global Surface Water Occurrence', 'version': '1.5',
-            'license': 'Copernicus Programme, EC JRC/Google attribution',
+    'jrc': {'product': 'JRC Global Surface Water Occurrence', 'version': '1.5', 'product_version': '1.5',
+            'doi': None, 'license': 'Copernicus Programme, EC JRC/Google attribution',
             'native_resolution_m': 30, 'crs': 'EPSG:4326', 'period': '1984–2024',
             'url': 'https://global-surface-water.appspot.com/download'},
-    'hls': {'product': 'NASA HLS L30/S30', 'version': '2.0', 'native_resolution_m': 30,
+    'hls': {'product': 'NASA HLS L30/S30', 'version': '2.0', 'product_version': '2.0',
+            'doi': '10.5067/HLS/HLSS30.002', 'native_resolution_m': 30,
             'access': 'CMR and Earthdata Login', 'url': 'https://hls.gsfc.nasa.gov/data-access-and-tools/'},
     'landsat': {'product': 'Landsat 8/9 Collection 2 Level-2 ST', 'version': 'Collection 2',
+                'product_version': 'C2_L2', 'doi': '10.5066/P9OGBGM6',
                 'native_resolution_m': 100, 'distributed_cell_m': 30,
                 'access': 'USGS Landsat catalog', 'url': 'https://www.usgs.gov/landsat-missions/landsat-data-access'},
+    'esa_cci_permafrost': {
+        'product': 'ESA CCI Permafrost v5.0 (Open Science Catalog)',
+        'version': '5.0', 'product_version': '5.0',
+        'doi': '10.5285/6ef1a60b678f4048a20b5c8d94d665c9',
+        'native_resolution_m': 1000, 'crs': 'EPSG:4326', 'period': '1997–2023',
+        'access': 'ESA Open Science Catalog / CEDA',
+        'url': 'https://climate.esa.int/en/projects/permafrost/',
+    },
+    'gpm_imerg': {
+        'product': 'GPM IMERG Final Precipitation L3 Daily v07',
+        'version': '07', 'product_version': '07',
+        'doi': '10.5067/GPM/IMERGDF/DAY/07',
+        'native_resolution_m': 11132, 'crs': 'EPSG:4326',
+        'access': 'NASA GES DISC / CMR',
+        'url': 'https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGDF_07/summary',
+    },
+    'smap_spl3smp_e': {
+        'product': 'SMAP Enhanced L3 Radiometer Daily 9 km Soil Moisture v006',
+        'version': '006', 'product_version': '006',
+        'doi': '10.5067/4DQ54OUIJ9DL',
+        'native_resolution_m': 9000, 'crs': 'EPSG:6933',
+        'access': 'NASA NSIDC DAAC / CMR',
+        'url': 'https://nsidc.org/data/spl3smp_e/versions/6',
+    },
+    'modis_mod10a1': {
+        'product': 'MODIS/Terra Snow Cover Daily L3 Global 500m v061',
+        'version': '061', 'product_version': '061',
+        'doi': '10.5067/MODIS/MOD10A1.061',
+        'native_resolution_m': 500, 'crs': 'MODIS Sinusoidal',
+        'access': 'NASA NSIDC DAAC / CMR',
+        'url': 'https://nsidc.org/data/mod10a1/versions/61',
+    },
+    'aster_ged_ag100': {
+        'product': 'ASTER Global Emissivity Dataset 100m v003',
+        'version': '003', 'product_version': '003',
+        'doi': '10.5067/Community/ASTER_GED/AG100.003',
+        'native_resolution_m': 100, 'crs': 'EPSG:4326',
+        'access': 'NASA LP DAAC / CMR',
+        'url': 'https://lpdaac.usgs.gov/products/ag100v003/',
+    },
+    'sentinel1_rtc': {
+        'product': 'OPERA Sentinel-1 Radiometric Terrain Corrected Backscatter / CDSE RTC',
+        'version': 'V1', 'product_version': 'V1',
+        'doi': '10.5067/SNWG/OPERA_L2_RTC-S1_V1',
+        'native_resolution_m': 20, 'crs': 'UTM/WGS84',
+        'access': 'NASA ASF DAAC / ESA CDSE',
+        'url': 'https://documentation.dataspace.copernicus.eu/Data/Sentinel1.html',
+    },
 }
+
+# Canonical DOI / product_version lookup by store `product_id` (audit §4).
+PRODUCT_PROVENANCE = {
+    'copernicus-glo30': CATALOG['glo30'],
+    'esa-worldcover-2021': CATALOG['worldcover'],
+    'jrc-gsw-v1_5': CATALOG['jrc'],
+    'ESA_CCI_PERMAFROST_v5.0': CATALOG['esa_cci_permafrost'],
+    'GPM_3IMERGDF.07': CATALOG['gpm_imerg'],
+    'SPL3SMP_E.006': CATALOG['smap_spl3smp_e'],
+    'MOD10A1.061': CATALOG['modis_mod10a1'],
+    'AG100.003': CATALOG['aster_ged_ag100'],
+    'OPERA_L2_RTC-S1_V1': CATALOG['sentinel1_rtc'],
+}
+
+
+def catalog_provenance(product_id: str) -> dict:
+    """Return {'doi': ..., 'product_version': ...} for a known store `product_id`."""
+    entry = PRODUCT_PROVENANCE.get(product_id, {})
+    return {'doi': entry.get('doi'), 'product_version': entry.get('product_version')}
 
 
 def digest(path):
@@ -78,7 +150,14 @@ def identity_path(entry):
     return MANIFESTS / 'assets' / entry['source'] / (entry['id'] + '.json')
 
 
+# Benchmarks set ATLAS_IGNORE_LOCAL_CACHE=1 to measure remote transfer; catalogue
+# inventories (GLO-30 tile list, Natural Earth) are still read from the cache.
+CATALOGUE_IDS = ('tileList.txt', 'ne_10m_land.zip')
+
+
 def local_identity(entry):
+    if os.environ.get('ATLAS_IGNORE_LOCAL_CACHE') == '1' and entry['id'] not in CATALOGUE_IDS:
+        return None
     path, record = cached(entry), identity_path(entry)
     if not path.is_file() or not record.is_file():
         return None

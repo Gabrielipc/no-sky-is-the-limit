@@ -9,6 +9,7 @@ from scipy.stats import wasserstein_distance
 
 from backend.app import atlas_store as store
 from pipelines import atlas_sources as sources, atlas_topography as topo
+from pipelines.worldview_blind import build_worldview_url
 
 GEOD = Geod(ellps='WGS84')
 
@@ -153,6 +154,10 @@ def refine(release, manifest, land, inventory, mode):
                 'initial_rank': initial_rank, 'cell_m': 30, 'exact': exact_result, 'signed_differences': signed,
                 'sensitivity': sensitivity, 'source_contrast': source_contrast(site, land, rasters, profile, profile_arrays, scales),
                 'sources': {'earth': site['asset_ids'], 'mars': profile['product']},
+                'context_links': {
+                    'nasa_worldview': build_worldview_url(row['longitude'], row['latitude'], blind_mode=False),
+                    'nasa_worldview_blind': build_worldview_url(row['longitude'], row['latitude'], blind_mode=True),
+                },
                 'potential_use': 'Comparar distribuciones de pendiente y relieve en ventanas de 3 km para elegir sitios de ensayo topográfico.',
                 'limitations': ['Copernicus representa la superficie e incluye vegetación y construcciones donde estén presentes.',
                                 'La malla de 30 m no iguala la resolución efectiva de los sensores.',

@@ -101,22 +101,56 @@ class TestContratoComunEntrega3(unittest.TestCase):
         self.assertEqual(part['total_screening_windows'], 973)
         self.assertEqual(part['development_windows_count'] + part['holdout_windows_count'], 973)
         self.assertGreaterEqual(part['min_inter_basin_distance_km'], 250.0)
+        self.assertEqual(part['adjacent_dev_holdout_block_pairs_count'], 0)
+        self.assertEqual(part['buffered_block_scheme']['adjacent_dev_holdout_block_pairs_count'], 0)
+        self.assertEqual(part['buffered_block_scheme']['unfrozen_prior_holdout_blocks_count'], 0)
 
         dev_blocks = {b['block_id'] for b in part['blocks'] if b['split'] == 'development'}
         hold_blocks = {b['block_id'] for b in part['blocks'] if b['split'] == 'holdout'}
         self.assertTrue(dev_blocks.isdisjoint(hold_blocks), 'Development and holdout blocks must be disjoint')
+
+        # Sensitivity across leak-free schemes must keep high relief-slope collinearity (> 0.85)
+        for scheme, stats in self.selection['sensitivity_by_partition_scheme'].items():
+            self.assertGreater(
+                stats['pairs']['relief_300m_vs_slope_p90_300m']['spearman_rho'],
+                0.85,
+                f'Expected high collinearity in leak-free scheme {scheme}',
+            )
+
+        # Multi-domain 30 m shape replication must cover arid, polar, and paleolake without touching holdouts
+        shape_res = json.loads((ROOT / 'docs/evidencia-descriptores-forma/resultados.json').read_text())
+        multi = shape_res['multi_domain_replication']
+        for dom in ('arid_mars_surface_v2', 'polar_cold_v1', 'paleolake_margin_v1'):
+            self.assertFalse(multi[dom]['holdout_read'])
+            self.assertEqual(multi[dom]['adjacent_dev_holdout_pairs_count'], 0)
+
+        polar_hi = multi['polar_cold_v1']['full_development_analysis']['information_vs_ranking']['hypsometric_integral']
+        self.assertTrue(polar_hi['adds_information'])
+        self.assertGreater(polar_hi['unique_share_vs_ranking'], 0.75)
+
+        paleo_hi = multi['paleolake_margin_v1']['margin_relief_ge_2m_analysis']['information_vs_ranking']['hypsometric_integral']
+        self.assertTrue(paleo_hi['adds_information'])
+        self.assertGreater(paleo_hi['unique_share_vs_ranking'], 0.75)
 
         # Verify all slope 240m sensor discrepancy reductions are > 50%
         for row in self.selection['sensor_and_scale_stability']:
             self.assertGreater(row['slope_discrepancy_reduction_240m_vs_60m_pct'], 50.0)
 
     def test_manifest_integrity(self):
-        self.assertGreaterEqual(len(self.manifest['files']), 9)
+        self.assertGreaterEqual(len(self.manifest['files']), 11)
         for item in self.manifest['files']:
             p = ROOT / item['path']
             self.assertTrue(p.is_file(), f"Missing tracked file: {item['path']}")
             self.assertEqual(p.stat().st_size, item['bytes'])
             self.assertEqual(eda.digest(p), item['sha256'])
+
+        blind_pkg = json.loads((self.out_dir / 'revision-ciegas-worldview.json').read_text())
+        self.assertEqual(blind_pkg['blind_count'], 10)
+        self.assertEqual(len(blind_pkg['blind_sheet']), 10)
+        self.assertEqual(len(blind_pkg['unblinding_key']), 10)
+        sheet_text = json.dumps(blind_pkg['blind_sheet'])
+        for site_id in blind_pkg['unblinding_key'].values():
+            self.assertNotIn(site_id['region_id'], sheet_text)
 
 
 if __name__ == '__main__':

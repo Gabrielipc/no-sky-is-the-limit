@@ -7,7 +7,7 @@ from unittest.mock import patch
 from fastapi.testclient import TestClient
 
 from app.main import app
-from app import scenarios
+from app.routers import scenarios_router as scenarios
 
 
 class ScenarioTests(unittest.TestCase):
