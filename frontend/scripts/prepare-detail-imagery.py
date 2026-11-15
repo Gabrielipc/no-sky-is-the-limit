@@ -329,12 +329,13 @@ def moon_patch(ident, mark, rect, width, height, edges="nsew"):
 
 # ---------- global bases ----------
 def mars_base():
-    level = 4  # 32 x 16 tiles of 256 px -> 8192 x 4096, reduced to 4096 x 2048
-    mosaic, _ = eq_mosaic(MOLA_CLR, "mola-clrshade", level, [-180, -90, 180, 90], 256, 0.703125, "RGB")
-    im = Image.fromarray(np.nan_to_num(mosaic).astype(np.uint8)).resize((4096, 2048), Image.LANCZOS)
-    im.save(OUT / "mars-base-4k.jpg", quality=86, optimize=True, progressive=True)
-    return dict(file="detail/mars-base-4k.jpg", width=4096, height=2048, source=f"MOLA ClrShade 463 m, nivel {level}",
-                credit="NASA MGS MOLA (NASA Trek)", sha256=digest(OUT / "mars-base-4k.jpg"))
+    # Keep the global context consistent with the natural-tone MOLA globe.
+    path = OUT.parent / "mars-globe.png"
+    if not path.exists():
+        raise FileNotFoundError(f"Missing {path}; run scripts/preparar_textura_marte.py first")
+    return dict(file="mars-globe.png", width=2048, height=1024,
+                source="MOLA MEGR90N000CB, relieve en tonos naturales",
+                credit="NASA MGS / MOLA", sha256=digest(path))
 
 
 def moon_base():

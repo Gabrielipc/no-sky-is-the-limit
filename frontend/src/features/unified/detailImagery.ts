@@ -38,7 +38,7 @@ export type DetailCatalog = { version: number; bodies: Record<Body, BodyDetail> 
 let catalog: Promise<DetailCatalog | null> | undefined;
 /** Loaded once per page; a missing catalog only means no extra detail. */
 export function detailCatalog() {
-  catalog ??= fetch(asset("detail/catalog.json"))
+  catalog ??= fetch(asset("detail/catalog.json?v=2"))
     .then((r) => (r.ok ? (r.json() as Promise<DetailCatalog>) : null))
     .catch(() => null);
   return catalog;
@@ -117,7 +117,10 @@ export async function loadBakedDetail(
   let loaded = 0,
     finest: DetailPatch | undefined;
   try {
-    if (!signal.aborted) await add(entry.base.file, entry.base.credit);
+    if (!signal.aborted) await add(
+      body === "Mars" ? "mars-globe.png" : entry.base.file,
+      body === "Mars" ? "NASA MGS / MOLA · relieve en tonos naturales" : entry.base.credit,
+    );
   } catch {
     /* the 2k context image stays */
   }
