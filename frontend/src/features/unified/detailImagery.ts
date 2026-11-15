@@ -38,7 +38,7 @@ export type DetailCatalog = { version: number; bodies: Record<Body, BodyDetail> 
 let catalog: Promise<DetailCatalog | null> | undefined;
 /** Loaded once per page; a missing catalog only means no extra detail. */
 export function detailCatalog() {
-  catalog ??= fetch(asset("detail/catalog.json?v=2"))
+  catalog ??= fetch(asset("detail/catalog.json?v=3"))
     .then((r) => (r.ok ? (r.json() as Promise<DetailCatalog>) : null))
     .catch(() => null);
   return catalog;

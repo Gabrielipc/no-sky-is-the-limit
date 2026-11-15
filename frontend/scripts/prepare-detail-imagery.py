@@ -6,12 +6,12 @@ cuerpos. Las candidatas terrestres son dinámicas: el navegador las detalla en v
 (Esri World Imagery), no se hornean aquí.
 
 - Marte: luminancia del mosaico CTX beta01 de Caltech Murray Lab (~5 m/píxel, servicio
-  Esri OnMars) teñida con el color de elevación MOLA (NASA Trek, mismo estilo que la
-  textura global). Sin CTX (huecos del mosaico) se conserva la luminancia MOLA.
+  Esri OnMars) teñida con los tonos naturales de la textura global MOLA. Sin CTX
+  (huecos del mosaico) se conserva la luminancia de esa textura.
 - Luna: relieve sombreado LOLA polar sur (NASA Trek, estereográfica polar; 5 m/píxel
   al sur de 87,5° S y 30 m/píxel hasta 75° S) reproyectado a rejilla geográfica y
   teñido con el color LROC del CGI Moon Kit.
-- Bases: MOLA ClrShade (Trek), CGI Moon Kit 4k (SVS), Blue Marble NG (GIBS).
+- Bases: MOLA en tonos naturales, CGI Moon Kit 4k (SVS), Blue Marble NG (GIBS).
 
 Los bordes de cada parche se funden con alfa para no dibujar cajas sobre la base.
 Las teselas originales quedan en data/raw/frontend-detail (ignorado por Git).
@@ -261,6 +261,18 @@ def box(lon, lat, half_lon, half_lat):
 
 
 # ---------- Mars ----------
+_mars_color = None
+
+def mars_color(lon, lat):
+    global _mars_color
+    if _mars_color is None:
+        _mars_color = np.asarray(Image.open(OUT.parent / "mars-globe.png").convert("RGB"), np.float32)
+    h, w, _ = _mars_color.shape
+    cols = ((lon + 180) % 360) / 360 * w - 0.5
+    rows = (90 - lat) / 180 * h - 0.5
+    padded = np.concatenate([_mars_color[:, -1:], _mars_color, _mars_color[:, :1]], 1)
+    return sample(padded, cols + 1, rows)
+
 def mars_patch(ident, mark, rect, size, level=None):
     lon, lat = grid(rect, size, size)
     deg = (rect[2] - rect[0]) / size
@@ -272,17 +284,15 @@ def mars_patch(ident, mark, rect, size, level=None):
             break
         fill, forigin = eq_mosaic(CTX, "ctx", coarser, rect, 512, 0.3515625, "L")
         detail = np.where(np.isfinite(detail), detail, sample_eq(fill, forigin, lon, lat)[..., 0])
-    clr_level = 6
-    clr, corigin = eq_mosaic(MOLA_CLR, "mola-clrshade", clr_level, rect, 256, 0.703125, "RGB")
-    color = sample_eq(clr, corigin, lon, lat)
+    color = mars_color(lon, lat)
     rgb = tint(detail, color, 90)
-    sha = save_webp(rgb, feather(size, size), f"{ident}.webp")
+    sha = save_webp(rgb, feather(size, size), f"{ident}-natural.webp")
     lat_m, lon_m = meters(rect, size, size, MARS_R)
-    return dict(id=ident, mark=mark, file=f"detail/{ident}.webp", rectangle=rect, width=size, height=size,
+    return dict(id=ident, mark=mark, file=f"detail/{ident}-natural.webp", rectangle=rect, width=size, height=size,
                 pixel_m={"latitude": lat_m, "longitude_center": lon_m},
                 ctx_coverage=round(float(np.isfinite(detail).mean()), 4),
-                source=f"CTX beta01 nivel {level} + MOLA ClrShade nivel {clr_level}",
-                credit="NASA/JPL/MSSS/Caltech Murray Lab/Esri · MOLA (NASA Trek)", sha256=sha)
+                source=f"CTX beta01 nivel {level} + MOLA en tonos naturales",
+                credit="NASA/JPL/MSSS/Caltech Murray Lab/Esri · NASA MOLA", sha256=sha)
 
 
 # ---------- Moon ----------

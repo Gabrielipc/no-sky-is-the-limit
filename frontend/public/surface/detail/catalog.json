@@ -16,7 +16,7 @@
         {
           "id": "mars-jezero-region",
           "mark": "jezero",
-          "file": "detail/mars-jezero-region.webp",
+          "file": "detail/mars-jezero-region-natural.webp",
           "rectangle": [
             75.41,
             16.49,
@@ -30,14 +30,14 @@
             "longitude_center": 109.8
           },
           "ctx_coverage": 1.0,
-          "source": "CTX beta01 nivel 8 + MOLA ClrShade nivel 6",
-          "credit": "NASA/JPL/MSSS/Caltech Murray Lab/Esri · MOLA (NASA Trek)",
-          "sha256": "514ded61a52f2228b8a2aca2e2f733aa79bc83d996bbc63982a0a33c39c36b8d"
+          "source": "CTX beta01 nivel 8 + MOLA en tonos naturales",
+          "credit": "NASA/JPL/MSSS/Caltech Murray Lab/Esri · NASA MOLA",
+          "sha256": "fa1c3f0c09c3c1e83dbcfe14871f3e83d59a36b3bc7796813e08145a08095bed"
         },
         {
           "id": "mars-jezero-crater",
           "mark": "jezero",
-          "file": "detail/mars-jezero-crater.webp",
+          "file": "detail/mars-jezero-crater-natural.webp",
           "rectangle": [
             76.61,
             17.69,
@@ -51,14 +51,14 @@
             "longitude_center": 43.9
           },
           "ctx_coverage": 1.0,
-          "source": "CTX beta01 nivel 9 + MOLA ClrShade nivel 6",
-          "credit": "NASA/JPL/MSSS/Caltech Murray Lab/Esri · MOLA (NASA Trek)",
-          "sha256": "78249c056ee07d352159469dbc110f97bcd5f3ae538bef62a6031a48a3e58d0c"
+          "source": "CTX beta01 nivel 9 + MOLA en tonos naturales",
+          "credit": "NASA/JPL/MSSS/Caltech Murray Lab/Esri · NASA MOLA",
+          "sha256": "b76dcee0829a9258c4f664212a493bfdd41a5cc968ee14647f00c9c422501c0f"
         },
         {
           "id": "mars-jezero-window",
           "mark": "jezero",
-          "file": "detail/mars-jezero-window.webp",
+          "file": "detail/mars-jezero-window-natural.webp",
           "rectangle": [
             77.11,
             18.19,
@@ -72,14 +72,14 @@
             "longitude_center": 16.5
           },
           "ctx_coverage": 1.0,
-          "source": "CTX beta01 nivel 12 + MOLA ClrShade nivel 6",
-          "credit": "NASA/JPL/MSSS/Caltech Murray Lab/Esri · MOLA (NASA Trek)",
-          "sha256": "ff3d4f5440220eda3a0efaa0dc636bdf19461a79e7045402a1e2c6febb40bcfb"
+          "source": "CTX beta01 nivel 12 + MOLA en tonos naturales",
+          "credit": "NASA/JPL/MSSS/Caltech Murray Lab/Esri · NASA MOLA",
+          "sha256": "cc15bdc25fcf7b750b7ffad776176d20ac0ca8b206c9bcdf253ac5c4ff5b1e3e"
         },
         {
           "id": "mars-jezero-local",
           "mark": "jezero",
-          "file": "detail/mars-jezero-local.webp",
+          "file": "detail/mars-jezero-local-natural.webp",
           "rectangle": [
             77.345,
             18.425,
@@ -93,9 +93,9 @@
             "longitude_center": 4.8
           },
           "ctx_coverage": 1.0,
-          "source": "CTX beta01 nivel 12 + MOLA ClrShade nivel 6",
-          "credit": "NASA/JPL/MSSS/Caltech Murray Lab/Esri · MOLA (NASA Trek)",
-          "sha256": "640b78b9ad48b9214243574db33cb27c87c35d3f610d4ce622b14f210218399c"
+          "source": "CTX beta01 nivel 12 + MOLA en tonos naturales",
+          "credit": "NASA/JPL/MSSS/Caltech Murray Lab/Esri · NASA MOLA",
+          "sha256": "bd764867dd88a2f4b0d42c16cc961442f39a4bf50a362ef5c6b6c46a896273d2"
         }
       ]
     },
