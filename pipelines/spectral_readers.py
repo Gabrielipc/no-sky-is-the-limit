@@ -140,11 +140,16 @@ class RangeFile:
         self.pos = 0
         self.blocks: dict[int, bytes] = {}
         self.bytes_fetched = 0
-        r = self.client.get(url, headers={'Range': 'bytes=0-0'})
-        if r.status_code != 206:
-            raise OSError(f'El servidor no admite lecturas por rangos ({r.status_code})')
-        self.size = int(r.headers['Content-Range'].split('/')[-1])
-        self.etag = r.headers.get('ETag')
+        try:
+            r = self.client.get(url, headers={'Range': 'bytes=0-0'})
+            r.raise_for_status()
+            if r.status_code != 206:
+                raise OSError(f'El servidor no admite lecturas por rangos ({r.status_code})')
+            self.size = int(r.headers['Content-Range'].split('/')[-1])
+            self.etag = r.headers.get('ETag')
+        except (httpx.HTTPError, OSError, KeyError, ValueError):
+            self.client.close()
+            raise
 
     def _block(self, index: int) -> bytes:
         if index not in self.blocks:
@@ -198,18 +203,27 @@ def crism_footprint(cube_src: EnviBsqRemote, in_path: Path, longitude: float, la
                     names: list[str], cache_dir: Path, product_id: str, offline: bool = False):
     """CRISM MTRDR corrected reflectance over the footprint; valid = VNIR/IR mask (IN band 9) == 0."""
     import rasterio
+    from rasterio.features import geometry_window
     from pipelines import spectral_bridge as bridge
     from pipelines import spectral_params as sp
 
     geom, local = bridge.footprint('Mars', longitude, latitude, side_m)
     with rasterio.open(in_path) as ds:
         g = bridge.footprint_in(geom, local, ds.crs)
-        inside = bridge.raster_mask(g, ds.transform, (ds.height, ds.width))
-        rows, cols = np.nonzero(inside)
-        r0, r1, c0, c1 = rows.min(), rows.max() + 1, cols.min(), cols.max() + 1
-        qa = ds.read(9, window=((r0, r1), (c0, c1)))
+        full_window = geometry_window(ds, [g], boundless=True)
+        full_mask = bridge.raster_mask(g, ds.window_transform(full_window),
+                                       (int(full_window.height), int(full_window.width)))
+        try:
+            window = full_window.crop(ds.height, ds.width)
+        except rasterio.errors.WindowError as exc:
+            raise ValueError('Huella fuera de la escena CRISM') from exc
+        if not window.width or not window.height:
+            raise ValueError('Huella fuera de la escena CRISM')
+        (r0, r1), (c0, c1) = window.toranges()
+        r0, r1, c0, c1 = map(int, (r0, r1, c0, c1))
+        inside = bridge.raster_mask(g, ds.window_transform(window), (r1 - r0, c1 - c0))
+        qa = ds.read(9, window=window)
         pixel = abs(ds.transform.a)
-    inside = inside[r0:r1, c0:c1]
     wl = cube_src.wavelengths
     bands = sp.required_band_indices(wl, names, 'channels')
     data = cube_src.read(bands, (int(r0), int(r1)), cache_dir, offline=offline)[:, :, c0:c1]
@@ -219,7 +233,7 @@ def crism_footprint(cube_src: EnviBsqRemote, in_path: Path, longitude: float, la
     valid = in_cov & (qa == 0) & np.isfinite(full[bands]).any(axis=0)
     return bridge.FootprintSample(
         instrument='CRISM_MTRDR', product_id=product_id, wavelengths=wl,
-        reflectance=full[:, valid][:, None, :], footprint_cells=int(inside.sum()),
+        reflectance=full[:, valid][:, None, :], footprint_cells=int(full_mask.sum()),
         in_coverage_cells=int(in_cov.sum()), valid_cells=int(valid.sum()), pixel_m=float(pixel),
         kernel_mode='channels',
         notes=['Reflectancia corregida MTRDR (IF); celdas válidas con máscara VNIR/IR = 0'],
@@ -238,8 +252,13 @@ def emit_footprint(rfl_url: str, mask_url: str, longitude: float, latitude: floa
     from pipelines import spectral_bridge as bridge
 
     geom, local = bridge.footprint('Earth', longitude, latitude, side_m)
-    rfl, msk = RangeFile(rfl_url, token, block_size=256 * 1024), RangeFile(mask_url, token, block_size=256 * 1024)
-    try:
+    from contextlib import ExitStack
+
+    with ExitStack() as stack:
+        rfl = RangeFile(rfl_url, token, block_size=256 * 1024)
+        stack.callback(rfl.close)
+        msk = RangeFile(mask_url, token, block_size=256 * 1024)
+        stack.callback(msk.close)
         with h5py.File(rfl, 'r') as f, h5py.File(msk, 'r') as m:
             gt = Affine.from_gdal(*f.attrs['geotransform'])
             g = bridge.footprint_in(geom, local, 'EPSG:4326', densify_m=30)
@@ -249,13 +268,18 @@ def emit_footprint(rfl_url: str, mask_url: str, longitude: float, latitude: floa
             c0, r0 = int(np.floor(c0)) - 1, int(np.floor(r0)) - 1
             c1, r1 = int(np.ceil(c1)) + 1, int(np.ceil(r1)) + 1
             gx, gy = f['location/glt_x'], f['location/glt_y']
-            if c0 < 0 or r0 < 0 or c1 > gx.shape[1] or r1 > gx.shape[0]:
-                raise ValueError('La huella sale de la rejilla ortorrectificada de la escena')
+            full_mask = bridge.raster_mask(g, gt * Affine.translation(c0, r0), (r1 - r0, c1 - c0))
+            c0, r0 = max(0, c0), max(0, r0)
+            c1, r1 = min(c1, gx.shape[1]), min(r1, gx.shape[0])
+            if c0 >= c1 or r0 >= r1:
+                raise ValueError('Huella fuera de la rejilla ortorrectificada de la escena')
             ix, iy = gx[r0:r1, c0:c1].astype(np.int64), gy[r0:r1, c0:c1].astype(np.int64)
             inside = bridge.raster_mask(g, gt * Affine.translation(c0, r0), ix.shape)
             n_rows, n_cols, n_bands = f['reflectance'].shape
             has = inside & (ix > 0) & (iy > 0) & (ix <= n_cols) & (iy <= n_rows)
             sx, sy = ix[has] - 1, iy[has] - 1
+            if not sx.size:
+                raise ValueError('La huella no tiene celdas dentro de la escena EMIT')
             sr0, sr1, sc0, sc1 = sy.min(), sy.max() + 1, sx.min(), sx.max() + 1
             block = f['reflectance'][sr0:sr1, sc0:sc1, :].astype('float64')
             spectra = block[sy - sr0, sx - sc0, :]
@@ -274,13 +298,10 @@ def emit_footprint(rfl_url: str, mask_url: str, longitude: float, latitude: floa
                      f"{int((~good_wl).sum())} bandas marcadas como no válidas (vapor de agua y extremos)"]
             return bridge.FootprintSample(
                 instrument='EMIT_L2A', product_id=product_id, wavelengths=wl,
-                reflectance=spectra[valid_px].T[:, None, :], footprint_cells=int(inside.sum()),
+                reflectance=spectra[valid_px].T[:, None, :], footprint_cells=int(full_mask.sum()),
                 in_coverage_cells=int(has.sum()), valid_cells=int(valid_px.sum()),
                 pixel_m=60.0, kernel_mode='nm', notes=notes,
             )
-    finally:
-        rfl.close()
-        msk.close()
 
 
 M3_BASE = 'https://planetarydata.jpl.nasa.gov/img/data/m3'

@@ -33,6 +33,7 @@ import { SIMPLE_CONTROLS, useEngineSearch, type EngineSearch } from "../search/u
 import { SearchControls } from "../search/SearchControls";
 import { ScenePanel } from "./ScenePanel";
 import { Profiles } from "./Profiles";
+import { JezeroPilot } from "./JezeroPilot";
 import {
   candidateFocus,
   exactSite,
@@ -363,6 +364,7 @@ export function UnifiedWorkspace({
           {countries.length > 0 && <small>Países: límites aproximados de <a href="https://www.naturalearthdata.com/" target="_blank" rel="noreferrer">Natural Earth</a>.</small>}
         </section>
       </div>
+      {science && ref.id === "jezero" && <JezeroPilot />}
     </section>
   );
 }
