@@ -8,7 +8,7 @@ Fecha: 15 de noviembre de 2026. Estado: **propuesta aprobada en lo esencial (cam
 |---|---|---|
 | 0. Línea base | Hecha (`47c9ee0`) | [`scripts/benchmark_motor.py`](../../../scripts/benchmark_motor.py) compara el camino SQL con el pool y puede simular 1,5 M filas. |
 | 1. Motor residente | Hecha (`47c9ee0`) | `CandidatePool` y `search(pool=...)`; el test de equivalencia da la misma respuesta que el camino SQL. Con el almacén local: 1,39 s → 0,010 s (solo elegibles) y 1,71 s → 0,26 s (todas). Pool simulado de 1,5 M filas: ~2,1 s. |
-| 2. Espejo de datos | Herramientas hechas; descarga pendiente | Manifiesto de 11 productos (8,3 GB de nivel 1), descarga reanudable con verificación, CLI, evidencia de hashes (`adopt`) y trabajos para VM listos en `cloud/referencias/`. El ETL lunar usa la copia local si está completa. Probada en real con THEMIS y la iluminación lunar; el resto del nivel 1 **no se ha descargado**. |
+| 2. Espejo de datos | Hecha (`64ffa79`) | Manifiesto de 11 productos (8,3 GB de nivel 1), descarga reanudable con verificación y CLI. El ETL lunar usa la copia local si está completa. Probada en real con THEMIS y la iluminación lunar; el resto del nivel 1 **no se ha descargado**. |
 | 3. Catálogo | Parcial (`a5c2568`) | Metadatos (tipo, limitaciones, fuentes, centro) de las tres referencias actuales. **Faltan los sitios nuevos**: requieren fijar la lista con fuentes oficiales y coordenadas. |
 | 4. API | Hecha (`d47d888`, `442a5af`) | Cuatro rutas, caché, 404/422/503 y contrato [`similitud-api-v1`](../../../specs/api/similitud-api-v1.schema.json) validado contra las respuestas reales. Con el almacén real: ~11 ms (solo elegibles), ~260 ms (188 mil ventanas). |
 | 5. Frontend | **Solo el contrato** (`73570d6`) | El frontend del repositorio está desactualizado respecto al del equipo, así que se entregan tipos, cliente y pruebas contra los esquemas, y una vista de ejemplo desacoplada en [`docs/contratos/ejemplo-frontend-similitud`](../../contratos/ejemplo-frontend-similitud/README.md). No se tocó el shell ni el estado de la aplicación. |
@@ -16,9 +16,7 @@ Fecha: 15 de noviembre de 2026. Estado: **propuesta aprobada en lo esencial (cam
 | 7. Documentación | Hecha (`73570d6`) | Guías de backend y frontend y README de contratos actualizados. |
 | 8. Ventanas arbitrarias | No iniciada | Sigue fuera de alcance. |
 
-**Nube (estado al 15 de nov de 2026).** La rama `etl-30m-r2` ya ejecutó `fit`, `publish` y `verify` en las VM y dejó **`etl-30m-r2b` como release activa**: 1,79 M ventanas, 1,46 M clasificables y 174.595 elegibles; el modelo ajusta 7 de las 9 vistas (faltan espectral y radar) y las tres referencias están publicadas. Los dos sitios lunares ya tienen medidas iluminación, PSR, temperatura máxima de Diviner y CPR de Mini-RF (Haworth `volatile_target_psr`, de Gerlache `excluded_steep`). Esa medición la hace el paso `luna` de `etl_secuencia.py`; el espejo no la sustituye.
-
-Lo que queda para las VM es solo el **espejo de las fuentes** (copias verificadas, para no depender de los servidores de NASA): dos trabajos distintos, Luna en GCP y Marte en Azure, que se lanzan a la vez con [`cloud/referencias/lanzar.sh`](../../../cloud/referencias/README.md) (simulación por defecto; `RUN=1` para lanzar). Cada uno deja sus hashes en `docs/evidencia-espejo/` y se unen en GCS copiando la salida de Azure. La medición de DTM de sitios nuevos de Marte sigue sin existir hasta fijar los sitios.
+**Nube.** Los trabajos `scripts/etl_referencias.py luna|marte` y `cloud/unir-almacen-azure-gcs.sh` están listos para correr un trabajo por nube y unir en GCS, pero **no se lanzó ninguna VM**: las VM clonan el repositorio desde GitHub, así que antes hay que publicar la rama, y la medición de DTM de sitios nuevos de Marte no existe hasta fijar los sitios. El trabajo `marte` solo espeja hoy.
 
 ## 1. Objetivo y alcance
 
@@ -113,13 +111,13 @@ Cada entrada: `id`, `name`, `body`, `kind` (`base_candidate` | `landing_site` | 
 ### 6.1 Motor residente (`backend/app/similarity_engine.py`)
 
 - **`lifespan` de FastAPI:** una sola vez carga el modelo y lee del almacén solo las columnas ajustadas de las ventanas `Earth` con `qa_status = 'rankable'`.
-- **Precálculo en memoria:** matriz `Z[N, F]` en `float32` con la transformación de cuantiles ya aplicada; patrón de ausencia por vista codificado como entero (en vez de `np.unique` por consulta); máscaras booleanas de elegibilidad por perfil; `region_id`, lon, lat y banda UTM en arrays contiguos. Memoria: la estimación inicial (~70 MB) era errónea; lo implementado usa `float64` y retiene ~0,6 GB para la release `etl-30m-r2b` (extrapolado de una medición local; ver la guía de backend).
+- **Precálculo en memoria:** matriz `Z[N, F]` en `float32` con la transformación de cuantiles ya aplicada; patrón de ausencia por vista codificado como entero (en vez de `np.unique` por consulta); máscaras booleanas de elegibilidad por perfil; `region_id`, lon, lat y banda UTM en arrays contiguos. Memoria estimada: ~70 MB para 1,45 M ventanas.
 - **Por consulta:** `zref` de la referencia, distancia por vista (Mahalanobis, GMM) solo sobre las filas que pasan las máscaras, fusión y `np.argpartition` para el top-k. El desglose por feature se calcula solo para el top-k, como hoy.
 - **Equivalencia:** un test compara `ResidentEngine` con `SimilarityEngine.search` sobre las mismas consultas (puntuaciones, orden, intervalos, vistas ausentes). El motor actual es la referencia científica y no se modifica.
 - **Recarga:** la clave de caché y el estado incluyen `release` y `spec_hash`. Cambiar de release recarga sin reiniciar.
-- **Varios workers:** cada uno duplica la memoria (el pool de la release `etl-30m-r2b` se estima en ~0,6 GB retenidos y varios GB de pico al cargar; ver la guía de backend). Con un solo worker basta; si hiciera falta más, `np.memmap` sobre un `.npy` generado en `publish`.
+- **Varios workers:** cada uno duplica la memoria (~70 MB); aceptable. Si crece, `np.memmap` sobre un `.npy` generado en `publish`.
 
-### 6.2 Endpoints (`backend/app/routers/similarity_router.py`)
+### 6.2 Endpoints (`backend/app/similarity.py`)
 
 - `GET /api/similarity/references`: catálogo con `id`, `name`, `body`, `kind`, `status`, `view_status`, `limitations`, `sources`.
 - `GET /api/similarity/references/{id}`: ficha completa (features, percentiles, procedencia).
@@ -174,6 +172,6 @@ Orden recomendado: 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7. Las fases 2 y 3 
 - **Elegir los sitios candidatos.** Hay que fijar con fuentes oficiales qué sitios lunares y marcianos entran, y registrar la fuente de cada elección en el manifiesto.
 - **Tamaños por confirmar.** HiRISE DTM y THEMIS de Jezero no tienen tamaño en los specs; se miden en la fase 2.
 - **Validación científica.** El motor sigue en estado `unsupervised_pending_blind_validation` y solo dos vistas están ajustadas (`escabrosidad`, `regimen_morfologico`). Esto es una limitación a comunicar, no a ocultar. Con la compuerta por defecto hoy hay 8 ventanas elegibles locales.
-- **Memoria del servidor.** Estimada, no medida con el almacén de la nube: ~0,6 GB retenidos por worker y un pico de 3–4 GB al cargar. Usar un worker y 8 GB; medir `peak_rss_mb` en la VM.
+- **Memoria del servidor.** ~70 MB por worker con el almacén completo; revisar si se despliega con muchos workers.
 - **Dependencia de la red.** El espejo la elimina del ETL; verificar licencias de redistribución antes de publicar copias en un bucket público.
 - **Alcance de la fase 8.** Decidir más adelante si merece su coste (un almacén nuevo y 11,4 GB).

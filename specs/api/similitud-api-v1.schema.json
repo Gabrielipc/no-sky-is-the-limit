@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "similitud-api-v1",
   "title": "API de similitud: catálogo de referencias, búsqueda y errores (v1)",
-  "description": "Contrato HTTP de `backend/app/routers/similarity_router.py`. La búsqueda devuelve la respuesta del motor (`motor-busqueda-v1`, `SearchResponse`) más `query_id` y `timings`; la petición es el `SearchRequest` de ese mismo esquema. Estructura estable: los campos solo se añaden.",
+  "description": "Contrato HTTP de `backend/app/similarity.py`. La búsqueda devuelve la respuesta del motor (`motor-busqueda-v1`, `SearchResponse`) más `query_id` y `timings`; la petición es el `SearchRequest` de ese mismo esquema. Estructura estable: los campos solo se añaden.",
   "oneOf": [{"$ref": "#/$defs/SearchEnvelope"}],
   "x-endpoints": [
     {"method": "GET", "path": "/api/similarity/references", "response": "ReferencesResponse", "errors": [503]},
@@ -174,8 +174,7 @@
         "engine_status": {"type": ["string", "null"]},
         "profiles_loaded": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
         "cached_queries": {"type": "integer", "minimum": 0},
-        "references": {"type": "integer", "minimum": 0},
-        "peak_rss_mb": {"type": ["number", "null"], "description": "Memoria residente máxima del proceso, en MB. Sirve para dimensionar la VM del backend; es un máximo, no el valor actual."}
+        "references": {"type": "integer", "minimum": 0}
       }
     },
     "ErrorResponse": {

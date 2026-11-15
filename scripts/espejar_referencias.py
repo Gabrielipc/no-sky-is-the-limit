@@ -4,11 +4,9 @@
     python scripts/espejar_referencias.py plan   [--tier 1]
     python scripts/espejar_referencias.py fetch  [--tier 1] [--max-gb 10] [--workers 4] [--record-hashes]
     python scripts/espejar_referencias.py verify [--tier 1]
-    python scripts/espejar_referencias.py adopt  --evidence docs/evidencia-espejo/moon.json [...]
 
 The manifest is `specs/sources/espejo-referencias-v1.json`; the files go to `data/raw/espejo/` (or
-`--root` / `ANALOGOS_MIRROR_DIR`). `fetch` resumes partial files and checks size and hash. `adopt` pins into
-the manifest the hashes that a cloud job recorded in `docs/evidencia-espejo/` (it never overwrites a different one).
+`--root` / `ANALOGOS_MIRROR_DIR`). `fetch` resumes partial files and checks size and hash.
 """
 from __future__ import annotations
 
@@ -29,27 +27,18 @@ def gb(n: int) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('command', choices=['plan', 'fetch', 'verify', 'adopt'])
+    ap.add_argument('command', choices=['plan', 'fetch', 'verify'])
     ap.add_argument('--manifest', type=Path, default=mirror.MANIFEST_PATH)
     ap.add_argument('--root', type=Path, default=None, help='mirror folder (default: data/raw/espejo)')
     ap.add_argument('--tier', type=int, action='append', help='tier to include (repeatable); default: all')
     ap.add_argument('--id', action='append', help='product id (repeatable)')
     ap.add_argument('--max-gb', type=float, help='byte budget for this fetch')
     ap.add_argument('--workers', type=int, default=4)
-    ap.add_argument('--evidence', type=Path, action='append', help='evidence file written by a cloud job (adopt)')
     ap.add_argument('--record-hashes', action='store_true', help='write new sha256 values into the manifest')
     ap.add_argument('--json', action='store_true')
     args = ap.parse_args()
 
     manifest = mirror.load_manifest(args.manifest)
-    if args.command == 'adopt':
-        if not args.evidence:
-            ap.error('adopt necesita al menos un --evidence')
-        result = mirror.adopt_hashes(args.manifest, args.evidence)
-        print(f"{len(result['added'])} hashes fijados, {len(result['unchanged'])} ya estaban, {len(result['conflicts'])} conflictos")
-        for c in result['conflicts']:
-            print(f"  CONFLICTO {c['id']}: {c['reason']}")
-        return 1 if result['conflicts'] else 0
     root = args.root or mirror.mirror_root()
     log = lambda m: print(m, file=sys.stderr, flush=True)  # noqa: E731
 

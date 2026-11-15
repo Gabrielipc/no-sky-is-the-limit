@@ -18,6 +18,8 @@ WORKDIR="${WORKDIR:-/opt/analogos}"
 SCRATCH_DIR="${SCRATCH_DIR:-/mnt/analogos_cache}"
 ETL_SCRIPT="${ETL_SCRIPT:-scripts/etl_secuencia.py}"
 ETL_ARGS="${ETL_ARGS:-}"
+# Only a run that sets the active release may upload `releases/atlas30/current` (see sync-outputs-azure.sh).
+[[ "$ETL_ARGS" == *"--set-current"* ]] && export SYNC_CURRENT=1 || export SYNC_CURRENT=0
 AUTO_DELETE="${AUTO_DELETE:-1}"
 SYNC_INTERVAL_S="${SYNC_INTERVAL_S:-600}"
 LOG_FILE="${LOG_FILE:-/var/log/analogos-etl.log}"

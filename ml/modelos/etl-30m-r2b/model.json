@@ -1,0 +1,383 @@
+{
+  "format": 1,
+  "engine_id": "motor-similitud-ml-v1",
+  "spec_hash": "4520fe49764aa1cd",
+  "fitted_at": "2026-11-15T09:11:16+00:00",
+  "seed": 20261114,
+  "fit_pool": {
+    "windows": 1459164,
+    "sample_size": 200000,
+    "holdout_basins": [
+      "mojave"
+    ],
+    "store_root": "data/feature_store_v1"
+  },
+  "features": {
+    "relief_p95_p05_m": {
+      "view": "escabrosidad",
+      "fitted": true,
+      "n_fit": 200000
+    },
+    "slope_240m_p50_deg": {
+      "view": "escabrosidad",
+      "fitted": true,
+      "n_fit": 200000
+    },
+    "slope_240m_p90_deg": {
+      "view": "escabrosidad",
+      "fitted": true,
+      "n_fit": 200000
+    },
+    "roughness_360m_p50_m": {
+      "view": "escabrosidad",
+      "fitted": true,
+      "n_fit": 99751
+    },
+    "slope_240m_gt15_fraction": {
+      "view": "escabrosidad",
+      "fitted": true,
+      "n_fit": 200000
+    },
+    "slope_240m_gt25_fraction": {
+      "view": "escabrosidad",
+      "fitted": true,
+      "n_fit": 200000
+    },
+    "hypsometric_integral": {
+      "view": "forma_hipsometrica",
+      "fitted": true,
+      "n_fit": 195872
+    },
+    "elevation_skew_p95_p05": {
+      "view": "forma_hipsometrica",
+      "fitted": true,
+      "n_fit": 195872
+    },
+    "aspect_240m_resultant_length": {
+      "view": "organizacion",
+      "fitted": true,
+      "n_fit": 154331
+    },
+    "abs_fe3_oxide_0p53_0p90um_p50": {
+      "view": "espectral",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "abs_al_oh_2p20um_p50": {
+      "view": "espectral",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "abs_fe_mg_oh_2p30um_p50": {
+      "view": "espectral",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "abs_carbonate_2p30_2p50um_p50": {
+      "view": "espectral",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "abs_hydrated_sioh_so4_1p9_2p26um_p50": {
+      "view": "espectral",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "abs_mafic_fe2_1p0um_p50": {
+      "view": "espectral",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "thermal_inertia_rank": {
+      "view": "termica",
+      "fitted": true,
+      "n_fit": 2000
+    },
+    "cpr_p50": {
+      "view": "radar",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "cpr_p90": {
+      "view": "radar",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "precip_annual_mm_cmg": {
+      "view": "entorno_superficial",
+      "fitted": true,
+      "n_fit": 199978
+    },
+    "dry_months_fraction_cmg": {
+      "view": "entorno_superficial",
+      "fitted": true,
+      "n_fit": 199978
+    },
+    "snow_cover_mean_pct_cmg": {
+      "view": "entorno_superficial",
+      "fitted": true,
+      "n_fit": 198185
+    },
+    "soil_moisture_mean_cmg": {
+      "view": "entorno_superficial",
+      "fitted": true,
+      "n_fit": 72380
+    },
+    "emis_quartz_index_cmg": {
+      "view": "emisividad_cmg",
+      "fitted": true,
+      "n_fit": 179395
+    },
+    "emis_mafic_index_cmg": {
+      "view": "emisividad_cmg",
+      "fitted": true,
+      "n_fit": 179395
+    },
+    "emis_carbonate_index_cmg": {
+      "view": "emisividad_cmg",
+      "fitted": true,
+      "n_fit": 179393
+    }
+  },
+  "views": {
+    "escabrosidad": {
+      "kind": "metric",
+      "fitted": true,
+      "features": [
+        "relief_p95_p05_m",
+        "slope_240m_p50_deg",
+        "slope_240m_p90_deg",
+        "roughness_360m_p50_m",
+        "slope_240m_gt15_fraction",
+        "slope_240m_gt25_fraction"
+      ],
+      "covariance_estimator": "min_cov_det",
+      "n_complete": 99751,
+      "effective_dof": 2.2342548551798833,
+      "correlation": [
+        [
+          1.0,
+          0.8822,
+          0.8544,
+          0.7397,
+          0.3498,
+          0.0
+        ],
+        [
+          0.8822,
+          1.0,
+          0.9296,
+          0.8858,
+          0.3758,
+          0.0
+        ],
+        [
+          0.8544,
+          0.9296,
+          1.0,
+          0.9089,
+          0.381,
+          -0.0
+        ],
+        [
+          0.7397,
+          0.8858,
+          0.9089,
+          1.0,
+          0.3426,
+          0.0
+        ],
+        [
+          0.3498,
+          0.3758,
+          0.381,
+          0.3426,
+          1.0,
+          -0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -0.0,
+          0.0,
+          -0.0,
+          1.0
+        ]
+      ]
+    },
+    "forma_hipsometrica": {
+      "kind": "metric",
+      "fitted": true,
+      "features": [
+        "hypsometric_integral",
+        "elevation_skew_p95_p05"
+      ],
+      "covariance_estimator": "min_cov_det",
+      "n_complete": 195872,
+      "effective_dof": 1.058040549826646,
+      "correlation": [
+        [
+          1.0,
+          -0.9436
+        ],
+        [
+          -0.9436,
+          1.0
+        ]
+      ]
+    },
+    "organizacion": {
+      "kind": "metric",
+      "fitted": true,
+      "features": [
+        "aspect_240m_resultant_length"
+      ],
+      "covariance_estimator": "variance",
+      "n_complete": 154331,
+      "effective_dof": 1.0,
+      "correlation": [
+        [
+          1.0
+        ]
+      ]
+    },
+    "espectral": {
+      "kind": "metric",
+      "fitted": false,
+      "features": [],
+      "reason": "no_fitted_features"
+    },
+    "termica": {
+      "kind": "metric",
+      "fitted": true,
+      "features": [
+        "thermal_inertia_rank"
+      ],
+      "covariance_estimator": "variance",
+      "n_complete": 2000,
+      "effective_dof": 1.0,
+      "correlation": [
+        [
+          1.0
+        ]
+      ]
+    },
+    "radar": {
+      "kind": "metric",
+      "fitted": false,
+      "features": [],
+      "reason": "no_fitted_features"
+    },
+    "entorno_superficial": {
+      "kind": "metric",
+      "fitted": true,
+      "features": [
+        "precip_annual_mm_cmg",
+        "dry_months_fraction_cmg",
+        "snow_cover_mean_pct_cmg",
+        "soil_moisture_mean_cmg"
+      ],
+      "covariance_estimator": "min_cov_det",
+      "n_complete": 72354,
+      "effective_dof": 1.9792565850868706,
+      "correlation": [
+        [
+          1.0,
+          -0.6793,
+          0.2723,
+          0.6954
+        ],
+        [
+          -0.6793,
+          1.0,
+          -0.527,
+          -0.6666
+        ],
+        [
+          0.2723,
+          -0.527,
+          1.0,
+          0.5483
+        ],
+        [
+          0.6954,
+          -0.6666,
+          0.5483,
+          1.0
+        ]
+      ]
+    },
+    "emisividad_cmg": {
+      "kind": "metric",
+      "fitted": true,
+      "features": [
+        "emis_quartz_index_cmg",
+        "emis_mafic_index_cmg",
+        "emis_carbonate_index_cmg"
+      ],
+      "covariance_estimator": "min_cov_det",
+      "n_complete": 179393,
+      "effective_dof": 2.465866542525773,
+      "correlation": [
+        [
+          1.0,
+          -0.5086,
+          0.2568
+        ],
+        [
+          -0.5086,
+          1.0,
+          -0.0186
+        ],
+        [
+          0.2568,
+          -0.0186,
+          1.0
+        ]
+      ]
+    },
+    "regimen_morfologico": {
+      "kind": "gmm",
+      "fitted": true,
+      "features": [
+        "relief_p95_p05_m",
+        "slope_240m_p50_deg",
+        "slope_240m_p90_deg",
+        "roughness_360m_p50_m",
+        "slope_240m_gt15_fraction",
+        "slope_240m_gt25_fraction",
+        "hypsometric_integral",
+        "elevation_skew_p95_p05",
+        "aspect_240m_resultant_length"
+      ],
+      "n_components": 7,
+      "bic": {
+        "2": -136891.1264381839,
+        "3": -213957.43847297822,
+        "4": -258117.6239770574,
+        "5": -303120.9100730659,
+        "6": -325956.9422906537,
+        "7": -340975.86831247207,
+        "8": -304533.0645585714
+      },
+      "n_fit": 50000,
+      "component_weights": [
+        0.0789,
+        0.0954,
+        0.081,
+        0.2291,
+        0.4144,
+        0.057,
+        0.0441
+      ]
+    }
+  }
+}
