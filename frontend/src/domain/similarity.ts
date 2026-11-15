@@ -6,6 +6,7 @@ export type Body = 'Mars' | 'Moon';
 export type ViewStatus = 'reference_has_data' | 'reference_missing' | 'not_fitted';
 export type Fusion = 'weighted' | 'rrf';
 export type MissingPolicy = 'neutral' | 'renormalize' | 'require';
+export type Profile = 'arid_mars_surface_v2' | 'paleolake_margin_v1' | 'polar_cold_v1';
 
 export type ReferenceEntry = {
   id: string; name: string; body: Body; available: boolean; reason?: string;
@@ -36,11 +37,11 @@ export type SearchResponse = {
 };
 export type SearchRequest = {
   reference: string; weights?: Record<string, number>; only_eligible: boolean; limit: number;
-  fusion: Fusion; missing_policy: MissingPolicy;
+  fusion: Fusion; missing_policy: MissingPolicy; profile?: Profile;
 };
 export type Controls = {
   weights: Record<string, number>; touched: boolean; onlyEligible: boolean; fusion: Fusion;
-  missingPolicy: MissingPolicy; limit: number;
+  missingPolicy: MissingPolicy; limit: number; profile?: Profile;
 };
 
 export const VIEW_LABELS: Record<string, string> = {
@@ -55,6 +56,14 @@ export const BODY_LABELS: Record<Body, string> = { Mars: 'Marte', Moon: 'Luna' }
 export const STATUS_TEXT: Record<ViewStatus, string> = {
   reference_has_data: 'con datos de la referencia', reference_missing: 'la referencia no tiene estos datos',
   not_fitted: 'sin ajustar en el motor',
+};
+export const PROFILE_LABELS: Record<Profile, string> = {
+  arid_mars_surface_v2: 'Suelo árido expuesto', paleolake_margin_v1: 'Margen de paleolago', polar_cold_v1: 'Polar frío',
+};
+export const FUSION_LABELS: Record<Fusion, string> = { weighted: 'Media ponderada de distancias', rrf: 'Fusión por rangos (RRF)' };
+export const MISSING_LABELS: Record<MissingPolicy, string> = {
+  neutral: 'Neutral: la vista ausente cuenta como una candidata típica',
+  renormalize: 'Repartir el peso entre las vistas presentes', require: 'Descartar candidatas con vistas ausentes',
 };
 export const SEARCH_LIMIT = 25;
 
@@ -72,6 +81,7 @@ export function defaultControls(reference: ReferenceEntry | undefined, catalog: 
 export function buildRequest(referenceId: string, controls: Controls): SearchRequest {
   const request: SearchRequest = { reference: referenceId, only_eligible: controls.onlyEligible, limit: controls.limit,
     fusion: controls.fusion, missing_policy: controls.missingPolicy };
+  if (controls.profile) request.profile = controls.profile;
   if (controls.touched) request.weights = Object.fromEntries(Object.entries(controls.weights).map(([v, w]) => [v, round(w)]));
   return request;
 }
@@ -100,6 +110,11 @@ export function errorMessage(detail: unknown, status: number): string {
 /** Largest contributions of the reference-to-candidate difference in a view, as readable lines. */
 export function topFeatures(view: ResultView | undefined, count = 3): [string, FeatureExplanation][] {
   return Object.entries(view?.features ?? {}).sort(([, a], [, b]) => Math.abs(b.share) - Math.abs(a.share)).slice(0, count);
+}
+
+/** Similarity shown to the public: 1 − distance, the same definition everywhere in the interface. */
+export function similarity(score: number) {
+  return Math.min(1, Math.max(0, 1 - score));
 }
 
 export function scoreWidth(low: number, high: number) {
