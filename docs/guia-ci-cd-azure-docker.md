@@ -297,41 +297,90 @@ reemplázalo por uno nuevo.
    editor local (`~/.ssh/analogos_azure_deploy`), copia todo su contenido y
    pégalo en el campo del Secret. No compartas ni imprimas ese contenido en
    logs. La clave pública termina en `.pub` y no se pega en este Secret.
-4. **`AZURE_VM_KNOWN_HOSTS`**: primero verifica la identidad SSH de la VM:
-   - En Azure Portal usa la consola/Run Command de la VM para obtener la clave
-     pública del servidor, por ejemplo:
-     `sudo cat /etc/ssh/ssh_host_ed25519_key.pub`.
-   - En tu equipo compara la huella de esa clave con la huella que presenta la
-     VM. Para una clave pública guardada en `vm_host_ed25519.pub`, ejecuta
-     `ssh-keygen -lf vm_host_ed25519.pub`.
-   - Solo después de que coincidan, genera la línea conocida con
-     `ssh-keyscan -p 22 -t ed25519 IP_O_DNS_DE_LA_VM`. `ssh-keyscan` por sí solo
-     **no verifica** la identidad; la verificación previa es obligatoria.
-   - Copia la línea resultante completa, que empieza con el host o
-     `[host]:puerto`, y guárdala como `AZURE_VM_KNOWN_HOSTS`. Para el puerto
-     estándar `22` normalmente aparece el host sin corchetes. Si usas otro
-     puerto, debe aparecer `[IP_O_DNS]:PUERTO`.
+4. **`AZURE_VM_KNOWN_HOSTS`**: este dato identifica al **servidor SSH de la
+   VM**. No es la clave privada de `deploy` ni se obtiene de tu computadora.
+   Sigue estos pasos:
+   - **En Azure Portal**, abre la VM y usa **Run command → RunShellScript**
+     (el comando se ejecuta dentro de esa VM). Obtén la clave pública SSH del
+     servidor:
+
+     ```bash
+     sudo cat /etc/ssh/ssh_host_ed25519_key.pub
+     ```
+
+     Azure mostrará una línea que empieza con `ssh-ed25519`. Es una clave
+     **pública** del servidor; puedes copiarla. No uses aquí
+     `~/.ssh/analogos_azure_deploy.pub`: esa otra clave autentica a `deploy` y
+     tiene un propósito diferente.
+   - **En una terminal de tu computadora local**, pega esa línea pública en un
+     archivo temporal llamado `vm_host_ed25519.pub`. Luego calcula su huella:
+
+     ```bash
+     ssh-keygen -lf vm_host_ed25519.pub
+     ```
+
+   - Todavía **en tu computadora local**, guarda la clave que presenta la VM
+     por la red en otro archivo y calcula su huella:
+
+     ```bash
+     ssh-keyscan -p 22 -t ed25519 IP_O_DNS_DE_LA_VM 2>/dev/null \
+       > vm_host_from_network.pub
+     ssh-keygen -lf vm_host_from_network.pub
+     ```
+
+     Compara la huella `SHA256:...` mostrada en ambos pasos: deben coincidir.
+     Si no coinciden, detente; no guardes ni aceptes la clave de la red hasta
+     verificar la IP/DNS y la identidad de la VM. `ssh-keyscan` solo consulta
+     lo que responde en la red; por sí solo **no verifica** que sea tu VM.
+   - Solo después de verificar la huella, en la misma **terminal local** captura
+     la línea completa de `known_hosts`:
+
+     ```bash
+     ssh-keyscan -p 22 -t ed25519 IP_O_DNS_DE_LA_VM 2>/dev/null
+     ```
+
+     Copia la línea completa resultante (host seguido de `ssh-ed25519` y la
+     clave) al Secret `AZURE_VM_KNOWN_HOSTS` en GitHub. Para un puerto no
+     estándar, reemplaza `22` y comprueba que la línea use el formato
+     `[IP_O_DNS]:PUERTO`. El workflow necesita que el host y puerto coincidan
+     con `AZURE_VM_HOST` y `AZURE_VM_SSH_PORT`.
 5. **`GHCR_USERNAME` y `GHCR_PULL_TOKEN`**:
-   - Usa la cuenta GitHub con acceso de lectura al paquete
-     `ghcr.io/gabrielipc/no-sky-is-the-limit`.
-   - En GitHub abre **Settings → Developer settings → Personal access tokens →
-     Tokens (classic) → Generate new token (classic)**.
-   - Ponle una nota identificable, elige una fecha de expiración y marca
-     únicamente `read:packages`. Si el paquete es privado y pertenece a una
-     organización, confirma que la cuenta/token tenga acceso a ese paquete y
-     cumple las políticas de SSO de la organización, si aplican.
-   - Genera el token y cópialo inmediatamente a `GHCR_PULL_TOKEN`; GitHub no
-     volverá a mostrar su valor completo. Copia el nombre de la cuenta dueña del
-     token a `GHCR_USERNAME`.
-   - No marques `write:packages` ni `delete:packages` para esta descarga. Si el
-     paquete es privado, puedes probar las mismas credenciales desde la VM con
-     `docker login ghcr.io`; no las envíes por chat.
+   - Estos dos valores salen de **tu cuenta GitHub**, no de Azure, de la VM ni
+     del usuario Linux `deploy`. Usa una cuenta GitHub que tenga permiso de
+     lectura al paquete `ghcr.io/gabrielipc/no-sky-is-the-limit`.
+   - **En el navegador**, inicia sesión en GitHub con esa cuenta y abre
+     **Settings de tu cuenta → Developer settings → Personal access tokens →
+     Tokens (classic) → Generate new token (classic)**. No es la página
+     Settings del repositorio para crear el token; ahí guardarás el token
+     después como Secret.
+   - Escribe una nota para reconocer el uso del token, elige una expiración y
+     marca únicamente `read:packages`. Si el paquete es privado, verifica que
+     esa cuenta tenga acceso al paquete y, si aplica, autoriza el token para
+     SSO de la organización.
+   - Pulsa **Generate token** y copia el token en ese momento: GitHub no vuelve
+     a mostrarlo completo. El token es `GHCR_PULL_TOKEN`.
+   - `GHCR_USERNAME` es el **login/username de GitHub que creó ese token** (por
+     ejemplo `miusuario`, no el correo, el nombre visible ni `deploy`). La VM
+     utilizará ese par usuario/token para iniciar sesión en GHCR y descargar la
+     imagen. No marques `write:packages` ni `delete:packages`.
 
 En la página **Actions secrets and variables**, para guardar un Secret, pulsa
 **New repository secret**, escribe el nombre exacto de la tabla, pega el valor y
 pulsa **Add secret**. Repite por cada uno. Para una Variable abre la pestaña
 **Variables**, pulsa **New repository variable**, completa el nombre y valor y
 pulsa **Add variable**.
+
+Resumen del origen y dónde se guarda cada dato:
+
+| Dato | Se obtiene o se genera en | Se guarda en |
+|---|---|---|
+| `AZURE_VM_HOST` | Azure Portal → Overview de la VM (IP pública/DNS) | GitHub → Settings del repositorio → Secrets and variables → Actions → Secrets |
+| `AZURE_VM_SSH_KEY` | Archivo privado generado en tu computadora local | El mismo lugar, como Secret. No se copia a la VM |
+| `AZURE_VM_KNOWN_HOSTS` | Clave de host consultada en la VM por Azure Run Command; se compara y escanea desde tu computadora local | El mismo lugar, como Secret |
+| `GHCR_USERNAME` | Login de la cuenta GitHub que creó el PAT y puede leer el paquete | El mismo lugar, como Secret |
+| `GHCR_PULL_TOKEN` | Creado en la configuración de Developer settings de esa cuenta GitHub | El mismo lugar, como Secret |
+| `AZURE_VM_USER` | Usuario Linux creado en la VM (`deploy`) | El mismo lugar, como Secret |
+| Variables de rutas/puertos | Valores que elegiste para la VM y que deben coincidir con su configuración | GitHub → Settings del repositorio → Secrets and variables → Actions → Variables |
 
 El workflow usa `GITHUB_TOKEN` automáticamente para publicar la imagen; no crees
 un token de publicación adicional. GHCR suele crear el paquete como privado.
