@@ -363,3 +363,27 @@ class MirrorLookupTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class TestLunarImport(unittest.TestCase):
+    def test_import_writes_the_measured_evidence_to_the_store(self) -> None:
+        import argparse
+        import importlib.util
+        root = Path(__file__).resolve().parents[1]
+        loader = importlib.util.spec_from_file_location('etl_luna_script', root / 'scripts/etl_luna.py')
+        script = importlib.util.module_from_spec(loader)
+        loader.loader.exec_module(script)
+        evidence = json.loads((root / 'docs/evidencia-luna-polar/resultados.json').read_text(encoding='utf-8'))
+        expected = {e['base_window']['region_id']: e['base_window'] for e in evidence['sites']}
+        with tempfile.TemporaryDirectory() as tmp:
+            args = argparse.Namespace(evidence=str(root / 'docs/evidencia-luna-polar/resultados.json'),
+                                      site=None, store_dir=str(Path(tmp) / 'store'), memory_limit='1GB', threads=1)
+            script.run_import(args)
+            script.run_import(args)  # idempotent: the latest lunar row wins, the base batch is replaced
+            with FeatureStore(Path(tmp) / 'store')._connect() as conn:
+                rows = conn.execute("SELECT region_id, relief_p95_p05_m, lunar_site_status FROM features_unified "
+                                    "WHERE body = 'Moon' ORDER BY region_id").fetchall()
+        self.assertEqual([r[0] for r in rows], sorted(expected))
+        for region_id, relief, status in rows:
+            self.assertAlmostEqual(relief, expected[region_id]['relief_p95_p05_m'], places=3)
+            self.assertIsNotNone(status)

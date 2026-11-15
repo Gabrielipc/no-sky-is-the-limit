@@ -3,6 +3,8 @@
 
   referencia  Measure the topographic contract and the lunar dimensions of the sites in
               `specs/sources/luna-polar-sur-v1.json` and write them to the store.
+  importar    Write the sites already measured in the evidence JSON to the store, without network
+              (same rows `referencia` writes; for a local store restored without the Moon windows).
   rank        Rank Earth windows against a stored lunar reference with the same features.
 """
 from __future__ import annotations
@@ -76,6 +78,28 @@ def run_reference(args: argparse.Namespace) -> None:
         print(f'Evidencia: {out}', flush=True)
 
 
+def _row_from_json(row: dict) -> dict:
+    out = dict(row)
+    if isinstance(out.get('updated_at'), str):
+        out['updated_at'] = datetime.fromisoformat(out['updated_at'])
+    return out
+
+
+def run_import(args: argparse.Namespace) -> None:
+    evidence = json.loads(Path(args.evidence).read_text(encoding='utf-8'))
+    entries = [e for e in evidence.get('sites', []) if not args.site or e['site']['id'] in args.site]
+    if not entries:
+        raise SystemExit(f'La evidencia {args.evidence} no tiene sitios lunares que importar')
+    store = FeatureStore(Path(args.store_dir), memory_limit=args.memory_limit, threads=args.threads)
+    for entry in entries:
+        base = _row_from_json(entry['base_window'])
+        if base.get('body') != 'Moon':
+            raise SystemExit(f"{base.get('region_id')} no es una ventana lunar")
+        store.write_base_batch(base['batch_id'], [base])
+        store.append_enrichment('lunar', [_row_from_json(entry['lunar_dimensions'])])
+        print(f"{base['region_id']}: importada de la evidencia ({base['qa_status']})", flush=True)
+
+
 def reference_vector(store: FeatureStore, region_id: str) -> dict:
     with store._connect() as conn:
         cur = conn.execute(
@@ -116,6 +140,10 @@ def main() -> None:
     p_ref.add_argument('--site', action='append', help='Id de sitio (repetible); por defecto todos')
     p_ref.add_argument('--evidence', default=str(DEFAULT_EVIDENCE), help="Ruta JSON de evidencia ('' para omitir)")
 
+    p_imp = sub.add_parser('importar', help='Escribir en el almacén los sitios ya medidos en la evidencia')
+    p_imp.add_argument('--evidence', default=str(DEFAULT_EVIDENCE))
+    p_imp.add_argument('--site', action='append', help='Id de sitio (repetible); por defecto todos')
+
     p_rank = sub.add_parser('rank', help='Ventanas terrestres frente a una referencia lunar')
     p_rank.add_argument('--site', required=True)
     p_rank.add_argument('--profile', choices=tuple(eligibility.PROFILES), default='polar_cold_v1')
@@ -123,7 +151,7 @@ def main() -> None:
     p_rank.add_argument('--include-ineligible', action='store_true')
 
     args = parser.parse_args()
-    {'referencia': run_reference, 'rank': run_rank}[args.command](args)
+    {'referencia': run_reference, 'importar': run_import, 'rank': run_rank}[args.command](args)
 
 
 if __name__ == '__main__':
