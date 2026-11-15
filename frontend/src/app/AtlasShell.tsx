@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { UnifiedWorkspace } from "../features/unified/UnifiedWorkspace";
+import { NicaraguaWorkspace } from "../features/nicaragua/NicaraguaWorkspace";
 import { useAtlasState } from "./useAtlasState";
 // The landing brings its own 3D stack (three.js): load it only when the landing is shown.
 const LandingPage = lazy(() =>
@@ -10,7 +11,7 @@ export function AtlasShell() {
   const { state, update, adjusted, dismissAdjustment } = useAtlasState();
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
-    if (state.view !== "landing" && state.view !== "unified") {
+    if (state.view !== "landing" && state.view !== "unified" && state.view !== "nicaragua") {
       update({ view: "unified", method: "engine" });
     }
   }, [state.view, update]);
@@ -37,6 +38,12 @@ export function AtlasShell() {
         >
           Explorar
         </button>
+        <button
+          aria-current={state.view === "nicaragua" ? "page" : undefined}
+          onClick={() => update({ view: "nicaragua", regionId: "" })}
+        >
+          Nicaragua
+        </button>
       </nav>
       <label className="regolith-mode">
         <span>
@@ -52,7 +59,13 @@ export function AtlasShell() {
             update(
               e.target.checked
                 ? { science: true }
-                : { science: false, view: "unified", method: "engine", exaggeration: 1, visualLayer: "elevation" },
+                : {
+                    science: false,
+                    view: state.view === "nicaragua" ? "nicaragua" : "unified",
+                    method: "engine",
+                    exaggeration: 1,
+                    visualLayer: "elevation",
+                  },
             )
           }
         />
@@ -79,7 +92,11 @@ export function AtlasShell() {
               <button onClick={dismissAdjustment}>Entendido</button>
             </div>
           )}
-          <UnifiedWorkspace state={state} update={update} />
+          {state.view === "nicaragua" ? (
+            <NicaraguaWorkspace state={state} update={update} />
+          ) : (
+            <UnifiedWorkspace state={state} update={update} />
+          )}
         </main>
         <footer className="regolith-footer">
           <span>REGOLITH · NO SKY IS THE LIMIT</span>

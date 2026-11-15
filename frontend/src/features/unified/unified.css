@@ -1018,14 +1018,26 @@
   bottom: 26px !important;
 }
 @media (max-width: 740px) {
+  /* Con dos secciones (Explorar y Nicaragua) la navegación baja a su propia fila. */
+  .regolith-header {
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
   .regolith-header nav {
+    order: 3;
+    flex-basis: 100%;
     min-width: 0;
-    gap: 4px;
+    margin-left: 0;
+    gap: 22px;
   }
   .regolith-header nav > button {
     min-width: 0;
-    max-width: 100px;
-    font-size: 11px;
+    max-width: none;
+    font-size: 13px;
+    padding: 6px 0;
+  }
+  .regolith-mode {
+    margin-left: auto;
   }
   .u-scene .cesium-credit-logoContainer img {
     max-width: 75px !important;
