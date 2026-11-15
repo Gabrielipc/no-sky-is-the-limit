@@ -5,6 +5,8 @@
  */
 
 export type Scope = 'volcanic' | 'all';
+/** Interface language (same values as `i18n/lang`; kept local so this module stays import-free). */
+export type Lang = 'es' | 'en';
 
 export type Volcano = {
   id: string; name: string; longitude: number; latitude: number; type: string | null;
@@ -55,6 +57,8 @@ export const DATA_URL = 'analysis/nicaragua/analogos-nicaragua-v1.json';
 /** Rampa secuencial ámbar (validada sobre #1C1511): de menos a más parecido. */
 export const LEVEL_COLORS = ['#6b4a2c', '#8f6234', '#b57d3b', '#da9a45', '#f7c071'] as const;
 export const LEVEL_LABELS = ['Poco parecido', 'Algo parecido', 'Parecido medio', 'Bastante parecido', 'Muy parecido'] as const;
+export const LEVEL_LABELS_EN = ['Barely similar', 'Somewhat similar', 'Moderately similar', 'Quite similar', 'Very similar'] as const;
+export const levelLabel = (level: number, lang: Lang = 'es') => (lang === 'en' ? LEVEL_LABELS_EN : LEVEL_LABELS)[level];
 /** Separación mínima entre lugares propuestos: las ventanas densas se solapan cada 2 km. */
 export const DISCOVERY_SEPARATION_KM = 4;
 /** Una propuesta a menos de esto de un sitio conocido es ese mismo sitio, no un hallazgo. */
@@ -117,11 +121,11 @@ export function discoveries(ranked: Scored[], sites: KnownSite[], limit = 12): S
 }
 
 /** «Top 0,4 %» del puesto mundial entre todas las ventanas clasificables de la Tierra. */
-export function worldShare(globalRank: number | null, total: number): string {
-  if (globalRank == null || !total) return 'sin puesto mundial';
+export function worldShare(globalRank: number | null, total: number, lang: Lang = 'es'): string {
+  if (globalRank == null || !total) return lang === 'en' ? 'no world rank' : 'sin puesto mundial';
   const pct = (globalRank / total) * 100;
-  const text = pct < 1 ? pct.toLocaleString('es', { maximumFractionDigits: 2 }) : pct.toLocaleString('es', { maximumFractionDigits: 0 });
-  return `top ${text} % de la Tierra`;
+  const text = pct < 1 ? pct.toLocaleString(lang, { maximumFractionDigits: 2 }) : pct.toLocaleString(lang, { maximumFractionDigits: 0 });
+  return lang === 'en' ? `top ${text}% of Earth` : `top ${text} % de la Tierra`;
 }
 
 const COVER: Record<string, string> = {
@@ -134,12 +138,23 @@ const COVER: Record<string, string> = {
   excluded_warm_climate: 'Clima cálido',
   eligible_arid_exposed: 'Suelo árido expuesto',
 };
+const COVER_EN: Record<string, string> = {
+  excluded_dense_canopy: 'Dense forest',
+  excluded_vegetated_non_tree: 'Low vegetation or crops',
+  excluded_permanent_water: 'Permanent water',
+  excluded_built: 'Urban area',
+  excluded_snow_ice: 'Snow or ice',
+  excluded_insufficient_land: 'Little dry land',
+  excluded_warm_climate: 'Warm climate',
+  eligible_arid_exposed: 'Exposed arid ground',
+};
 
 /** Cobertura en palabras: la etiqueta del filtro árido y el porcentaje de suelo desnudo. */
-export function coverText(w: Window): string {
-  const label = w.eligibility ? COVER[w.eligibility] ?? w.eligibility.replace(/_/g, ' ') : 'Sin dato de cobertura';
+export function coverText(w: Window, lang: Lang = 'es'): string {
+  const en = lang === 'en';
+  const label = w.eligibility ? (en ? COVER_EN : COVER)[w.eligibility] ?? w.eligibility.replace(/_/g, ' ') : en ? 'No land-cover data' : 'Sin dato de cobertura';
   const bare = w.bare_or_sparse_fraction;
-  return bare == null ? label : `${label} · ${Math.round(bare * 100)} % suelo desnudo`;
+  return bare == null ? label : en ? `${label} · ${Math.round(bare * 100)}% bare ground` : `${label} · ${Math.round(bare * 100)} % suelo desnudo`;
 }
 
 /** Nombres del GVP (sin tildes, en orden de catálogo) tal como se escriben en Nicaragua. */
@@ -160,12 +175,26 @@ const REFERENCE_NAMES: Record<string, string> = {
   'haworth-fondo': 'Haworth, fondo de un cráter polar (Luna)',
   'de-gerlache-cresta': 'De Gerlache, cresta polar (Luna)',
 };
-export const referenceName = (r: ReferenceInfo) => REFERENCE_NAMES[r.id] ?? r.name;
+const REFERENCE_NAMES_EN: Record<string, string> = {
+  jezero: 'Jezero, delta of an ancient river (Mars)',
+  'haworth-fondo': 'Haworth, floor of a polar crater (Moon)',
+  'de-gerlache-cresta': 'De Gerlache, polar ridge (Moon)',
+};
+/** Earth analogues are named after their site («Relieve parecido a Cerro Negro»). */
+export function referenceName(r: ReferenceInfo, lang: Lang = 'es', siteName?: string): string {
+  if (lang !== 'en') return REFERENCE_NAMES[r.id] ?? r.name;
+  if (REFERENCE_NAMES_EN[r.id]) return REFERENCE_NAMES_EN[r.id];
+  const site = siteName ?? /^Relieve parecido a (.+)$/.exec(r.name)?.[1];
+  return site ? `Relief similar to ${site}` : r.name;
+}
 
-export function placeText(data: NicaraguaData, w: Window): string {
+export function placeText(data: NicaraguaData, w: Window, lang: Lang = 'es'): string {
   const v = volcanoName(data, w.volcano_id);
-  if (!v || w.volcano_km == null) return `${w.latitude.toFixed(3)}° N, ${Math.abs(w.longitude).toFixed(3)}° O`;
-  return w.volcano_km < 1.5 ? `Cumbre de ${v}` : `A ${w.volcano_km.toLocaleString('es', { maximumFractionDigits: 1 })} km de ${v}`;
+  const en = lang === 'en';
+  if (!v || w.volcano_km == null) return `${w.latitude.toFixed(3)}° N, ${Math.abs(w.longitude).toFixed(3)}° ${en ? 'W' : 'O'}`;
+  const km = w.volcano_km.toLocaleString(lang, { maximumFractionDigits: 1 });
+  if (en) return w.volcano_km < 1.5 ? `Summit of ${v}` : `${km} km from ${v}`;
+  return w.volcano_km < 1.5 ? `Cumbre de ${v}` : `A ${km} km de ${v}`;
 }
 
 export function defaultReference(data: NicaraguaData): string {

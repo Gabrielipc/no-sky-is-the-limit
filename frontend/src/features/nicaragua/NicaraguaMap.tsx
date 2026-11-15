@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
+import { useI18n } from '../../i18n/I18nProvider';
+import { dataText } from './english';
 import {
-  LEVEL_COLORS, LEVEL_LABELS, coverText, displayVolcano, placeText, worldShare,
+  LEVEL_COLORS, coverText, displayVolcano, levelLabel, placeText, worldShare,
   type KnownSite, type NicaraguaData, type Scored, type Scope, type Window,
 } from './model';
 
@@ -21,6 +23,7 @@ type Props = {
 };
 
 export function NicaraguaMap({ data, ranked, water, scope, selected, total, onSelect, sites }: Props) {
+  const { lang, t } = useI18n();
   const [hover, setHover] = useState<{ w: Scored; x: number; y: number }>();
   const [w0, s0, e0, n0] = EXTENTS[scope];
   const k = Math.cos(((s0 + n0) / 2) * Math.PI / 180);
@@ -42,7 +45,10 @@ export function NicaraguaMap({ data, ranked, water, scope, selected, total, onSe
     <figure className="nic-map">
       <div className="nic-map-frame">
         <svg viewBox={`0 0 ${WIDTH} ${height}`} role="img"
-          aria-label={`Mapa de ${scope === 'volcanic' ? 'la cadena volcánica' : 'Nicaragua'} con ${ranked.length} ventanas coloreadas según su parecido`}
+          aria-label={t(
+            `Mapa de ${scope === 'volcanic' ? 'la cadena volcánica' : 'Nicaragua'} con ${ranked.length} ventanas coloreadas según su parecido`,
+            `Map of ${scope === 'volcanic' ? 'the volcanic chain' : 'Nicaragua'} with ${ranked.length} windows coloured by similarity`,
+          )}
           onMouseLeave={() => setHover(undefined)}>
           <rect width={WIDTH} height={height} className="nic-sea" />
           <path d={path} className="nic-land" />
@@ -84,7 +90,7 @@ export function NicaraguaMap({ data, ranked, water, scope, selected, total, onSe
           <g>
             {sites.map(s => (
               <circle key={s.id} cx={px(s.longitude)} cy={py(s.latitude)} r={scope === 'volcanic' ? 9 : 6} className="nic-known">
-                <title>{s.name} · análogo conocido</title>
+                <title>{dataText(s.name, lang)} · {t('análogo conocido', 'known analogue')}</title>
               </circle>
             ))}
           </g>
@@ -96,22 +102,22 @@ export function NicaraguaMap({ data, ranked, water, scope, selected, total, onSe
         {hover && (
           <div className="nic-tooltip" role="status"
             style={{ left: `${(hover.x / WIDTH) * 100}%`, top: `${(hover.y / height) * 100}%` }}>
-            <strong>{placeText(data, hover.w)}</strong>
-            <span>Puesto {hover.w.rank} de {ranked.length} · {worldShare(hover.w.global_rank, total)}</span>
-            <span>{coverText(hover.w)}</span>
+            <strong>{placeText(data, hover.w, lang)}</strong>
+            <span>{t('Puesto', 'Rank')} {hover.w.rank} {t('de', 'of')} {ranked.length} · {worldShare(hover.w.global_rank, total, lang)}</span>
+            <span>{coverText(hover.w, lang)}</span>
           </div>
         )}
       </div>
       <figcaption>
-        <span className="nic-legend-ramp" aria-label="Escala de parecido">
-          <small>Menos parecido</small>
-          {LEVEL_COLORS.map((c, i) => <i key={c} style={{ background: c }} title={LEVEL_LABELS[i]} />)}
-          <small>Más parecido</small>
+        <span className="nic-legend-ramp" aria-label={t('Escala de parecido', 'Similarity scale')}>
+          <small>{t('Menos parecido', 'Less similar')}</small>
+          {LEVEL_COLORS.map((c, i) => <i key={c} style={{ background: c }} title={levelLabel(i, lang)} />)}
+          <small>{t('Más parecido', 'More similar')}</small>
         </span>
-        <span className="nic-legend-item"><i className="nic-key-volcano" />Volcán holoceno (GVP)</span>
-        <span className="nic-legend-item"><i className="nic-key-known" />Análogo conocido</span>
-        <span className="nic-legend-item"><i className="nic-key-water" />Agua (sin clasificar)</span>
-        <small>El color compara con el resto de ventanas mostradas (quintiles), no es una probabilidad.</small>
+        <span className="nic-legend-item"><i className="nic-key-volcano" />{t('Volcán holoceno (GVP)', 'Holocene volcano (GVP)')}</span>
+        <span className="nic-legend-item"><i className="nic-key-known" />{t('Análogo conocido', 'Known analogue')}</span>
+        <span className="nic-legend-item"><i className="nic-key-water" />{t('Agua (sin clasificar)', 'Water (not ranked)')}</span>
+        <small>{t('El color compara con el resto de ventanas mostradas (quintiles), no es una probabilidad.', 'Colour compares with the other windows shown (quintiles); it is not a probability.')}</small>
       </figcaption>
     </figure>
   );
