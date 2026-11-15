@@ -1,6 +1,8 @@
 # Contratos de datos para backend y frontend
 
-Fecha: 15 de noviembre de 2026. Guías: [backend](guia-backend.md) · [frontend](guia-frontend.md).
+Fecha: 15 de noviembre de 2026. Guías: [backend](guia-backend.md) · [frontend](guia-frontend.md) · [primera release](primera-release.md).
+
+Para comprobar una release contra estos contratos: `python scripts/verificar_release.py releases/atlas30/<versión>`.
 
 ## Cómo fluyen los datos
 

@@ -21,7 +21,8 @@ class SequenceTest(unittest.TestCase):
 
         args = seq.main.__globals__['argparse'].Namespace(
             steps=steps, store_dir=store, layer=['snow'], workers=4, ati_tiles=3, ati_per_tile=2,
-            release_version='r1', similarity_model=None, summary=str(store.parent / 'secuencia.json'), strict=False)
+            release_version='r1', similarity_model=None, summary=str(store.parent / 'secuencia.json'), strict=False,
+            model=store.parent / 'model.joblib', memory_limit='1GB', set_current=True)
         return seq.run(args, runner=runner), calls
 
     def test_without_sweep_only_build_runs(self) -> None:
@@ -45,6 +46,24 @@ class SequenceTest(unittest.TestCase):
             ati = calls[2]
             self.assertIn('--no-topographic-candidates', ati)
             self.assertEqual(ati[ati.index('--background-cluster-tiles') + 1], '3')
+
+    def test_fit_then_publish_packages_the_model(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            store = Path(tmp) / 'store'
+            (store / 'base').mkdir(parents=True)
+            (store / 'base' / 'part.parquet').write_bytes(b'')
+            summary, calls = self.run_seq(store, 'fit,publish,verify')
+            self.assertEqual([s['status'] for s in summary['steps'].values()], ['ok', 'ok', 'ok'])
+            fit, publish, verify = calls
+            self.assertIn('verificar_release.py', verify[-1])
+            self.assertIn('releases/atlas30/r1', verify[-1])
+            self.assertEqual(fit[-1], 'fit')
+            self.assertIn('--set-current', publish)
+            self.assertEqual(publish[publish.index('--similarity-model') + 1], str(Path(tmp) / 'model.joblib'))
+            failed, calls = self.run_seq(store, 'fit,publish,verify', fail={'motor_similitud.py'})
+            self.assertEqual(failed['steps']['publish']['status'], 'skipped')
+            self.assertEqual(failed['steps']['verify']['status'], 'skipped')
+            self.assertEqual(len(calls), 1)
 
     def test_unknown_step_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as tmp, self.assertRaises(SystemExit):

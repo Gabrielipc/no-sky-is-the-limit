@@ -61,6 +61,10 @@ def _publish_similarity(store: FeatureStore, out_dir: Path, model_path: Path, li
     from pipelines import similarity_ml as sim
     engine = sim.SimilarityEngine.load(model_path)
     out_dir.mkdir(parents=True, exist_ok=True)
+    # The model travels with the release: the runtime endpoint must use the same fit as the files.
+    shutil.copy2(model_path, out_dir / 'model.joblib')
+    (out_dir / 'model.json').write_text(json.dumps(sim.model_report(engine.model), ensure_ascii=False,
+                                                   indent=2, default=float) + '\n')
     refs = {}
     for ref_id, ref in engine.spec['references'].items():
         profile = SIMILARITY_PROFILES.get(ref['body'], eligibility.DEFAULT_PROFILE)
@@ -74,7 +78,8 @@ def _publish_similarity(store: FeatureStore, out_dir: Path, model_path: Path, li
                         'results': len(result['results']), 'warnings': len(result['warnings'])}
     return {'engine_id': engine.model['engine_id'], 'engine_status': engine.spec['status'],
             'model_fitted_at': engine.model['fitted_at'], 'limit': limit,
-            'schema': 'specs/api/motor-busqueda-v1.schema.json', 'references': refs}
+            'schema': 'specs/api/motor-busqueda-v1.schema.json', 'model_file': 'similarity/model.joblib',
+            'model_report': 'similarity/model.json', 'references': refs}
 
 
 def release_windows_sql(store: FeatureStore, profile_id: str) -> str:

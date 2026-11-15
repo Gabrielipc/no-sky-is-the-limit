@@ -7,8 +7,11 @@ Steps (default: build,sample,ati-cluster):
                Skipped while the store has no base windows (world sweep not restored).
   ati-cluster  Fine apparent thermal inertia on K random MODIS tiles (`etl_superficie.py`),
                the background population of the engine's thermal view. Needs base windows.
-  publish      Publish an Atlas release (`etl_pipeline.py publish`), with engine results if
-               --similarity-model is given. Needs base windows.
+  fit          Fit the similarity engine (`motor_similitud.py fit`) into --model. Needs base windows.
+  publish      Publish an Atlas release (`etl_pipeline.py publish`) with the engine results and the
+               model when one is available (--model, written by `fit`). Needs base windows.
+  verify       Check the published release against the contracts (`verificar_release.py`) and keep
+               the report in docs/evidencia-capa-global/verificacion-<version>.json.
 
 A failing step is reported and the next ones still run (unless they depend on it). A summary
 is written to docs/evidencia-capa-global/secuencia.json, which the cloud sync uploads.
@@ -31,7 +34,8 @@ sys.path.insert(0, str(ROOT))
 
 DEFAULT_STORE = Path(os.environ.get('ANALOGOS_FEATURE_STORE_DIR') or (ROOT / 'data/feature_store_v1'))
 DEFAULT_SUMMARY = ROOT / 'docs/evidencia-capa-global/secuencia.json'
-STEPS = ('build', 'sample', 'ati-cluster', 'publish')
+STEPS = ('build', 'sample', 'ati-cluster', 'fit', 'publish', 'verify')
+DEFAULT_MODEL = ROOT / 'data/features/modelos-similitud/motor-similitud-ml-v1.joblib'
 
 
 def base_windows(store_dir: Path) -> int:
@@ -41,6 +45,8 @@ def base_windows(store_dir: Path) -> int:
 
 def commands(args: argparse.Namespace) -> dict[str, list[str]]:
     py = sys.executable
+    if not args.release_version:
+        args.release_version = f"etl-{datetime.now(timezone.utc):%Y%m%d-%H%M}"
     layers = sum((['--layer', layer] for layer in args.layer or []), [])
     return {
         'build': [py, str(ROOT / 'scripts/etl_capa_global.py'), 'build', '--workers', str(args.workers), *layers],
@@ -49,9 +55,16 @@ def commands(args: argparse.Namespace) -> dict[str, list[str]]:
                         '--dimension', 'apparent_thermal_inertia', '--no-topographic-candidates',
                         '--background-cluster-tiles', str(args.ati_tiles), '--background-per-tile',
                         str(args.ati_per_tile), '--skip-measured', '--workers', str(args.workers)],
+        'fit': [py, str(ROOT / 'scripts/motor_similitud.py'), '--store-dir', str(args.store_dir), '--model',
+                str(args.model), '--memory-limit', args.memory_limit, '--threads', str(os.cpu_count() or 4), 'fit'],
         'publish': [py, str(ROOT / 'scripts/etl_pipeline.py'), '--store-dir', str(args.store_dir), 'publish',
-                    '--version', args.release_version or f"etl-{datetime.now(timezone.utc):%Y%m%d-%H%M}",
-                    *(['--similarity-model', args.similarity_model] if args.similarity_model else [])],
+                    '--version', args.release_version,
+                    *(['--set-current'] if args.set_current else []),
+                    *(['--similarity-model', str(args.similarity_model or args.model)]
+                      if (args.similarity_model or Path(args.model).is_file() or 'fit' in args.steps) else [])],
+        'verify': ['bash', '-c', f'{py} "{ROOT / "scripts/verificar_release.py"}" '
+                   f'"{ROOT / "releases/atlas30" / args.release_version}" '
+                   f'> "{ROOT / "docs/evidencia-capa-global" / ("verificacion-" + args.release_version + ".json")}"'],
     }
 
 
@@ -63,12 +76,21 @@ def run(args: argparse.Namespace, runner=subprocess.run) -> dict:
     cmds = commands(args)
     summary = {'started_at': datetime.now(timezone.utc).isoformat(timespec='seconds'), 'steps': {}}
     for step in steps:
-        needs_base = step in ('sample', 'ati-cluster', 'publish')
+        needs_base = step in ('sample', 'ati-cluster', 'fit', 'publish', 'verify')
+        if step == 'verify' and summary['steps'].get('publish', {}).get('status') in ('failed', 'skipped'):
+            summary['steps'][step] = {'status': 'skipped', 'reason': 'no se publicó la release'}
+            continue
+        if step == 'publish' and summary['steps'].get('fit', {}).get('status') == 'failed':
+            summary['steps'][step] = {'status': 'skipped', 'reason': 'el ajuste del motor falló'}
+            print('== publish: omitido (falló fit)', flush=True)
+            continue
         if needs_base and base_windows(args.store_dir) == 0:
             summary['steps'][step] = {'status': 'skipped', 'reason': 'el almacén no tiene ventanas base todavía'}
             print(f'== {step}: omitido (sin ventanas base en {args.store_dir})', flush=True)
             continue
         print(f'== {step}: {" ".join(cmds[step][1:])}', flush=True)
+        if step == 'verify':
+            (ROOT / 'docs/evidencia-capa-global').mkdir(parents=True, exist_ok=True)
         t0 = time.monotonic()
         proc = runner(cmds[step], cwd=str(ROOT))
         status = 'ok' if proc.returncode == 0 else 'failed'
@@ -97,7 +119,10 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument('--ati-tiles', type=int, default=40)
     parser.add_argument('--ati-per-tile', type=int, default=5)
     parser.add_argument('--release-version')
-    parser.add_argument('--similarity-model')
+    parser.add_argument('--similarity-model', help='Modelo existente para publish (por defecto --model)')
+    parser.add_argument('--model', type=Path, default=DEFAULT_MODEL, help='Ruta del modelo que escribe fit')
+    parser.add_argument('--memory-limit', default='6GB')
+    parser.add_argument('--set-current', action='store_true', help='Activar la release publicada')
     parser.add_argument('--summary', default=str(DEFAULT_SUMMARY), help="'' para omitir")
     parser.add_argument('--strict', action='store_true', help='Salir con error si algún paso falla')
     args = parser.parse_args(argv)
