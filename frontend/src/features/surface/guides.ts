@@ -1,3 +1,4 @@
+import {tr} from '../../i18n/lang';
 import { Cartesian2, Cartesian3, Color, CustomDataSource, LabelStyle, Matrix4 } from 'cesium';
 import type { SurfaceSite } from './terrain';
 
@@ -24,7 +25,7 @@ export function localGuides(site:SurfaceSite, heights:Float32Array, exaggeration
   for(const [x,name] of [[0,'A'],[site.width-1,'B']] as const){const h=heights[row*site.width+x];if(Number.isFinite(h))label(-half+x*site.cell_m,0,(h-site.center_m)*exaggeration+20,name,gold);}
   let low=-1,high=-1;
   heights.forEach((h,i)=>{if(Number.isFinite(h)){if(low<0||h<heights[low])low=i;if(high<0||h>heights[high])high=i;}});
-  for(const [i,name] of [[low,'Mín.'],[high,'Máx.']] as const){
+  for(const [i,name] of [[low,tr('Mín.','Min.')],[high,tr('Máx.','Max.')]] as const){
     if(i<0)continue;
     const x=(i%site.width)*site.cell_m-half,y=half-Math.floor(i/site.width)*site.cell_m,z=(heights[i]-site.center_m)*exaggeration;
     data.entities.add({position:point(x,y,z+3),point:{pixelSize:7,color:Color.WHITE,outlineColor:Color.BLACK,outlineWidth:2,disableDepthTestDistance:Infinity}});
