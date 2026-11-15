@@ -151,6 +151,80 @@ class TestPrimitives(unittest.TestCase):
         self.assertEqual(w['escabrosidad'], spec['default_weights']['Mars']['escabrosidad'])
 
 
+class TestRobustCovarianceDegeneracy(unittest.TestCase):
+    """MinCovDet on zero-inflated, tied features must not silently drop a feature."""
+    CFG = {'estimator': 'min_cov_det', 'max_rows': 20000, 'fallback_below_rows': 500,
+           'fallback_estimator': 'ledoit_wolf', 'shrinkage_to_diagonal': 0.05}
+
+    @staticmethod
+    def zero_inflated(n: int, seed: int, zero_mass: float = 0.86) -> np.ndarray:
+        r = np.random.default_rng(seed)
+        latent = r.multivariate_normal(np.zeros(4), 0.8 * np.ones((4, 4)) + 0.2 * np.eye(4), n)
+        base = latent.mean(1) + 0.3 * r.standard_normal(n)
+        g15 = np.maximum(0, base - np.quantile(base, zero_mass - 0.05))
+        g25 = np.maximum(0, base - np.quantile(base, zero_mass))
+        x = np.column_stack([latent, g15, g25])
+        return np.column_stack([sim.QuantileNormal.fit(x[:, i], 1000).normal(x[:, i]) for i in range(6)])
+
+    def test_degenerate_min_cov_det_is_replaced_and_keeps_the_dependence(self) -> None:
+        fell_back = 0
+        for seed in range(8):
+            z = self.zero_inflated(10000, seed)
+            cov, name = sim.robust_covariance(z, self.CFG, seed)
+            d = np.sqrt(np.diag(cov))
+            corr = cov / np.outer(d, d)
+            eig = np.linalg.eigvalsh(cov)
+            with self.subTest(seed=seed, estimator=name):
+                self.assertGreater(eig.min() / eig.max(), 1e-3)
+                # The two slope-fraction features stay tied to the rest, as in the data.
+                self.assertGreater(corr[-1, 0], 0.4)
+                self.assertGreater(corr[-1, -2], 0.7)
+            fell_back += name == 'ledoit_wolf_after_degenerate_min_cov_det'
+        self.assertGreater(fell_back, 0, 'the synthetic data should trigger the degenerate case at least once')
+
+    def test_healthy_min_cov_det_is_kept(self) -> None:
+        z = self.zero_inflated(40000, 3)
+        self.assertEqual(sim.robust_covariance(z, self.CFG, 3)[1], 'min_cov_det')
+
+    def test_degeneracy_detector(self) -> None:
+        good = np.array([[1.0, 0.5], [0.5, 1.0]])
+        self.assertIsNone(sim.covariance_degeneracy(good, good))
+        self.assertEqual(sim.covariance_degeneracy(np.array([[1.0, 0.0], [0.0, 0.0]]), good), 'singular')
+        self.assertEqual(sim.covariance_degeneracy(np.array([[1.0, -0.6], [-0.6, 1.0]]), good), 'correlation_gap')
+        self.assertEqual(sim.covariance_degeneracy(np.array([[np.nan, 0.0], [0.0, 1.0]]), good), 'non_finite')
+
+
+class TestFitSampleReproducibility(unittest.TestCase):
+    """The fit sample must be a function of the data and the seed, not of the scan order."""
+
+    @staticmethod
+    def sample(ids: list[str], seed: int, size: int = 300, threads: int = 1) -> list[str]:
+        import duckdb
+        conn = duckdb.connect()
+        conn.execute(f'SET threads={threads}')
+        conn.execute('CREATE TABLE features_unified (region_id VARCHAR, x DOUBLE)')
+        conn.executemany('INSERT INTO features_unified VALUES (?, ?)', [(i, float(n)) for n, i in enumerate(ids)])
+        sql = sim.fit_sample_sql('region_id, x', 'x >= 0', size, seed)
+        return [r[0] for r in conn.execute(sql).fetchall()]
+
+    def test_same_seed_same_sample_whatever_the_order_and_threads(self) -> None:
+        ids = [f'w{i:05d}' for i in range(3000)]
+        shuffled = list(np.random.default_rng(1).permutation(ids))
+        base = self.sample(ids, 20261114)
+        self.assertEqual(len(base), 300)
+        self.assertEqual(base, self.sample(list(reversed(ids)), 20261114))
+        self.assertEqual(base, self.sample(shuffled, 20261114, threads=4))
+
+    def test_different_seeds_give_different_samples(self) -> None:
+        ids = [f'w{i:05d}' for i in range(3000)]
+        a, b = set(self.sample(ids, 1)), set(self.sample(ids, 2))
+        self.assertLess(len(a & b), 60)  # ~10 % overlap expected by chance
+
+    def test_sample_is_all_rows_when_the_pool_is_smaller(self) -> None:
+        ids = [f'w{i:03d}' for i in range(50)]
+        self.assertEqual(sorted(self.sample(ids, 5, size=300)), ids)
+
+
 class TestEngineOnStore(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
@@ -195,6 +269,14 @@ class TestEngineOnStore(unittest.TestCase):
 
     def search(self, ref=None, **kw):
         return self.engine.search(self.root, ref or self.mars, memory_limit='512MB', threads=2, **kw)
+
+    def test_report_tells_how_many_independent_rows_a_bridge_view_rests_on(self) -> None:
+        # `n_complete` of a bridge view counts resampled rows; `fit_population` says how many
+        # distinct measured windows they come from.
+        radar = sim.model_report(self.model)['views']['radar']
+        self.assertTrue(radar['fitted'])
+        self.assertEqual(radar['fit_population']['n_measured'], 120)
+        self.assertIn(radar['fit_population']['mode'], ('all_enriched', 'biased_enriched_only', 'background_weighted'))
 
     def test_fit_excludes_holdout_and_learns_views(self) -> None:
         self.assertEqual(self.model['fit_pool']['windows'], 463)  # 464 Earth rows minus the holdout

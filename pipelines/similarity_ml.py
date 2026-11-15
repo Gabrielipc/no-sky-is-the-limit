@@ -157,16 +157,45 @@ def normal_from_percentile(p) -> np.ndarray:
     return stats.norm.ppf(np.clip(np.asarray(p, dtype='float64'), P_EPS, 1 - P_EPS))
 
 
+# A robust estimate may not contradict the data it summarises. Zero-inflated features (the share of
+# slope above 15 or 25 degrees is exactly zero in most windows) have tied normal scores, and
+# MinCovDet can then pick a subset where such a feature is constant: a zero-variance direction
+# whose correlations collapse to 0 (or flip sign), so the metric silently drops the feature.
+DEGENERATE_MIN_EIGEN_RATIO = 1e-4   # smallest / largest eigenvalue below this: singular
+DEGENERATE_MAX_CORR_GAP = 0.3       # |corr(robust) - corr(classical)| above this: contradicts the data
+
+
+def covariance_degeneracy(robust: np.ndarray, classical: np.ndarray, cfg: dict | None = None) -> str | None:
+    """Why `robust` cannot be trusted next to the `classical` covariance of the same rows, if so."""
+    cfg = cfg or {}
+    if not np.isfinite(robust).all():
+        return 'non_finite'
+    eig = np.linalg.eigvalsh(robust)
+    if eig.max() <= 0 or eig.min() / eig.max() < cfg.get('degenerate_min_eigen_ratio', DEGENERATE_MIN_EIGEN_RATIO):
+        return 'singular'
+    d_r, d_c = np.sqrt(np.diag(robust)), np.sqrt(np.diag(classical))
+    if (d_c <= 0).any():
+        return None  # a constant feature is handled upstream
+    gap = np.abs(robust / np.outer(d_r, d_r) - classical / np.outer(d_c, d_c)).max()
+    return 'correlation_gap' if gap > cfg.get('degenerate_max_corr_gap', DEGENERATE_MAX_CORR_GAP) else None
+
+
 def robust_covariance(z: np.ndarray, cfg: dict, seed: int) -> tuple[np.ndarray, str]:
-    """Robust covariance of complete normal-score rows, shrunk towards its diagonal."""
+    """Robust covariance of complete normal-score rows, shrunk towards its diagonal.
+
+    MinCovDet is checked against the classical covariance of the same rows; a degenerate
+    result (see `covariance_degeneracy`) is replaced by Ledoit-Wolf and the estimator name says so.
+    """
     n, k = z.shape
     if k == 1:
         return np.array([[float(np.var(z[:, 0])) or 1.0]]), 'variance'
     rng = np.random.default_rng(seed)
     if n > cfg['max_rows']:
         z = z[rng.choice(n, cfg['max_rows'], replace=False)]
-    if z.shape[0] >= cfg['fallback_below_rows']:
+    if cfg.get('estimator', 'min_cov_det') == 'min_cov_det' and z.shape[0] >= cfg['fallback_below_rows']:
         cov, name = MinCovDet(random_state=seed).fit(z).covariance_, 'min_cov_det'
+        if covariance_degeneracy(cov, np.cov(z, rowvar=False), cfg):
+            cov, name = LedoitWolf().fit(z).covariance_, 'ledoit_wolf_after_degenerate_min_cov_det'
     else:
         cov, name = LedoitWolf().fit(z).covariance_, 'ledoit_wolf'
     lam = cfg['shrinkage_to_diagonal']
@@ -215,6 +244,19 @@ def _masked_values(data: dict, column: str, status_column: str | None) -> np.nda
 # ---------------------------------------------------------------------------
 # Fitting
 # ---------------------------------------------------------------------------
+def fit_sample_sql(cols: str, where_sql: str, sample_size: int, seed: int) -> str:
+    """SELECT of a fixed-size random sample of the fit pool that does not depend on scan order.
+
+    DuckDB's `USING SAMPLE reservoir(...) REPEATABLE (seed)` fixes the random stream, not the
+    rows it is applied to: the same seed over the same rows in another order (another file
+    listing, another thread schedule) gives an unrelated sample. Here every row gets a
+    pseudo-random key from its own id and the seed, and the `sample_size` smallest keys are
+    kept, so the sample is the same whatever the scan order or the number of threads.
+    """
+    return (f"SELECT {cols} FROM (SELECT * FROM features_unified WHERE {where_sql}) t "
+            f"ORDER BY hash(region_id, {int(seed)}), region_id LIMIT {int(sample_size)}")
+
+
 def fit_model(store_root: Path, spec: dict | None = None, *, sample_size: int | None = None,
               seed: int | None = None, memory_limit: str = '2GB', threads: int = 4,
               log: Callable[[str], None] = lambda _m: None) -> dict:
@@ -239,9 +281,7 @@ def fit_model(store_root: Path, spec: dict | None = None, *, sample_size: int | 
         values: dict[str, np.ndarray] = {}
         if direct and pool_n:
             cols = ', '.join(_ident(f.column('Earth')) for f in direct)
-            data = _fetch(conn, f"""
-                SELECT {cols} FROM (SELECT * FROM features_unified WHERE {where_sql}) t
-                USING SAMPLE reservoir({int(sample_size)} ROWS) REPEATABLE ({int(seed)})""")
+            data = _fetch(conn, fit_sample_sql(cols, where_sql, sample_size, seed))
             for f in direct:
                 values[f.id] = _float(data[f.column('Earth')])
         # Bridge enrichments are on demand and sparse: fit them on the background sample
@@ -345,7 +385,8 @@ def build_model(spec: dict, values: dict[str, np.ndarray], *, seed: int,
         z = np.column_stack([feat_models[f]['transform'].normal(values[f]) for f in fids])
         complete = np.isfinite(z).all(axis=1)
         if complete.sum() >= min_rows:
-            cov, estimator = robust_covariance(z[complete], fcfg['covariance'], seed)
+            cfg = fcfg['covariance'] | fcfg.get('covariance_by_view', {}).get(view_id, {})
+            cov, estimator = robust_covariance(z[complete], cfg, seed)
         else:
             cov, estimator = np.eye(len(fids)), 'identity_insufficient_overlap'
         corr = cov / np.sqrt(np.outer(np.diag(cov), np.diag(cov)))
@@ -435,7 +476,7 @@ def model_report(model: dict) -> dict:
     views = {}
     for vid, v in model['views'].items():
         r = {k: v[k] for k in ('kind', 'fitted', 'features', 'reason', 'covariance_estimator', 'n_complete',
-                                'effective_dof', 'n_components', 'bic', 'n_fit') if k in v}
+                                'effective_dof', 'n_components', 'bic', 'n_fit', 'fit_population') if k in v}
         if 'correlation' in v:
             r['correlation'] = np.round(v['correlation'], 4).tolist()
         if 'weights' in v:
