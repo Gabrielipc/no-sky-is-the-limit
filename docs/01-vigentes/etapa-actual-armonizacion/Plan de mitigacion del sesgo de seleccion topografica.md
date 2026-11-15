@@ -1,6 +1,6 @@
 # Plan de mitigación del sesgo de selección topográfica
 
-Estado: propuesta (14 de noviembre de 2026). No hay código implementado todavía.
+Estado: implementado y probado sin conexión (14 de noviembre de 2026). Aún sin ejecutar con datos reales; ver §10.
 
 ## 1. Problema
 
@@ -119,3 +119,27 @@ Secuencia de ejecución: barrido mundial → primer `fit` → A → B y C → se
 - Correlación de Spearman entre `ati_cmg` y la ATI fina, y entre `silicate_index_cmg` y la emisividad AG100, informada sobre las ventanas con ambas.
 - Cada vista puente se ajusta con ≥ 100 filas `background`.
 - Recall estimado por vista publicado en la evidencia, y aviso de cobertura comprobado en un test con una consulta de peso topográfico 0.
+
+## 10. Estado de la implementación
+
+| Fase | Código | Comando |
+|---|---|---|
+| A. Capa global | `pipelines/etl_global_layers.py`, `pipelines/etl_global_schema.py`, spec `specs/sources/capa-global-superficie-v1.json` | `scripts/etl_capa_global.py build \| sample \| status` |
+| B. Muestra de fondo | `pipelines/etl_sampling.py` y tabla `enrichment_selection` | `etl_superficie.py --background-sample N --background-cluster-tiles K`; `etl_puentes.py icesat2 --background-sample N` |
+| C. Listas por vista | `pipelines/etl_retrieval.py`, spec `specs/analysis/recuperacion-por-vista-v1.json` | `etl_superficie.py --retriever vista=K`, `--retrieval-total N --weight vista=w`, `--no-topographic-candidates` |
+| D. Motor | `pipelines/similarity_ml.py`, `pipelines/selection_recall.py` | `motor_similitud.py fit`, `search` (cobertura y avisos), `recall` |
+
+Ejecución en GCP: sección «Mitigación del sesgo de selección topográfica» de `cloud/gcp/README.md`.
+
+### Decisiones tomadas
+
+- **Estratos de la muestra de fondo:** banda de latitud × entorno (aridez o nieve de la capa global) × tercil de relieve. No usan las familias GMM: así la muestra no depende de un ajuste previo del motor y puede tomarse antes del primer `fit`.
+- **ATI gruesa:** solo sirve para proponer candidatas (vista `termica` de la recuperación). No entra en la vista `termica` del motor, que sigue usando la ATI fina.
+- **Vistas `entorno_superficial` y `emisividad_cmg`:** son solo terrestres, con peso por defecto 0. Con una referencia de Marte o la Luna quedan `reference_missing`. Se activan con una referencia terrestre (`--ref-region-id`) o con valores explícitos. La decisión 1 de §8 queda resuelta como «contexto terrestre».
+- **Mínimo por estrato:** la asignación garantiza al menos una ventana por estrato, así que la muestra puede superar N en unas decenas.
+
+### Límites conocidos
+
+- Nada se ha ejecutado con datos reales. Los nombres de capa HDF4 (`Snow_Cover_Monthly_CMG`, `LST_Day_CMG`, `QC_Day`, `Albedo_WSA_shortwave`, `BRDF_Quality`), la rejilla del CCI y la disposición de AG1km siguen la documentación de los productos. Los lectores fallan de forma explícita si no coinciden, y en ese caso la capa queda `failed` sin detener las demás.
+- **Vista `espectral`:** `scripts/puente_espectral.py` todavía no escribe `enrichment_spectral` para ventanas arbitrarias, solo para los sitios de su spec. Por eso la muestra de fondo y las listas cortas no pueden medir aún esa vista. Falta conectar el puente espectral al almacén.
+- **Vista `radar`:** no tiene recuperación (RCM solo cubre los sitios de control).
