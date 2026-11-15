@@ -1,248 +1,352 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Viewer, Cartesian3, Color, Ellipsoid, Globe, ImageryLayer, SingleTileImageryProvider, EllipsoidTerrainProvider, HeadingPitchRange, Math as CesiumMath } from 'cesium';
-import 'cesium/Build/Cesium/Widgets/widgets.css';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Rocket, Globe as GlobeIcon, Zap, ChevronRight, MapPin, Layers, Target, Info, Shield, BarChart3 } from 'lucide-react';
+import { CinematicJourney } from './CinematicJourney';
 import './LandingPage.css';
 
-const PLANETS = [
-  { name: 'Earth', texture: '/textures/earth.png', color: '#315c67', radius: 6378137, lat: 38.4, lon: -110.9, label: 'TIERRA (Utah)' },
-  { name: 'Mars', texture: '/textures/mars.png', color: '#8d4936', radius: 3394839.8, lat: 18.4, lon: 77.4, label: 'MARTE (Jezero)' },
-  { name: 'Moon', texture: '/textures/mars.png', color: '#444444', radius: 1737400, lat: -85.0, lon: 0.0, label: 'LUNA (Polo Sur)' }
+const PLANETS_DATA = {
+  earth: {
+    title: 'PLANETA TIERRA',
+    subtitle: 'El Análogo Maestro',
+    description: 'Nuestra base de operaciones donde la geología terrestre nos enseña sobre el cosmos.',
+    color: '#4a9eff',
+    site: 'Desierto de Utah, EE.UU.',
+    pitch: 'Donde el regolito se encuentra con la geología terrestre.'
+  },
+  moon: {
+    title: 'LA LUNA',
+    subtitle: 'Puerta a las Estrellas',
+    description: 'El próximo gran salto de la humanidad. Cráteres y regolito esperando ser explorados.',
+    color: '#ffffff',
+    site: 'Polo Sur Lunar (Artemis)',
+    pitch: 'El próximo salto de la humanidad comienza aquí.'
+  },
+  mars: {
+    title: 'MARTE',
+    subtitle: 'El Planeta Rojo',
+    description: 'Buscando rastros de vida antigua en el Cráter Jezero y más allá.',
+    color: '#ff6b4a',
+    site: 'Cráter Jezero',
+    pitch: 'Buscando rastros de vida en el suelo rojo.'
+  }
+};
+
+const MATCH_EXAMPLES = [
+  { earth: 'Desierto de Utah', space: 'Cráter Jezero', type: 'Marte', similarity: 94, img: '/analysis/utah-context.png' },
+  { earth: 'Desierto de Atacama', space: 'Cráter Shackleton', type: 'Luna', similarity: 88, img: '/analysis/utah-context.png' },
+  { earth: 'Volcanes de Islandia', space: 'Olympus Mons', type: 'Marte', similarity: 82, img: '/analysis/utah-context.png' },
 ];
 
 export function LandingPage({ onStart }: { onStart: () => void }) {
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const backgroundGlobe = useRef<HTMLDivElement>(null);
-  const viewerRef = useRef<Viewer | null>(null);
-  const [currentPlanetIdx, setCurrentPlanetIdx] = useState(0);
+  const [currentPlanet, setCurrentPlanet] = useState('earth');
+  const [activeMatch, setActiveMatch] = useState(0);
+  const [isMatchingAuto, setIsMatchingAuto] = useState(true);
 
   useEffect(() => {
-    // Scroll reveal
-    observerRef.current = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('visible');
+    const timer = setInterval(() => {
+      setCurrentPlanet(prev => {
+        if (prev === 'earth') return 'moon';
+        if (prev === 'moon') return 'mars';
+        return 'earth';
       });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => observerRef.current?.observe(el));
-
-    // Background Cycle Globe
-    if (backgroundGlobe.current && !viewerRef.current) {
-      try {
-        const viewer = new Viewer(backgroundGlobe.current, {
-          baseLayer: false, baseLayerPicker: false, geocoder: false, homeButton: false,
-          sceneModePicker: false, navigationHelpButton: false, animation: false, timeline: false,
-          fullscreenButton: false, infoBox: false, selectionIndicator: false,
-          creditContainer: document.createElement('div'),
-          scene3DOnly: true,
-        });
-        viewerRef.current = viewer;
-        viewer.scene.backgroundColor = Color.TRANSPARENT;
-        viewer.scene.globe.showGroundAtmosphere = true;
-        
-        // Auto-rotation
-        viewer.scene.postRender.addEventListener(() => {
-          viewer.camera.rotate(Cartesian3.UNIT_Z, 0.001);
-        });
-      } catch (e) { console.error(e); }
-    }
-
-    return () => {
-      observerRef.current?.disconnect();
-      viewerRef.current?.destroy(); viewerRef.current = null;
-    };
+    }, 10000);
+    return () => clearInterval(timer);
   }, []);
 
-  // Planet Cycling Logic
   useEffect(() => {
-    const viewer = viewerRef.current;
-    if (!viewer) return;
+    if (isMatchingAuto) {
+      const timer = setInterval(() => {
+        setActiveMatch(prev => (prev + 1) % MATCH_EXAMPLES.length);
+      }, 5000);
+      return () => clearInterval(timer);
+    }
+  }, [isMatchingAuto]);
 
-    const planet = PLANETS[currentPlanetIdx];
-    const ellipsoid = new Ellipsoid(planet.radius, planet.radius, planet.radius);
-    
-    // Smooth transition
-    viewer.imageryLayers.removeAll();
-    viewer.scene.globe.baseColor = Color.fromCssColorString(planet.color);
-    
-    SingleTileImageryProvider.fromUrl(planet.texture, { ellipsoid })
-      .then(provider => {
-        if (!viewer.isDestroyed()) {
-          viewer.imageryLayers.add(new ImageryLayer(provider));
-          viewer.camera.flyTo({
-            destination: Cartesian3.fromDegrees(planet.lon, planet.lat, planet.radius * 2.5, ellipsoid),
-            duration: 4,
-            easingFunction: CesiumMath.linear
-          });
-        }
-      });
-
-    const timer = setTimeout(() => {
-      setCurrentPlanetIdx((prev) => (prev + 1) % PLANETS.length);
-    }, 12000); // Change planet every 12s
-
-    return () => clearTimeout(timer);
-  }, [currentPlanetIdx]);
+  const planetInfo = PLANETS_DATA[currentPlanet as keyof typeof PLANETS_DATA];
 
   return (
-    <div className="regolith-landing-premium">
-      {/* Background Cinematic Engine */}
-      <div className="cinematic-background" ref={backgroundGlobe}></div>
-      <div className="cinematic-overlay"></div>
+    <div className="regolith-landing-v4">
+      {/* 3D Background Journey */}
+      <div className="journey-container">
+        <CinematicJourney 
+          currentPlanet={currentPlanet} 
+          onPlanetSelect={(id) => setCurrentPlanet(id)} 
+          isMatching={!isMatchingAuto}
+        />
+        <div className="journey-overlay" />
+      </div>
 
       {/* Navigation */}
-      <nav className="ultra-nav">
-        <div className="container nav-wrap">
-          <a href="/" className="nav-logo">
-            <img src="/assets/logos/regolith-lockup-noche-600px.png" alt="Regolith" />
-          </a>
-          <div className="nav-actions">
-            <div className="planet-status">
-              <span className="pulse-dot"></span>
-              {PLANETS[currentPlanetIdx].label}
+      <nav className="glass-nav">
+        <div className="nav-content">
+          <div className="logo-group">
+            <div className="logo-icon-wrapper">
+              <Rocket size={20} className="text-gold" />
             </div>
-            <button className="nav-btn-main" onClick={onStart}>Entrar al Atlas</button>
+            <div className="logo-text-group">
+              <span className="logo-text">REGOLITH</span>
+              <span className="logo-tag">ATLAS 2.0</span>
+            </div>
+          </div>
+          <div className="nav-links">
+            <a href="#problem">EL RETO</a>
+            <a href="#matching">MOTOR DE ANÁLOGOS</a>
+            <a href="#pillars">CIENCIA</a>
+          </div>
+          <div className="nav-actions">
+            <button className="btn-launch" onClick={onStart}>
+              INICIAR ATLAS
+              <ChevronRight size={16} />
+            </button>
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="hero-premium">
-        <div className="container hero-inner reveal">
-          <div className="hero-badge">NASA SPACE APPS CHALLENGE 2026</div>
-          <h1 className="hero-title-main">
-            Tres cuerpos, <br />
-            <span className="gradient-text">un mismo suelo.</span>
-          </h1>
-          <p className="hero-sub">
-            Midiendo la Tierra, la Luna y Marte bajo una misma regla. <br />
-            La ciencia de análogos, rediseñada para la próxima frontera.
-          </p>
-          <div className="hero-cta-group">
-            <button className="btn-glow-gold" onClick={onStart}>Comenzar Exploración</button>
-            <button className="btn-outline" onClick={() => document.getElementById('story').scrollIntoView()}>Nuestra Historia</button>
-          </div>
-        </div>
-      </section>
-
-      {/* Story / Pitch Section */}
-      <section id="story" className="section-story">
-        <div className="container grid-2 reveal">
-          <div className="story-content">
-            <div className="eyebrow">El Gancho</div>
-            <h2>Nicaragua y el espacio nunca estuvieron tan cerca.</h2>
-            <p>
-              Desde el <strong>Cerro Negro</strong> hasta el <strong>Desierto de Atacama</strong>, hemos buscado a Marte en casa. Pero la fama no es precisión.
-            </p>
-            <div className="data-comparison">
-              <div className="data-card error">
-                <span className="val">Δ 5.0°</span>
-                <span className="lbl">Atacama vs Jezero</span>
-                <div className="bar"><div className="fill" style={{width: '100%'}}></div></div>
+      {/* Hero Content */}
+      <main className="hero-section">
+        <div className="hero-grid">
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={currentPlanet}
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 30 }}
+              transition={{ duration: 0.8 }}
+              className="hero-text-content"
+            >
+              <div className="status-badge">
+                <span className="pulse-dot" style={{ backgroundColor: planetInfo.color }} />
+                {planetInfo.subtitle}
               </div>
-              <div className="data-card success">
-                <span className="val">Δ 1.5°</span>
-                <span className="lbl">Utah vs Jezero</span>
-                <div className="bar"><div className="fill" style={{width: '30%'}}></div></div>
-              </div>
-            </div>
-            <p className="story-conclusion">
-              Una diferencia de 5 grados puede invalidar meses de pruebas. <strong>Regolith mide antes de ensayar.</strong>
-            </p>
-          </div>
-          <div className="story-visual">
-            <div className="abstract-3d-box">
-              <div className="face f1"></div>
-              <div className="face f2"></div>
-              <div className="face f3"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Solución / Tres Pilares */}
-      <section className="section-pillars">
-        <div className="container">
-          <div className="text-center mb-6 reveal">
-            <div className="eyebrow amber">Metodología</div>
-            <h2 className="title-large">Comparaciones rigurosas, <br />datos a la vista.</h2>
-          </div>
-          <div className="grid-3 reveal">
-            <div className="pillar-premium">
-              <div className="pillar-num">01</div>
-              <h3>Misma Escala</h3>
-              <p>Rampa unificada y ventanas espaciales idénticas para evitar sesgos de percepción entre mundos.</p>
-            </div>
-            <div className="pillar-premium">
-              <div className="pillar-num">02</div>
-              <h3>Multicriterio</h3>
-              <p>Inclinación, rugosidad y composición mineralógica bajo un mismo análisis riguroso de 30m/60m.</p>
-            </div>
-            <div className="pillar-premium">
-              <div className="pillar-num">03</div>
-              <h3>Honestidad Técnica</h3>
-              <p>Declaramos abiertamente qué se evaluó y qué se ignoró. Sin datos falsos, solo ciencia abierta.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Impacto & Sostenibilidad */}
-      <section className="section-impact">
-        <div className="container reveal">
-          <div className="impact-box">
-            <div className="grid-2">
-              <div className="impact-text">
-                <div className="eyebrow">Impacto Social & Científico</div>
-                <h2>Sostenible. Abierto. Nicaragüense.</h2>
-                <p>
-                  Regolith funciona como una organización sin fines de lucro. Mantener la ciencia planetaria abierta cuesta menos de <strong>$1,700 al año</strong>.
-                </p>
-                <div className="impact-list">
-                  <div className="impact-item">
-                    <strong>Misiones:</strong> Optimización de sitios de ensayo para rovers y hábitats.
+              <h1 className="main-title">
+                {planetInfo.title.split(' ')[0]} <br />
+                <span className="text-gradient" style={{ '--target-color': planetInfo.color } as any}>
+                  {planetInfo.title.split(' ').slice(1).join(' ')}
+                </span>
+              </h1>
+              <p className="description">
+                {planetInfo.description}
+              </p>
+              
+              <div className="planet-meta-card">
+                <div className="meta-item">
+                  <MapPin size={18} className="text-gold" />
+                  <div>
+                    <span className="meta-label">SITIO ANÁLOGO</span>
+                    <span className="meta-value">{planetInfo.site}</span>
                   </div>
-                  <div className="impact-item">
-                    <strong>Academia:</strong> Datos reproducibles para investigación planetaria global.
-                  </div>
-                  <div className="impact-item">
-                    <strong>Naciones:</strong> Nuevas oportunidades para países emergentes en la exploración espacial.
+                </div>
+                <div className="meta-divider" />
+                <div className="meta-item">
+                  <Info size={18} className="text-gold" />
+                  <div>
+                    <span className="meta-label">MISIÓN</span>
+                    <span className="meta-value">{planetInfo.pitch}</span>
                   </div>
                 </div>
               </div>
-              <div className="impact-stats-circle">
-                <div className="circle-wrap">
-                  <div className="circle-inner">
-                    <span className="big">100%</span>
-                    <span className="small">OPEN SOURCE</span>
-                  </div>
+
+              <div className="action-buttons">
+                <button className="btn-primary" onClick={onStart}>
+                  EXPLORAR ANÁLOGOS
+                </button>
+                <button className="btn-secondary" onClick={() => {
+                  document.getElementById('matching')?.scrollIntoView({ behavior: 'smooth' });
+                }}>
+                  VER CÓMO FUNCIONA
+                </button>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          <div className="hero-visual-stats">
+            <div className="stat-card">
+              <BarChart3 size={24} className="text-gold" />
+              <div className="stat-info">
+                <span className="stat-num">99.8%</span>
+                <span className="stat-desc">Precisión de Datos</span>
+              </div>
+            </div>
+            <div className="stat-card">
+              <Layers size={24} className="text-gold" />
+              <div className="stat-info">
+                <span className="stat-num">15+</span>
+                <span className="stat-desc">Sitios Terrestres</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* Problem Section */}
+      <section id="problem" className="problem-section">
+        <div className="container">
+          <div className="problem-header">
+            <span className="eyebrow">EL DESAFÍO CIENTÍFICO</span>
+            <h2>La fama no garantiza la <span className="text-gold">exactitud.</span></h2>
+          </div>
+          <div className="problem-grid-v4">
+            <div className="problem-card">
+              <div className="card-icon"><Shield size={32} /></div>
+              <h3>Riesgo de Misión</h3>
+              <p>Elegir un sitio análogo basado solo en la fama puede comprometer años de investigación.</p>
+              <div className="comparison-visual">
+                <div className="comp-item">
+                  <span>Atacama vs Jezero</span>
+                  <div className="comp-bar"><div className="fill error" style={{ width: '80%' }}></div></div>
+                  <span className="comp-val">Δ 5.0°</span>
                 </div>
+                <div className="comp-item">
+                  <span>Utah vs Jezero</span>
+                  <div className="fill success" style={{ width: '20%' }}></div>
+                  <span className="comp-val">Δ 1.5°</span>
+                </div>
+              </div>
+            </div>
+            <div className="problem-image-placeholder">
+              <div className="wireframe-sphere">
+                <div className="scanner-line" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer Final */}
-      <footer className="footer-premium reveal">
+      {/* Matching Engine Section */}
+      <section id="matching" className="matching-section">
         <div className="container">
-          <div className="footer-grid">
-            <div className="footer-brand-large">
-              <img src="/assets/logos/regolith-lockup-noche-600px.png" alt="Regolith" />
-              <p className="tagline">Nuestro sistema no pregunta qué lugar es famoso, sino cuál es análogo de verdad.</p>
+          <div className="section-header-center">
+            <span className="eyebrow">TECNOLOGÍA REGOLITH</span>
+            <h2>Motor de <span className="text-gold">Coincidencias</span></h2>
+            <p>Algoritmos avanzados que conectan mundos a través de su geología.</p>
+          </div>
+
+          <div className="match-visualizer-v4">
+            <div className="match-controls">
+              {MATCH_EXAMPLES.map((m, i) => (
+                <button 
+                  key={i}
+                  className={`control-btn ${activeMatch === i ? 'active' : ''}`}
+                  onClick={() => { setActiveMatch(i); setIsMatchingAuto(false); }}
+                >
+                  {m.earth} → {m.space}
+                </button>
+              ))}
             </div>
-            <div className="footer-credits">
-              <div className="team-badge">
-                <small>DESARROLLADO POR</small>
-                <strong>NO SKY IS THE LIMIT</strong>
-                <p>UAM, Nicaragua · 2026</p>
-              </div>
+
+            <AnimatePresence mode="wait">
+              <motion.div 
+                key={activeMatch}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="match-display-card"
+              >
+                <div className="display-grid">
+                  <div className="display-side earth">
+                    <div className="side-tag">TIERRA</div>
+                    <div className="side-img-container">
+                      <img src="/analysis/utah-context.png" alt="Earth site" />
+                      <div className="scan-effect" />
+                    </div>
+                    <h4>{MATCH_EXAMPLES[activeMatch].earth}</h4>
+                  </div>
+
+                  <div className="display-center">
+                    <div className="similarity-gauge">
+                      <svg viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" className="gauge-bg" />
+                        <motion.circle 
+                          cx="50" cy="50" r="45" 
+                          className="gauge-progress"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: MATCH_EXAMPLES[activeMatch].similarity / 100 }}
+                          transition={{ duration: 1.5 }}
+                        />
+                      </svg>
+                      <div className="gauge-text">
+                        <span className="percent">{MATCH_EXAMPLES[activeMatch].similarity}%</span>
+                        <span className="label">MATCH</span>
+                      </div>
+                    </div>
+                    <div className="connection-line">
+                      <motion.div 
+                        className="line-flow"
+                        initial={{ left: '-100%' }}
+                        animate={{ left: '100%' }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="display-side space">
+                    <div className="side-tag">{MATCH_EXAMPLES[activeMatch].type.toUpperCase()}</div>
+                    <div className="side-img-container space-bg">
+                      <Target size={40} className="text-gold" />
+                      <div className="scan-effect invert" />
+                    </div>
+                    <h4>{MATCH_EXAMPLES[activeMatch].space}</h4>
+                  </div>
+                </div>
+
+                <div className="match-analysis-details">
+                  <div className="detail">
+                    <Zap size={16} />
+                    <span>Coincidencia Mineralógica: <strong>92%</strong></span>
+                  </div>
+                  <div className="detail">
+                    <Layers size={16} />
+                    <span>Similitud Topográfica: <strong>96%</strong></span>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      </section>
+
+      {/* Pillars Section */}
+      <section id="pillars" className="pillars-section">
+        <div className="container">
+          <div className="pillars-grid">
+            <div className="pillar-item">
+              <div className="pillar-icon">📏</div>
+              <h3>Escala Real</h3>
+              <p>Comparamos terrenos con la misma ventana espacial y rampa unificada.</p>
+            </div>
+            <div className="pillar-item">
+              <div className="pillar-icon">🛰️</div>
+              <h3>Multifuente</h3>
+              <p>Integramos datos de Copernicus, SRTM y HiRISE en un solo lugar.</p>
+            </div>
+            <div className="pillar-item">
+              <div className="pillar-icon">⚖️</div>
+              <h3>Rigor Científico</h3>
+              <p>Declaramos los límites de los datos y la incertidumbre en cada modelo.</p>
             </div>
           </div>
-          <div className="footer-legal-bar">
-            <span>NASA Space Apps Challenge · Ciencia Planetaria y de la Tierra</span>
-            <div className="legal-links">
-              <a href="#">Datos</a>
-              <a href="#">GitHub</a>
-              <a href="#">Metodología</a>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer-v4">
+        <div className="footer-main">
+          <div className="footer-cta">
+            <h2>¿Listo para descubrir tu próximo análogo?</h2>
+            <button className="btn-primary-large" onClick={onStart}>
+              ACCEDER AL ATLAS COMPLETO
+            </button>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <div className="container">
+            <div className="bottom-content">
+              <p>© 2026 PROYECTO REGOLITH · NASA SPACE APPS CHALLENGE</p>
+              <div className="bottom-links">
+                <a href="#">GITHUB</a>
+                <a href="#">NASA PDS</a>
+                <a href="#">METODOLOGÍA</a>
+              </div>
             </div>
           </div>
         </div>
