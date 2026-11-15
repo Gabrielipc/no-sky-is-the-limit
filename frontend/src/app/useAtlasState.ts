@@ -6,13 +6,14 @@ import { crismLayers, type CrismLayer, type MineralLayer } from '../domain/miner
 
 export type AtlasState = {
   science: boolean; explorePanel: 'reference' | 'candidates' | 'controls'; atlasSlope: number; atlasRelief: number; atlasRoughness: number; reference: ReferenceId; regionId: string; release: string; method: 'engine' | 'atlas' | 'local'; engineSource: 'auto' | 'demo'; surfaceMode: 'space' | 'regional' | 'mesh'; exaggeration: number;
-  visualLayer: 'elevation' | 'slope'; view: 'landing' | 'unified' | 'simulation' | 'surface' | 'compare' | 'explore' | 'sensitivity' | 'dimensions' | 'world'; surfaceSite: string; site: string; cell: 60 | 120; layer: Layer; surfaceMetric: SurfaceMetric;
+  visualLayer: 'elevation' | 'slope'; view: 'landing' | 'unified' | 'simulation' | 'surface' | 'compare' | 'explore' | 'sensitivity' | 'dimensions' | 'world' | 'nicaragua'; surfaceSite: string; site: string; cell: 60 | 120; layer: Layer; surfaceMetric: SurfaceMetric;
   area: string; regionalCell: 300 | 600; profile: Profile; excluded: boolean; sort: Sort;
   regionalSite: string; sensitivitySite: string; sensitivityCell: number;
   dimensionSection: 'minerals' | 'geometry' | 'thermal'; mineralGroup: 1 | 2; mineralLayer: MineralLayer;
   mineralId: number; mineralFit: number; mineralMaxSlope: number; crismLayer: CrismLayer;
+  nicRef: string; nicScope: 'volcanic' | 'all';
 };
-export const defaults: AtlasState = { science: false, explorePanel: 'reference', atlasSlope: 50, atlasRelief: 30, atlasRoughness: 20, reference: 'jezero', regionId: '', release: '', method: 'engine', engineSource: 'auto', surfaceMode: 'space', exaggeration: 1, visualLayer: 'elevation', view: 'landing', surfaceSite: 'mars-jezero-fan', site: 'earth-utah', cell: 60, layer: 'slope', surfaceMetric: 'roughness_rms', area: 'utah', regionalCell: 300, profile: 'baseline', excluded: false, sort: 'slope_distance', regionalSite: '', sensitivitySite: 'utah-010-007', sensitivityCell: 300, dimensionSection: 'minerals', mineralGroup: 1, mineralLayer: 'minerals', mineralId: 0, mineralFit: 0, mineralMaxSlope: 90, crismLayer: 'OLINDEX3' };
+export const defaults: AtlasState = { science: false, explorePanel: 'reference', atlasSlope: 50, atlasRelief: 30, atlasRoughness: 20, reference: 'jezero', regionId: '', release: '', method: 'engine', engineSource: 'auto', surfaceMode: 'space', exaggeration: 1, visualLayer: 'elevation', view: 'landing', surfaceSite: 'mars-jezero-fan', site: 'earth-utah', cell: 60, layer: 'slope', surfaceMetric: 'roughness_rms', area: 'utah', regionalCell: 300, profile: 'baseline', excluded: false, sort: 'slope_distance', regionalSite: '', sensitivitySite: 'utah-010-007', sensitivityCell: 300, dimensionSection: 'minerals', mineralGroup: 1, mineralLayer: 'minerals', mineralId: 0, mineralFit: 0, mineralMaxSlope: 90, crismLayer: 'OLINDEX3', nicRef: '', nicScope: 'volcanic' };
 export function parseState(search: string): { state: AtlasState; adjusted: boolean } {
   const q = new URLSearchParams(search);
   const state = { ...defaults }; let adjusted = false;
@@ -30,9 +31,11 @@ export function parseState(search: string): { state: AtlasState; adjusted: boole
   const ex=q.get('exaggeration');if(ex!==null){const n=Number(ex);if(ex.trim()&&Number.isFinite(n)&&n>=1&&n<=5&&n*2===Math.round(n*2))state.exaggeration=n;else adjusted=true;}
   choice('surfaceSite', ['mars-jezero-fan', 'earth-utah', 'earth-atacama']);
   choice('visualLayer', ['elevation','slope']);
-  choice('view', ['landing','unified','simulation', 'surface', 'compare', 'explore', 'sensitivity', 'dimensions', 'world']); choice('site', ['earth-utah', 'earth-atacama']);
+  choice('view', ['landing','unified','simulation', 'surface', 'compare', 'explore', 'sensitivity', 'dimensions', 'world', 'nicaragua']); choice('site', ['earth-utah', 'earth-atacama']);
   // Only the bare address opens the landing: a shared link with parameters, or an unknown view, opens the explorer.
   if (state.view==='landing' && q.get('view')!=='landing' && [...q.keys()].length) state.view='unified';
+  choice('nicScope', ['volcanic', 'all']);
+  { const raw=q.get('nicRef'); if(raw!==null){if(/^[a-z0-9][a-z0-9:-]{0,63}$|^$/.test(raw))state.nicRef=raw;else adjusted=true;} }
   choice('surfaceMetric', ['roughness_rms', 'topographic_position', 'laplacian']);
   choice('dimensionSection', ['minerals', 'geometry', 'thermal']); choice('mineralGroup', [1, 2]);
   choice('mineralLayer', ['minerals', 'fit', 'uncertainty', 'slope']);
@@ -59,7 +62,7 @@ export function parseState(search: string): { state: AtlasState; adjusted: boole
   if (!q.has('explorePanel') && state.view==='surface' && state.surfaceSite!=='mars-jezero-fan') {state.explorePanel='controls';state.method='local';state.site=state.surfaceSite;}
   if (state.view==='world')state.method='atlas';
   // The specialised analyses are part of the scientific mode: a link to one opens that mode.
-  if (!q.has('science') && !['landing','unified'].includes(state.view)) state.science=true;
+  if (!q.has('science') && !['landing','unified','nicaragua'].includes(state.view)) state.science=true;
   if (state.regionalSite && !state.regionalSite.startsWith(state.area + '-') && state.regionalSite !== `control-${state.area}`) { state.regionalSite = ''; adjusted = true; }
   return { state, adjusted };
 }

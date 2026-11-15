@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import { countryAt } from "../../domain/countries";
+import { loadCountries } from "../../data/countries";
 import type { AtlasState } from "../../app/useAtlasState";
 import {
   references,
@@ -38,7 +40,7 @@ import {
   sharedRange,
   type VisualSite,
 } from "./terrainModel";
-import { useCatalog, useGrid } from "./resources";
+import { prefetchGrids, useCatalog, useGrid } from "./resources";
 import "./unified.css";
 
 const EMPTY: never[] = [];
@@ -52,12 +54,6 @@ const SITE_TEXT: Record<ReferenceId, string> = {
   "de-gerlache-cresta": "Cresta junto al polo sur",
 };
 const BODY_TEXT = { Mars: "Marte", Moon: "Luna", Earth: "Tierra" } as const;
-/** The three measurements a non-specialist can read, with what each one means. */
-const PLAIN_FEATURES = [
-  { id: "relief_p95_p05_m", label: "Desnivel", hint: "entre las partes altas y bajas", unit: "m", digits: 0 },
-  { id: "slope_240m_p50_deg", label: "Inclinación típica", hint: "del terreno", unit: "°", digits: 1 },
-  { id: "roughness_360m_p50_m", label: "Rugosidad", hint: "qué tan irregular es el suelo", unit: "m", digits: 1 },
-] as const;
 
 export function UnifiedWorkspace({
   state,
@@ -80,6 +76,10 @@ export function UnifiedWorkspace({
     data = loaded?.data,
     row = selectedMatch(data, state.regionId),
     rows = data?.results ?? EMPTY;
+  const [countries, setCountries] = useState<Awaited<ReturnType<typeof loadCountries>>>([]);
+  useEffect(() => { loadCountries().then(setCountries).catch(() => {}); }, []);
+  const countryNames = useMemo(() => new Map(rows.map(r => [r.region_id, countryAt(countries, r.latitude, r.longitude)])), [countries, rows]);
+  const country = row ? countryNames.get(row.region_id) : undefined;
   // --- scenes
   const [overview, setOverview] = useState(false),
     catalog = useCatalog(),
@@ -90,6 +90,15 @@ export function UnifiedWorkspace({
   }, [data, state.regionId, update]);
   const leftSite = exactSite(catalog.data, ref.id, ref.longitude, ref.latitude, kind),
     rightSite = row ? exactSite(catalog.data, row.region_id, row.longitude, row.latitude, kind) : undefined;
+  useEffect(() => {
+    if (ref.id !== "jezero" || !catalog.data || !data) return;
+    const sites = data.results.slice(0, 10).flatMap((candidate) =>
+      (["regional", "local"] as const).map((scale) =>
+        exactSite(catalog.data, candidate.region_id, candidate.longitude, candidate.latitude, scale),
+      ).filter((site): site is VisualSite => !!site),
+    );
+    return prefetchGrids(sites);
+  }, [ref.id, catalog.data, data]);
   const left = useGrid(leftSite, state.surfaceMode !== "space"),
     right = useGrid(rightSite, state.surfaceMode !== "space");
   const range = useMemo(
@@ -102,6 +111,11 @@ export function UnifiedWorkspace({
     () => rows.map((r) => ({ id: r.region_id, name: String(r.rank), longitude: r.longitude, latitude: r.latitude })),
     [rows],
   );
+  const [focusToken, setFocusToken] = useState(0);
+  const chooseCandidate = (regionId: string) => {
+    update({ regionId });
+    setFocusToken((n) => n + 1);
+  };
   const changeRef = (reference: ReferenceId) => {
     setOverview(false);
     update({ reference, regionId: "", method: "engine" });
@@ -218,7 +232,7 @@ export function UnifiedWorkspace({
             </span>
             <span>
               <i className="u-dot u-Earth" />
-              {row ? earthName : "Tierra"}
+              {row ? earthName : "Tierra"}{country && ` · ${country}`}
               <small>
                 {row
                   ? science
@@ -253,7 +267,8 @@ export function UnifiedWorkspace({
               latitude={row?.latitude ?? candidateFocus(rows)[1]}
               marks={earthMarks}
               selected={row?.region_id ?? ""}
-              choose={(regionId) => update({ regionId })}
+              choose={chooseCandidate}
+              focusToken={focusToken}
               mode={state.surfaceMode}
               grid={right.grid}
               layer={state.visualLayer}
@@ -293,7 +308,7 @@ export function UnifiedWorkspace({
             {science ? (
               <ScienceInspector refInfo={ref} row={row} loaded={loaded} search={search} leftSite={leftSite} rightSite={rightSite} />
             ) : (
-              <SimpleInspector refInfo={ref} row={row} loaded={loaded} search={search} />
+              <SimpleInspector refInfo={ref} row={row} loaded={loaded} search={search} country={country} />
             )}
           </aside>
         </div>
@@ -311,14 +326,14 @@ export function UnifiedWorkspace({
                 <button
                   key={r.region_id}
                   aria-pressed={row?.region_id === r.region_id}
-                  onClick={() => update({ regionId: r.region_id })}
+                  onClick={() => chooseCandidate(r.region_id)}
                 >
                   <b>{r.rank.toString().padStart(2, "0")}</b>
                   {science ? (
                     <>
                       <span>
-                        {location(r)}
-                        <small>{eligibility(r.scenario_eligibility)}</small>
+                        {countryNames.get(r.region_id) || location(r)}
+                        <small>{countryNames.get(r.region_id) ? `${location(r)} · ` : ''}{eligibility(r.scenario_eligibility)}</small>
                       </span>
                       <strong>
                         {distance(r.score)}
@@ -327,7 +342,7 @@ export function UnifiedWorkspace({
                     </>
                   ) : (
                     <>
-                      <span>{placeLabel(r.latitude, r.longitude)}</span>
+                      <span>{countryNames.get(r.region_id) || placeLabel(r.latitude, r.longitude)}{countryNames.get(r.region_id) && <small>{placeLabel(r.latitude, r.longitude)}</small>}</span>
                       <strong>
                         {pct(similarity(r.score))}
                         <small>parecido</small>
@@ -346,6 +361,7 @@ export function UnifiedWorkspace({
                   : "La búsqueda no encontró lugares con estos parámetros."}
             </p>
           )}
+          {countries.length > 0 && <small>Países: límites aproximados de <a href="https://www.naturalearthdata.com/" target="_blank" rel="noreferrer">Natural Earth</a>.</small>}
         </section>
       </div>
       {science && ref.id === "jezero" && <JezeroPilot />}
@@ -371,13 +387,14 @@ function SimpleInspector({
   row,
   loaded,
   search,
+  country,
 }: {
   refInfo: Reference;
   row?: Match;
   loaded?: LoadedSearch;
   search: EngineSearch;
+  country?: string;
 }) {
-  const values = loaded && row ? featureRows(loaded.data, row) : [];
   return (
     <>
       <h2>
@@ -387,7 +404,7 @@ function SimpleInspector({
       <SearchState search={search} simple />
       {row && (
         <div key={`${refInfo.id}/${row.region_id}`} className="u-comparison" aria-live="polite">
-          <p className="u-place">{placeLabel(row.latitude, row.longitude)}</p>
+          <p className="u-place">{country && `${country} · `}{placeLabel(row.latitude, row.longitude)}</p>
           <div className="u-similarity">
             <strong>{pct(similarity(row.score))}</strong>
             <span>de parecido en la forma del terreno</span>
@@ -395,29 +412,16 @@ function SimpleInspector({
               <i style={{ width: `${similarity(row.score) * 100}%` }} />
             </div>
           </div>
-          <h3>Cómo se comparan</h3>
-          {PLAIN_FEATURES.map((f) => {
-            const v = values.find((x) => x.id === f.id);
-            if (!v) return null;
-            return (
-              <div className="u-plain-row" key={f.id}>
-                <span>
-                  {f.label}
-                  <small>{f.hint}</small>
-                </span>
-                <div>
-                  <span>
-                    <small>{refInfo.name}</small>
-                    {number(v.reference, f.digits)} {f.unit}
-                  </span>
-                  <span>
-                    <small>Tierra</small>
-                    {number(v.candidate, f.digits)} {f.unit}
-                  </span>
-                </div>
+          <h3>Resumen por dimensión</h3>
+          <div className="u-dimension-summary">
+            {Object.entries(row.views).filter(([, view]) => view.weight > 0).map(([id, view]) => (
+              <div key={id}>
+                <span>{viewNames[id] || id}</span>
+                <strong>{view.available && view.distance != null ? distance(view.distance) : "Sin datos"}</strong>
               </div>
-            );
-          })}
+            ))}
+          </div>
+          <p className="u-dimension-help">Distancia por dimensión: cuanto menor, mayor parecido. Consulta el modo científico para ver los detalles.</p>
           <p className="u-note">
             Comparamos la forma del relieve en zonas de 3 km medidas por satélite. Es un resultado
             experimental: no indica si un vehículo podría recorrer el terreno.

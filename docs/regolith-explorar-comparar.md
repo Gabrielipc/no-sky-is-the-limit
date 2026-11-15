@@ -2,7 +2,7 @@
 
 Entrega y verificación: 15 de noviembre de 2026. Frontend React/TypeScript/Cesium.
 La pantalla inicial reúne referencia, candidatas, mapa, escalas y explicación del
-parecido. Los análisis existentes permanecen en «Otros análisis».
+parecido.
 
 ## Disponibilidad verificada
 

@@ -86,8 +86,8 @@ export default function SurfaceScene({ site, manifest, mode, exaggeration, textu
       removeRenderError = viewer.scene.renderError.addEventListener(() => {
         if (!disposed) setError('El dispositivo no pudo renderizar la escena. Reintenta el visor o revisa la aceleración WebGL.');
       });
-      SingleTileImageryProvider.fromUrl(mars ? `${import.meta.env.BASE_URL}textures/mars.png` : asset('blue-marble.png'), { ellipsoid,
-        credit: mars ? 'NASA / Mars Trek · MOLA, color de elevación' : 'NASA Earth Observatory / GIBS · Blue Marble (2004)' })
+      SingleTileImageryProvider.fromUrl(mars ? `${import.meta.env.BASE_URL}surface/mars-globe.png` : asset('blue-marble.png'), { ellipsoid,
+        credit: mars ? 'NASA MOLA · relieve en tonos naturales' : 'NASA Earth Observatory / GIBS · Blue Marble (2004)' })
         .then(provider => { if (!disposed && viewer && !viewer.isDestroyed()) { viewer.imageryLayers.add(new ImageryLayer(provider),0); viewer.scene.requestRender(); } })
         .catch(() => { if (!disposed) setError('La textura global no está disponible. Se conserva el relieve con un fondo uniforme.'); });
       pixels(asset(site.heightmap),controller.signal,site.width,site.height)

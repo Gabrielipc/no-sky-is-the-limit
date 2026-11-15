@@ -24,6 +24,7 @@ import {
   GeometryInstance,
   GeometryPipeline,
   Globe,
+  HeightReference,
   HeadingPitchRange,
   ImageryLayer,
   Material,
@@ -51,8 +52,17 @@ import {
 } from "../surface/terrain";
 import { localGuides } from "../surface/guides";
 import {
+  detailCatalog,
+  loadBakedDetail,
+  patchCovering,
+  scheduleLiveDetail,
+  type DetailCatalog,
+} from "./detailImagery";
+import { registerBodyEllipsoid } from "./terrainPickFix";
+import {
   offsetDegrees,
   groupMapPoints,
+  markerCameraRange,
   visualValues,
   type Grid,
   type VisualLayer,
@@ -77,6 +87,7 @@ export type SceneProps = {
   range: [number, number];
   exaggeration: number;
   overview?: boolean;
+  focusToken?: number;
   missing?: string;
   pending?: boolean;
 };
@@ -112,7 +123,9 @@ export default function UnifiedScene(p: SceneProps) {
     [status, setStatus] = useState("Cargando contexto…"),
     [frame, setFrame] = useState(0),
     [scale, setScale] = useState<ReturnType<typeof metricScale>>(null),
-    [heading, setHeading] = useState(0);
+    [heading, setHeading] = useState(0),
+    [detailNote, setDetailNote] = useState(""),
+    [detail, setDetail] = useState<DetailCatalog | null>();
   const terrainMesh = useRef<Primitive>(),
     guides = useRef<CustomDataSource>(),
     details = useRef<ImageryLayer>();
@@ -127,12 +140,15 @@ export default function UnifiedScene(p: SceneProps) {
     setReady(false);
     setError("");
     setStatus("Cargando contexto…");
+    setDetailNote("");
     const radius =
       p.body === "Mars" ? 3396000 : p.body === "Moon" ? 1737400 : 6378137;
     const ellipsoid =
       p.body === "Earth"
         ? Ellipsoid.WGS84
         : new Ellipsoid(radius, radius, radius);
+    // Lets globe picking (and therefore zoom limits) follow the real Mars/Moon ground.
+    registerBodyEllipsoid(ellipsoid);
     try {
       v = new Viewer(root.current, {
         ellipsoid,
@@ -164,14 +180,20 @@ export default function UnifiedScene(p: SceneProps) {
       v.scene.backgroundColor = Color.fromCssColorString("#1C1511");
       v.scene.globe.baseColor = Color.fromCssColorString(colors[p.body]);
       v.scene.globe.enableLighting = false;
-      v.scene.globe.maximumScreenSpaceError = 3;
-      v.scene.globe.tileCacheSize = 70;
+      // Finer terrain tiles also pick finer imagery levels when zooming in.
+      v.scene.globe.maximumScreenSpaceError = 2;
+      v.scene.globe.tileCacheSize = 100;
       if (v.scene.skyBox) v.scene.skyBox.show = false;
       v.scene.screenSpaceCameraController.minimumZoomDistance = 40;
+      // Wheel zoom re-picks the ground only within this distance of the last pick.
+      // Mars/Moon ground lies up to ~8 km below the sphere: pick from farther away
+      // so zoom does not stop on the sphere above Jezero or the polar craters.
+      if (p.body !== "Earth")
+        v.scene.screenSpaceCameraController.minimumPickingTerrainDistanceWithInertia = 20000;
       v.scene.screenSpaceCameraController.maximumZoomDistance = radius * 6;
       const texture =
         p.body === "Mars"
-          ? `${import.meta.env.BASE_URL}textures/mars.png`
+          ? `${import.meta.env.BASE_URL}surface/mars-globe.png`
           : asset(
               p.body === "Moon" ? "unified/moon-color.jpg" : "blue-marble.png",
             );
@@ -209,7 +231,7 @@ export default function UnifiedScene(p: SceneProps) {
           p.body === "Moon"
             ? "NASA CGI Moon Kit · LROC + LOLA"
             : p.body === "Mars"
-              ? "NASA MOLA · color de elevación"
+              ? "NASA MOLA · relieve en tonos naturales"
               : "NASA Blue Marble",
       })
         .then((provider) => {
@@ -217,6 +239,24 @@ export default function UnifiedScene(p: SceneProps) {
             v.imageryLayers.add(new ImageryLayer(provider), 0);
             wakeUntil.current = performance.now() + 4000;
             draw(v);
+            // Then the 4k base and, for fixed references, the nested patches around
+            // the marked areas (selected reference first). Earth candidates stream
+            // separately because they change with each search.
+            const viewer = v;
+            void loadBakedDetail(
+              viewer,
+              p.body,
+              () => props.current.selected,
+              c.signal,
+              (loaded, total, finest) => {
+                wakeUntil.current = performance.now() + 4000;
+                draw(viewer);
+                if (finest)
+                  setDetailNote(
+                    `detalle ${finest.pixel_m.latitude < 1000 ? `${Math.round(finest.pixel_m.latitude)} m` : `${(finest.pixel_m.latitude / 1000).toFixed(1)} km`}${loaded < total ? ` · ${loaded}/${total}` : ""}`,
+                  );
+              },
+            );
           }
         })
         .catch(() => {
@@ -314,7 +354,7 @@ export default function UnifiedScene(p: SceneProps) {
             .filter(Boolean) as Cartesian3[];
           if (points.length)
             v.camera.flyToBoundingSphere(BoundingSphere.fromPoints(points), {
-              duration: 0,
+              duration: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 2,
               offset: new HeadingPitchRange(
                 0,
                 -Math.PI / 2,
@@ -323,14 +363,17 @@ export default function UnifiedScene(p: SceneProps) {
             });
         }
       }, ScreenSpaceEventType.LEFT_CLICK);
-      let last = 0;
+      let last = 0,
+        globeSettled = false;
       removeCamera = v.scene.postRender.addEventListener(() => {
         if (!v || disposed || performance.now() - last < 400) return;
         last = performance.now();
         setHeading((v.camera.heading * 180) / Math.PI);
         const current = props.current;
-        contextBody.show =
-          current.mode === "space" && !v.scene.globe.tilesLoaded;
+        // Only for the first load: later tile loads (every zoom step) must not cover
+        // the terrain, which on Mars and the Moon lies kilometres inside this sphere.
+        globeSettled ||= v.scene.globe.tilesLoaded;
+        contextBody.show = current.mode === "space" && !globeSettled;
         setContextOnly(contextBody.show);
         if (current.mode !== "mesh") {
           const occluder = new EllipsoidalOccluder(
@@ -344,7 +387,15 @@ export default function UnifiedScene(p: SceneProps) {
               0,
               ellipsoid,
             );
-            const xy = v!.scene.cartesianToCanvasCoordinates(point);
+            // Draw the button on the ground (Jezero lies ~2.5 km below the sphere);
+            // the horizon test keeps the sphere point, valid for any ground height.
+            const ground =
+              v!.scene.globe.getHeight(
+                Cartographic.fromDegrees(m.longitude, m.latitude),
+              ) ?? 0;
+            const xy = v!.scene.cartesianToCanvasCoordinates(
+              Cartesian3.fromDegrees(m.longitude, m.latitude, ground, ellipsoid),
+            );
             return xy &&
               occluder.isPointVisible(point) &&
               xy.x > 10 &&
@@ -463,6 +514,32 @@ export default function UnifiedScene(p: SceneProps) {
     frame,
   ]);
   useEffect(() => {
+    let alive = true;
+    void detailCatalog().then((d) => alive && setDetail(d));
+    return () => {
+      alive = false;
+    };
+  }, []);
+  // Earth candidates are dynamic: stream satellite detail around them after a pause,
+  // so a new ranking first paints with the global context and never stalls on it.
+  const liveRound = useRef(0);
+  useEffect(() => {
+    const v = view.current;
+    if (!ready || !v || p.body !== "Earth" || !p.marks.length) return;
+    const delay = liveRound.current++ === 0 ? 2500 : 1200;
+    return scheduleLiveDetail(
+      v,
+      p.marks,
+      p.selected,
+      delay,
+      (count) => {
+        setDetailNote(`detalle satelital · ${count} candidatas`);
+        wakeUntil.current = performance.now() + 4000;
+        draw(v);
+      },
+    );
+  }, [ready, p.body, p.marks, p.selected]);
+  useEffect(() => {
     const v = view.current;
     if (!ready || !v) return;
     const ds = new CustomDataSource("Ubicaciones");
@@ -500,8 +577,11 @@ export default function UnifiedScene(p: SceneProps) {
           outlineColor: Color.fromCssColorString("#1C1511"),
           outlineWidth: 2,
           disableDepthTestDistance: Infinity,
+          // On the real ground: a mark floating on the sphere blocks zoom picking.
+          heightReference: HeightReference.CLAMP_TO_GROUND,
         },
         label: {
+          heightReference: HeightReference.CLAMP_TO_GROUND,
           text: m.name,
           font: "500 12px DM Sans",
           pixelOffset: new Cartesian2(0, -22),
@@ -601,6 +681,8 @@ export default function UnifiedScene(p: SceneProps) {
   useEffect(() => {
     const v = view.current;
     if (!ready || !v || p.mode !== "regional" || p.body === "Moon") return;
+    // Baked Jezero patches are already globe layers (finer than the 81 m crop).
+    if (p.body === "Mars" && detail?.bodies.Mars?.patches.length) return;
     let disposed = false,
       layer: ImageryLayer | undefined;
     const task =
@@ -638,7 +720,7 @@ export default function UnifiedScene(p: SceneProps) {
       if (layer && !v.isDestroyed()) v.imageryLayers.remove(layer);
       details.current = undefined;
     };
-  }, [ready, p.mode, p.body]);
+  }, [ready, p.mode, p.body, detail]);
   useEffect(() => {
     const v = view.current;
     if (!v || !ready || !p.grid || p.mode === "space") return;
@@ -650,6 +732,19 @@ export default function UnifiedScene(p: SceneProps) {
       a = meshArrays(h, s, p.exaggeration),
       e = v.scene.globe.ellipsoid;
     let matrix = Matrix4.IDENTITY;
+    // Drape the same imagery used by the globe onto regional planetary meshes.
+    // UVs follow each vertex geographically, including near the lunar pole.
+    let drape = {
+      image: asset("jezero-ctx-regional.png"),
+      rect: [76.640625, 17.578125, 78.75, 19.6875],
+    };
+    if (p.body === "Moon") drape = { image: asset("unified/moon-color.jpg"), rect: [-180, -90, 180, 90] };
+    if (regional && p.body !== "Earth") {
+      const [w0, s0] = offsetDegrees(s.longitude, s.latitude, -s.window_m / 2, -s.window_m / 2, e.maximumRadius),
+        [e0, n0] = offsetDegrees(s.longitude, s.latitude, s.window_m / 2, s.window_m / 2, e.maximumRadius);
+      const patch = patchCovering(detail, p.body, w0, s0, e0, n0);
+      if (patch) drape = { image: asset(patch.file), rect: patch.rectangle };
+    }
     if (regional) {
       for (let i = 0; i < h.length; i++) {
         const x = a.positions[i * 3],
@@ -668,11 +763,11 @@ export default function UnifiedScene(p: SceneProps) {
           e,
         );
         a.positions.set([point.x, point.y, point.z], i * 3);
-        if (p.body === "Mars")
+        if (p.body !== "Earth")
           a.uv.set(
             [
-              (lon - 76.640625) / (78.75 - 76.640625),
-              (lat - 17.578125) / (19.6875 - 17.578125),
+              (lon - drape.rect[0]) / (drape.rect[2] - drape.rect[0]),
+              (lat - drape.rect[1]) / (drape.rect[3] - drape.rect[1]),
             ],
             i * 2,
           );
@@ -721,10 +816,7 @@ export default function UnifiedScene(p: SceneProps) {
         }),
         appearance: new MaterialAppearance({
           material: Material.fromType("Image", {
-            image:
-              regional && p.body === "Mars"
-                ? asset("jezero-ctx-regional.png")
-                : canvas,
+            image: regional && p.body !== "Earth" ? drape.image : canvas,
           }),
           translucent: false,
           faceForward: true,
@@ -758,10 +850,14 @@ export default function UnifiedScene(p: SceneProps) {
     p.range[1],
     p.exaggeration,
     p.body,
+    detail,
   ]);
+  const cameraState = useRef<{ mode: SurfaceMode; frame: number }>();
   useEffect(() => {
     const v = view.current;
     if (!v || !ready) return;
+    const previous = cameraState.current;
+    cameraState.current = { mode: p.mode, frame };
     const local = p.mode === "mesh",
       e = v.scene.globe.ellipsoid;
     v.scene.globe.show = !local;
@@ -773,6 +869,9 @@ export default function UnifiedScene(p: SceneProps) {
         : true;
     v.scene.screenSpaceCameraController.enableCollisionDetection = !local;
     v.scene.verticalExaggeration = p.exaggeration;
+    // Preserve the current camera while an explicitly selected Earth marker flies in.
+    if (p.body === "Earth" && p.mode === "space" && p.focusToken &&
+        previous?.mode === "space" && previous.frame === frame) return;
     v.camera.cancelFlight();
     v.camera.lookAtTransform(Matrix4.IDENTITY);
     const center = Cartesian3.fromDegrees(
@@ -786,15 +885,17 @@ export default function UnifiedScene(p: SceneProps) {
         Transforms.eastNorthUpToFixedFrame(center, e),
         new HeadingPitchRange(0, CMath.toRadians(-48), 4000),
       );
-    else if (p.mode === "space")
-      v.camera.setView({
-        destination: Cartesian3.fromDegrees(
-          p.overview ? 0 : p.longitude,
-          p.overview && p.body === "Moon" ? -65 : p.latitude,
-          e.maximumRadius * 2.1,
-          e,
-        ),
-      });
+    else if (p.mode === "space") {
+      const canvas = v.scene.canvas;
+      const cameraCenter = p.overview && p.marks.length
+        ? p.marks[0]
+        : { longitude: p.longitude, latitude: p.latitude };
+      const target = Cartesian3.fromDegrees(cameraCenter.longitude, cameraCenter.latitude, 0, e);
+      const distance = markerCameraRange(cameraCenter, p.marks, e.maximumRadius,
+        canvas.clientWidth / Math.max(1, canvas.clientHeight));
+      v.camera.lookAt(target, new HeadingPitchRange(0, -Math.PI / 2, distance));
+      v.camera.lookAtTransform(Matrix4.IDENTITY);
+    }
     else {
       v.camera.lookAt(
         center,
@@ -812,7 +913,23 @@ export default function UnifiedScene(p: SceneProps) {
     p.body,
     frame,
     p.grid?.site.center_m,
+    p.marks,
+    p.selected,
   ]);
+  useEffect(() => {
+    const v = view.current;
+    if (!ready || !v || p.body !== "Earth" || p.mode !== "space" || !p.focusToken || !p.selected) return;
+    const target = p.marks.find((mark) => mark.id === p.selected);
+    if (!target) return;
+    const center = Cartesian3.fromDegrees(target.longitude, target.latitude, 0, v.scene.globe.ellipsoid);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    wakeUntil.current = performance.now() + 6000;
+    v.camera.flyToBoundingSphere(new BoundingSphere(center, 1), {
+      duration: reduced ? 0 : 2.5,
+      offset: new HeadingPitchRange(0, CMath.toRadians(-55), 44000),
+    });
+    draw(v);
+  }, [ready, p.body, p.mode, p.focusToken, p.selected, p.marks]);
   useEffect(() => {
     const v = view.current;
     if (ready && v) {
@@ -842,6 +959,7 @@ export default function UnifiedScene(p: SceneProps) {
             aria-pressed={m.id === p.selected}
             onClick={() => {
               if (m.members.length === 1) {
+                if (m.id === p.selected && p.body !== "Earth") setFrame((n) => n + 1);
                 p.choose(m.id);
                 return;
               }
@@ -854,15 +972,10 @@ export default function UnifiedScene(p: SceneProps) {
                   Cartesian3.fromDegrees(mark.longitude, mark.latitude, 0, e),
                 );
               const sphere = BoundingSphere.fromPoints(points);
-              v.camera.lookAt(
-                sphere.center,
-                new HeadingPitchRange(
-                  0,
-                  -Math.PI / 2,
-                  Math.max(30000, sphere.radius * 3),
-                ),
-              );
-              v.camera.lookAtTransform(Matrix4.IDENTITY);
+              v.camera.flyToBoundingSphere(sphere, {
+                duration: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 2,
+                offset: new HeadingPitchRange(0, -Math.PI / 2, Math.max(30000, sphere.radius * 3)),
+              });
               wakeUntil.current = performance.now() + 4000;
               draw(v);
             }}
@@ -885,7 +998,9 @@ export default function UnifiedScene(p: SceneProps) {
               ? "Encuadre regional · ~24 km"
               : contextOnly
                 ? "Contexto NASA · relieve global pendiente"
-                : status}
+                : detailNote
+                  ? `${status} · ${detailNote}`
+                  : status}
         </span>
       </div>
       <button

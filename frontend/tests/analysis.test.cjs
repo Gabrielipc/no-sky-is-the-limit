@@ -314,3 +314,30 @@ test('the bare address opens the landing; the scientific mode follows the specia
   const landing=parseState(stateQuery({...parseState('').state,reference:'haworth-fondo'}));
   assert.equal(landing.state.view,'landing');assert.equal(landing.state.reference,'haworth-fondo');
 });
+
+test('automatic marker framing accounts for nearby points, narrow panels and the date line', () => {
+ const center = {longitude: 179, latitude: 0};
+ const alone = unified.markerCameraRange(center, [center], 1000, 1);
+ const nearby = [{longitude: -179, latitude: 0}];
+ assert.ok(unified.markerCameraRange(center, nearby, 1000, 1) >= alone);
+ const spread = [{longitude: -177, latitude: 0}];
+ assert.ok(unified.markerCameraRange(center, spread, 1000, .5) > unified.markerCameraRange(center, spread, 1000, 1));
+ assert.equal(unified.markerCameraRange(center, [{longitude: 0, latitude: 0}], 1000, 1), alone);
+ assert.equal(unified.markerCameraRange(center, [{longitude: -151, latitude: 0}], 1000, 1), alone);
+ assert.ok(unified.markerCameraRange(center, nearby, 1000, 1) > alone);
+ const polar = {longitude: -5, latitude: -87.45};
+ assert.ok(Number.isFinite(unified.markerCameraRange(polar, [{longitude: -68.7, latitude: -88.71}], 1737400, 1)));
+});
+
+test('country lookup handles real locations, ocean, islands, and polygon holes', () => {
+  const { countryAt } = load('src/domain/countries.ts');
+  const countries = JSON.parse(fs.readFileSync(path.join(base, 'public/geography/countries.json'), 'utf8'));
+  assert.equal(countryAt(countries, 12.14, -86.25), 'Nicaragua');
+  assert.equal(countryAt(countries, -10.48, 150.08), 'Papúa Nueva Guinea');
+  assert.equal(countryAt(countries, 0, -140), undefined);
+  const withHole = [{ name: 'Example', geometry: { type: 'Polygon', coordinates: [
+    [[0,0],[10,0],[10,10],[0,10],[0,0]], [[2,2],[8,2],[8,8],[2,8],[2,2]]
+  ] } }];
+  assert.equal(countryAt(withHole, 1, 1), 'Example');
+  assert.equal(countryAt(withHole, 5, 5), undefined);
+});
