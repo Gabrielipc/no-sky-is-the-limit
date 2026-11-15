@@ -25,6 +25,7 @@ if str(ROOT) not in sys.path:  # `pipelines/` is a sibling of `backend/`
 
 router = APIRouter(prefix='/api/similarity', tags=['Similitud ML'])
 
+CATALOG_PATH = ROOT / 'specs/analysis/referencias-v1.json'
 DEFAULT_PROFILE = 'arid_mars_surface_v2'
 PROFILES = ('arid_mars_surface_v2', 'paleolake_margin_v1', 'polar_cold_v1')
 CACHE_SIZE = int(os.environ.get('ANALOGOS_SIMILARITY_CACHE', '256'))
@@ -138,9 +139,11 @@ class SimilarityService:
         return [self._public(e) for e in self.references.values()]
 
     def _public(self, entry: dict, detail: bool = False) -> dict:
-        views = self._view_status(entry)
+        meta = load_catalog_meta().get(entry['id'], {})
         out = {'id': entry['id'], 'name': entry['name'], 'body': entry['body'],
-               'available': entry['available'], 'source': entry.get('source'), 'views': views}
+               'available': entry['available'], 'source': entry.get('source'), 'views': self._view_status(entry),
+               'kind': meta.get('kind'), 'status': meta.get('status'), 'center': meta.get('center'),
+               'sources': meta.get('sources', []), 'limitations': meta.get('limitations', [])}
         if not entry['available']:
             out['reason'] = entry['reason']
         if detail:
@@ -243,6 +246,14 @@ class SimilarityService:
                 'engine_status': self.engine.spec['status'] if self.engine else None,
                 'profiles_loaded': {p: len(pool) for p, pool in self.pools.items()},
                 'cached_queries': len(self._cache), 'references': len(self.references)}
+
+
+def load_catalog_meta() -> Dict[str, dict]:
+    """Per-reference kind, limitations and sources (`specs/analysis/referencias-v1.json`)."""
+    try:
+        return json.loads(CATALOG_PATH.read_text(encoding='utf-8'))['references']
+    except (OSError, KeyError, ValueError):
+        return {}
 
 
 def default_store() -> Path:

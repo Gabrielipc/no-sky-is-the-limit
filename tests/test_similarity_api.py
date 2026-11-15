@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from concurrent.futures import ThreadPoolExecutor
+import json
 from pathlib import Path
 import sys
 import tempfile
@@ -58,6 +59,26 @@ class SimilarityAPITest(unittest.TestCase):
         # The fixture store has no Haworth window: it is reported, not hidden and not invented.
         self.assertFalse(refs['haworth-fondo']['available'])
         self.assertIn('reason', refs['haworth-fondo'])
+
+    def test_catalog_carries_kind_limitations_and_sources(self) -> None:
+        refs = {r['id']: r for r in self.client.get('/api/similarity/references').json()['references']}
+        for ref in refs.values():
+            self.assertIn(ref['kind'], ('landing_site', 'base_candidate', 'control'))
+            self.assertTrue(ref['limitations'], ref['id'])  # the analogy's limits are always shown
+            self.assertTrue(ref['sources'], ref['id'])
+        self.assertEqual(refs['haworth-fondo']['center']['latitude'], -87.45)
+
+    def test_catalog_metadata_matches_the_spec_and_the_mirror(self) -> None:
+        from pipelines import etl_mirror
+        meta = similarity.load_catalog_meta()
+        spec_refs = set(sim.load_spec()['references'])
+        self.assertEqual(set(meta), spec_refs)  # no reference without limitations, none orphaned
+        mirrored = {p['id']: p for p in etl_mirror.load_manifest()['products']}
+        spec = json.loads((ROOT / 'specs/analysis/referencias-v1.json').read_text(encoding='utf-8'))
+        for ref_id, entry in meta.items():
+            self.assertIn(entry['kind'], spec['kinds'])
+            for source in entry['sources']:
+                self.assertIn(source, mirrored, f'{ref_id}: {source} no está en el manifiesto de espejo')
 
     def test_reference_detail(self) -> None:
         res = self.client.get('/api/similarity/references/jezero')
