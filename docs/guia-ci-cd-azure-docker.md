@@ -259,6 +259,45 @@ leer las publicaciones y escribir `searches.sqlite`. Haz respaldo de esta
 carpeta antes de actualizar datos. El código y la imagen se despliegan desde Git;
 las publicaciones permanecen en el volumen de la VM.
 
+### Motor de similitud (búsqueda en vivo)
+
+La imagen ya incluye el código del motor (`pipelines/`) y sus dependencias de ML,
+pero **no** el modelo ni el almacén de features: no están en Git (`*.parquet` está
+ignorado), así que CI no puede incorporarlos. Se copian una vez a la VM, dentro de
+la carpeta que Compose ya monta, y el contenedor los encuentra en las rutas por
+defecto de `ANALOGOS_SIMILARITY_MODEL` y `ANALOGOS_FEATURE_STORE_DIR`:
+
+```text
+/srv/analogos/releases/atlas30/similarity/
+├── motor-similitud-ml-v1.joblib    ← data/features/modelos-similitud/
+└── feature_store_v1/               ← data/feature_store_v1/ (base, enrichment, manifests)
+```
+
+Desde tu computadora, en la raíz del repositorio (sustituye usuario, host y
+puerto por los de tu VM):
+
+```bash
+ssh -p 22 deploy@HOST 'sudo install -d -o 10001 -g 10001 /srv/analogos/releases/atlas30/similarity'
+rsync -az --delete --exclude duckdb_spill -e 'ssh -p 22' --rsync-path='sudo rsync' \
+  data/feature_store_v1 data/features/modelos-similitud/motor-similitud-ml-v1.joblib \
+  deploy@HOST:/srv/analogos/releases/atlas30/similarity/
+ssh -p 22 deploy@HOST 'sudo chown -R 10001:10001 /srv/analogos/releases/atlas30/similarity'
+```
+
+Si `deploy` no tiene `sudo`, haz el `rsync` con la cuenta administradora. No hace
+falta reiniciar: el motor se carga en la primera consulta (unos segundos) y
+queda en memoria (~750 MB con los tres perfiles). Para comprobarlo:
+
+```bash
+curl -s http://HOST:8000/api/similarity/status
+curl -s -o /dev/null -w '%{http_code}\n' http://HOST:8000/api/similarity/references
+```
+
+`200` indica que el motor está activo; `503` significa que falta el modelo o el
+almacén en esa ruta, y el frontend muestra el ejemplo del repositorio. Si se
+reentrena el modelo o se regenera el almacén, repite el `rsync` y reinicia el
+contenedor (`docker compose restart app`) para que lo vuelva a cargar.
+
 ## Configurar GitHub Actions
 
 Configura estos valores en el repositorio de GitHub
