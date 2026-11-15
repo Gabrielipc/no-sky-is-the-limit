@@ -10,6 +10,8 @@ La **fase 5** añade «Reconocimiento · fuente y escala»: un segundo escenario
 
 ## Inicio
 
+El recorrido **Superficie 3D** (`/?view=surface`) añade un visor CesiumJS para pasar de órbita a relieve regional y abrir mallas locales de Jezero, Utah y Atacama. Incluye teselas MOLA de NASA PDS, Blue Marble de NASA y PNG de alturas que JavaScript convierte en geometría. Permite ajustar la exageración, alternar textura y conectar servicios de terreno o 3D Tiles. Se ejecuta sin backend ni token; el relieve mundial terrestre requiere conexión a Esri. Ver [uso, arquitectura y límites del visor](docs/Superficie%203D%20-%20Cesium.md).
+
 El recorrido **Más dimensiones** añade rugosidad sin inclinación, posición topográfica y curvatura discreta a 60/120 m, mapas con escala común y un panel de inercia térmica de Jezero. Conserva estados explícitos para propiedades todavía sin datos comparables. Incluye adquisición acotada de THEMIS, 3DEP, HiRISE y EMIT. Ver [extensión multidimensional y comandos](docs/Extension%20multidimensional.md); el cálculo se reproduce con `./.pixi/envs/default/bin/python scripts/analizar_dimensiones.py` y la vista se abre en `/?view=dimensions`.
 
 La sección **Minerales** muestra los indicadores CRISM de Jezero junto a las identificaciones EMIT de Utah o Atacama. Cada mapa conserva su cuadrícula y escala. Jezero incluye cinco indicadores espectrales, el residuo atmosférico y la cobertura VNIR/IR. La Tierra conserva los grupos espectrales, el ajuste, la incertidumbre y el filtro de inclinación. [Procesamiento y cobertura de Jezero](docs/Adquisicion%20CRISM%20de%20Marte.md#integración-en-el-atlas).

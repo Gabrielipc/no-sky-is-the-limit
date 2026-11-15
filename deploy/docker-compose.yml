@@ -23,4 +23,4 @@ services:
       interval: 30s
       timeout: 5s
       start_period: 30s
-      retries: 3ls
+      retries: 3

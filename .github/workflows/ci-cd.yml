@@ -23,7 +23,7 @@ jobs:
           version: "0.13.8"
           enable-cache: true
           cache-dependency-glob: backend/uv.lock
-      - run: uv sync --locked --no-dev
+      - run: uv sync --locked
         working-directory: backend
       - run: uv run --locked python -m unittest discover -s tests -v
         working-directory: backend
@@ -79,6 +79,7 @@ jobs:
 
           curl --fail --silent http://127.0.0.1:8000/ | grep -q 'id="root"'
           curl --fail --silent http://127.0.0.1:8000/analysis/terrain.json >/dev/null
+          curl --fail --silent http://127.0.0.1:8000/surface/manifest.json | grep -q '"description": "Visual derivatives only; not new scientific measurements."'
           curl --fail --silent http://127.0.0.1:8000/api/scenarios | grep -q 'relieve-regional'
           curl --fail --silent 'http://127.0.0.1:8000/api/scenarios/relieve-regional/comparison?reference_id=mars-jezero-fan&cell_m=60' >/dev/null
           curl --fail --silent http://127.0.0.1:8000/api/regional-search | grep -q 'search_id'

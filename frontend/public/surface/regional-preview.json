@@ -1,0 +1,63 @@
+{
+  "file": "jezero-ctx-regional.png",
+  "rectangle_degrees": [
+    76.640625,
+    17.578125,
+    78.75,
+    19.6875
+  ],
+  "width": 1536,
+  "height": 1536,
+  "sampling_degrees": 0.001373291015625,
+  "sampling_equator_m": 81.40140956264587,
+  "description": "CTX context mosaic at level 8. Native CTX is finer; this derivative is downsampled. Uncontrolled mosaic, positional accuracy not asserted.",
+  "credit": "NASA/JPL/MSSS/Caltech Murray Lab; served by NASA Mars Trek / Esri OnMars",
+  "sha256": "642f54dfae1d032c2096597a4fe2004471eba5f6bb802b375fd05f7c3afe205a",
+  "sources": [
+    {
+      "url": "https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/8/100/365",
+      "sha256": "f5e186406af2c91ad422d2c1eb157d03e0c0a96694b9a5b691549abcb9b3d9d1",
+      "bytes": 113408
+    },
+    {
+      "url": "https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/8/100/366",
+      "sha256": "838e32197e6dfb588ead76a4317f6bee749575aac90ece9580ea9dbfd6526424",
+      "bytes": 96989
+    },
+    {
+      "url": "https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/8/100/367",
+      "sha256": "a97e7fc6d324472b0220f079d005d27a473957b4450943b3e5694fab0a9330ee",
+      "bytes": 121483
+    },
+    {
+      "url": "https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/8/101/365",
+      "sha256": "231b5885750fb5dc23c393da9b9bf34dc6e70475e2a940b2f4b650cb75a82808",
+      "bytes": 112867
+    },
+    {
+      "url": "https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/8/101/366",
+      "sha256": "2e2a6fb57d460ca5517d7a9abf055623ef96d8f80dea1827ab8fadf852a4cdf0",
+      "bytes": 89181
+    },
+    {
+      "url": "https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/8/101/367",
+      "sha256": "cbd240b7f119f2376f383a972ff0a986d5e3f9626e78f5d670e38c375116d658",
+      "bytes": 116946
+    },
+    {
+      "url": "https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/8/102/365",
+      "sha256": "6de3887197e8d8c14bc54924fa04478d7c5a0987dcde6108b280235d7e0b8279",
+      "bytes": 121244
+    },
+    {
+      "url": "https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/8/102/366",
+      "sha256": "069d8bb7bbd07107e4c504b2d43f6b2848af5908d2b943e3bd6c744e77ea2c31",
+      "bytes": 108903
+    },
+    {
+      "url": "https://astro.arcgis.com/arcgis/rest/services/OnMars/CTX/MapServer/tile/8/102/367",
+      "sha256": "f88eb4593bfb2dcf2e67fb81af6ec8d580ecf05bb6f0e28b853d6970f498bd61",
+      "bytes": 114392
+    }
+  ]
+}
