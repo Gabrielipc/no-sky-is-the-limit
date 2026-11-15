@@ -74,6 +74,11 @@ def run(args: argparse.Namespace, runner=subprocess.run) -> dict:
         status = 'ok' if proc.returncode == 0 else 'failed'
         summary['steps'][step] = {'status': status, 'returncode': proc.returncode,
                                   'elapsed_s': round(time.monotonic() - t0, 1)}
+        if step == 'build':
+            report = ROOT / 'docs/evidencia-capa-global/build.json'
+            if report.exists():  # per-layer status (a failing product does not fail the step)
+                summary['steps'][step]['layers'] = {k: v.get('status') for k, v in
+                                                    json.loads(report.read_text(encoding='utf-8')).items()}
         print(f'== {step}: {status} en {summary["steps"][step]["elapsed_s"]} s', flush=True)
     summary['finished_at'] = datetime.now(timezone.utc).isoformat(timespec='seconds')
     if args.summary:
