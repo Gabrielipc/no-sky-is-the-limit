@@ -34,6 +34,7 @@ import contextlib
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 from typing import Callable, Iterable
 
@@ -209,7 +210,9 @@ def robust_covariance(z: np.ndarray, cfg: dict, seed: int) -> tuple[np.ndarray, 
 def connect(store_root: Path, memory_limit: str = '2GB', threads: int = 4) -> duckdb.DuckDBPyConnection:
     spec = contract.load_store_spec()
     conn = duckdb.connect()
-    spill = Path(store_root) / spec['duckdb_out_of_core']['temp_directory_name']
+    # The API mounts the store read-only and points the spill at a writable temp dir.
+    spill = Path(os.environ.get('ANALOGOS_DUCKDB_TEMP_DIR')
+                 or Path(store_root) / spec['duckdb_out_of_core']['temp_directory_name'])
     contract.configure_duckdb(conn, spill, memory_limit=memory_limit, threads=threads)
     contract.register_unified_views(conn, Path(store_root))
     return conn
@@ -794,9 +797,8 @@ class SimilarityEngine:
 
     # -- candidates --------------------------------------------------------
     def _candidate_sql(self, present: set[str], profile: str, only_eligible: bool, bbox, region_ids) -> tuple[str, list, list]:
-        from pipelines.etl_store import eligibility_expression  # local: etl_store pulls heavy deps
         p = eligibility.get_profile(profile)
-        elig = eligibility_expression(profile)
+        elig = eligibility.eligibility_expression(profile)
         cols = set()
         for fid, fdef in self.features.items():
             if not self.model['features'][fid]['fitted']:
