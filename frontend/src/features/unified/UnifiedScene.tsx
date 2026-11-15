@@ -62,6 +62,7 @@ import { registerBodyEllipsoid } from "./terrainPickFix";
 import {
   offsetDegrees,
   groupMapPoints,
+  markerCameraRange,
   visualValues,
   type Grid,
   type VisualLayer,
@@ -877,15 +878,17 @@ export default function UnifiedScene(p: SceneProps) {
         Transforms.eastNorthUpToFixedFrame(center, e),
         new HeadingPitchRange(0, CMath.toRadians(-48), 4000),
       );
-    else if (p.mode === "space")
-      v.camera.setView({
-        destination: Cartesian3.fromDegrees(
-          p.overview ? 0 : p.longitude,
-          p.overview && p.body === "Moon" ? -65 : p.latitude,
-          e.maximumRadius * 2.1,
-          e,
-        ),
-      });
+    else if (p.mode === "space") {
+      const canvas = v.scene.canvas;
+      const cameraCenter = p.overview && p.marks.length
+        ? p.marks[0]
+        : { longitude: p.longitude, latitude: p.latitude };
+      const target = Cartesian3.fromDegrees(cameraCenter.longitude, cameraCenter.latitude, 0, e);
+      const distance = markerCameraRange(cameraCenter, p.marks, e.maximumRadius,
+        canvas.clientWidth / Math.max(1, canvas.clientHeight));
+      v.camera.lookAt(target, new HeadingPitchRange(0, -Math.PI / 2, distance));
+      v.camera.lookAtTransform(Matrix4.IDENTITY);
+    }
     else {
       v.camera.lookAt(
         center,
@@ -903,6 +906,7 @@ export default function UnifiedScene(p: SceneProps) {
     p.body,
     frame,
     p.grid?.site.center_m,
+    p.marks,
   ]);
   useEffect(() => {
     const v = view.current;

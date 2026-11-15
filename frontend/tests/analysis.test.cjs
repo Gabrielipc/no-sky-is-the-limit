@@ -314,3 +314,13 @@ test('the bare address opens the landing; the scientific mode follows the specia
   const landing=parseState(stateQuery({...parseState('').state,reference:'haworth-fondo'}));
   assert.equal(landing.state.view,'landing');assert.equal(landing.state.reference,'haworth-fondo');
 });
+
+test('automatic marker framing accounts for nearby points, narrow panels and the date line', () => {
+ const center = {longitude: 179, latitude: 0};
+ const alone = unified.markerCameraRange(center, [center], 1000, 1);
+ const nearby = [{longitude: -179, latitude: 0}];
+ assert.ok(unified.markerCameraRange(center, nearby, 1000, 1) >= alone);
+ const spread = [{longitude: -151, latitude: 0}];
+ assert.ok(unified.markerCameraRange(center, spread, 1000, .5) > unified.markerCameraRange(center, spread, 1000, 1));
+ assert.equal(unified.markerCameraRange(center, [{longitude: 0, latitude: 0}], 1000, 1), alone);
+});

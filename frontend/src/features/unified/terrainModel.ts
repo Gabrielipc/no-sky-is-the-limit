@@ -126,6 +126,29 @@ export function candidateFocus(
       ];
 }
 
+/** Frame nearby marks around the selected site; the far side cannot be visible on a globe. */
+export function markerCameraRange(
+  center: { longitude: number; latitude: number },
+  marks: { longitude: number; latitude: number }[],
+  radius: number,
+  aspect: number,
+): number {
+  const radians = Math.PI / 180;
+  const lat = center.latitude * radians;
+  const angles = marks.map((mark) => {
+    const otherLat = mark.latitude * radians;
+    const cosine = Math.sin(lat) * Math.sin(otherLat) +
+      Math.cos(lat) * Math.cos(otherLat) * Math.cos((mark.longitude - center.longitude) * radians);
+    return Math.acos(Math.max(-1, Math.min(1, cosine)));
+  }).filter((angle) => angle <= Math.PI / 4);
+  const angle = Math.max(0, ...angles);
+  // Conservative half field of view, adjusted for narrow panels, plus label margin.
+  const halfFov = Math.atan(Math.tan(25 * radians) * Math.min(1, Math.max(0.1, aspect)));
+  const fit = radius * (Math.sin(angle) / Math.tan(halfFov) + 1 - Math.cos(angle));
+  const horizon = radius * (1 / Math.cos(angle) - 1);
+  return Math.max(radius * 0.15, fit * 1.3, horizon * 1.3);
+}
+
 export type ScreenMark = { id: string; name: string; x: number; y: number };
 /** Screen-space connected groups. Selection always remains its own visible target. */
 export function groupMapPoints(
