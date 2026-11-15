@@ -1,0 +1,402 @@
+{
+  "format": 1,
+  "engine_id": "motor-similitud-ml-v1",
+  "spec_hash": "4520fe49764aa1cd",
+  "fitted_at": "2026-11-15T11:34:08+00:00",
+  "seed": 20261114,
+  "fit_pool": {
+    "windows": 1459164,
+    "sample_size": 200000,
+    "holdout_basins": [
+      "mojave"
+    ],
+    "store_root": "data/feature_store_v1"
+  },
+  "features": {
+    "relief_p95_p05_m": {
+      "view": "escabrosidad",
+      "fitted": true,
+      "n_fit": 200000
+    },
+    "slope_240m_p50_deg": {
+      "view": "escabrosidad",
+      "fitted": true,
+      "n_fit": 200000
+    },
+    "slope_240m_p90_deg": {
+      "view": "escabrosidad",
+      "fitted": true,
+      "n_fit": 200000
+    },
+    "roughness_360m_p50_m": {
+      "view": "escabrosidad",
+      "fitted": true,
+      "n_fit": 99346
+    },
+    "slope_240m_gt15_fraction": {
+      "view": "escabrosidad",
+      "fitted": true,
+      "n_fit": 200000
+    },
+    "slope_240m_gt25_fraction": {
+      "view": "escabrosidad",
+      "fitted": true,
+      "n_fit": 200000
+    },
+    "hypsometric_integral": {
+      "view": "forma_hipsometrica",
+      "fitted": true,
+      "n_fit": 195826
+    },
+    "elevation_skew_p95_p05": {
+      "view": "forma_hipsometrica",
+      "fitted": true,
+      "n_fit": 195826
+    },
+    "aspect_240m_resultant_length": {
+      "view": "organizacion",
+      "fitted": true,
+      "n_fit": 154364
+    },
+    "abs_fe3_oxide_0p53_0p90um_p50": {
+      "view": "espectral",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "abs_al_oh_2p20um_p50": {
+      "view": "espectral",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "abs_fe_mg_oh_2p30um_p50": {
+      "view": "espectral",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "abs_carbonate_2p30_2p50um_p50": {
+      "view": "espectral",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "abs_hydrated_sioh_so4_1p9_2p26um_p50": {
+      "view": "espectral",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "abs_mafic_fe2_1p0um_p50": {
+      "view": "espectral",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "thermal_inertia_rank": {
+      "view": "termica",
+      "fitted": true,
+      "n_fit": 2000
+    },
+    "cpr_p50": {
+      "view": "radar",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "cpr_p90": {
+      "view": "radar",
+      "fitted": false,
+      "n_fit": 0,
+      "reason": "no_earth_measurements"
+    },
+    "precip_annual_mm_cmg": {
+      "view": "entorno_superficial",
+      "fitted": true,
+      "n_fit": 199983
+    },
+    "dry_months_fraction_cmg": {
+      "view": "entorno_superficial",
+      "fitted": true,
+      "n_fit": 199983
+    },
+    "snow_cover_mean_pct_cmg": {
+      "view": "entorno_superficial",
+      "fitted": true,
+      "n_fit": 198268
+    },
+    "soil_moisture_mean_cmg": {
+      "view": "entorno_superficial",
+      "fitted": true,
+      "n_fit": 72091
+    },
+    "emis_quartz_index_cmg": {
+      "view": "emisividad_cmg",
+      "fitted": true,
+      "n_fit": 179439
+    },
+    "emis_mafic_index_cmg": {
+      "view": "emisividad_cmg",
+      "fitted": true,
+      "n_fit": 179439
+    },
+    "emis_carbonate_index_cmg": {
+      "view": "emisividad_cmg",
+      "fitted": true,
+      "n_fit": 179439
+    }
+  },
+  "views": {
+    "escabrosidad": {
+      "kind": "metric",
+      "fitted": true,
+      "features": [
+        "relief_p95_p05_m",
+        "slope_240m_p50_deg",
+        "slope_240m_p90_deg",
+        "roughness_360m_p50_m",
+        "slope_240m_gt15_fraction",
+        "slope_240m_gt25_fraction"
+      ],
+      "covariance_estimator": "ledoit_wolf_after_degenerate_min_cov_det",
+      "n_complete": 99346,
+      "effective_dof": 1.493336691660884,
+      "correlation": [
+        [
+          1.0,
+          0.9025,
+          0.8982,
+          0.8046,
+          0.7037,
+          0.6327
+        ],
+        [
+          0.9025,
+          1.0,
+          0.9111,
+          0.8839,
+          0.7202,
+          0.6502
+        ],
+        [
+          0.8982,
+          0.9111,
+          1.0,
+          0.8964,
+          0.7432,
+          0.6704
+        ],
+        [
+          0.8046,
+          0.8839,
+          0.8964,
+          1.0,
+          0.6676,
+          0.5946
+        ],
+        [
+          0.7037,
+          0.7202,
+          0.7432,
+          0.6676,
+          1.0,
+          0.8556
+        ],
+        [
+          0.6327,
+          0.6502,
+          0.6704,
+          0.5946,
+          0.8556,
+          1.0
+        ]
+      ]
+    },
+    "forma_hipsometrica": {
+      "kind": "metric",
+      "fitted": true,
+      "features": [
+        "hypsometric_integral",
+        "elevation_skew_p95_p05"
+      ],
+      "covariance_estimator": "min_cov_det",
+      "n_complete": 195826,
+      "effective_dof": 1.0581831598522,
+      "correlation": [
+        [
+          1.0,
+          -0.9434
+        ],
+        [
+          -0.9434,
+          1.0
+        ]
+      ]
+    },
+    "organizacion": {
+      "kind": "metric",
+      "fitted": true,
+      "features": [
+        "aspect_240m_resultant_length"
+      ],
+      "covariance_estimator": "variance",
+      "n_complete": 154364,
+      "effective_dof": 1.0,
+      "correlation": [
+        [
+          1.0
+        ]
+      ]
+    },
+    "espectral": {
+      "kind": "metric",
+      "fitted": false,
+      "features": [],
+      "reason": "no_fitted_features",
+      "fit_population": {
+        "n_measured": 0,
+        "n_background": 0,
+        "mode": "biased_enriched_only",
+        "resampled_rows": 0
+      }
+    },
+    "termica": {
+      "kind": "metric",
+      "fitted": true,
+      "features": [
+        "thermal_inertia_rank"
+      ],
+      "covariance_estimator": "variance",
+      "n_complete": 2000,
+      "effective_dof": 1.0,
+      "fit_population": {
+        "n_measured": 100,
+        "n_background": 100,
+        "mode": "background_weighted",
+        "resampled_rows": 2000
+      },
+      "correlation": [
+        [
+          1.0
+        ]
+      ]
+    },
+    "radar": {
+      "kind": "metric",
+      "fitted": false,
+      "features": [],
+      "reason": "no_fitted_features",
+      "fit_population": {
+        "n_measured": 0,
+        "n_background": 0,
+        "mode": "biased_enriched_only",
+        "resampled_rows": 0
+      }
+    },
+    "entorno_superficial": {
+      "kind": "metric",
+      "fitted": true,
+      "features": [
+        "precip_annual_mm_cmg",
+        "dry_months_fraction_cmg",
+        "snow_cover_mean_pct_cmg",
+        "soil_moisture_mean_cmg"
+      ],
+      "covariance_estimator": "ledoit_wolf_after_degenerate_min_cov_det",
+      "n_complete": 72063,
+      "effective_dof": 2.40148052443586,
+      "correlation": [
+        [
+          1.0,
+          -0.4658,
+          -0.0354,
+          0.6916
+        ],
+        [
+          -0.4658,
+          1.0,
+          -0.478,
+          -0.5448
+        ],
+        [
+          -0.0354,
+          -0.478,
+          1.0,
+          0.3309
+        ],
+        [
+          0.6916,
+          -0.5448,
+          0.3309,
+          1.0
+        ]
+      ]
+    },
+    "emisividad_cmg": {
+      "kind": "metric",
+      "fitted": true,
+      "features": [
+        "emis_quartz_index_cmg",
+        "emis_mafic_index_cmg",
+        "emis_carbonate_index_cmg"
+      ],
+      "covariance_estimator": "ledoit_wolf_after_degenerate_min_cov_det",
+      "n_complete": 179439,
+      "effective_dof": 2.384102432094424,
+      "correlation": [
+        [
+          1.0,
+          -0.5223,
+          -0.0981
+        ],
+        [
+          -0.5223,
+          1.0,
+          0.3242
+        ],
+        [
+          -0.0981,
+          0.3242,
+          1.0
+        ]
+      ]
+    },
+    "regimen_morfologico": {
+      "kind": "gmm",
+      "fitted": true,
+      "features": [
+        "relief_p95_p05_m",
+        "slope_240m_p50_deg",
+        "slope_240m_p90_deg",
+        "roughness_360m_p50_m",
+        "slope_240m_gt15_fraction",
+        "slope_240m_gt25_fraction",
+        "hypsometric_integral",
+        "elevation_skew_p95_p05",
+        "aspect_240m_resultant_length"
+      ],
+      "n_components": 8,
+      "bic": {
+        "2": -133940.53405365453,
+        "3": -212292.4618258811,
+        "4": -257492.20872360189,
+        "5": -309795.61579079396,
+        "6": -326910.9726925248,
+        "7": -296127.07119274564,
+        "8": -350536.8296506887
+      },
+      "n_fit": 50000,
+      "component_weights": [
+        0.0669,
+        0.1207,
+        0.0532,
+        0.0292,
+        0.3798,
+        0.1159,
+        0.0897,
+        0.1445
+      ]
+    }
+  }
+}

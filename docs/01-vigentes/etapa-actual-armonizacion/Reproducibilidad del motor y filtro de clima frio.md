@@ -2,7 +2,7 @@
 
 Revisión del 15 de noviembre de 2026 de la release `etl-30m-r2b`. Responde a dos preguntas: por qué dos ajustes del mismo motor dieron rankings distintos para Jezero, y si las dimensiones y filtros nuevos quitan rigor a las comparaciones.
 
-**Conclusión.** El ajuste tenía dos fallos que sí afectaban a los rankings publicados, y están corregidos en el código. Los modelos publicados (`etl-30m-r1b`, `etl-30m-r2` y `etl-30m-r2b`) se ajustaron con el código anterior y habría que reajustarlos y publicar una release nueva. Las dimensiones nuevas no entran en ningún ranking publicado. El filtro de clima frío no es sensible a sus umbrales, pero deja fuera todo el hemisferio sur y un cuarto de su población está a menos de 40° N.
+**Conclusión.** El ajuste tenía dos fallos que sí afectaban a los rankings publicados, y están corregidos en el código. Los modelos `etl-30m-r1b`, `etl-30m-r2` y `etl-30m-r2b` se ajustaron con el código anterior; `etl-30m-r2c` es el primero con las correcciones y es reproducible con la misma semilla, pero sigue siendo sensible a la semilla (sección 4). Las dimensiones nuevas no entran en ningún ranking publicado. El filtro de clima frío no es sensible a sus umbrales, pero deja fuera todo el hemisferio sur y un cuarto de su población está a menos de 40° N.
 
 ## 1. Por qué Jezero cambió entre r2 y r2b
 
@@ -71,8 +71,26 @@ Análisis sobre las ventanas de r2 con cobertura de tipo polar (aproximadas con 
 - **No es solo «polar».** El 25 % de las ventanas que pasan están al sur de 40° N, sobre todo en la meseta tibetana, donde pasan por permafrost. El filtro significa «terreno frío con nieve o permafrost», no latitud polar ni régimen de iluminación polar.
 - **Mongolia en el top 6 de Haworth** pasa por permafrost (0,29 de la huella) y 0,17 de meses con nieve.
 
-## 4. Qué falta
+## 4. Medición en la nube de la release r2c
 
-1. **Reajustar y publicar una release nueva** con el código corregido (la siguiente a `etl-30m-r2b`) y comprobar a escala mundial con `scripts/estabilidad_motor.py`, que ajusta con varias semillas y compara los rankings. Debe dar el mismo ranking con la misma semilla.
+Con las dos correcciones, `etl-30m-r2c` se ajustó sobre el barrido mundial y se midió con `scripts/estabilidad_motor.py` ([resultado](../../evidencia-motor-similitud/estabilidad.json)): un ajuste de referencia, uno repetido con la misma semilla y tres con otras semillas. Coincidencias del top 100:
+
+| Referencia | Misma semilla | Semilla 1 | Semilla 2 | Semilla 3 |
+|---|---|---:|---:|---:|
+| Jezero | ranking idéntico | 99 | 79 | 100 |
+| Haworth | ranking idéntico | 99 | 79 | 100 |
+| de Gerlache | ranking idéntico | 96 | 34 | 69 |
+
+- **Primera corrección confirmada a escala mundial:** con la misma semilla el ranking es idéntico en las tres referencias.
+- **Segunda corrección, solo parcial.** Entre semillas el ranking sigue cambiando: la media de coincidencia es 84 de 100 y la mínima 34. La semilla 2 fue la única en que `escabrosidad` conservó `MinCovDet`; las otras usaron el respaldo de Ledoit‑Wolf. Es coherente con que la guarda sea demasiado permisiva, pero no está aislado: una prueba local con Ledoit‑Wolf siempre dio coincidencias de 91–94, iguales a las de la guarda (92–95), así que no reproduce la diferencia.
+- **de Gerlache es el caso débil.** Su referencia es extrema y queda lejos del pool, así que el orden entre candidatas cercanas es muy sensible.
+- **Entre r2b y r2c** el top 100 coincide en 69 (Jezero), 50 (Haworth) y 39 (de Gerlache), como se espera al corregir un modelo degenerado.
+
+**Decisión.** r2c se publica como activa con estos sesgos declarados en su README, y se corregirán en otra release.
+
+## 5. Qué falta
+
+1. **Estabilidad entre semillas.** Fijar un único estimador de covarianza para las vistas con variables llenas de ceros, o endurecer la guarda, publicar un ranking de consenso entre varios ajustes y medir de nuevo con `scripts/estabilidad_motor.py`.
 2. **Decidir qué hacer con el sur:** una fuente de cobertura de suelo para la Antártida, o declarar en la interfaz que los análogos de Haworth son del hemisferio norte.
 3. **Comprobar la hipótesis de empates del GMM** y, si se confirma, no presentar esa vista como ranking fino.
+4. **Revisar la referencia de de Gerlache:** su ranking es el menos estable y su sitio queda fuera de su propia compuerta de pendiente.

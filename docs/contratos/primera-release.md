@@ -1,6 +1,6 @@
 # Releases del atlas: ajuste del motor y empaquetado
 
-> **Estado al 15 de noviembre de 2026.** La release activa es **`etl-30m-r2b`**, con tres referencias (Jezero, Haworth y de Gerlache), 7 de las 9 vistas ajustadas y verificación sin errores. Su modelo y sus respuestas están en [`ml/modelos/etl-30m-r2b/`](../../ml/modelos/etl-30m-r2b/README.md). Las secciones de abajo describen el procedimiento con el ejemplo de r1; para repetirlo usa el comando de [«Releases publicadas»](#releases-publicadas).
+> **Estado al 15 de noviembre de 2026.** La release activa es **`etl-30m-r2c`**, con tres referencias (Jezero, Haworth y de Gerlache), 7 de las 9 vistas ajustadas y verificación sin errores. Es reproducible (misma semilla, mismo ranking) pero no del todo estable entre semillas, y el ranking de de Gerlache es poco fiable: ver su [README](../../ml/modelos/etl-30m-r2c/README.md), donde están el modelo, las respuestas y los sesgos conocidos. Las secciones de abajo describen el procedimiento con el ejemplo de r1; para repetirlo usa el comando de [«Releases publicadas»](#releases-publicadas).
 
 Procedimiento para publicar `etl-30m-r1`: el atlas mundial de 30 m con el motor de similitud ajustado y sus resultados para Jezero. Todo corre en una VM efímera junto al bucket. A tu Mac no llega nada pesado.
 
@@ -93,8 +93,9 @@ python scripts/verificar_release.py releases/atlas30/etl-30m-r1
 |---|---|---|
 | `etl-30m-r1` | Atlas mundial de 30 m. Vistas de topografía ajustadas. Solo Jezero | Publicada |
 | `etl-30m-r1b` | Reajuste sobre el barrido completo, 1 459 164 ventanas rankables | Publicada |
-| `etl-30m-r2` | Capas globales muestreadas (`*_cmg` con valores), ATI fina, referencias lunares con iluminación, PSR, Tmax de Diviner y CPR de Mini‑RF. Vistas `termica`, `entorno_superficial` y `emisividad_cmg` ajustadas | Publicada; **sustituida por r2b**: su perfil `polar_cold_v1` aceptaba desiertos cálidos |
-| **`etl-30m-r2b`** | Lo de r2, más el filtro de clima frío en `polar_cold_v1` (nieve ≥ 3 de 12 meses o permafrost ≥ 10 %) | **Activa** |
+| `etl-30m-r2` | Capas globales muestreadas (`*_cmg` con valores), ATI fina, referencias lunares con iluminación, PSR, Tmax de Diviner y CPR de Mini‑RF. Vistas `termica`, `entorno_superficial` y `emisividad_cmg` ajustadas | Publicada; **sustituida**: su perfil `polar_cold_v1` aceptaba desiertos cálidos |
+| `etl-30m-r2b` | Lo de r2, más el filtro de clima frío en `polar_cold_v1` (nieve ≥ 3 de 12 meses o permafrost ≥ 10 %) | Publicada; **sustituida**: muestra dependiente del orden y covarianza degenerada |
+| **`etl-30m-r2c`** | Lo de r2b, con muestra reproducible por hash y covarianza robusta con respaldo cuando degenera | **Activa** |
 
 Para publicar una release nueva:
 
@@ -108,6 +109,8 @@ ETL_ARGS="--steps fit,publish,verify --release-version <nueva-version> --set-cur
 
 Si se han medido referencias lunares nuevas, añade el paso `luna` delante (`--steps luna,fit,publish,verify`). Las releases son inmutables: una corrección exige una versión nueva, y la anterior queda disponible para volver atrás (basta con reescribir `releases/atlas30/current`).
 
+Dos VM a la vez no deben compartir bucket sin cuidado: las dos restauran y sincronizan `releases/` y `docs/evidencia-*`, y la que no publica pisaba `current` con la copia vieja. Ahora solo sube `current` una corrida lanzada con `--set-current` (`SYNC_CURRENT=1`). Los límites de cuota de vCPU del proyecto también impiden lanzar dos máquinas de 8.
+
 ## Pendiente
 
 | Qué | Por qué | Requisito |
@@ -116,6 +119,6 @@ Si se han medido referencias lunares nuevas, añade el paso `luna` delante (`--s
 | Vista `radar` | Sin mediciones terrestres. RCM solo tiene cobertura pública en Canadá | Una fuente con cobertura global, o aceptar una población de fondo sesgada |
 | Antártida | WorldCover no cubre al sur de 60° S: 122 949 ventanas sin cobertura | Otra fuente de cobertura de suelo |
 | Lunar: Tmin, amplitud, rocas, H y S1 | No existen en los polos, o no tienen calibración en dB documentada | Otras fuentes; ver `specs/sources/luna-polar-sur-v1.json` |
-| Reajuste con el código corregido | La muestra de ajuste dependía del orden de lectura y la covarianza de `escabrosidad` salió degenerada en r1b, r2 y r2b. Ya está corregido en el código | Reajustar, publicar una release nueva y comprobar con `scripts/estabilidad_motor.py`. Ver [Reproducibilidad del motor y filtro de clima frío](../01-vigentes/etapa-actual-armonizacion/Reproducibilidad%20del%20motor%20y%20filtro%20de%20clima%20frio.md) |
+| Estabilidad entre semillas | En r2c, Jezero y Haworth coinciden en 79–100 de 100 y de Gerlache en 34–96. La semilla que difirió fue la única con `MinCovDet` en `escabrosidad` | Fijar un estimador único o endurecer la guarda, publicar un ranking de consenso entre ajustes y medir de nuevo. Ver [Reproducibilidad del motor y filtro de clima frío](../01-vigentes/etapa-actual-armonizacion/Reproducibilidad%20del%20motor%20y%20filtro%20de%20clima%20frio.md) |
 | Hemisferio sur en `polar_cold_v1` | Ninguna ventana del sur pasa el filtro: la Antártida no tiene cobertura de suelo y las montañas del sur casi no tienen nieve | Otra fuente de cobertura, o declarar que los análogos de Haworth son del norte |
 | Validación ciega | El motor sigue en `unsupervised_pending_blind_validation` | Ejecutar la cuenca reservada de Mojave |

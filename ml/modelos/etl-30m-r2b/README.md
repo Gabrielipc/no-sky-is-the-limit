@@ -1,5 +1,7 @@
 # Motor de similitud · modelo de la release `etl-30m-r2b`
 
+> **Sustituido por [`etl-30m-r2c`](../etl-30m-r2c/README.md).** Este modelo se ajustó con una muestra dependiente del orden de lectura y una covarianza degenerada; se conserva como histórico.
+
 Modelo ajustado del motor de similitud ML no supervisado (`motor-similitud-ml-v1`) que acompaña a la release del atlas `etl-30m-r2b` (activa en `gs://regolith-analogos-gabi0808/releases/atlas30/`). Sustituye a [`etl-30m-r1b`](../etl-30m-r1b/README.md).
 
 | Archivo | Contenido |
