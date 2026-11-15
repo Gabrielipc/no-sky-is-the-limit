@@ -73,7 +73,7 @@ El muestreo de la capa global y la ATI por conglomerados necesitan las ventanas 
    ```bash
    ETL_ARGS="--steps sample,ati-cluster --ati-tiles 40 --ati-per-tile 5" bash cloud/azure/launch-spot.sh
    ```
-2. **Llevar las capas de Azure a GCS y muestrear en GCP.** Usa Storage Transfer Service de Google con origen Azure Blob y una SAS de solo lectura. Después: `ETL_SCRIPT="scripts/etl_capa_global.py" ETL_ARGS="sample"` con `cloud/gcp/launch-spot.sh`.
+2. **Llevar las capas de Azure a GCS y muestrear en GCP.** `bash cloud/transferir-capas-azure-gcs.sh` (con `STORAGE_ACCOUNT`, `PROJECT_ID`, `GCS_BUCKET`) usa Storage Transfer Service con una SAS de solo lectura de un día; al relanzarlo copia solo lo nuevo. Después: `ETL_SCRIPT="scripts/etl_secuencia.py" ETL_ARGS="--steps sample"` con `cloud/gcp/launch-spot.sh`.
 
 ## Seguir el progreso
 
