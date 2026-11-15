@@ -44,7 +44,7 @@ test('zero is a real measurement, missing comparisons are last, exclusions remai
 });
 test('links reject incompatible scales, unknown modes, arbitrary identifiers and cross-area selections', () => {
   const parsed = parseState('?view=global&cell=300&regionalCell=60&layer=unknown&profile=validated&excluded=maybe&area=utah&regionalSite=atacama-001-001&sensitivitySite=../../secret');
-  assert.equal(parsed.adjusted, true); assert.equal(parsed.state.view, 'compare'); assert.equal(parsed.state.cell, 60); assert.equal(parsed.state.regionalCell, 300); assert.equal(parsed.state.regionalSite, '');
+  assert.equal(parsed.adjusted, true); assert.equal(parsed.state.view, 'surface'); assert.equal(parsed.state.cell, 60); assert.equal(parsed.state.regionalCell, 300); assert.equal(parsed.state.regionalSite, '');
 });
 test('links preserve distinct experiments and an unavailable sample member without silently substituting it', () => {
   const { state, adjusted } = parseState('?view=sensitivity&site=earth-atacama&cell=120&area=mojave&regionalSite=control-mojave&sensitivitySite=utah-003-001&sensitivityCell=600&excluded=true');
@@ -134,4 +134,56 @@ test('external layer URLs permit services and reject executable schemes and embe
   for(const url of ['javascript:alert(1)','data:text/html,x','https://user:password@example.test','http://example.test']) {
     assert.throws(()=>surface.layerURL(url,'https://atlas.test/'));
   }
+});
+
+const journey = load('src/app/useAtlasState.ts');
+const motor = load('src/features/simulation/model.ts');
+const motorSource = load('src/features/simulation/source.ts');
+const example = JSON.parse(fs.readFileSync(path.resolve(base,'public/simulation/jezero.json'),'utf8'));
+test('journey links round-trip reference, candidate, release, method, map scale and atlas weights',()=>{
+  const state={...journey.defaults,view:'compare',reference:'haworth-fondo',regionId:example.results[0].region_id,release:'etl-30m-r2',method:'engine',engineSource:'demo',surfaceMode:'mesh',exaggeration:2.5,atlasSlope:0};
+  const parsed=journey.parseState(journey.stateQuery(state));
+  assert.equal(parsed.adjusted,false);
+  for(const key of ['view','reference','regionId','release','method','engineSource','surfaceMode','exaggeration','atlasSlope'])assert.equal(parsed.state[key],state[key]);
+  assert.equal(journey.parseState('?view=compare').state.method,'local');
+  const bad=journey.parseState('?reference=venus&regionId=../../etc&release=../x&exaggeration=8&atlasSlope=-2');
+  assert.equal(bad.adjusted,true);assert.equal(bad.state.regionId,'');assert.equal(bad.state.exaggeration,1);
+});
+test('old motor examples adapt coverage without changing distances, order, eligibility or absent features',()=>{
+  const data=motor.adaptSearch(example);
+  assert.equal(data.results[0].score,example.results[0].score);
+  assert.equal(data.results[0].scenario_eligibility,'excluded_permanent_water');
+  assert.equal(data.views.escabrosidad.coverage_fraction,1);
+  assert.equal(data.views.espectral.coverage_fraction,undefined);
+  assert.equal(motor.selectedMatch(data,'missing-window'),undefined);
+  assert.equal(motor.featureRows(data,data.results[0])[0].reference,example.reference.features.relief_p95_p05_m.value);
+  assert.throws(()=>motor.adaptSearch({...example,results:[{...example.results[0],score:NaN}]}));
+});
+test('missing similarity service falls back to labelled repository evidence, independent of release',async t=>{
+  const urls=[];
+  t.mock.method(globalThis,'fetch',async url=>{urls.push(url);return urls.length===1?{ok:false,status:404}:{ok:true,json:async()=>example};});
+  const result=await motorSource.loadSearch('jezero','release-real','auto','/',new AbortController().signal);
+  assert.equal(result.source,'demo');assert.equal(result.version,undefined);
+  assert.match(result.notice,/No está vinculado/);assert.match(urls[0],/version=release-real/);
+  assert.equal(urls[1],'/simulation/jezero.json');
+});
+test('published responses must confirm requested identity and are never silently replaced when invalid',async t=>{
+  t.mock.method(globalThis,'fetch',async()=>({ok:true,json:async()=>({...example,version:'r2'})}));
+  const good=await motorSource.loadSearch('jezero','r2','auto','/',new AbortController().signal);
+  assert.equal(good.source,'published');assert.equal(good.version,'r2');
+  await assert.rejects(motorSource.loadSearch('jezero','wrong-release','auto','/',new AbortController().signal),/publicación solicitada/);
+  await assert.rejects(motorSource.loadSearch('haworth-fondo','','auto','/',new AbortController().signal),/otra referencia/);
+});
+test('explicit demo bypasses service, preserves warnings and reports references without examples',async t=>{
+  const urls=[];t.mock.method(globalThis,'fetch',async url=>{urls.push(url);return {ok:true,json:async()=>example};});
+  const result=await motorSource.loadSearch('jezero','','demo','/',new AbortController().signal);
+  assert.equal(urls.length,1);assert.equal(urls[0],'/simulation/jezero.json');assert.deepEqual(Array.from(result.data.warnings),example.warnings);
+  await assert.rejects(motorSource.loadSearch('de-gerlache-cresta','','demo','/',new AbortController().signal),/todavía no tiene/);
+});
+test('metric rulers fit their viewport and profile uses exactly the mesh centre row',()=>{
+  const scale=surface.metricScale(2,120);assert.equal(scale.distance,200);assert.equal(scale.pixels,100);
+  assert.equal(surface.metricScale(NaN),null);
+  const row=surface.terrainProfile(new Float32Array([0,1,2,10,NaN,12,20,21,22]),{width:3,height:3,cell_m:30});
+  assert.deepEqual(Array.from(row,r=>r.distance),[0,30,60]);assert.equal(row[0].height,10);assert.ok(Number.isNaN(row[1].height));
+  assert.deepEqual(Array.from(surface.elevationColor(0,0,100)),[28,91,112]);assert.deepEqual(Array.from(surface.elevationColor(100,0,100)),[255,249,229]);
 });
