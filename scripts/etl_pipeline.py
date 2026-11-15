@@ -271,7 +271,9 @@ def run_cover(args: argparse.Namespace) -> None:
 def run_publish(args: argparse.Namespace) -> None:
     """Publish the store as an Atlas 30 m release readable by the API and the map."""
     store = FeatureStore(Path(args.store_dir), memory_limit=args.memory_limit, threads=args.threads)
-    manifest = publish.publish_release(store, args.version, profile_id=args.profile, set_current=args.set_current)
+    manifest = publish.publish_release(store, args.version, profile_id=args.profile, set_current=args.set_current,
+                                       similarity_model=Path(args.similarity_model) if args.similarity_model else None,
+                                       similarity_limit=args.similarity_limit)
     print(json.dumps({k: manifest[k] for k in ('version', 'coverage_status', 'counts', 'eligibility_counts',
                                                'cover_counts', 'normalization', 'incomplete_batches')},
                      indent=2, ensure_ascii=False))
@@ -373,6 +375,8 @@ def main() -> None:
     p_publish.add_argument('--version', required=True, help='Nombre de la publicación, p. ej. etl-30m-r1')
     p_publish.add_argument('--profile', choices=tuple(eligibility.PROFILES), default=eligibility.DEFAULT_PROFILE)
     p_publish.add_argument('--set-current', action='store_true', help='Activar como publicación por defecto')
+    p_publish.add_argument('--similarity-model', help='Modelo del motor (.joblib): añade similarity/<referencia>.json')
+    p_publish.add_argument('--similarity-limit', type=int, default=100, help='Resultados por referencia')
 
     p_compact = sub.add_parser('compact', help='Compactar deltas on-demand out-of-core')
     p_compact.add_argument('--subset', choices=(*contract.ENRICHMENT_SUBSETS, 'all'), default='all')
