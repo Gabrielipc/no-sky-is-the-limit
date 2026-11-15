@@ -20,17 +20,20 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 import hashlib
 import json
+from functools import lru_cache
 import math
 import time
 from pathlib import Path
+import urllib.request
 
 import numpy as np
 import rasterio
 import rasterio.errors
-from pyproj import CRS
+from pyproj import CRS, Transformer
 from rasterio.transform import from_origin
 from rasterio.warp import transform_bounds
 from rasterio.windows import Window, from_bounds
+from scipy.spatial import cKDTree
 
 from pipelines import atlas_sources as sources
 from pipelines import etl_extractors as extractors
@@ -142,7 +145,7 @@ def source_path(source: dict) -> str:
 
 def source_identity(source: dict, opened: str) -> dict:
     """SHA-256 of a local copy, or ETag/size/date of the remote object read by ranges."""
-    if not opened.startswith('/vsicurl/'):
+    if not opened.startswith(('/vsicurl/', 'http://', 'https://')):
         h = hashlib.sha256()
         with open(opened, 'rb') as f:
             for block in iter(lambda: f.read(1024 * 1024), b''):
@@ -208,6 +211,181 @@ def _read_footprint_once(opened: str, footprint: Footprint, scale: float, offset
             'crop_valid_fraction': float(valid.mean()) if valid.size else 0.0,
         }
     return values, support, meta
+
+
+def _read_range(location: str, start: int, length: int) -> bytes:
+    """`length` bytes at `start` from a local file or by an HTTP range request (retried)."""
+    if not location.startswith(('http://', 'https://')):
+        with open(location, 'rb') as f:
+            f.seek(start)
+            return f.read(length)
+    request = urllib.request.Request(location, headers={'Range': f'bytes={start}-{start + length - 1}'})
+    for attempt in range(1, READ_ATTEMPTS + 1):
+        try:
+            with urllib.request.urlopen(request, timeout=120) as response:
+                data = response.read()
+            if len(data) == length:
+                return data
+            error: Exception = OSError(f'Lectura incompleta: {len(data)} de {length} bytes')
+        except OSError as exc:
+            error = exc
+        if attempt == READ_ATTEMPTS:
+            raise error
+        time.sleep(READ_BACKOFF_S * attempt)
+    raise AssertionError('unreachable')
+
+
+def _location(source: dict) -> str:
+    local = source.get('path')
+    if local and (ROOT / local).exists():
+        return str(ROOT / local)
+    if local and Path(local).exists():
+        return str(local)
+    if source.get('url'):
+        return source['url']
+    raise FileNotFoundError(f"Fuente sin ruta local ni URL: {source.get('id')}")
+
+
+def _footprint_lonlat(footprint: Footprint) -> tuple[np.ndarray, np.ndarray]:
+    """Planetocentric longitude and latitude (degrees) of every cell centre of the footprint."""
+    rows, cols = footprint.shape
+    x = -footprint.half_m + (np.arange(cols) + 0.5) * footprint.cell_m
+    y = footprint.half_m - (np.arange(rows) + 0.5) * footprint.cell_m
+    xx, yy = np.meshgrid(x, y)
+    sphere = CRS.from_proj4(f'+proj=longlat +R={MOON_RADIUS_M:.0f} +no_defs')
+    lon, lat = Transformer.from_crs(footprint.crs, sphere, always_xy=True).transform(xx, yy)
+    return np.asarray(lon, dtype='float64'), np.asarray(lat, dtype='float64')
+
+
+MAX_CYLINDRICAL_LON_SPAN_PX = 4000
+
+
+def read_cylindrical(source: dict, footprint: Footprint, scale: float = 1.0, offset: float = 0.0,
+                     valid_range: tuple[float, float] | None = None) -> tuple[np.ndarray, np.ndarray, dict]:
+    """Sample a PDS3 simple-cylindrical float32 mosaic (e.g. Mini-RF) at the footprint cell centres.
+
+    Only the rows and columns the footprint touches are fetched. The grid is simple
+    cylindrical on the lunar sphere, so close to a pole one pixel is much narrower in
+    longitude than in latitude: each 30 m cell takes the value of the pixel that contains
+    it (no averaging), and the effective resolution is the latitude step.
+    """
+    ppd = float(source['pixels_per_degree'])
+    lines, samples = int(source['lines']), int(source['line_samples'])
+    missing = float(source.get('missing_constant', -1.7976931e308))
+    lon, lat = _footprint_lonlat(footprint)
+    row = np.clip(np.floor((90.0 - lat) * ppd).astype(int), 0, lines - 1)
+    col = np.floor((((lon + 180.0) % 360.0)) * ppd).astype(int) % samples
+    c0, c1 = int(col.min()), int(col.max())
+    if c1 - c0 > MAX_CYLINDRICAL_LON_SPAN_PX:
+        raise ValueError('La huella cruza el antimeridiano o está demasiado cerca del polo para el mosaico cilíndrico')
+    location = _location(source)
+    r0, r1 = int(row.min()), int(row.max())
+    width = c1 - c0 + 1
+    block = np.empty((r1 - r0 + 1, width), dtype='float64')
+    for r in range(r0, r1 + 1):
+        raw = _read_range(location, (r * samples + c0) * 4, width * 4)
+        block[r - r0] = np.frombuffer(raw, dtype='<f4')
+    data = block[row - r0, col - c0]
+    valid = np.isfinite(data) & (data > missing * 0.5)
+    data = data * scale + offset
+    if valid_range is not None:
+        valid &= (data >= valid_range[0]) & (data <= valid_range[1])
+    data = np.where(valid, data, np.nan)
+    support = valid.astype('float64')
+    meta = {
+        'crs_wkt': CRS.from_proj4(f'+proj=eqc +lat_ts=0 +lat_0=0 +lon_0=0 +R={MOON_RADIUS_M:.0f} +units=m +no_defs').to_wkt(),
+        'native_resolution_m': float(math.radians(1.0 / ppd) * MOON_RADIUS_M),
+        'source_window': [c0, r0, width, r1 - r0 + 1],
+        'crop_valid_fraction': float(np.isfinite(block).mean()),
+    }
+    return data, support, meta
+
+
+PRP_FIELDS = {'lon': (126, 141), 'lat': (143, 158), 'temp_avg': (177, 185), 'temp_max': (187, 195)}
+PRP_BLOCK_RECORDS = 150_000
+PRP_STEREO_WINDOW_M = 6_000.0
+
+
+def _prp_field(records: np.ndarray, name: str) -> np.ndarray:
+    a, b = PRP_FIELDS[name]
+    return np.ascontiguousarray(records[:, a:b]).view(f'S{b - a}').ravel().astype('float64')
+
+
+@lru_cache(maxsize=2)
+def _prp_centres(location: str, record_bytes: int, n_records: int, header_records: int = 1) -> dict[str, np.ndarray]:
+    """Centre, temperature and polar-stereographic position of every triangle of a PRP table.
+
+    The table is read in blocks of whole records (never saved to disk). It is not ordered by
+    position, so every site needs the whole file once; the result is cached per process.
+    """
+    parts: dict[str, list[np.ndarray]] = {k: [] for k in PRP_FIELDS}
+    done = header_records  # the first record holds the column headings
+    while done < n_records:
+        count = min(PRP_BLOCK_RECORDS, n_records - done)
+        raw = _read_range(location, done * record_bytes, count * record_bytes)
+        records = np.frombuffer(raw, dtype='uint8').reshape(count, record_bytes)
+        for name in PRP_FIELDS:
+            parts[name].append(_prp_field(records, name))
+        done += count
+    out = {k: np.concatenate(v) for k, v in parts.items()}
+    sphere = CRS.from_proj4(f'+proj=longlat +R={MOON_RADIUS_M:.0f} +no_defs')
+    south = Transformer.from_crs(sphere, SOUTH_POLAR_STEREO, always_xy=True)
+    out['x'], out['y'] = south.transform(out['lon'], out['lat'])
+    return out
+
+
+def read_prp_table(source: dict, footprint: Footprint, valid_range: tuple[float, float] | None = None
+                   ) -> tuple[np.ndarray, np.ndarray, dict]:
+    """Rasterize a PRP triangle table onto the footprint: each cell takes the nearest triangle centre.
+
+    A cell farther than `match_max_distance_m` from every centre stays empty (NaN). The table
+    describes the south polar cap only; a north footprint is rejected.
+    """
+    if footprint.latitude >= 0:
+        raise ValueError('La tabla PRP del sur no cubre sitios del hemisferio norte')
+    centres = _prp_centres(_location(source), int(source['record_bytes']), int(source['records']),
+                           int(source.get('header_records', 1)))
+    sphere = CRS.from_proj4(f'+proj=longlat +R={MOON_RADIUS_M:.0f} +no_defs')
+    cx, cy = Transformer.from_crs(sphere, SOUTH_POLAR_STEREO, always_xy=True).transform(
+        footprint.longitude, footprint.latitude)
+    near = np.hypot(centres['x'] - cx, centres['y'] - cy) <= footprint.half_m * 1.5 + PRP_STEREO_WINDOW_M
+    values = centres[source['column']][near]
+    valid_row = np.isfinite(values) & (values > 0)
+    if valid_range is not None:
+        valid_row &= (values >= valid_range[0]) & (values <= valid_range[1])
+    rows, cols = footprint.shape
+    data = np.full((rows, cols), np.nan)
+    if valid_row.any():
+        local = Transformer.from_crs(sphere, footprint.crs, always_xy=True)
+        px, py = local.transform(centres['lon'][near][valid_row], centres['lat'][near][valid_row])
+        x = -footprint.half_m + (np.arange(cols) + 0.5) * footprint.cell_m
+        y = footprint.half_m - (np.arange(rows) + 0.5) * footprint.cell_m
+        xx, yy = np.meshgrid(x, y)
+        distance, index = cKDTree(np.column_stack([px, py])).query(np.column_stack([xx.ravel(), yy.ravel()]))
+        found = distance.reshape(rows, cols) <= float(source.get('match_max_distance_m', 500.0))
+        data = np.where(found, values[valid_row][index].reshape(rows, cols), np.nan)
+    support = np.isfinite(data).astype('float64')
+    meta = {
+        'crs_wkt': SOUTH_POLAR_STEREO.to_wkt(),
+        'native_resolution_m': float(source.get('native_resolution_m', 500.0)),
+        'source_window': [0, 0, int(source['records']), 1],
+        'crop_valid_fraction': float(np.isfinite(data).mean()),
+    }
+    return data, support, meta
+
+
+def read_source(source: dict, footprint: Footprint) -> tuple[np.ndarray, np.ndarray, dict]:
+    """Read one confirmed source onto `footprint` with the reader its spec entry names."""
+    valid_range = tuple(source['valid_range']) if source.get('valid_range') else None
+    reader = source.get('reader', 'raster')
+    if reader == 'raster':
+        return read_footprint(source_path(source), footprint, source.get('scale', 1.0),
+                              source.get('offset', 0.0), valid_range)
+    if reader == 'pds3_simple_cylindrical_f32':
+        return read_cylindrical(source, footprint, source.get('scale', 1.0), source.get('offset', 0.0), valid_range)
+    if reader == 'pds3_polar_resource_table':
+        return read_prp_table(source, footprint, valid_range)
+    raise ValueError(f"Lector desconocido para {source.get('id')}: {reader}")
 
 
 def manifest_row(manifest_id: str, source: dict, identity: dict, meta: dict, now: datetime) -> dict:
@@ -370,25 +548,30 @@ def extract_lunar_dimensions(site: dict, base_row: dict, spec: dict,
     row: dict = {'region_id': region_id(site['id'])}
     diagnostics: dict = {}
     for dim, dim_spec in spec['dimensions'].items():
-        layers = dim_spec['layers']
+        # A column is measured when every source it needs is confirmed; the rest stay empty.
+        # The dimension is configured as soon as one column can be measured.
+        layers = {
+            column: layer for column, layer in dim_spec['layers'].items()
+            if all(srcs[s].get('status') == 'confirmed' for s in {layer['source'], *([layer['minus']] if 'minus' in layer else [])})
+        }
         needed = {layer['source'] for layer in layers.values()} | {
             layer['minus'] for layer in layers.values() if 'minus' in layer
         }
-        configured = all(srcs[s].get('status') == 'confirmed' for s in needed)
+        configured = bool(layers)
         if configured:
             for sid in sorted(needed - arrays.keys()):
                 src = {**srcs[sid], 'id': sid}
-                opened = source_path(src)
-                vr = tuple(src['valid_range']) if src.get('valid_range') else None
-                values, _, meta = read_footprint(opened, footprint, src.get('scale', 1.0), src.get('offset', 0.0), vr)
+                values, _, meta = read_source(src, footprint)
                 arrays[sid] = values
-                used[sid] = (src, source_identity(src, opened), meta)
+                used[sid] = (src, source_identity(src, _location(src) if src.get('reader') else source_path(src)), meta)
         values, fraction = summarize_layers(dim, layers, arrays) if configured else (
             dict.fromkeys(LUNAR_DIMENSIONS[dim]), None)
         row.update(values)
         row[f'{dim}_valid_fraction'] = fraction
         row[f'{dim}_status'] = dimension_status(dim, values, fraction or 0.0, configured)
-        diagnostics[dim] = {'configured': configured, 'sources': sorted(needed)}
+        diagnostics[dim] = {'configured': configured, 'sources': sorted(needed),
+                            'columns_measured': sorted(layers),
+                            'columns_empty': sorted(set(dim_spec['layers']) - set(layers))}
 
     row['lunar_site_profile'] = LUNAR_SITE_PROFILE
     row['lunar_site_status'] = classify_lunar_site(base_row, row, spec['site_gate'][LUNAR_SITE_PROFILE])

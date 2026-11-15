@@ -53,3 +53,12 @@ Atribución de los derivados Copernicus (GLO-30 Public, release 2021, COGs de AW
 
 Origen y condiciones: https://registry.opendata.aws/copernicus-dem/ y
 https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM
+
+Caché de demostración de Jezero: el catálogo incluye las mallas regionales y locales
+de los diez primeros resultados del motor obtenidos el 15 de noviembre de 2026.
+Se identifican por ID y coordenadas exactas, no por posición en el ranking. Los
+datos se preparan con `frontend/scripts/cache-jezero-terrain.py` a partir de una
+respuesta JSON del motor; las mallas se precargan y reutilizan durante la sesión.
+Los recortes regionales que cruzan una tesela Copernicus pueden tener huecos,
+indicados por su cobertura; las mallas locales incluidas tienen cobertura completa.
+Las imágenes satelitales y el relieve global de Esri siguen requiriendo conexión.

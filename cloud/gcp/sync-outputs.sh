@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Uploads the Feature Store, releases, global surface layers and evidence from the VM to GCS.
+# Uploads the Feature Store, releases, global surface layers, the Moon/Mars mirror and evidence from the VM to GCS.
 # Called periodically while the ETL runs, by the VM shutdown-script (Spot preemption)
 # and once more when the ETL ends. Only files already moved into place are uploaded:
 # the store writes each delta into a `tmp*` directory and then renames it, so those
@@ -38,6 +38,8 @@ sync_dir() {
 sync_dir "$WORKDIR/data/feature_store_v1" "${GCS_BUCKET}/data/feature_store_v1"
 sync_dir "$WORKDIR/releases" "${GCS_BUCKET}/releases" "$RELEASES_EXCLUDE"
 sync_dir "$WORKDIR/data/global_layers" "${GCS_BUCKET}/data/global_layers"
+# Verified mirror of the Moon/Mars rasters (scripts/etl_referencias.py espejo); `.part` downloads are excluded.
+sync_dir "$WORKDIR/data/raw/espejo" "${GCS_BUCKET}/data/raw/espejo"
 for evidence in "$WORKDIR"/docs/evidencia-*; do
     [[ -d "$evidence" ]] && sync_dir "$evidence" "${GCS_BUCKET}/docs/$(basename "$evidence")"
 done

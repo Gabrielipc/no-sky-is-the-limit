@@ -1,0 +1,162 @@
+{
+  "source": "Global Volcanism Program, Smithsonian Institution · Volcanoes of the World (volcanes holocenos)",
+  "source_url": "https://volcano.si.edu/",
+  "volcanoes": [
+    {
+      "id": "344010",
+      "name": "Cosiguina",
+      "longitude": -87.57,
+      "latitude": 12.98,
+      "type": "Stratovolcano",
+      "landform": "Composite",
+      "last_eruption_year": 1859,
+      "rock": "Andesite / Basaltic Andesite",
+      "elevation_m": 872,
+      "url": "https://volcano.si.edu/volcano.cfm?vn=344010"
+    },
+    {
+      "id": "344020",
+      "name": "San Cristobal",
+      "longitude": -87.004,
+      "latitude": 12.702,
+      "type": "Stratovolcano",
+      "landform": "Composite",
+      "last_eruption_year": 2024,
+      "rock": "Basalt / Picro-Basalt",
+      "elevation_m": 1745,
+      "url": "https://volcano.si.edu/volcano.cfm?vn=344020"
+    },
+    {
+      "id": "344040",
+      "name": "Telica",
+      "longitude": -86.84,
+      "latitude": 12.606,
+      "type": "Stratovolcano(es)",
+      "landform": "Composite",
+      "last_eruption_year": 2025,
+      "rock": "Basalt / Picro-Basalt",
+      "elevation_m": 1036,
+      "url": "https://volcano.si.edu/volcano.cfm?vn=344040"
+    },
+    {
+      "id": "344070",
+      "name": "Negro, Cerro",
+      "longitude": -86.702,
+      "latitude": 12.506,
+      "type": "Pyroclastic cone(s)",
+      "landform": "Minor",
+      "last_eruption_year": 1999,
+      "rock": "Basalt / Picro-Basalt",
+      "elevation_m": 728,
+      "url": "https://volcano.si.edu/volcano.cfm?vn=344070"
+    },
+    {
+      "id": "344080",
+      "name": "Las Pilas-El Hoyo Complex",
+      "longitude": -86.6786,
+      "latitude": 12.4922,
+      "type": "Complex",
+      "landform": "Composite",
+      "last_eruption_year": 1954,
+      "rock": "Andesite / Basaltic Andesite",
+      "elevation_m": 1088,
+      "url": "https://volcano.si.edu/volcano.cfm?vn=344080"
+    },
+    {
+      "id": "344090",
+      "name": "Momotombo",
+      "longitude": -86.539,
+      "latitude": 12.423,
+      "type": "Stratovolcano",
+      "landform": "Composite",
+      "last_eruption_year": 2016,
+      "rock": "Basalt / Picro-Basalt",
+      "elevation_m": 1270,
+      "url": "https://volcano.si.edu/volcano.cfm?vn=344090"
+    },
+    {
+      "id": "344091",
+      "name": "Apoyeque",
+      "longitude": -86.342,
+      "latitude": 12.242,
+      "type": "Caldera",
+      "landform": "Caldera",
+      "last_eruption_year": -50,
+      "rock": "Dacite",
+      "elevation_m": 518,
+      "url": "https://volcano.si.edu/volcano.cfm?vn=344091"
+    },
+    {
+      "id": "344092",
+      "name": "Nejapa-Miraflores",
+      "longitude": -86.32,
+      "latitude": 12.12,
+      "type": "Fissure vent(s)",
+      "landform": "Cluster",
+      "last_eruption_year": 1060,
+      "rock": "Basalt / Picro-Basalt",
+      "elevation_m": 360,
+      "url": "https://volcano.si.edu/volcano.cfm?vn=344092"
+    },
+    {
+      "id": "344100",
+      "name": "Masaya",
+      "longitude": -86.1688,
+      "latitude": 11.9844,
+      "type": "Caldera",
+      "landform": "Caldera",
+      "last_eruption_year": 2026,
+      "rock": "Basalt / Picro-Basalt",
+      "elevation_m": 594,
+      "url": "https://volcano.si.edu/volcano.cfm?vn=344100"
+    },
+    {
+      "id": "344101",
+      "name": "Granada",
+      "longitude": -85.979,
+      "latitude": 11.9,
+      "type": "Fissure vent(s)",
+      "landform": "Cluster",
+      "last_eruption_year": null,
+      "rock": "Basalt / Picro-Basalt",
+      "elevation_m": 250,
+      "url": "https://volcano.si.edu/volcano.cfm?vn=344101"
+    },
+    {
+      "id": "344110",
+      "name": "Mombacho",
+      "longitude": -85.968,
+      "latitude": 11.826,
+      "type": "Stratovolcano",
+      "landform": "Composite",
+      "last_eruption_year": null,
+      "rock": "Andesite / Basaltic Andesite",
+      "elevation_m": 1344,
+      "url": "https://volcano.si.edu/volcano.cfm?vn=344110"
+    },
+    {
+      "id": "344111",
+      "name": "Zapatera",
+      "longitude": -85.82,
+      "latitude": 11.73,
+      "type": "Shield",
+      "landform": "Shield",
+      "last_eruption_year": null,
+      "rock": "Andesite / Basaltic Andesite",
+      "elevation_m": 629,
+      "url": "https://volcano.si.edu/volcano.cfm?vn=344111"
+    },
+    {
+      "id": "344120",
+      "name": "Concepcion",
+      "longitude": -85.622,
+      "latitude": 11.538,
+      "type": "Stratovolcano",
+      "landform": "Composite",
+      "last_eruption_year": 2024,
+      "rock": "Andesite / Basaltic Andesite",
+      "elevation_m": 1700,
+      "url": "https://volcano.si.edu/volcano.cfm?vn=344120"
+    }
+  ]
+}

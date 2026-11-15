@@ -38,10 +38,34 @@ def write_polar_raster(path: Path, fn, crs=lunar.SOUTH_POLAR_STEREO, half=7000, 
 
 
 def spec_with(sources: dict) -> dict:
+    """The real spec with every source unconfirmed except `sources` (tests never touch the network)."""
     spec = json.loads(lunar.SPEC_PATH.read_text(encoding='utf-8'))
+    for sid in spec['sources']:
+        if spec['sources'][sid].get('status') == 'confirmed' and sid not in sources and 'dem' not in sid:
+            spec['sources'][sid] = {**spec['sources'][sid], 'status': 'pending_identity'}
     for sid, src in sources.items():
         spec['sources'][sid] = src
     return spec
+
+
+def write_cylindrical(path: Path, fn, lines: int = 23040, samples: int = 46080) -> None:
+    """Float32 little-endian simple-cylindrical image at 128 px/deg; value = fn(row, col)."""
+    r0, r1 = lines - 1400, lines  # only the rows near the south pole are written; the rest stays sparse
+    with open(path, 'wb') as f:
+        f.truncate(lines * samples * 4)
+        for r in range(r0, r1):
+            f.seek(r * samples * 4)
+            f.write(np.array([fn(r, c) for c in range(samples)], dtype='<f4').tobytes())
+
+
+def write_prp(path: Path, rows: list[tuple[float, float, float, float]]) -> None:
+    """PRP-like fixed-width table (210 bytes per record): lon, lat, temp_avg, temp_max."""
+    with open(path, 'wb') as f:
+        f.write((' ' * 208 + '\r\n').encode('ascii'))  # header record with the column names
+        for lon, lat, avg, tmax in rows:
+            line = ' ' * 126 + f'{lon:15.9f}, {lat:15.9f}, {0.0:15.9f}, {avg:8.3f}, {tmax:8.3f}, {-999.0:11.5f}'
+            f.write((line + '\r\n').encode('ascii'))
+            assert len(line) == 208
 
 
 class TestLunarGeometry(unittest.TestCase):
@@ -204,6 +228,92 @@ class TestLunarStore(unittest.TestCase):
         self.assertIsNone(earth_row[5])
         self.assertEqual(frames, {'dem.tif': 'MOON_ME_DE421', 'psr.tif': 'MOON_ME_DE421', 'tile': 'EARTH_WGS84'})
         self.assertEqual([r['region_id'] for r in ranked], ['earth-1'])
+
+
+class TestLunarReaders(unittest.TestCase):
+    def setUp(self) -> None:
+        lunar._prp_centres.cache_clear()
+        self.footprint = lunar.core_footprint(SITE['longitude'], SITE['latitude'])
+
+    def test_cylindrical_reader_samples_each_cell(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'cpr.img'
+            write_cylindrical(path, lambda r, c: 0.5 if (r % 2) else 1.5)
+            src = {'path': str(path), 'pixels_per_degree': 128.0, 'lines': 23040, 'line_samples': 46080,
+                   'missing_constant': -1.7976931e308}
+            values, support, meta = lunar.read_cylindrical(src, self.footprint, valid_range=(0.0, 10.0))
+        self.assertEqual(values.shape, self.footprint.shape)
+        self.assertEqual(set(np.unique(values[np.isfinite(values)]).round(3)), {0.5, 1.5})
+        self.assertEqual(float(support.mean()), 1.0)
+        self.assertAlmostEqual(meta['native_resolution_m'], 236.9, delta=0.2)
+
+    def test_cylindrical_reader_drops_missing_and_out_of_range(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'cpr.img'
+            write_cylindrical(path, lambda r, c: -1.7976931e308 if c % 2 else 70.0)
+            src = {'path': str(path), 'pixels_per_degree': 128.0, 'lines': 23040, 'line_samples': 46080,
+                   'missing_constant': -1.7976931e308}
+            values, support, _ = lunar.read_cylindrical(src, self.footprint, valid_range=(0.0, 10.0))
+        self.assertFalse(np.isfinite(values).any())
+        self.assertEqual(float(support.mean()), 0.0)
+
+    def test_prp_reader_nearest_triangle_and_gap(self) -> None:
+        sphere = lunar.CRS.from_proj4(f'+proj=longlat +R={lunar.MOON_RADIUS_M:.0f} +no_defs')
+        to_lonlat = Transformer.from_crs(self.footprint.crs, sphere, always_xy=True)
+        rows = []
+        for dx in range(-1500, 1501, 300):  # one centre every 300 m along the east-west line through the site
+            lon, lat = to_lonlat.transform(float(dx), 0.0)
+            rows.append((lon, lat, 90.0, 200.0 + dx / 100.0))
+        lon, lat = to_lonlat.transform(0.0, 5000.0)  # far from the footprint: must not leak in
+        rows.append((lon, lat, 90.0, 999.0))
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / 'prp.tab'
+            write_prp(path, rows)
+            src = {'path': str(path), 'record_bytes': 210, 'records': len(rows) + 1, 'column': 'temp_max',
+                   'match_max_distance_m': 300.0, 'valid_range': [10.0, 450.0]}
+            values, support, _ = lunar.read_prp_table(src, self.footprint, (10.0, 450.0))
+        n = self.footprint.shape[0]
+        mid = values[n // 2]
+        self.assertLess(abs(float(np.nanmin(mid)) - 185.0), 2.0)
+        self.assertLess(abs(float(np.nanmax(mid)) - 215.0), 2.0)
+        self.assertTrue(np.isnan(values[0]).all())  # the top row is >1 km from the line of centres
+        self.assertLess(float(np.nanmax(values)), 300.0)
+
+    def test_prp_reader_rejects_north_footprint(self) -> None:
+        north = lunar.core_footprint(10.0, 88.0)
+        with self.assertRaises(ValueError):
+            lunar.read_prp_table({'record_bytes': 210, 'records': 1, 'path': __file__, 'column': 'temp_max'}, north)
+
+    def test_unknown_reader_is_rejected(self) -> None:
+        with self.assertRaises(ValueError):
+            lunar.read_source({'id': 'x', 'reader': 'nope'}, self.footprint)
+
+
+class TestPartialDimensions(unittest.TestCase):
+    def test_measured_column_next_to_unavailable_one(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            tmax = Path(tmp) / 'tmax.tif'
+            write_polar_raster(tmax, lambda x, y: np.full(x.shape, 250.0))
+            spec = spec_with({
+                'diviner_tmax_south': {'status': 'confirmed', 'path': str(tmax), 'product_id': 'd', 'asset_id': 'tmax'},
+                'diviner_tmin_south': {'status': 'unavailable', 'product_id': 'd', 'asset_id': 'tmin'},
+            })
+            row, _, diag = lunar.extract_lunar_dimensions(SITE, {'slope_240m_p90_deg': 5.0}, spec, NOW)
+        self.assertEqual(row['diviner_temperature_status'], 'measured')
+        self.assertAlmostEqual(row['diviner_tmax_p50_k'], 250.0, places=3)
+        self.assertIsNone(row['diviner_tmin_p50_k'])
+        self.assertIsNone(row['diviner_tamp_p50_k'])
+        self.assertEqual(diag['diviner_temperature']['columns_empty'], ['diviner_tamp_p50_k', 'diviner_tmin_p50_k'])
+        contract.validate_table(pa.Table.from_pylist([row], schema=contract.ENRICHMENT_LUNAR_SCHEMA),
+                                'enrichment_lunar')
+
+    def test_real_spec_confirms_the_polar_products(self) -> None:
+        sources = lunar.load_spec()['sources']
+        for sid in ('lola_illumination_avg', 'diviner_tmax_south', 'minirf_cpr'):
+            self.assertEqual(sources[sid]['status'], 'confirmed', sid)
+        for sid in ('diviner_tmin_south', 'diviner_rock_abundance', 'diviner_h_parameter', 'minirf_s1'):
+            self.assertEqual(sources[sid]['status'], 'unavailable', sid)
+        self.assertEqual(sources['lola_illumination_avg']['scale'], 4e-05)
 
 
 class TestLunarSpec(unittest.TestCase):

@@ -10,6 +10,9 @@ Steps (default: build,sample,ati-cluster):
   fit          Fit the similarity engine (`motor_similitud.py fit`) into --model. Needs base windows.
   publish      Publish an Atlas release (`etl_pipeline.py publish`) with the engine results and the
                model when one is available (--model, written by `fit`). Needs base windows.
+  luna         Measure the lunar references (`etl_luna.py referencia`): topography, illumination, PSR,
+               Diviner Tmax and Mini-RF CPR. Writes the Moon windows and `enrichment_lunar`; it does not
+               need Earth base windows. Run it before `fit` so the lunar references exist.
   verify       Check the published release against the contracts (`verificar_release.py`) and keep
                the report in docs/evidencia-capa-global/verificacion-<version>.json.
 
@@ -34,7 +37,7 @@ sys.path.insert(0, str(ROOT))
 
 DEFAULT_STORE = Path(os.environ.get('ANALOGOS_FEATURE_STORE_DIR') or (ROOT / 'data/feature_store_v1'))
 DEFAULT_SUMMARY = ROOT / 'docs/evidencia-capa-global/secuencia.json'
-STEPS = ('build', 'sample', 'ati-cluster', 'fit', 'publish', 'verify')
+STEPS = ('build', 'sample', 'ati-cluster', 'luna', 'fit', 'publish', 'verify')
 DEFAULT_MODEL = ROOT / 'data/features/modelos-similitud/motor-similitud-ml-v1.joblib'
 
 
@@ -55,6 +58,8 @@ def commands(args: argparse.Namespace) -> dict[str, list[str]]:
                         '--dimension', 'apparent_thermal_inertia', '--no-topographic-candidates',
                         '--background-cluster-tiles', str(args.ati_tiles), '--background-per-tile',
                         str(args.ati_per_tile), '--skip-measured', '--workers', str(args.workers)],
+        'luna': [py, str(ROOT / 'scripts/etl_luna.py'), '--store-dir', str(args.store_dir),
+                 '--memory-limit', args.memory_limit, 'referencia'],
         'fit': [py, str(ROOT / 'scripts/motor_similitud.py'), '--store-dir', str(args.store_dir), '--model',
                 str(args.model), '--memory-limit', args.memory_limit, '--threads', str(os.cpu_count() or 4), 'fit'],
         'publish': [py, str(ROOT / 'scripts/etl_pipeline.py'), '--store-dir', str(args.store_dir), 'publish',

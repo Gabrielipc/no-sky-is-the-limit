@@ -36,6 +36,15 @@ class SequenceTest(unittest.TestCase):
             written = json.loads((Path(tmp) / 'secuencia.json').read_text())
             self.assertEqual(written['steps']['sample']['status'], 'skipped')
 
+    def test_luna_step_runs_without_earth_base_windows(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            summary, calls = self.run_seq(Path(tmp) / 'store', 'luna')
+            self.assertEqual(summary['steps']['luna']['status'], 'ok')
+            self.assertEqual(len(calls), 1)
+            self.assertEqual(Path(calls[0][1]).name, 'etl_luna.py')
+            self.assertEqual(calls[0][-1], 'referencia')
+            self.assertIn('--store-dir', calls[0])
+
     def test_with_sweep_runs_everything_and_continues_after_failure(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             store = Path(tmp) / 'store'

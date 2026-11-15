@@ -38,31 +38,6 @@
   border-bottom-color: var(--accent);
   color: var(--accent);
 }
-.regolith-tools {
-  position: relative;
-}
-.regolith-tools summary {
-  padding: 12px;
-  color: var(--muted);
-  font-size: 13px;
-}
-.regolith-tools > div {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  padding: 8px;
-  width: 250px;
-  box-shadow: 0 16px 40px #0008;
-  display: grid;
-  gap: 4px;
-}
-.regolith-tools button {
-  text-align: left;
-  border: 0;
-  background: transparent;
-}
 .regolith-descriptor {
   margin-left: auto;
   font-size: 10px;
@@ -163,6 +138,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) 350px;
   grid-template-areas: "maps panel" "list panel";
+  grid-template-rows: max-content auto;
   gap: 20px;
   align-items: start;
 }
@@ -897,14 +873,6 @@
     text-align: left;
     line-height: 1.4;
   }
-  .regolith-tools summary {
-    font-size: 11px;
-    padding: 8px 2px;
-  }
-  .regolith-tools > div {
-    left: auto;
-    right: 0;
-  }
   .regolith-main {
     padding: 20px 14px 28px;
   }
@@ -921,6 +889,7 @@
   .u-layout {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "maps" "panel" "list";
+    grid-template-rows: auto;
     gap: 20px;
   }
   .u-toolbar {
@@ -1049,19 +1018,26 @@
   bottom: 26px !important;
 }
 @media (max-width: 740px) {
+  /* Con dos secciones (Explorar y Nicaragua) la navegación baja a su propia fila. */
+  .regolith-header {
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
   .regolith-header nav {
+    order: 3;
+    flex-basis: 100%;
     min-width: 0;
-    gap: 4px;
+    margin-left: 0;
+    gap: 22px;
   }
   .regolith-header nav > button {
     min-width: 0;
-    max-width: 100px;
-    font-size: 11px;
+    max-width: none;
+    font-size: 13px;
+    padding: 6px 0;
   }
-  .regolith-tools summary {
-    max-width: 70px;
-    white-space: normal;
-    line-height: 1.4;
+  .regolith-mode {
+    margin-left: auto;
   }
   .u-scene .cesium-credit-logoContainer img {
     max-width: 75px !important;
@@ -1406,3 +1382,16 @@
 .is-simple .u-candidate-list {
   max-height: none;
 }
+
+/* Keep the public comparison readable alongside the scenes. */
+.is-simple .u-inspector { padding: 18px; }
+.is-simple .u-inspector h2 { font-size: 20px; }
+.is-simple .u-inspector h2 > span { font-size: 14px; margin-top: 3px; }
+.is-simple .u-similarity { padding: 10px 0; margin: 10px 0; }
+.is-simple .u-similarity > strong { font-size: 32px; }
+.is-simple .u-meter { margin-top: 6px; }
+.u-dimension-summary { margin-top: 6px; }
+.u-dimension-summary > div { display: flex; justify-content: space-between; gap: 12px; padding: 5px 0; border-bottom: 1px solid #85705a44; font-size: 12px; }
+.u-dimension-summary strong { white-space: nowrap; font-weight: 500; }
+.u-dimension-help { color: var(--muted); font-size: 11px; line-height: 1.4; margin-top: 8px; }
+.is-simple .u-note { font-size: 11px; line-height: 1.4; margin-top: 8px; }
