@@ -562,11 +562,13 @@ def gmm_view(zc: np.ndarray, zref: np.ndarray, gmm: dict) -> tuple[np.ndarray, n
     dist, comp, pmax = np.full(n, np.nan), np.full(n, -1), np.full(n, np.nan)
     ref_post = np.full(len(gmm['weights']), np.nan)
     avail = np.isfinite(zc) & np.isfinite(zref)[None, :]
-    if n == 0:
-        return dist, comp, pmax, ref_post
+    # The reference posterior does not depend on the candidates: an empty pool (a profile with no
+    # eligible windows) must still report it, never NaN (which is not valid JSON).
     full = np.isfinite(zref)
     if full.any():
         ref_post = np.exp(_gmm_log_resp(zref[full][None, :], gmm, np.flatnonzero(full)))[0]
+    if n == 0:
+        return dist, comp, pmax, ref_post
     patterns, inverse = _group_patterns(avail)
     for pi, pattern in enumerate(patterns):
         if not pattern.any():

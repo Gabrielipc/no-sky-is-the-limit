@@ -163,6 +163,16 @@ class SimilarityAPITest(unittest.TestCase):
         self.assertEqual(res.json()['profile'], 'polar_cold_v1')
         self.assertIn('polar_cold_v1', similarity.service().status()['profiles_loaded'])
 
+    def test_profile_without_eligible_windows_answers_an_empty_ranking(self) -> None:
+        # The fixture store has no polar-eligible window: the answer is an empty, valid ranking, not a 500.
+        res = self.post({'reference': 'jezero', 'profile': 'polar_cold_v1', 'only_eligible': True, 'limit': 3})
+        self.assertEqual(res.status_code, 200, res.text)
+        body = res.json()
+        if body['candidates_in_pool'] == 0:
+            self.assertEqual(body['results'], [])
+            posterior = body['views']['regimen_morfologico'].get('reference_posterior', [])
+            self.assertTrue(all(isinstance(p, (int, float)) for p in posterior))
+
     # -- errors ------------------------------------------------------------
     def test_validation_errors_are_422(self) -> None:
         bad = [
