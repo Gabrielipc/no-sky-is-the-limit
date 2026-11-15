@@ -4,13 +4,13 @@ import type { SurfaceMetric } from '../domain/dimensions';
 import { crismLayers, type CrismLayer, type MineralLayer } from '../domain/minerals';
 
 export type AtlasState = {
-  view: 'compare' | 'explore' | 'sensitivity' | 'dimensions' | 'world'; site: string; cell: 60 | 120; layer: Layer; surfaceMetric: SurfaceMetric;
+  view: 'surface' | 'compare' | 'explore' | 'sensitivity' | 'dimensions' | 'world'; surfaceSite: string; site: string; cell: 60 | 120; layer: Layer; surfaceMetric: SurfaceMetric;
   area: string; regionalCell: 300 | 600; profile: Profile; excluded: boolean; sort: Sort;
   regionalSite: string; sensitivitySite: string; sensitivityCell: number;
   dimensionSection: 'minerals' | 'geometry' | 'thermal'; mineralGroup: 1 | 2; mineralLayer: MineralLayer;
   mineralId: number; mineralFit: number; mineralMaxSlope: number; crismLayer: CrismLayer;
 };
-export const defaults: AtlasState = { view: 'compare', site: 'earth-utah', cell: 60, layer: 'slope', surfaceMetric: 'roughness_rms', area: 'utah', regionalCell: 300, profile: 'baseline', excluded: false, sort: 'slope_distance', regionalSite: '', sensitivitySite: 'utah-010-007', sensitivityCell: 300, dimensionSection: 'minerals', mineralGroup: 1, mineralLayer: 'minerals', mineralId: 0, mineralFit: 0, mineralMaxSlope: 90, crismLayer: 'OLINDEX3' };
+export const defaults: AtlasState = { view: 'compare', surfaceSite: 'mars-jezero-fan', site: 'earth-utah', cell: 60, layer: 'slope', surfaceMetric: 'roughness_rms', area: 'utah', regionalCell: 300, profile: 'baseline', excluded: false, sort: 'slope_distance', regionalSite: '', sensitivitySite: 'utah-010-007', sensitivityCell: 300, dimensionSection: 'minerals', mineralGroup: 1, mineralLayer: 'minerals', mineralId: 0, mineralFit: 0, mineralMaxSlope: 90, crismLayer: 'OLINDEX3' };
 export function parseState(search: string): { state: AtlasState; adjusted: boolean } {
   const q = new URLSearchParams(search);
   const state = { ...defaults }; let adjusted = false;
@@ -19,7 +19,8 @@ export function parseState(search: string): { state: AtlasState; adjusted: boole
     const value = typeof defaults[key] === 'number' ? Number(raw) : typeof defaults[key] === 'boolean' ? raw === 'true' ? true : raw === 'false' ? false : raw : raw;
     if (values.includes(value as AtlasState[K])) state[key] = value as AtlasState[K]; else adjusted = true;
   }
-  choice('view', ['compare', 'explore', 'sensitivity', 'dimensions', 'world']); choice('site', ['earth-utah', 'earth-atacama']);
+  choice('surfaceSite', ['mars-jezero-fan', 'earth-utah', 'earth-atacama']);
+  choice('view', ['surface', 'compare', 'explore', 'sensitivity', 'dimensions', 'world']); choice('site', ['earth-utah', 'earth-atacama']);
   choice('surfaceMetric', ['roughness_rms', 'topographic_position', 'laplacian']);
   choice('dimensionSection', ['minerals', 'geometry', 'thermal']); choice('mineralGroup', [1, 2]);
   choice('mineralLayer', ['minerals', 'fit', 'uncertainty', 'slope']);
