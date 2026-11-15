@@ -36,6 +36,7 @@ import os
 from pathlib import Path
 import re
 import tempfile
+import time
 from typing import Any, Callable, Iterable
 import urllib.parse
 import urllib.request
@@ -141,6 +142,22 @@ class FetchResult:
 # ---------------------------------------------------------------------------
 # Access helpers (injected in tests)
 # ---------------------------------------------------------------------------
+def with_retries(fn: Callable, *, attempts: int = 4, base_delay_s: float = 5.0, sleep=time.sleep):
+    """Call `fn()` retrying transient network failures (DNS, resets, timeouts, HTTP 5xx/429)."""
+    import http.client
+    import urllib.error
+    for attempt in range(1, attempts + 1):
+        try:
+            return fn()
+        except urllib.error.HTTPError as exc:
+            if exc.code not in (429, 500, 502, 503, 504) or attempt == attempts:
+                raise
+        except (urllib.error.URLError, http.client.RemoteDisconnected, ConnectionError, TimeoutError):
+            if attempt == attempts:
+                raise
+        sleep(base_delay_s * 2 ** (attempt - 1))
+
+
 def search_cmr(collection: dict, bbox: tuple[float, float, float, float] | None = None,
                start: date | None = None, end: date | None = None, page_size: int = 2000,
                max_pages: int = 20) -> list[dict]:
@@ -156,9 +173,12 @@ def search_cmr(collection: dict, bbox: tuple[float, float, float, float] | None 
     for _ in range(max_pages):
         headers = {'CMR-Search-After': search_after} if search_after else {}
         req = urllib.request.Request(f'{CMR_GRANULES}?{urllib.parse.urlencode(params)}', headers=headers)
-        with urllib.request.urlopen(req, timeout=60) as response:
-            entries = json.load(response)['feed']['entry']
-            search_after = response.headers.get('CMR-Search-After')
+
+        def page(req=req):
+            with urllib.request.urlopen(req, timeout=60) as response:
+                return json.load(response)['feed']['entry'], response.headers.get('CMR-Search-After')
+
+        entries, search_after = with_retries(page)
         for e in entries:
             links = [l['href'] for l in e.get('links', []) if l.get('href', '').startswith('https://')
                      and urllib.parse.urlsplit(l['href']).hostname in EARTHDATA_HOSTS]
@@ -202,12 +222,16 @@ class _RangeFile(http.RangeFile):
 def download(url: str, target: Path, chunk: int = 1 << 20) -> Path:
     """Stream a protected granule to `target` (HDF4 cannot be read over ranges)."""
     http._check_host(url, EARTHDATA_HOSTS)
-    req = urllib.request.Request(url, headers=http._token_header())
     target.parent.mkdir(parents=True, exist_ok=True)
     staged = target.with_suffix(target.suffix + '.part')
-    with http._OPENER.open(req, timeout=300) as r, open(staged, 'wb') as fh:
-        while block := r.read(chunk):
-            fh.write(block)
+
+    def fetch_once():
+        req = urllib.request.Request(url, headers=http._token_header())
+        with http._OPENER.open(req, timeout=300) as r, open(staged, 'wb') as fh:
+            while block := r.read(chunk):
+                fh.write(block)
+
+    with_retries(fetch_once, attempts=3)
     staged.replace(target)
     return target
 
