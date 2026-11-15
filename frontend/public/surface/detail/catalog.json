@@ -5,12 +5,12 @@
   "bodies": {
     "Mars": {
       "base": {
-        "file": "detail/mars-base-4k.jpg",
-        "width": 4096,
-        "height": 2048,
-        "source": "MOLA ClrShade 463 m, nivel 4",
-        "credit": "NASA MGS MOLA (NASA Trek)",
-        "sha256": "c8aa527ad0e8db719c48904a53433c5b9fed6e0951252c6da899b02c8c695904"
+        "file": "mars-globe.png",
+        "width": 2048,
+        "height": 1024,
+        "source": "MOLA MEGR90N000CB, relieve en tonos naturales",
+        "credit": "NASA MGS / MOLA",
+        "sha256": "fdbc215cf265c35bad99963ec6cc7fd34ed67e7eba012036dd7de025c3c65fc8"
       },
       "patches": [
         {

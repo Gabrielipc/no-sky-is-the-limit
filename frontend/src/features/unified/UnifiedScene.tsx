@@ -191,7 +191,7 @@ export default function UnifiedScene(p: SceneProps) {
       v.scene.screenSpaceCameraController.maximumZoomDistance = radius * 6;
       const texture =
         p.body === "Mars"
-          ? `${import.meta.env.BASE_URL}textures/mars.png`
+          ? `${import.meta.env.BASE_URL}surface/mars-globe.png`
           : asset(
               p.body === "Moon" ? "unified/moon-color.jpg" : "blue-marble.png",
             );
@@ -229,7 +229,7 @@ export default function UnifiedScene(p: SceneProps) {
           p.body === "Moon"
             ? "NASA CGI Moon Kit · LROC + LOLA"
             : p.body === "Mars"
-              ? "NASA MOLA · color de elevación"
+              ? "NASA MOLA · relieve en tonos naturales"
               : "NASA Blue Marble",
       })
         .then((provider) => {
