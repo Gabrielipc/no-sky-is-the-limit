@@ -1,59 +1,69 @@
 import { useState } from 'react';
 import { ArrowLeftRight } from 'lucide-react';
 import { SingleTerrainViewer, TERRAIN_CATALOG } from './TexturedTerrain3D';
+import { useI18n } from '../../i18n/I18nProvider';
+import type { Msg } from '../../i18n/lang';
 
+/** Every visible text holds [Spanish, English]. */
 export interface MatchExample {
   id: string;
-  label: string;
-  earth: string;
-  earthBody: string;
-  space: string;
-  spaceBody: string;
+  label: Msg;
+  earth: Msg;
+  earthBody: Msg;
+  space: Msg;
+  spaceBody: Msg;
   earthTerrainKey: keyof typeof TERRAIN_CATALOG;
   spaceTerrainKey: keyof typeof TERRAIN_CATALOG;
-  summary: string;
+  summary: Msg;
 }
 
 export const MATCH_EXAMPLES: MatchExample[] = [
   {
     id: 'utah-jezero',
-    label: 'Utah → Cráter Jezero',
-    earth: 'Desierto de Utah',
-    earthBody: 'Tierra · EE. UU.',
-    space: 'Cráter Jezero',
-    spaceBody: 'Marte · Perseverance',
+    label: ['Utah → Cráter Jezero', 'Utah → Jezero Crater'],
+    earth: ['Desierto de Utah', 'Utah Desert'],
+    earthBody: ['Tierra · EE. UU.', 'Earth · USA'],
+    space: ['Cráter Jezero', 'Jezero Crater'],
+    spaceBody: ['Marte · Perseverance', 'Mars · Perseverance'],
     earthTerrainKey: 'utah',
     spaceTerrainKey: 'jezero',
-    summary:
+    summary: [
       'Cuando comparamos las laderas del sector donde aterrizó Perseverance, las de esta zona de Utah se parecen más que las de Atacama.',
+      'When we compare the slopes of the sector where Perseverance landed, those of this area in Utah are more similar than those of Atacama.',
+    ],
   },
   {
     id: 'atacama-jezero',
-    label: 'Atacama → Cráter Jezero',
-    earth: 'Desierto de Atacama',
-    earthBody: 'Tierra · Chile',
-    space: 'Cráter Jezero',
-    spaceBody: 'Marte · Perseverance',
+    label: ['Atacama → Cráter Jezero', 'Atacama → Jezero Crater'],
+    earth: ['Desierto de Atacama', 'Atacama Desert'],
+    earthBody: ['Tierra · Chile', 'Earth · Chile'],
+    space: ['Cráter Jezero', 'Jezero Crater'],
+    spaceBody: ['Marte · Perseverance', 'Mars · Perseverance'],
     earthTerrainKey: 'atacama',
     spaceTerrainKey: 'jezero',
-    summary:
+    summary: [
       'Atacama es uno de los lugares más citados por su parecido con Marte, aunque sus laderas difieren del sector evaluado en Jezero.',
+      'Atacama is one of the places most often cited for resembling Mars, although its slopes differ from the sector assessed in Jezero.',
+    ],
   },
   {
     id: 'atacama-shackleton',
-    label: 'Atacama → Polo Sur Lunar',
-    earth: 'Desierto de Atacama',
-    earthBody: 'Tierra · Chile',
-    space: 'Cráter Shackleton',
-    spaceBody: 'Luna · Polo Sur',
+    label: ['Atacama → Polo Sur Lunar', 'Atacama → Lunar South Pole'],
+    earth: ['Desierto de Atacama', 'Atacama Desert'],
+    earthBody: ['Tierra · Chile', 'Earth · Chile'],
+    space: ['Cráter Shackleton', 'Shackleton Crater'],
+    spaceBody: ['Luna · Polo Sur', 'Moon · South Pole'],
     earthTerrainKey: 'atacama',
     spaceTerrainKey: 'shackleton',
-    summary:
+    summary: [
       'Con un mismo criterio medimos la inclinación y qué tan accidentado es el suelo antes de ensayar para la Luna.',
+      'With the same criteria we measure how steep and how rugged the ground is before testing for the Moon.',
+    ],
   },
 ];
 
 export function MockMatchPanel() {
+  const { t } = useI18n();
   const [activeMatch, setActiveMatch] = useState(0);
   const [viewMode, setViewMode] = useState<'3d' | 'satellite'>('3d');
 
@@ -64,7 +74,7 @@ export function MockMatchPanel() {
   return (
     <div className="match-panel">
       <div className="match-panel-bar">
-        <div className="match-pair-tabs" role="tablist" aria-label="Comparaciones de ejemplo">
+        <div className="match-pair-tabs" role="tablist" aria-label={t('Comparaciones de ejemplo', 'Example comparisons')}>
           {MATCH_EXAMPLES.map((item, idx) => {
             const isActive = activeMatch === idx;
             return (
@@ -76,20 +86,20 @@ export function MockMatchPanel() {
                 className={`match-pair-tab ${isActive ? 'is-active' : ''}`}
                 onClick={() => setActiveMatch(idx)}
               >
-                {item.label}
+                {t(...item.label)}
               </button>
             );
           })}
         </div>
 
-        <div className="match-view-switch" role="group" aria-label="Vista del terreno">
+        <div className="match-view-switch" role="group" aria-label={t('Vista del terreno', 'Terrain view')}>
           <button
             type="button"
             className={`match-view-btn ${viewMode === '3d' ? 'is-active' : ''}`}
             aria-pressed={viewMode === '3d'}
             onClick={() => setViewMode('3d')}
           >
-            Relieve
+            {t('Relieve', 'Relief')}
           </button>
           <button
             type="button"
@@ -97,14 +107,14 @@ export function MockMatchPanel() {
             aria-pressed={viewMode === 'satellite'}
             onClick={() => setViewMode('satellite')}
           >
-            Satélite
+            {t('Satélite', 'Satellite')}
           </button>
         </div>
       </div>
 
       <div className="match-stage">
         <div className="match-terrain-col">
-          <span className="match-body-kicker">{current.earthBody}</span>
+          <span className="match-body-kicker">{t(...current.earthBody)}</span>
           <div className="match-canvas-frame">
             <SingleTerrainViewer
               key={`${current.id}-earth-${earthConfig.id}-${viewMode}`}
@@ -113,7 +123,7 @@ export function MockMatchPanel() {
               viewMode={viewMode}
             />
           </div>
-          <h3 className="match-site-name">{current.earth}</h3>
+          <h3 className="match-site-name">{t(...current.earth)}</h3>
         </div>
 
         <div className="match-bridge" aria-hidden="true">
@@ -125,7 +135,7 @@ export function MockMatchPanel() {
         </div>
 
         <div className="match-terrain-col">
-          <span className="match-body-kicker match-body-kicker--space">{current.spaceBody}</span>
+          <span className="match-body-kicker match-body-kicker--space">{t(...current.spaceBody)}</span>
           <div className="match-canvas-frame match-canvas-frame--space">
             <SingleTerrainViewer
               key={`${current.id}-space-${spaceConfig.id}-${viewMode}`}
@@ -134,11 +144,11 @@ export function MockMatchPanel() {
               viewMode={viewMode}
             />
           </div>
-          <h3 className="match-site-name">{current.space}</h3>
+          <h3 className="match-site-name">{t(...current.space)}</h3>
         </div>
       </div>
 
-      <p className="match-summary">{current.summary}</p>
+      <p className="match-summary">{t(...current.summary)}</p>
     </div>
   );
 }
