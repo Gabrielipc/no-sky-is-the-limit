@@ -6,7 +6,13 @@ at extraction time and the SQL expression used to re-gate stored windows in Duck
 so a profile can be evaluated over the Parquet store without re-reading rasters.
 
 Only one exclusion cause is reported per window, checked in a fixed order:
-land support, cover support, water, trees, built-up, snow/ice, then exposure.
+land support, cover support, water, trees, built-up, snow/ice, exposure, then climate.
+
+Cover alone cannot tell a polar window from a subtropical desert: bare ground looks the same
+in the Arctic and in Arabia. Profiles that stand for a cold scenario therefore also require a
+cold climate, read from the coarse global layers (`enrichment_global`): months with snow
+and permafrost fraction. A window with neither layer measured stays `pending_climate_check`
+instead of being declared eligible without evidence.
 """
 from __future__ import annotations
 
@@ -40,6 +46,8 @@ class EligibilityProfile:
     max_snow_ice: float | None
     exposed_over_land_only: bool
     description: str
+    # (min snow months fraction, min permafrost fraction); a window is cold when it meets either.
+    cold_climate: tuple[float, float] | None = None
 
 
 PROFILES: dict[str, EligibilityProfile] = {
@@ -87,8 +95,10 @@ PROFILES: dict[str, EligibilityProfile] = {
             exposed_over_land_only=False,
             description=(
                 'Terreno frío expuesto para analogías lunares polares. Suelo desnudo, nieve/hielo '
-                'y musgo/líquenes cuentan como superficie expuesta.'
+                'y musgo/líquenes cuentan como superficie expuesta, y el clima debe ser frío: nieve al '
+                'menos 3 de cada 12 meses o permafrost en al menos el 10 % de la huella.'
             ),
+            cold_climate=(0.25, 0.10),
         ),
     )
 }
@@ -102,7 +112,11 @@ EXCLUSION_STATUSES = (
     'excluded_built',
     'excluded_snow_ice',
     'excluded_vegetated_non_tree',
+    'excluded_warm_climate',
+    'pending_climate_check',
 )
+SNOW_MONTHS_COLUMN = 'snow_months_fraction_cmg'
+PERMAFROST_COLUMN = 'permafrost_fraction_cmg'
 
 
 def get_profile(profile_id: str) -> EligibilityProfile:
@@ -126,7 +140,8 @@ def classify(
     """Return the eligibility status of one window under `profile_id`.
 
     `fractions` holds the WorldCover fractions named in `WORLDCOVER_CLASSES` plus the
-    optional `water_occurrence_ge50_fraction` from JRC.
+    optional `water_occurrence_ge50_fraction` from JRC and, for profiles with a cold-climate
+    gate, `snow_months_fraction_cmg` and `permafrost_fraction_cmg` from the global layers.
     """
     p = get_profile(profile_id)
     if land_fraction < MIN_LAND_FRACTION:
@@ -150,17 +165,27 @@ def classify(
     if p.exposed_over_land_only:
         land = 1.0 - perm_water
         exposed = exposed / land if land > 0 else 0.0
-    if exposed >= p.min_exposed:
-        return p.eligible_status
-    return 'excluded_vegetated_non_tree'
+    if exposed < p.min_exposed:
+        return 'excluded_vegetated_non_tree'
+    if p.cold_climate is not None:
+        snow, permafrost = fractions.get(SNOW_MONTHS_COLUMN), fractions.get(PERMAFROST_COLUMN)
+        if snow is None and permafrost is None:
+            return 'pending_climate_check'
+        if (snow or 0.0) < p.cold_climate[0] and (permafrost or 0.0) < p.cold_climate[1]:
+            return 'excluded_warm_climate'
+    return p.eligible_status
 
 
-def sql_case(profile_id: str = DEFAULT_PROFILE) -> str:
+def sql_case(profile_id: str = DEFAULT_PROFILE, climate: bool = True) -> str:
     """DuckDB CASE expression equivalent to `classify` over `base_windows` columns.
 
     Rows written before the scenario profiles existed (`cover_valid_fraction IS NULL`)
     lack the snow/ice, moss and JRC >= 50 % fractions, so they resolve to
     `pending_on_demand_cover_check` until they are re-extracted.
+
+    A profile with a cold-climate gate reads `snow_months_fraction_cmg` and
+    `permafrost_fraction_cmg`, which exist in `features_unified`. Pass `climate=False` over
+    a table without them: the gate then sees both as unmeasured (`pending_climate_check`).
     """
     p = get_profile(profile_id)
 
@@ -178,6 +203,16 @@ def sql_case(profile_id: str = DEFAULT_PROFILE) -> str:
         f"WHEN {c('snow_ice_fraction')} > {p.max_snow_ice!r} THEN 'excluded_snow_ice'"
         if p.max_snow_ice is not None else ''
     )
+    if p.cold_climate is None:
+        exposed_then = f"'{p.eligible_status}'"
+    else:
+        snow_col, perm_col = (SNOW_MONTHS_COLUMN, PERMAFROST_COLUMN) if climate else ('NULL', 'NULL')
+        exposed_then = (
+            f"CASE WHEN {snow_col} IS NULL AND {perm_col} IS NULL THEN 'pending_climate_check' "
+            f"WHEN COALESCE({snow_col}, 0.0) < {p.cold_climate[0]!r} "
+            f"AND COALESCE({perm_col}, 0.0) < {p.cold_climate[1]!r} THEN 'excluded_warm_climate' "
+            f"ELSE '{p.eligible_status}' END"
+        )
     return f"""CASE
         WHEN land_fraction < {MIN_LAND_FRACTION!r} THEN 'excluded_insufficient_land'
         WHEN cover_valid_fraction IS NULL OR cover_valid_fraction < {MIN_COVER_SUPPORT!r}
@@ -186,6 +221,6 @@ def sql_case(profile_id: str = DEFAULT_PROFILE) -> str:
         WHEN {c('trees_fraction')} > {p.max_trees!r} THEN 'excluded_dense_canopy'
         WHEN {c('built_fraction')} > {p.max_built!r} THEN 'excluded_built'
         {snow}
-        WHEN {exposed} >= {p.min_exposed!r} THEN '{p.eligible_status}'
+        WHEN {exposed} >= {p.min_exposed!r} THEN {exposed_then}
         ELSE 'excluded_vegetated_non_tree'
     END"""
