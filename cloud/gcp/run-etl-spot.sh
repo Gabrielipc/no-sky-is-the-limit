@@ -25,6 +25,9 @@ WRITE_SNAPSHOT="${WRITE_SNAPSHOT:-1}"
 
 export HOME="${HOME:-/root}"
 export PATH="$HOME/.pixi/bin:$PATH"
+# Many small objects: transfers are latency bound, so use many parallel requests.
+export CLOUDSDK_STORAGE_PROCESS_COUNT="${CLOUDSDK_STORAGE_PROCESS_COUNT:-$(nproc)}"
+export CLOUDSDK_STORAGE_THREAD_COUNT="${CLOUDSDK_STORAGE_THREAD_COUNT:-32}"
 export ATLAS_CACHE_DIR="$SCRATCH_DIR"
 export ANALOGOS_FEATURE_STORE_DIR="$WORKDIR/data/feature_store_v1"
 export ANALOGOS_GLOBAL_LAYERS_DIR="$WORKDIR/data/global_layers"

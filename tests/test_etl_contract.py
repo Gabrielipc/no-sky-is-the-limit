@@ -221,3 +221,21 @@ class TestETLContract(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class TestBaseDeduplication(unittest.TestCase):
+    def test_window_in_two_batches_appears_once_with_latest_row(self) -> None:
+        from datetime import datetime, timezone
+        from pipelines.etl_store import FeatureStore
+        from tests.test_similarity_ml import base_row, REF
+        with tempfile.TemporaryDirectory() as tmp:
+            store = FeatureStore(Path(tmp) / 'store', memory_limit='256MB', threads=1)
+            old = base_row('w1', 1.0, 1.0, dict(REF)) | {'batch_id': 'pilot', 'relief_p95_p05_m': 1.0,
+                                                          'updated_at': datetime(2026, 11, 14, 22, tzinfo=timezone.utc)}
+            new = base_row('w1', 1.0, 1.0, dict(REF)) | {'batch_id': 'world', 'relief_p95_p05_m': 2.0,
+                                                          'updated_at': datetime(2026, 11, 15, 2, tzinfo=timezone.utc)}
+            store.write_base_batch('pilot', [old])
+            store.write_base_batch('world', [new, base_row('w2', 2.0, 2.0, dict(REF))])
+            with store._connect() as conn:
+                rows = conn.execute('SELECT region_id, relief_p95_p05_m FROM features_unified ORDER BY 1').fetchall()
+            self.assertEqual(rows, [('w1', 2.0), ('w2', REF['relief_p95_p05_m'])])
