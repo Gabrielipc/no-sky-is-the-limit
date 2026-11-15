@@ -1,0 +1,194 @@
+{
+  "version": 1,
+  "description": "Imagen de visualización, no mediciones. Parches anidados de amplio a fino alrededor de las referencias marcadas; bordes fundidos con alfa.",
+  "generator": "frontend/scripts/prepare-detail-imagery.py",
+  "bodies": {
+    "Mars": {
+      "base": {
+        "file": "detail/mars-base-4k.jpg",
+        "width": 4096,
+        "height": 2048,
+        "source": "MOLA ClrShade 463 m, nivel 4",
+        "credit": "NASA MGS MOLA (NASA Trek)",
+        "sha256": "c8aa527ad0e8db719c48904a53433c5b9fed6e0951252c6da899b02c8c695904"
+      },
+      "patches": [
+        {
+          "id": "mars-jezero-region",
+          "mark": "jezero",
+          "file": "detail/mars-jezero-region.webp",
+          "rectangle": [
+            75.41,
+            16.49,
+            79.41,
+            20.49
+          ],
+          "width": 2048,
+          "height": 2048,
+          "pixel_m": {
+            "latitude": 115.8,
+            "longitude_center": 109.8
+          },
+          "ctx_coverage": 1.0,
+          "source": "CTX beta01 nivel 8 + MOLA ClrShade nivel 6",
+          "credit": "NASA/JPL/MSSS/Caltech Murray Lab/Esri · MOLA (NASA Trek)",
+          "sha256": "514ded61a52f2228b8a2aca2e2f733aa79bc83d996bbc63982a0a33c39c36b8d"
+        },
+        {
+          "id": "mars-jezero-crater",
+          "mark": "jezero",
+          "file": "detail/mars-jezero-crater.webp",
+          "rectangle": [
+            76.61,
+            17.69,
+            78.21,
+            19.29
+          ],
+          "width": 2048,
+          "height": 2048,
+          "pixel_m": {
+            "latitude": 46.3,
+            "longitude_center": 43.9
+          },
+          "ctx_coverage": 1.0,
+          "source": "CTX beta01 nivel 9 + MOLA ClrShade nivel 6",
+          "credit": "NASA/JPL/MSSS/Caltech Murray Lab/Esri · MOLA (NASA Trek)",
+          "sha256": "78249c056ee07d352159469dbc110f97bcd5f3ae538bef62a6031a48a3e58d0c"
+        },
+        {
+          "id": "mars-jezero-window",
+          "mark": "jezero",
+          "file": "detail/mars-jezero-window.webp",
+          "rectangle": [
+            77.11,
+            18.19,
+            77.71,
+            18.79
+          ],
+          "width": 2048,
+          "height": 2048,
+          "pixel_m": {
+            "latitude": 17.4,
+            "longitude_center": 16.5
+          },
+          "ctx_coverage": 1.0,
+          "source": "CTX beta01 nivel 12 + MOLA ClrShade nivel 6",
+          "credit": "NASA/JPL/MSSS/Caltech Murray Lab/Esri · MOLA (NASA Trek)",
+          "sha256": "ff3d4f5440220eda3a0efaa0dc636bdf19461a79e7045402a1e2c6febb40bcfb"
+        },
+        {
+          "id": "mars-jezero-local",
+          "mark": "jezero",
+          "file": "detail/mars-jezero-local.webp",
+          "rectangle": [
+            77.345,
+            18.425,
+            77.475,
+            18.555
+          ],
+          "width": 1536,
+          "height": 1536,
+          "pixel_m": {
+            "latitude": 5.0,
+            "longitude_center": 4.8
+          },
+          "ctx_coverage": 1.0,
+          "source": "CTX beta01 nivel 12 + MOLA ClrShade nivel 6",
+          "credit": "NASA/JPL/MSSS/Caltech Murray Lab/Esri · MOLA (NASA Trek)",
+          "sha256": "640b78b9ad48b9214243574db33cb27c87c35d3f610d4ce622b14f210218399c"
+        }
+      ]
+    },
+    "Moon": {
+      "base": {
+        "file": "detail/moon-base-4k.jpg",
+        "width": 4096,
+        "height": 2048,
+        "source": "CGI Moon Kit lroc_color_poles_4k",
+        "source_url": "https://svs.gsfc.nasa.gov/vis/a000000/a004700/a004720/lroc_color_poles_4k.tif",
+        "source_sha256": "918649a7f8ed2f1329b2cd95bb0d25483befdcb60ae1a66db681a637cc21344f",
+        "credit": "NASA SVS CGI Moon Kit · LROC + LOLA",
+        "sha256": "167bc022beadefeff3bc03998914519a708e2ec56ad58ea6d794f965d0f707e8"
+      },
+      "patches": [
+        {
+          "id": "moon-south-cap",
+          "mark": "haworth-fondo,de-gerlache-cresta",
+          "file": "detail/moon-south-cap.webp",
+          "rectangle": [
+            -180,
+            -90,
+            180,
+            -84
+          ],
+          "width": 4096,
+          "height": 1024,
+          "pixel_m": {
+            "latitude": 177.7,
+            "longitude_center": 139.5
+          },
+          "source": "LOLA sombreado polar sur 5 m (nivel 7) + 30 m (nivel 6), color CGI Moon Kit",
+          "credit": "NASA LRO LOLA (NASA Trek) · LROC CGI Moon Kit",
+          "sha256": "0fea0edbc0881cefa6f8b32e3c9c7fcbf0bc1f4db19b0e34a2cea7e63607d1eb"
+        },
+        {
+          "id": "moon-haworth",
+          "mark": "haworth-fondo",
+          "file": "detail/moon-haworth.webp",
+          "rectangle": [
+            -31,
+            -88.6,
+            21,
+            -86.3
+          ],
+          "width": 2048,
+          "height": 1536,
+          "pixel_m": {
+            "latitude": 45.4,
+            "longitude_center": 34.3
+          },
+          "source": "LOLA sombreado polar sur 5 m (nivel 8) + 30 m (nivel 6), color CGI Moon Kit",
+          "credit": "NASA LRO LOLA (NASA Trek) · LROC CGI Moon Kit",
+          "sha256": "0d75c64dbb65d2c37f585371276709245f5fd60eb09d8177822904c11e009ced"
+        },
+        {
+          "id": "moon-de-gerlache",
+          "mark": "de-gerlache-cresta",
+          "file": "detail/moon-de-gerlache.webp",
+          "rectangle": [
+            -106,
+            -89.5,
+            -32,
+            -87.9
+          ],
+          "width": 1536,
+          "height": 1536,
+          "pixel_m": {
+            "latitude": 31.6,
+            "longitude_center": 33.1
+          },
+          "source": "LOLA sombreado polar sur 5 m (nivel 8) + 30 m (nivel 6), color CGI Moon Kit",
+          "credit": "NASA LRO LOLA (NASA Trek) · LROC CGI Moon Kit",
+          "sha256": "62baa3e5a7048fb938dbe797a0e8d9dbf9f2b6a43e369968b9d3a8ea9a3bdfec"
+        }
+      ]
+    },
+    "Earth": {
+      "base": {
+        "file": "detail/earth-base-4k.jpg",
+        "width": 4096,
+        "height": 2048,
+        "source": "Blue Marble Next Generation (agosto 2004), GIBS",
+        "source_url": "https://gibs.earthdata.nasa.gov/wms/epsg4326/best/wms.cgi?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=BlueMarble_NextGeneration&STYLES=&SRS=EPSG:4326&BBOX=-180,-90,180,90&WIDTH=4096&HEIGHT=2048&FORMAT=image/jpeg",
+        "credit": "NASA Earth Observatory / Reto Stöckli · GIBS",
+        "sha256": "00405b3cb1327f4bf22bdcc987c610fceac39be90f98b6a435b373575ea26297"
+      },
+      "patches": [],
+      "live": {
+        "note": "Candidatas dinámicas: el visor añade Esri World Imagery alrededor de cada candidata con retraso y precarga las primeras.",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+        "credit": "Esri, Maxar, Earthstar Geographics y la comunidad GIS"
+      }
+    }
+  }
+}
