@@ -10,6 +10,14 @@ Sites are processed in batches of `--batch-size`; each batch is written to the s
 as it ends, so an interrupted run resumes with `--skip-measured`. A run that fetches only some
 dimensions keeps the values already stored for the others.
 
+Selection bias mitigation (docs/01-vigentes/etapa-actual-armonizacion/Plan de mitigacion del sesgo
+de seleccion topografica.md):
+  --background-sample N         stratified random windows (all dimensions but the fine ATI)
+  --background-cluster-tiles K  K random MODIS tiles x --background-per-tile windows, fine ATI only
+  --retriever vista=K           shortlist of K windows proposed by each view (pipelines/etl_retrieval.py)
+  --no-topographic-candidates   skip the topographic candidates (e.g. a query with topography at 0)
+Every enriched window gets a row in `enrichment_selection` (reason, design, stratum, probability).
+
 Needs `EARTHDATA_TOKEN` (all but permafrost), h5py (`bash scripts/ejecutar_minerales.sh ...`)
 and the `libgdal-hdf4` plugin of the Pixi environment for MODIS.
 
@@ -30,6 +38,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from pipelines import etl_sampling as sampling
 from pipelines import etl_surface_fetch as fetch
 from pipelines.etl_store import FeatureStore
 from pipelines.etl_surface_schema import SURFACE_DIMENSIONS
@@ -44,9 +53,73 @@ def parse_site(text: str) -> fetch.Site:
     return fetch.Site(region_id, float(lon), float(lat))
 
 
+ATI = 'apparent_thermal_inertia'
+CANDIDATE_DESIGN = 'candidates-topographic-v1'
+
+
 def store_candidates(store: FeatureStore, arid_limit: int, polar_limit: int) -> list[fetch.Site]:
     from scripts.etl_puentes import candidate_sites
     return [fetch.Site.from_row(r) for r in candidate_sites(store, arid_limit, polar_limit)]
+
+
+def parse_retriever(text: str) -> tuple[str, int]:
+    view, k = text.split('=', 1)
+    return view.strip(), int(k)
+
+
+def parse_weight(text: str) -> tuple[str, float]:
+    view, w = text.split('=', 1)
+    return view.strip(), float(w)
+
+
+def plan_jobs(args: argparse.Namespace, store: FeatureStore, dims: list[str]) -> list[dict]:
+    """Groups of (sites, dimensions, selection metadata) to enrich, in order."""
+    jobs: list[dict] = []
+    if args.site:
+        jobs.append({'sites': list(args.site), 'dims': dims, 'reason': 'explicit', 'design_id': 'explicit-sites',
+                     'meta': {}})
+    if not args.sites_only and not args.no_topographic_candidates:
+        jobs.append({'sites': store_candidates(store, args.arid_limit, args.polar_limit), 'dims': dims,
+                     'reason': 'candidate', 'design_id': CANDIDATE_DESIGN, 'meta': {}})
+    counts = dict(args.retriever or [])
+    if args.retrieval_total and not args.sites_only:
+        from pipelines import etl_retrieval as retrieval
+        from pipelines import similarity_ml as sim
+        body = retrieval.load_spec()['profiles'].get(args.retrieval_profile, {}).get('body', 'Mars')
+        weights = sim.normalize_weights(dict(args.weight or []), sim.load_spec(), body)
+        for view, k in retrieval.allocate_by_weights(args.retrieval_total, weights).items():
+            counts.setdefault(view, k)
+        print(f'Listas cortas por pesos {weights}: {counts}', flush=True)
+    if counts and not args.sites_only:
+        from pipelines import etl_retrieval as retrieval
+        shortlists = retrieval.shortlists(store, counts, profile=args.retrieval_profile,
+                                          ref_json=args.retrieval_ref_json, targets=args.target,
+                                          check_coverage=args.check_coverage, seed=args.background_seed)
+        for view, items in shortlists.items():
+            jobs.append({'sites': [fetch.Site.from_row(i) for i in items], 'dims': dims, 'reason': 'retrieval',
+                         'design_id': retrieval.design_id(view, args.retrieval_profile),
+                         'meta': {i['region_id']: i | {'view': view} for i in items}})
+    if (args.background_sample or args.background_cluster_tiles) and not args.sites_only:
+        frame = sampling.load_frame(store)
+        print(f'Marco de muestreo de fondo: {len(frame)} ventanas', flush=True)
+        if args.background_sample:
+            items = sampling.stratified_sample(frame, args.background_sample, args.background_seed)
+            bg_dims = [d for d in dims if d != ATI or args.background_include_ati]
+            if bg_dims:
+                jobs.append({'sites': [fetch.Site.from_row(i) for i in items], 'dims': bg_dims, 'reason': 'background',
+                             'design_id': sampling.stratified_design_id(args.background_sample, args.background_seed),
+                             'meta': {i['region_id']: i for i in items}})
+        if args.background_cluster_tiles and ATI in dims:
+            items = sampling.cluster_sample(frame, args.background_cluster_tiles, args.background_per_tile,
+                                            args.background_seed)
+            jobs.append({'sites': [fetch.Site.from_row(i) for i in items], 'dims': [ATI],
+                         'reason': 'background_cluster',
+                         'design_id': sampling.cluster_design_id(args.background_cluster_tiles,
+                                                                 args.background_per_tile, args.background_seed),
+                         'meta': {i['region_id']: i for i in items}})
+    for job in jobs:
+        job['sites'] = list({s.region_id: s for s in job['sites']}.values())
+    return jobs
 
 
 def stored_rows(store: FeatureStore, region_ids: list[str]) -> dict[str, dict]:
@@ -168,34 +241,64 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument('--albedo-step-days', type=int, default=8)
     parser.add_argument('--max-scenes', type=int, default=12)
     parser.add_argument('--cache-dir', default=str(fetch.default_cache_dir()))
+    bias = parser.add_argument_group('mitigación del sesgo de selección')
+    bias.add_argument('--no-topographic-candidates', action='store_true',
+                      help='No incluir las candidatas topográficas (Jezero / Haworth)')
+    bias.add_argument('--background-sample', type=int, default=0, help='Ventanas de fondo estratificadas')
+    bias.add_argument('--background-include-ati', action='store_true',
+                      help='Medir también la ATI fina en la muestra estratificada (caro: ~6 GB por tesela)')
+    bias.add_argument('--background-cluster-tiles', type=int, default=0,
+                      help='Teselas MODIS al azar para la ATI fina por conglomerados')
+    bias.add_argument('--background-per-tile', type=int, default=5)
+    bias.add_argument('--background-seed', type=int, default=20261114)
+    bias.add_argument('--retriever', action='append', type=parse_retriever, help='vista=K (repetible)')
+    bias.add_argument('--retrieval-total', type=int, default=0,
+                      help='Repartir N ventanas entre las vistas según los pesos del motor (--weight)')
+    bias.add_argument('--weight', action='append', type=parse_weight,
+                      help='vista_del_motor=peso (repetible); las no indicadas usan el peso por defecto')
+    bias.add_argument('--retrieval-profile', default='arid_mars_surface_v2')
+    bias.add_argument('--retrieval-ref-json', help='Referencia con percentiles por feature (motor de similitud)')
+    bias.add_argument('--target', action='append', help='vista:columna=percentil (repetible)')
+    bias.add_argument('--check-coverage', action='store_true',
+                      help='Comprobar en CMR la cobertura del producto de la vista (EMIT para espectral)')
     args = parser.parse_args(argv)
 
     dims = args.dimension or list(DIMENSIONS)
     store = FeatureStore(Path(args.store_dir), memory_limit=args.memory_limit, threads=args.threads)
-    sites = list(args.site or [])
-    if not args.sites_only:
-        sites += store_candidates(store, args.arid_limit, args.polar_limit)
-    sites = list({s.region_id: s for s in sites}.values())
-    stored = stored_rows(store, [s.region_id for s in sites])
-    if args.skip_measured:
-        sites = pending(sites, stored, dims)
     evidence_path = Path(args.evidence) if args.evidence else None
-    print(f'{len(sites)} ventanas; dimensiones: {", ".join(dims)}', flush=True)
-
-    for i in range(0, len(sites), max(args.batch_size, 1)):
-        batch = sites[i:i + args.batch_size]
-        print(f'Lote {i // args.batch_size + 1}: {len(batch)} ventanas', flush=True)
-        results = run_fetchers(batch, dims, args)
-        now = fetch.utc_now()
-        manifest_id, manifests = fetch.build_manifests(results, now)
-        fetched = {r.dimension for r in results}
-        rows = [merge_with_stored(row, stored.get(row['region_id']), fetched)
-                for row in fetch.build_rows(batch, results, manifest_id, now)]
-        store.append_enrichment('surface', rows, manifests)
-        update_evidence(evidence_path, rows, results)
-        for row in rows:
-            print(f"  {row['region_id']}: " + ' '.join(f"{d}={row[f'{d}_status']}" for d in dims), flush=True)
+    jobs = plan_jobs(args, store, dims)
+    done_in_run: dict[str, set[str]] = {}
+    for job in jobs:
+        # The design records every selected window, also those measured earlier or by another job.
+        store.append_enrichment('selection', sampling.selection_rows(
+            [job['meta'].get(s.region_id, {'region_id': s.region_id}) for s in job['sites']],
+            job['design_id'], job['reason'], fetch.utc_now(),
+            seed=args.background_seed if job['reason'].startswith('background') else None))
+        sites = [s for s in job['sites'] if not set(job['dims']) <= done_in_run.get(s.region_id, set())]
+        stored = stored_rows(store, [s.region_id for s in sites])
+        if args.skip_measured:
+            sites = pending(sites, stored, job['dims'])
+        print(f"{job['reason']} ({job['design_id']}): {len(sites)} ventanas por medir de {len(job['sites'])}; "
+              f"dimensiones: {', '.join(job['dims'])}", flush=True)
+        for i in range(0, len(sites), max(args.batch_size, 1)):
+            batch = sites[i:i + args.batch_size]
+            print(f'Lote {i // args.batch_size + 1}: {len(batch)} ventanas', flush=True)
+            results = run_fetchers(batch, job['dims'], args)
+            now = fetch.utc_now()
+            manifest_id, manifests = fetch.build_manifests(results, now)
+            fetched = {r.dimension for r in results}
+            stored = stored | stored_rows(store, [s.region_id for s in batch])
+            rows = [merge_with_stored(row, stored.get(row['region_id']), fetched)
+                    for row in fetch.build_rows(batch, results, manifest_id, now)]
+            store.append_enrichment('surface', rows, manifests)
+            update_evidence(evidence_path, rows, results)
+            for s in batch:
+                done_in_run.setdefault(s.region_id, set()).update(job['dims'])
+            for row in rows:
+                print(f"  {row['region_id']}: " + ' '.join(f"{d}={row[f'{d}_status']}" for d in job['dims']),
+                      flush=True)
     store.compact_if_needed('surface')
+    store.compact_if_needed('selection')
 
 
 if __name__ == '__main__':
