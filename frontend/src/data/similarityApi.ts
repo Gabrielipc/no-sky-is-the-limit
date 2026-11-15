@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { tr } from '../i18n/lang';
 import { errorMessage, requestKey, type ReferenceCatalog, type SearchRequest, type SearchResponse } from '../domain/similarity';
 
 export const SEARCH_TIMEOUT_MS = 30_000;
@@ -13,7 +14,7 @@ async function call(url: string, init: RequestInit): Promise<Response> {
   try { response = await fetch(url, init); }
   catch (error) {
     if (init.signal?.aborted) throw error;
-    throw new SearchUnavailable('No hay conexión con el motor de búsqueda.');
+    throw new SearchUnavailable(tr('No hay conexión con el motor de búsqueda.', 'No connection to the search engine.'));
   }
   if (!response.ok) {
     const body = await response.json().catch(() => ({}));
@@ -28,13 +29,13 @@ export async function postSearch(request: SearchRequest, signal: AbortSignal): P
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(request), signal,
   });
   try { return await response.json(); }
-  catch { throw new Error('La respuesta no tiene el formato esperado. Vuelve a intentarlo.'); }
+  catch { throw new Error(tr('La respuesta no tiene el formato esperado. Vuelve a intentarlo.', 'The response is not in the expected format. Try again.')); }
 }
 
 export async function getReferences(signal: AbortSignal): Promise<ReferenceCatalog> {
   const response = await call('/api/similarity/references', { signal });
   try { return await response.json(); }
-  catch { throw new Error('El catálogo de referencias no tiene el formato esperado.'); }
+  catch { throw new Error(tr('El catálogo de referencias no tiene el formato esperado.', 'The reference catalog is not in the expected format.')); }
 }
 
 /** The reference catalog (`GET /api/similarity/references`), loaded once per mount. */
@@ -73,7 +74,7 @@ export function useSimilaritySearch(request: SearchRequest | null, debounceMs = 
         lastGood.current = data;
         setSettled({ key, attempt, data });
       }).catch(error => {
-        if (timedOut) setSettled({ key, attempt, error: 'La búsqueda tardó más de 30 s. Inténtalo de nuevo.' });
+        if (timedOut) setSettled({ key, attempt, error: tr('La búsqueda tardó más de 30 s. Inténtalo de nuevo.', 'The search took longer than 30 s. Try again.') });
         else if (!controller.signal.aborted) setSettled({ key, attempt, error: error.message, unavailable: error instanceof SearchUnavailable });
       }).finally(() => clearTimeout(limit));
     }, debounceMs);

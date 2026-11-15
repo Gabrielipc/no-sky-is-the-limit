@@ -1,3 +1,4 @@
+import { tr } from '../i18n/lang';
 let pending: Promise<void> | null = null;
 
 /** Production uses the copied global build; development uses Vite's lazy ESM import. */
@@ -10,7 +11,7 @@ export function loadCesium(): Promise<void> {
     const script = document.createElement('script');
     script.src = `${base}Cesium.js`; script.async = true;
     script.onload = () => resolve();
-    script.onerror = () => { script.remove(); pending = null; reject(new Error('No se pudo cargar el visor de ubicación.')); };
+    script.onerror = () => { script.remove(); pending = null; reject(new Error(tr('No se pudo cargar el visor de ubicación.', 'The location viewer could not be loaded.'))); };
     document.head.appendChild(script);
   });
   return pending;

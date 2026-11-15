@@ -1,3 +1,4 @@
+import {getLang,localized,tr} from '../../i18n/lang';
 export const references = [
   {id:'jezero',name:'Jezero',detail:'Marte · abanico sedimentario',body:'Mars',longitude:77.41,latitude:18.49},
   {id:'haworth-fondo',name:'Haworth',detail:'Luna · fondo polar',body:'Moon',longitude:-5,latitude:-87.45},
@@ -15,30 +16,33 @@ export type SearchResponse = {
   warnings:string[];results:Match[];candidates_in_pool:number;candidates_ranked:number;only_eligible:boolean;fusion:string;profile:string;
 };
 export type LoadedSearch = {data:SearchResponse;source:'published'|'demo'|'live';notice:string;version?:string;queryId?:string;timings?:{engine_ms:number;total_ms:number;cache_hit:boolean}};
-export const viewNames:Record<string,string> = {escabrosidad:'Escabrosidad',forma_hipsometrica:'Forma del relieve',organizacion:'Organización del terreno',regimen_morfologico:'Familia morfológica',espectral:'Composición espectral',termica:'Propiedades térmicas',radar:'Radar',entorno_superficial:'Entorno superficial',emisividad_cmg:'Emisividad'};
+export const viewNames:Record<string,string> = localized({escabrosidad:['Escabrosidad','Ruggedness'],forma_hipsometrica:['Forma del relieve','Relief shape'],organizacion:['Organización del terreno','Terrain organisation'],regimen_morfologico:['Familia morfológica','Morphological family'],espectral:['Composición espectral','Spectral composition'],termica:['Propiedades térmicas','Thermal properties'],radar:['Radar','Radar'],entorno_superficial:['Entorno superficial','Surface setting'],emisividad_cmg:['Emisividad','Emissivity']});
+const feature = (es:string,en:string,unit:string) => ({get label(){return tr(es,en);},unit});
 export const features:Record<string,{label:string;unit:string}> = {
-  relief_p95_p05_m:{label:'Relieve p95–p5',unit:'m'},slope_240m_p50_deg:{label:'Pendiente mediana · base 240 m',unit:'°'},
-  slope_240m_p90_deg:{label:'Pendiente p90 · base 240 m',unit:'°'},roughness_360m_p50_m:{label:'Rugosidad mediana · radio 360 m',unit:'m'},
-  hypsometric_integral:{label:'Integral hipsométrica',unit:''},elevation_skew_p95_p05:{label:'Asimetría de elevación',unit:''},
+  relief_p95_p05_m:feature('Relieve p95–p5','Relief p95–p5','m'),slope_240m_p50_deg:feature('Pendiente mediana · base 240 m','Median slope · 240 m baseline','°'),
+  slope_240m_p90_deg:feature('Pendiente p90 · base 240 m','Slope p90 · 240 m baseline','°'),roughness_360m_p50_m:feature('Rugosidad mediana · radio 360 m','Median roughness · 360 m radius','m'),
+  hypsometric_integral:feature('Integral hipsométrica','Hypsometric integral',''),elevation_skew_p95_p05:feature('Asimetría de elevación','Elevation skewness',''),
 };
-export const number = (n:number|null|undefined,digits=3) => n==null||!Number.isFinite(n)?'Sin datos':n.toLocaleString('es',{maximumFractionDigits:digits});
-export const pct = (n:number|null|undefined) => n==null?'Sin datos':`${number(n*100,1)} %`;
-export const distance = (n:number|null|undefined) => n==null?'Sin datos':n!==0&&Math.abs(n)<0.000001?n.toExponential(2).replace('.',','):n.toLocaleString('es',{maximumFractionDigits:6});
-export const signed = (n:number|null|undefined) => n==null?'Sin datos':`${n>0?'+':''}${number(n,4)}`;
+const noData = () => tr('Sin datos','No data');
+export const number = (n:number|null|undefined,digits=3) => n==null||!Number.isFinite(n)?noData():n.toLocaleString(getLang(),{maximumFractionDigits:digits});
+export const pct = (n:number|null|undefined) => n==null?noData():`${number(n*100,1)}${getLang()==='en'?'':' '}%`;
+export const distance = (n:number|null|undefined) => n==null?noData():n!==0&&Math.abs(n)<0.000001?(getLang()==='en'?n.toExponential(2):n.toExponential(2).replace('.',',')):n.toLocaleString(getLang(),{maximumFractionDigits:6});
+export const signed = (n:number|null|undefined) => n==null?noData():`${n>0?'+':''}${number(n,4)}`;
 export const location = (r:{latitude:number;longitude:number})=>`${number(r.latitude,3)}°, ${number(r.longitude,3)}°`;
-export const eligibility = (status:string) => ({excluded_permanent_water:'Excluida: agua permanente',excluded_dense_canopy:'Excluida: vegetación densa',pending_on_demand_cover_check:'Cobertura pendiente de comprobar',eligible_arid_exposed:'Cumple el filtro árido'}[status] || status || 'Elegibilidad sin información');
+const ELIGIBILITY = localized({excluded_permanent_water:['Excluida: agua permanente','Excluded: permanent water'],excluded_dense_canopy:['Excluida: vegetación densa','Excluded: dense vegetation'],pending_on_demand_cover_check:['Cobertura pendiente de comprobar','Land cover not yet checked'],eligible_arid_exposed:['Cumple el filtro árido','Passes the arid filter']});
+export const eligibility = (status:string) => (ELIGIBILITY as Record<string,string>)[status] || status || tr('Elegibilidad sin información','No eligibility information');
 export function viewReason(view:ViewReport) {
-  if(view.status==='not_fitted')return 'Sin datos para ajustar esta dimensión todavía.';
-  if(view.status==='reference_missing')return 'La referencia no tiene esta dimensión.';
-  if(view.status==='no_candidate_coverage')return 'Ninguna candidata tiene cobertura en esta dimensión.';
-  return view.reason || 'Disponible en el cálculo publicado.';
+  if(view.status==='not_fitted')return tr('Sin datos para ajustar esta dimensión todavía.','Not enough data to fit this dimension yet.');
+  if(view.status==='reference_missing')return tr('La referencia no tiene esta dimensión.','The reference has no data for this dimension.');
+  if(view.status==='no_candidate_coverage')return tr('Ninguna candidata tiene cobertura en esta dimensión.','No candidate has coverage in this dimension.');
+  return view.reason || tr('Disponible en el cálculo publicado.','Available in the published calculation.');
 }
 /** Adapt only fields whose meaning is recoverable from the old example. Never infer measurements. */
 export function adaptSearch(raw:unknown):SearchResponse {
   const d=raw as SearchResponse;
-  if(!d||d.engine_id!=='motor-similitud-ml-v1'||!d.reference?.id||!Array.isArray(d.results)||!d.views||!d.weights_requested||!d.weights_effective||!Array.isArray(d.warnings))throw new Error('La respuesta no corresponde al contrato del motor de similitud.');
+  if(!d||d.engine_id!=='motor-similitud-ml-v1'||!d.reference?.id||!Array.isArray(d.results)||!d.views||!d.weights_requested||!d.weights_effective||!Array.isArray(d.warnings))throw new Error(tr('La respuesta no corresponde al contrato del motor de similitud.','The response does not match the similarity engine contract.'));
   for(const r of d.results) {
-    if(!r||!Number.isInteger(r.rank)||r.rank<1||!r.region_id||!Number.isFinite(r.longitude)||Math.abs(r.longitude)>180||!Number.isFinite(r.latitude)||Math.abs(r.latitude)>90||![r.score,r.score_low,r.score_high,r.coverage].every(n=>Number.isFinite(n)&&n>=0&&n<=1)||r.score_low>r.score_high||!r.views||!Array.isArray(r.missing_views))throw new Error('El motor devolvió una candidata con datos inválidos.');
+    if(!r||!Number.isInteger(r.rank)||r.rank<1||!r.region_id||!Number.isFinite(r.longitude)||Math.abs(r.longitude)>180||!Number.isFinite(r.latitude)||Math.abs(r.latitude)>90||![r.score,r.score_low,r.score_high,r.coverage].every(n=>Number.isFinite(n)&&n>=0&&n<=1)||r.score_low>r.score_high||!r.views||!Array.isArray(r.missing_views))throw new Error(tr('El motor devolvió una candidata con datos inválidos.','The engine returned a candidate with invalid data.'));
   }
   return {...d,views:Object.fromEntries(Object.entries(d.views).map(([id,v])=>[id,{...v,coverage_fraction:v.coverage_fraction ?? (d.candidates_in_pool>0&&v.candidates_with_view!=null ? v.candidates_with_view/d.candidates_in_pool:undefined)}]))};
 }
@@ -50,5 +54,6 @@ export function featureRows(data:SearchResponse,row:Match) {
 
 export function contextValue(value:unknown,status:unknown,unit:string) {
   if(status==='measured'&&typeof value==='number'&&Number.isFinite(value))return unit==='fracción'?pct(value):`${number(value)} ${unit}`;
-  return ({insufficient_coverage:'Sin dato válido en esta zona',unobserved_by_product:'Fuera de la cobertura del producto',on_demand_fetchable:'Pendiente de procesar'}[String(status)] || 'Sin dato publicado');
+  const text:Record<string,string>={insufficient_coverage:tr('Sin dato válido en esta zona','No valid data in this area'),unobserved_by_product:tr('Fuera de la cobertura del producto','Outside the product coverage'),on_demand_fetchable:tr('Pendiente de procesar','Pending processing')};
+  return text[String(status)] || tr('Sin dato publicado','No published data');
 }

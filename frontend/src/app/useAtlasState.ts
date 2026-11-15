@@ -33,7 +33,8 @@ export function parseState(search: string): { state: AtlasState; adjusted: boole
   choice('visualLayer', ['elevation','slope']);
   choice('view', ['landing','unified','simulation', 'surface', 'compare', 'explore', 'sensitivity', 'dimensions', 'world', 'nicaragua']); choice('site', ['earth-utah', 'earth-atacama']);
   // Only the bare address opens the landing: a shared link with parameters, or an unknown view, opens the explorer.
-  if (state.view==='landing' && q.get('view')!=='landing' && [...q.keys()].length) state.view='unified';
+  // `lang` only picks the interface language: it does not count as a shared explorer link.
+  if (state.view==='landing' && q.get('view')!=='landing' && [...q.keys()].some(k=>k!=='lang')) state.view='unified';
   choice('nicScope', ['volcanic', 'all']);
   { const raw=q.get('nicRef'); if(raw!==null){if(/^[a-z0-9][a-z0-9:-]{0,63}$|^$/.test(raw))state.nicRef=raw;else adjusted=true;} }
   choice('surfaceMetric', ['roughness_rms', 'topographic_position', 'laplacian']);

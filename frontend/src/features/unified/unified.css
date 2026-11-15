@@ -1395,3 +1395,18 @@
 .u-dimension-summary strong { white-space: nowrap; font-weight: 500; }
 .u-dimension-help { color: var(--muted); font-size: 11px; line-height: 1.4; margin-top: 8px; }
 .is-simple .u-note { font-size: 11px; line-height: 1.4; margin-top: 8px; }
+
+/* --- Idioma ------------------------------------------------------------------- */
+.regolith-header .lang-switch {
+  margin-left: 4px;
+}
+@media (max-width: 740px) {
+  /* En móvil comparte la fila de la navegación, a la derecha. */
+  .regolith-header nav {
+    flex-basis: calc(100% - 100px);
+  }
+  .regolith-header .lang-switch {
+    order: 4;
+    margin-left: auto;
+  }
+}
